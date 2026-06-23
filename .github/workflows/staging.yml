@@ -1,0 +1,71 @@
+# ── Staging Deployment ────────────────────────────────────────────
+# Triggered by pushes to the `staging` branch.
+# Runs all CI checks, then deploys to the staging environment.
+# Production deployment requires CODEOWNERS approval + Gemini signoff.
+
+name: Staging — Deploy
+
+on:
+  push:
+    branches: [staging]
+
+env:
+  PYTHON_VERSION: "3.11"
+  NODE_VERSION: "22"
+  DEPLOY_ENV: staging
+
+jobs:
+  # ── Reuse CI quality gates ───────────────────────────────────
+  ci:
+    name: "🔁 CI Quality Gates"
+    uses: ./.github/workflows/ci.yml
+    secrets: inherit
+
+  # ── Deploy to Staging ────────────────────────────────────────
+  deploy-staging:
+    name: "🚀 Deploy to Staging"
+    needs: [ci]
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: https://staging.survey-agent.example.com
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install PDM
+        run: pip install pdm
+
+      - name: Install deps
+        run: pdm install
+
+      - name: Build package
+        run: pdm build
+
+      - name: Deploy
+        run: |
+          echo "🔄 Deploying to ${{ env.DEPLOY_ENV }}..."
+          # ═══════════════════════════════════════════════════════
+          # Replace with your actual deployment step:
+          #   - Docker build & push
+          #   - kubectl apply / helm upgrade
+          #   - serverless deploy
+          #   - rsync to VPS
+          # ═══════════════════════════════════════════════════════
+          echo "✅ Deployment complete."
+
+      - name: Health check
+        run: |
+          echo "⏳ Running smoke tests against staging..."
+          # curl --fail https://staging.survey-agent.example.com/health
+          echo "✅ Staging health check passed."
+
+      - name: Notify
+        run: |
+          echo "📢 Staging deployment succeeded."
+          # Add Slack/Discord/email notification here

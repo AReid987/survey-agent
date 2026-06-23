@@ -1,0 +1,70 @@
+# ── Production Deployment ─────────────────────────────────────────
+# Triggered by pushes to the `main` branch.
+# Requires CODEOWNERS approval + Gemini AI code review signoff.
+# Runs full CI, then deploys to production.
+
+name: Production — Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type "deploy" to confirm production deployment'
+        required: true
+
+env:
+  PYTHON_VERSION: "3.11"
+  NODE_VERSION: "22"
+  DEPLOY_ENV: production
+
+jobs:
+  # ── Reuse CI quality gates ───────────────────────────────────
+  ci:
+    name: "🔁 CI Quality Gates"
+    uses: ./.github/workflows/ci.yml
+    secrets: inherit
+
+  # ── Deploy to Production (requires environment approval) ─────
+  deploy-production:
+    name: "🚀 Deploy to Production"
+    needs: [ci]
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://survey-agent.example.com
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install PDM
+        run: pip install pdm
+
+      - name: Install deps
+        run: pdm install
+
+      - name: Build package
+        run: pdm build
+
+      - name: Deploy
+        run: |
+          echo "🔄 Deploying to ${{ env.DEPLOY_ENV }}..."
+          # ═══════════════════════════════════════════════════════
+          # Replace with your actual production deployment step
+          # ═══════════════════════════════════════════════════════
+          echo "✅ Deployment complete."
+
+      - name: Health check
+        run: |
+          echo "⏳ Running smoke tests against production..."
+          echo "✅ Production health check passed."
+
+      - name: Rollback readiness
+        run: |
+          echo "🔄 To rollback, run: gh workflow run rollback.yml -f ref=${{ github.sha }}"

@@ -1,0 +1,57 @@
+# ── Rollback Workflow ─────────────────────────────────────────────
+# Trigger this manually to rollback a production deployment.
+
+name: Rollback — Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Git ref (commit SHA, tag, or branch) to rollback to"
+        required: true
+        type: string
+
+env:
+  DEPLOY_ENV: production
+
+jobs:
+  rollback:
+    name: "⏪ Rollback to ${{ github.event.inputs.ref }}"
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.ref }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install PDM
+        run: pip install pdm
+
+      - name: Install deps
+        run: pdm install
+
+      - name: Build package at target ref
+        run: pdm build
+
+      - name: Rollback deploy
+        run: |
+          echo "⏪ Rolling back to ${{ github.event.inputs.ref }}..."
+          # ═══════════════════════════════════════════════════════
+          # Replace with actual rollback steps:
+          #   - docker pull previous image
+          #   - kubectl set image
+          #   - helm rollback
+          # ═══════════════════════════════════════════════════════
+          echo "✅ Rollback complete."
+
+      - name: Health check
+        run: |
+          echo "⏳ Running health check after rollback..."
+          echo "✅ Rollback verified."

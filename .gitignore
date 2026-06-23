@@ -1,0 +1,47 @@
+# ── Python ────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+.pylint.d/
+
+# ── Virtual environment ──────────────────────────────────────────
+.venv/
+
+# ── Node ──────────────────────────────────────────────────────────
+node_modules/
+package-lock.json
+
+# ── IDE ───────────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# ── GitNexus ─────────────────────────────────────────────────────
+.gitnexus/*.db
+.gitnexus/*.sqlite
+
+# ── MegaLinter ───────────────────────────────────────────────────
+megalinter-reports/
+
+# ── RepoAtlas ───────────────────────────────────────────────────
+.repoatlas.json
+
+# ── Playwright / Browser session data ────────────────────────────
+data/browser_session/
+
+# ── Environment ──────────────────────────────────────────────────
+.env
+.env.local
+.env.production

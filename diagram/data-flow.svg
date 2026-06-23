@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', monospace; }
+    </style>
+
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <circle cx="20" cy="20" r="0.75" fill="rgba(226,228,236,0.06)"/>
+    </pattern>
+
+    <marker id="arrow-amber" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#e8a839"/>
+    </marker>
+    <marker id="arrow-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#9499a6"/>
+    </marker>
+    <marker id="arrow-go" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#48c99b"/>
+    </marker>
+    <marker id="arrow-violet" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#9478e6"/>
+    </marker>
+
+    <filter id="glow-amber">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <linearGradient id="ambient-glow" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="rgba(232,168,57,0.025)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="#13161c"/>
+  <rect width="100%" height="100%" fill="url(#ambient-glow)"/>
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+
+  <!-- Title bar -->
+  <rect x="0" y="0" width="960" height="44" fill="#1a1d24" opacity="0.8"/>
+  <text x="30" y="28" fill="#e8a839" font-size="13" font-weight="700" letter-spacing="1.5">DATA FLOW — QUESTION ANSWERING PIPELINE</text>
+  <line x1="0" y1="44" x2="960" y2="44" stroke="rgba(226,228,236,0.08)" stroke-width="1"/>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- ENTRY: Survey Question Text -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(280, 70)">
+    <rect x="0" y="0" width="400" height="40" fill="#242730" stroke="rgba(226,228,236,0.15)" stroke-width="1"/>
+    <text x="200" y="25" fill="#c2c5cf" font-size="11" font-weight="500" text-anchor="middle">"How often do you shop online?"</text>
+  </g>
+
+  <!-- Arrow down -->
+  <line x1="480" y1="110" x2="480" y2="140" stroke="#e8a839" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- STAGE 1: Attention Check Handler (diamond decision) -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(370, 145)">
+    <polygon points="110,0 220,35 110,70 0,35" fill="#1a1d24" stroke="#e8a839" stroke-width="1"/>
+    <text x="110" y="31" fill="#e2e4ec" font-size="10" font-weight="600" text-anchor="middle">Attention Check</text>
+    <text x="110" y="46" fill="#9499a6" font-size="8" text-anchor="middle">detect?</text>
+  </g>
+
+  <!-- NO path (right) → continue to classification -->
+  <line x1="590" y1="180" x2="650" y2="180" stroke="#48c99b" stroke-width="1" marker-end="url(#arrow-go)"/>
+  <text x="618" y="174" fill="#48c99b" font-size="8" font-weight="500">no</text>
+
+  <!-- YES path (left) → short-circuit answer -->
+  <line x1="370" y1="180" x2="300" y2="180" stroke="#e8a839" stroke-width="1"/>
+  <text x="338" y="174" fill="#e8a839" font-size="8" font-weight="500">yes</text>
+  <polygon points="300,180 308,176 308,184" fill="#e8a839"/>
+  <text x="240" y="176" fill="#e8a839" font-size="8">→ return explicit answer</text>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- STAGE 2: Question Classifier -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(650, 155)">
+    <rect x="0" y="0" width="200" height="50" fill="#1a1d24" stroke="#48c99b" stroke-width="1"/>
+    <text x="100" y="22" fill="#e2e4ec" font-size="10" font-weight="600" text-anchor="middle">QuestionClassifier</text>
+    <text x="100" y="38" fill="#9499a6" font-size="8" text-anchor="middle">question_type: SELECT</text>
+  </g>
+
+  <!-- Arrow down from classifier -->
+  <line x1="750" y1="205" x2="750" y2="240" stroke="#48c99b" stroke-width="1.5" marker-end="url(#arrow-go)"/>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- STAGE 3: Resolver / Matcher -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(580, 245)">
+    <rect x="0" y="0" width="340" height="50" fill="#1a1d24" stroke="#9478e6" stroke-width="1"/>
+    <text x="170" y="22" fill="#e2e4ec" font-size="10" font-weight="600" text-anchor="middle">Resolver / Matcher</text>
+    <text x="170" y="38" fill="#9499a6" font-size="8" text-anchor="middle">"shop online" → shopping.online_shopping_frequency</text>
+  </g>
+
+  <!-- Arrow to ProfileStore -->
+  <line x1="580" y1="270" x2="480" y2="270" stroke="#9478e6" stroke-width="1" marker-end="url(#arrow-violet)"/>
+
+  <!-- ProfileStore (database cylinder shape) -->
+  <g transform="translate(345, 240)">
+    <rect x="0" y="12" width="130" height="50" fill="#1a1d24"/>
+    <ellipse cx="65" cy="12" rx="65" ry="14" fill="#1a1d24"/>
+    <rect x="0" y="12" width="130" height="50" fill="rgba(148,120,230,0.1)"/>
+    <ellipse cx="65" cy="12" rx="65" ry="14" fill="rgba(148,120,230,0.1)" stroke="#9478e6" stroke-width="1"/>
+    <ellipse cx="65" cy="62" rx="65" ry="14" fill="rgba(148,120,230,0.1)" stroke="#9478e6" stroke-width="1"/>
+    <line x1="0" y1="12" x2="0" y2="62" stroke="#9478e6" stroke-width="1"/>
+    <line x1="130" y1="12" x2="130" y2="62" stroke="#9478e6" stroke-width="1"/>
+    <text x="65" y="39" fill="#e2e4ec" font-size="10" font-weight="600" text-anchor="middle">ProfileStore</text>
+    <text x="65" y="52" fill="#9499a6" font-size="7" text-anchor="middle">data/profile.json</text>
+  </g>
+
+  <!-- Arrow: value flows back from ProfileStore to matcher -->
+  <line x1="475" y1="285" x2="580" y2="285" stroke="#9478e6" stroke-width="0.8" stroke-dasharray="3,2"/>
+  <polygon points="580,285 572,281 572,289" fill="#9478e6"/>
+  <text x="520" y="278" fill="#9478e6" font-size="7">value: "Weekly"</text>
+
+  <!-- Arrow down from matcher -->
+  <line x1="750" y1="295" x2="750" y2="330" stroke="#e8a839" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- STAGE 4: Fuzzy Option Matcher -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(540, 335)">
+    <rect x="0" y="0" width="420" height="50" fill="#1a1d24" stroke="#e8a839" stroke-width="1" filter="url(#glow-amber)"/>
+    <text x="210" y="22" fill="#e2e4ec" font-size="10" font-weight="600" text-anchor="middle">Fuzzy Option Matcher</text>
+    <text x="210" y="38" fill="#9499a6" font-size="8" text-anchor="middle">"Weekly" → exact: "Weekly" | edit-distance: "Once a week"</text>
+  </g>
+
+  <!-- Arrow down -->
+  <line x1="750" y1="385" x2="750" y2="420" stroke="#e8a839" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- STAGE 5: FormFiller + HumanBehavior -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(560, 425)">
+    <rect x="0" y="0" width="380" height="54" fill="#1a1d24" stroke="#e8a839" stroke-width="1"/>
+    <text x="190" y="22" fill="#e2e4ec" font-size="11" font-weight="600" text-anchor="middle">FormFiller + HumanBehavior</text>
+    <text x="190" y="38" fill="#9499a6" font-size="8" text-anchor="middle">human_select · random_delay · fatigue_factor</text>
+  </g>
+
+  <!-- Arrow to browser -->
+  <line x1="750" y1="479" x2="750" y2="510" stroke="#48c99b" stroke-width="1.5" marker-end="url(#arrow-go)"/>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- OUTPUT: Browser Interaction -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(560, 515)">
+    <rect x="0" y="0" width="380" height="46" fill="#242730" stroke="#48c99b" stroke-width="1"/>
+    <text x="190" y="21" fill="#e2e4ec" font-size="11" font-weight="600" text-anchor="middle">✅ Option selected in browser</text>
+    <text x="190" y="37" fill="#9499a6" font-size="8" text-anchor="middle">Page rendered · next question or submit</text>
+  </g>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- LEGEND -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(30, 480)">
+    <rect x="0" y="0" width="200" height="90" fill="#1a1d24" stroke="rgba(226,228,236,0.08)" stroke-width="1"/>
+    <text x="10" y="16" fill="#9499a6" font-size="8" font-weight="600" letter-spacing="1">FLOW KEY</text>
+
+    <rect x="10" y="25" width="10" height="10" fill="none" stroke="#e8a839" stroke-width="1"/>
+    <text x="26" y="34" fill="#c2c5cf" font-size="8">Execution / decision path</text>
+
+    <rect x="10" y="42" width="10" height="10" fill="none" stroke="#48c99b" stroke-width="1"/>
+    <text x="26" y="51" fill="#c2c5cf" font-size="8">Happy path / classification</text>
+
+    <rect x="10" y="59" width="10" height="10" fill="none" stroke="#9478e6" stroke-width="1"/>
+    <text x="26" y="68" fill="#c2c5cf" font-size="8">Data access / profile flow</text>
+
+    <line x1="10" y1="82" x2="20" y2="82" stroke="#9478e6" stroke-width="0.8" stroke-dasharray="3,2"/>
+    <text x="26" y="86" fill="#c2c5cf" font-size="8">Return value</text>
+  </g>
+
+  <!-- Annotation: matching tiers -->
+  <g transform="translate(30, 320)">
+    <rect x="0" y="0" width="200" height="95" fill="#242730" stroke="rgba(226,228,236,0.08)" stroke-width="1"/>
+    <text x="10" y="16" fill="#9499a6" font-size="8" font-weight="600" letter-spacing="1">MATCHING TIERS</text>
+    <text x="10" y="34" fill="#c2c5cf" font-size="8">1. Exact match (case-insensitive)</text>
+    <text x="10" y="50" fill="#c2c5cf" font-size="8">2. Substring match</text>
+    <text x="10" y="66" fill="#c2c5cf" font-size="8">3. Edit distance (Levenshtein)</text>
+    <text x="10" y="82" fill="#c2c5cf" font-size="8">4. Fallback to default values</text>
+  </g>
+</svg>

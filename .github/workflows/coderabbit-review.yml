@@ -1,0 +1,25 @@
+# ── CodeRabbit AI Review (auto-approve after all gates pass) ─────
+# CodeRabbit runs as a GitHub App and reviews every PR automatically.
+# This action triggers the review and can auto-fix minor issues.
+
+name: CodeRabbit — AI PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  review:
+    name: "🐰 CodeRabbit Review"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: CodeRabbit Review
+        uses: coderabbitai/ai-review@v1
+        with:
+          repo: ${{ github.repository }}
+          pr_number: ${{ github.event.pull_request.number }}
+          token: ${{ secrets.CODERABBIT_API_TOKEN }}
+          mode: review
+        continue-on-error: true

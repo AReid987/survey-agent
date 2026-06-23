@@ -1,0 +1,41 @@
+{
+  "name": "survey-agent",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Agent-driven survey automation system — CI/CD tooling dependencies",
+  "scripts": {
+    "prepare": "lefthook install",
+    "commit": "czg",
+    "format": "prettier --write '**/*.{json,md,yaml,yml}'",
+    "lint:js": "biome check .",
+    "lint:js-fix": "biome check --write .",
+    "czg": "czg"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.0",
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
+    "commitizen": "^4.3.1",
+    "czg": "^1.9.4",
+    "lefthook": "^1.8.0",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.4.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "czg"
+    }
+  },
+  "lint-staged": {
+    "*.py": [
+      "pdm run ruff check --fix",
+      "pdm run ruff format"
+    ],
+    "*.{json,md,yaml,yml}": [
+      "prettier --write"
+    ],
+    "*.{js,ts,jsx,tsx}": [
+      "biome check --write"
+    ]
+  }
+}

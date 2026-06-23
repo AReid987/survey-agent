@@ -1,0 +1,255 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 880">
+  <defs>
+    <!-- Aigency Brand Font Stack -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', monospace; }
+    </style>
+
+    <!-- Grid beam pattern — dot-matrix blueprint grid -->
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <circle cx="20" cy="20" r="0.75" fill="rgba(226,228,236,0.06)"/>
+    </pattern>
+
+    <!-- Arrow markers -->
+    <marker id="arrow-amber" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#e8a839"/>
+    </marker>
+    <marker id="arrow-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#9499a6"/>
+    </marker>
+    <marker id="arrow-go" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#48c99b"/>
+    </marker>
+
+    <!-- Glow filter for accent elements -->
+    <filter id="glow-amber">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Ambient light gradient (warm reflection from behind viewer) -->
+    <linearGradient id="ambient-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(232,168,57,0.03)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Layer 1: Deep void background -->
+  <rect width="100%" height="100%" fill="#13161c"/>
+  <rect width="100%" height="100%" fill="url(#ambient-glow)"/>
+
+  <!-- Layer 2: Grid beam (dot-matrix) -->
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+
+  <!-- Layer 3: Content — Title -->
+  <rect x="0" y="0" width="960" height="44" fill="#1a1d24" opacity="0.8"/>
+  <text x="30" y="28" fill="#e8a839" font-size="13" font-weight="700" letter-spacing="1.5">REQUEST LIFECYCLE</text>
+  <line x1="0" y1="44" x2="960" y2="44" stroke="rgba(226,228,236,0.08)" stroke-width="1"/>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- LAYER 1: CLI -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(380, 65)">
+    <rect x="0" y="0" width="200" height="44" fill="#1a1d24" stroke="rgba(226,228,236,0.15)" stroke-width="1"/>
+    <text x="100" y="27" fill="#e2e4ec" font-size="12" font-weight="600" text-anchor="middle">CLI (typer)</text>
+    <text x="100" y="40" fill="#9499a6" font-size="8" text-anchor="middle">survey_agent/cli.py</text>
+  </g>
+
+  <!-- Arrow: CLI → SessionOrchestrator -->
+  <line x1="480" y1="109" x2="480" y2="134" stroke="#e8a839" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- LAYER 2: Session Orchestrator -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(240, 140)">
+    <rect x="0" y="0" width="480" height="70" fill="#242730" stroke="rgba(226,228,236,0.12)" stroke-width="1"/>
+
+    <!-- Main orchestrator box -->
+    <rect x="10" y="10" width="240" height="50" fill="#1a1d24" stroke="#e8a839" stroke-width="1"/>
+    <text x="130" y="31" fill="#e2e4ec" font-size="11" font-weight="600" text-anchor="middle">SessionOrchestrator</text>
+    <text x="130" y="48" fill="#9499a6" font-size="8" text-anchor="middle">run() → async gather</text>
+
+    <!-- Playwright Engine (sidecar) -->
+    <rect x="260" y="10" width="105" height="50" fill="#1a1d24" stroke="#48c99b" stroke-width="1"/>
+    <text x="312" y="31" fill="#e2e4ec" font-size="10" font-weight="600" text-anchor="middle">PlaywrightEngine</text>
+    <text x="312" y="48" fill="#9499a6" font-size="8" text-anchor="middle">chromium + stealth</text>
+
+    <!-- Fingerprint Generator (sidecar) -->
+    <rect x="375" y="10" width="95" height="50" fill="#1a1d24" stroke="#9478e6" stroke-width="1"/>
+    <text x="422" y="31" fill="#e2e4ec" font-size="10" font-weight="600" text-anchor="middle">FingerprintGen</text>
+    <text x="422" y="48" fill="#9499a6" font-size="8" text-anchor="middle">viewport · UA · WebGL</text>
+  </g>
+
+  <!-- Arrow: Orchestrator → SurveySession -->
+  <line x1="480" y1="210" x2="480" y2="240" stroke="#e8a839" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- LAYER 3: Session + Profile -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(240, 245)">
+    <!-- SurveySession -->
+    <rect x="0" y="0" width="200" height="54" fill="#1a1d24" stroke="rgba(226,228,236,0.15)" stroke-width="1"/>
+    <text x="100" y="23" fill="#e2e4ec" font-size="11" font-weight="600" text-anchor="middle">SurveySession × N</text>
+    <text x="100" y="40" fill="#9499a6" font-size="8" text-anchor="middle">per-site lifecycle</text>
+
+    <!-- Profile Store (sidecar) -->
+    <rect x="210" y="0" width="200" height="54" fill="#1a1d24" stroke="#9478e6" stroke-width="1"/>
+    <text x="310" y="23" fill="#e2e4ec" font-size="11" font-weight="600" text-anchor="middle">ProfileStore</text>
+    <text x="310" y="40" fill="#9499a6" font-size="8" text-anchor="middle">~40 fields · versioned history</text>
+  </g>
+
+  <!-- Arrow: Session → Login Phase -->
+  <line x1="340" y1="299" x2="340" y2="324" stroke="#e8a839" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- LAYER 4: Login & Survey Discovery -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(140, 330)">
+    <!-- Region label -->
+    <text x="10" y="14" fill="#e8a839" font-size="9" font-weight="600" letter-spacing="1">DISCOVERY</text>
+    <line x1="0" y1="20" x2="680" y2="20" stroke="rgba(232,168,57,0.15)" stroke-width="1"/>
+
+    <!-- login() -->
+    <rect x="10" y="30" width="140" height="46" fill="#1a1d24" stroke="rgba(226,228,236,0.12)" stroke-width="1"/>
+    <text x="80" y="51" fill="#e2e4ec" font-size="10" font-weight="600" text-anchor="middle">login()</text>
+    <text x="80" y="66" fill="#9499a6" font-size="8" text-anchor="middle">macOS Keychain</text>
+
+    <!-- Arrow: login → get_surveys -->
+    <line x1="150" y1="53" x2="173" y2="53" stroke="#9499a6" stroke-width="1" marker-end="url(#arrow-muted)"/>
+
+    <!-- get_surveys() -->
+    <rect x="177" y="30" width="155" height="46" fill="#1a1d24" stroke="rgba(226,228,236,0.12)" stroke-width="1"/>
+    <text x="254" y="51" fill="#e2e4ec" font-size="10" font-weight="600" text-anchor="middle">get_surveys()</text>
+    <text x="254" y="66" fill="#9499a6" font-size="8" text-anchor="middle">scrape dashboard · parse cards</text>
+
+    <!-- Arrow: get_surveys → start_survey -->
+    <line x1="332" y1="53" x2="355" y2="53" stroke="#9499a6" stroke-width="1" marker-end="url(#arrow-muted)"/>
+
+    <!-- start_survey() -->
+    <rect x="359" y="30" width="155" height="46" fill="#1a1d24" stroke="rgba(226,228,236,0.12)" stroke-width="1"/>
+    <text x="436" y="51" fill="#e2e4ec" font-size="10" font-weight="600" text-anchor="middle">start_survey()</text>
+    <text x="436" y="66" fill="#9499a6" font-size="8" text-anchor="middle">click "Begin Survey"</text>
+  </g>
+
+  <!-- Arrow: Discovery → Question Loop (down, then into pipeline) -->
+  <path d="M 480 396 L 480 420" fill="none" stroke="#e8a839" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- LAYER 5: Question Pipeline (the core loop) -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(60, 425)">
+    <!-- Pipeline region boundary -->
+    <rect x="0" y="0" width="840" height="210" fill="none" stroke="rgba(232,168,57,0.2)" stroke-width="1" stroke-dasharray="6,3"/>
+    <rect x="0" y="0" width="160" height="22" fill="#242730" stroke="rgba(232,168,57,0.2)" stroke-width="1"/>
+    <text x="80" y="15" fill="#e8a839" font-size="10" font-weight="600" text-anchor="middle">QUESTION PIPELINE (× 100 max)</text>
+
+    <!-- ── Row 1: Attention Check ── -->
+    <rect x="15" y="35" width="180" height="46" fill="#1a1d24" stroke="#e8a839" stroke-width="1"/>
+    <text x="105" y="56" fill="#e2e4ec" font-size="10" font-weight="600" text-anchor="middle">AttentionCheckHandler</text>
+    <text x="105" y="71" fill="#9499a6" font-size="8" text-anchor="middle">detect · arithmetic · select X</text>
+
+    <!-- Arrow -->
+    <line x1="195" y1="58" x2="218" y2="58" stroke="#9499a6" stroke-width="1" marker-end="url(#arrow-muted)"/>
+
+    <!-- ── Row 1: CAPTCHA Detection ── -->
+    <rect x="222" y="35" width="160" height="46" fill="#1a1d24" stroke="#d44a4a" stroke-width="1"/>
+    <text x="302" y="56" fill="#e2e4ec" font-size="10" font-weight="600" text-anchor="middle">CaptchaSolver</text>
+    <text x="302" y="71" fill="#9499a6" font-size="8" text-anchor="middle">arithmetic → LLM → API → VNC</text>
+
+    <!-- Arrow -->
+    <line x1="382" y1="58" x2="405" y2="58" stroke="#9499a6" stroke-width="1" marker-end="url(#arrow-muted)"/>
+
+    <!-- ── Row 1: Question Classifier ── -->
+    <rect x="409" y="35" width="180" height="46" fill="#1a1d24" stroke="#48c99b" stroke-width="1"/>
+    <text x="499" y="56" fill="#e2e4ec" font-size="10" font-weight="600" text-anchor="middle">QuestionClassifier</text>
+    <text x="499" y="71" fill="#9499a6" font-size="8" text-anchor="middle">radio · checkbox · scale · text</text>
+
+    <!-- Arrow down to row 2 -->
+    <path d="M 499 81 L 499 96 L 105 96 L 105 109" fill="none" stroke="#9499a6" stroke-width="1" marker-end="url(#arrow-muted)"/>
+
+    <!-- ── Row 2: Profile Resolution ── -->
+    <rect x="15" y="113" width="190" height="46" fill="#1a1d24" stroke="#9478e6" stroke-width="1"/>
+    <text x="110" y="134" fill="#e2e4ec" font-size="10" font-weight="600" text-anchor="middle">ProfileResolver</text>
+    <text x="110" y="149" fill="#9499a6" font-size="8" text-anchor="middle">keyword → profile field mapping</text>
+
+    <!-- Arrow -->
+    <line x1="205" y1="136" x2="228" y2="136" stroke="#9499a6" stroke-width="1" marker-end="url(#arrow-muted)"/>
+
+    <!-- ── Row 2: Open-Ended Generator ── -->
+    <rect x="232" y="113" width="170" height="46" fill="#1a1d24" stroke="rgba(226,228,236,0.12)" stroke-width="1"/>
+    <text x="317" y="134" fill="#e2e4ec" font-size="10" font-weight="600" text-anchor="middle">OpenEndedGenerator</text>
+    <text x="317" y="149" fill="#9499a6" font-size="8" text-anchor="middle">LLM prompt · profile context</text>
+
+    <!-- Arrow -->
+    <line x1="402" y1="136" x2="425" y2="136" stroke="#9499a6" stroke-width="1" marker-end="url(#arrow-muted)"/>
+
+    <!-- ── Row 2: FormFiller ── -->
+    <rect x="429" y="113" width="180" height="46" fill="#1a1d24" stroke="#e8a839" stroke-width="1" filter="url(#glow-amber)"/>
+    <text x="519" y="134" fill="#e2e4ec" font-size="10" font-weight="600" text-anchor="middle">FormFiller</text>
+    <text x="519" y="149" fill="#9499a6" font-size="8" text-anchor="middle">human_type · human_click · scroll</text>
+
+    <!-- Feedback arrows: matched values flow from ProfileStore -->
+    <path d="M 499 81 L 640 81 L 640 100" fill="none" stroke="#9478e6" stroke-width="0.8" stroke-dasharray="3,2" marker-end="url(#arrow-muted)"/>
+    <text x="650" y="78" fill="#9478e6" font-size="7">ProfileStore</text>
+  </g>
+
+  <!-- Arrow: Pipeline → Submit -->
+  <path d="M 589 535 L 589 560" fill="none" stroke="#48c99b" stroke-width="1.5" marker-end="url(#arrow-go)"/>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- LAYER 6: Submit + Withdrawal -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(320, 565)">
+    <!-- submit_survey() -->
+    <rect x="0" y="0" width="160" height="46" fill="#1a1d24" stroke="#48c99b" stroke-width="1"/>
+    <text x="80" y="22" fill="#e2e4ec" font-size="10" font-weight="600" text-anchor="middle">submit_survey()</text>
+    <text x="80" y="37" fill="#9499a6" font-size="8" text-anchor="middle">click "Submit/Finish"</text>
+
+    <!-- Arrow -->
+    <line x1="160" y1="23" x2="183" y2="23" stroke="#9499a6" stroke-width="1" marker-end="url(#arrow-muted)"/>
+
+    <!-- withdraw() -->
+    <rect x="187" y="0" width="160" height="46" fill="#1a1d24" stroke="#e8a839" stroke-width="1"/>
+    <text x="267" y="22" fill="#e2e4ec" font-size="10" font-weight="600" text-anchor="middle">WithdrawalManager</text>
+    <text x="267" y="37" fill="#9499a6" font-size="8" text-anchor="middle">auto · accumulate · manual</text>
+  </g>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- LEGEND -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(30, 640)">
+    <rect x="0" y="0" width="200" height="90" fill="#1a1d24" stroke="rgba(226,228,236,0.08)" stroke-width="1"/>
+    <text x="10" y="16" fill="#9499a6" font-size="8" font-weight="600" letter-spacing="1">LEGEND</text>
+
+    <rect x="10" y="25" width="10" height="10" fill="none" stroke="#e8a839" stroke-width="1"/>
+    <text x="26" y="34" fill="#c2c5cf" font-size="8">Core execution path</text>
+
+    <rect x="10" y="42" width="10" height="10" fill="none" stroke="#48c99b" stroke-width="1"/>
+    <text x="26" y="51" fill="#c2c5cf" font-size="8">Success / completion</text>
+
+    <rect x="10" y="59" width="10" height="10" fill="none" stroke="#9478e6" stroke-width="1"/>
+    <text x="26" y="68" fill="#c2c5cf" font-size="8">Data / profile systems</text>
+
+    <rect x="10" y="76" width="10" height="10" fill="none" stroke="#d44a4a" stroke-width="1"/>
+    <text x="26" y="85" fill="#c2c5cf" font-size="8">Security / CAPTCHA</text>
+  </g>
+
+  <!-- Classification box on right -->
+  <g transform="translate(680, 640)">
+    <rect x="0" y="0" width="220" height="90" fill="#242730" stroke="rgba(226,228,236,0.08)" stroke-width="1"/>
+    <text x="10" y="16" fill="#9499a6" font-size="8" font-weight="600" letter-spacing="1">TECH STACK KEY</text>
+    <text x="10" y="34" fill="#c2c5cf" font-size="8">Python 3.11+ · Playwright · asyncio</text>
+    <text x="10" y="48" fill="#c2c5cf" font-size="8">PDM · Typer · Rich · Pydantic</text>
+    <text x="10" y="62" fill="#c2c5cf" font-size="8">pytest · ruff · mypy · pylint</text>
+    <text x="10" y="76" fill="#c2c5cf" font-size="8">macOS Keychain · pillow · httpx</text>
+  </g>
+
+  <!-- Data annotation line on far right -->
+  <g transform="translate(750, 150)">
+    <text x="0" y="0" fill="#e8a839" font-size="8" font-weight="600" letter-spacing="0.5">PER-SESSION</text>
+    <text x="0" y="14" fill="#9499a6" font-size="8">One fingerprint per</text>
+    <text x="0" y="28" fill="#9499a6" font-size="8">session. New session</text>
+    <text x="0" y="42" fill="#9499a6" font-size="8">= new identity.</text>
+  </g>
+</svg>

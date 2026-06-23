@@ -1,0 +1,21 @@
+# ── CODEOWNERS — Required reviewers for production deployments ───
+# Every PR must be approved by at least one code owner before merge.
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Global owners — these folks must approve every PR
+* @antonioreid
+
+# Core modules — require domain-specific review
+survey_agent/orchestrator.py @antonioreid
+survey_agent/browser/ @antonioreid
+survey_agent/sites/ @antonioreid
+survey_agent/captcha/ @antonioreid
+survey_agent/answering/ @antonioreid
+survey_agent/profile/ @antonioreid
+
+# CI/CD — changes to pipelines need infrastructure review
+.github/ @antonioreid
+
+# Configuration — changes to config/data need approval
+data/ @antonioreid
+pyproject.toml @antonioreid

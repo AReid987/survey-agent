@@ -1,0 +1,54 @@
+# ── Gemini AI Code Review ──────────────────────────────────────────
+# Reviews every PR diff using Google's Gemini model.
+# Comments on the PR with findings, suggested improvements,
+# and a signoff recommendation for CODEOWNERS.
+
+name: Gemini — AI Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  pull_request_review:
+    types: [submitted]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  checks: write
+
+jobs:
+  gemini-review:
+    name: "🤖 Gemini AI Review"
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get diff
+        id: diff
+        run: |
+          git fetch origin ${{ github.base_ref }} --depth=1
+          DIFF=$(git diff origin/${{ github.base_ref }}...HEAD -- . ':(exclude)package-lock.json' ':(exclude)pdm.lock' 2>/dev/null || echo "No diff available")
+          echo "diff<<EOF" >> $GITHUB_OUTPUT
+          echo "$DIFF" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Generate review via Gemini
+        id: review
+        uses: anthraxx/action-gemini-code-review@v1
+        continue-on-error: true
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        with:
+          diff: ${{ steps.diff.outputs.diff }}
+          model: gemini-2.0-flash
+          temperature: 0.3
+          max_tokens: 4096
+          pr_number: ${{ github.event.pull_request.number }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          # Optional: fail the check if critical issues found
+          fail_on_critical: false

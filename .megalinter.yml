@@ -1,0 +1,37 @@
+# ── MegaLinter Configuration ──────────────────────────────────────
+# https://megalinter.io/latest/config-file/
+
+# Python linters
+ENABLE_LINTERS:
+  - PYTHON_RUFF
+  - PYTHON_PYLINT
+  - PYTHON_MYPY
+  - PYTHON_BANDIT
+  - PYTHON_PYRIGHT
+  - REPOSITORY_TRIVY
+  - REPOSITORY_CHECKOV
+  - REPOSITORY_GITLEAKS
+  - SPELL_CSPELL
+
+DISABLE_LINTERS:
+  - PYTHON_FLAKE8
+  - PYTHON_BLACK
+  - PYTHON_ISORT
+  - PYTHON_PYCODESTYLE
+  - PYTHON_PYDOCSTYLE
+  - PYTHON_PYTHON_BANDIT
+  - COPYPASTE_JSCPD
+  - ACTION_ACTIONLINT
+
+# Only validate new/changed files on PRs
+VALIDATE_ALL_CODEBASE: false
+
+# Fail if any linter finds issues
+FAIL_IF_ALL_LINTER_ERRORS: true
+
+# Output
+PRINT_ALPACA: false
+SHOW_SKIPPED_LINTERS: false
+
+# Parallelism
+PARALLEL: true

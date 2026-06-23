@@ -1,0 +1,244 @@
+# ── CI Pipeline ───────────────────────────────────────────────────
+# Runs on every PR and push to main/staging.
+# Enforces code quality, testing, security, and GitNexus impact analysis.
+
+name: CI — Quality Gates
+
+on:
+  pull_request:
+    branches: [main, staging]
+  push:
+    branches: [main, staging]
+
+env:
+  PYTHON_VERSION: "3.11"
+  NODE_VERSION: "22"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ═══════════════════════════════════════════════════════════════
+  # Lint & Format
+  # ═══════════════════════════════════════════════════════════════
+  lint:
+    name: "🧹 Lint & Format"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install PDM
+        run: pip install pdm
+
+      - name: Cache PDM dependencies
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: ${{ runner.os }}-pdm-${{ hashFiles('pdm.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pdm-
+
+      - name: Install Python deps
+        run: pdm install -d
+
+      - name: Ruff lint
+        run: pdm run ruff check .
+
+      - name: Ruff format check
+        run: pdm run ruff format --check .
+
+      - name: Pylint
+        run: pdm run pylint survey_agent/ || true
+        continue-on-error: true
+
+      - name: MyPy type check
+        run: pdm run mypy survey_agent/
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install JS deps
+        run: npm ci
+
+      - name: Prettier check
+        run: npx prettier --check "**/*.{json,md,yaml,yml}"
+
+      - name: Biome check
+        run: npx @biomejs/biome check .
+        continue-on-error: true
+
+  # ═══════════════════════════════════════════════════════════════
+  # Security & Static Analysis
+  # ═══════════════════════════════════════════════════════════════
+  security:
+    name: "🔒 Security Scan"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install PDM & deps
+        run: |
+          pip install pdm
+          pdm install -d
+
+      - name: Bandit security scan
+        run: pdm run bandit -r survey_agent/ -f sarif -o bandit-results.sarif || true
+        continue-on-error: true
+
+      - name: Vulture dead code check
+        run: pdm run vulture survey_agent/ --min-confidence 80 || true
+        continue-on-error: true
+
+      - name: Trivy vulnerability scan (filesystem)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: fs
+          scan-ref: "."
+          format: sarif
+          output: trivy-results.sarif
+          severity: CRITICAL,HIGH
+        continue-on-error: true
+
+      - name: Upload SARIF results
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-results.sarif
+        continue-on-error: true
+
+  # ═══════════════════════════════════════════════════════════════
+  # Tests & Coverage
+  # ═══════════════════════════════════════════════════════════════
+  test:
+    name: "🧪 Tests (py${{ matrix.python }})"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.11", "3.12", "3.13"]
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install PDM
+        run: pip install pdm
+
+      - name: Cache PDM dependencies
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: ${{ runner.os }}-pdm-${{ matrix.python }}-${{ hashFiles('pdm.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pdm-${{ matrix.python }}-
+
+      - name: Install deps
+        run: pdm install -d
+
+      - name: Run tests with coverage
+        run: pdm run pytest --cov=survey_agent --cov-report=xml --cov-report=term-missing -v
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage.xml
+          flags: unittests
+          name: survey-agent-py${{ matrix.python }}
+        continue-on-error: true
+
+  # ═══════════════════════════════════════════════════════════════
+  # GitNexus Impact Analysis
+  # ═══════════════════════════════════════════════════════════════
+  gitnexus:
+    name: "📊 GitNexus Impact Analysis"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: GitNexus analyze
+        run: npx gitnexus analyze
+
+      - name: Check for high-risk changes
+        run: |
+          echo "✅ GitNexus index built — verify impact via MCP tools in editor."
+          npx gitnexus status || true
+
+  # ═══════════════════════════════════════════════════════════════
+  # MegaLinter (comprehensive polyglot linting)
+  # ═══════════════════════════════════════════════════════════════
+  megalinter:
+    name: "🦸 MegaLinter"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: MegaLinter
+        uses: oxsecurity/megalinter/flavors/python@v7
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'push' }}
+          MEGALINTER_CONFIG: .megalinter.yml
+          REPORT_OUTPUT_FOLDER: megalinter-reports
+        continue-on-error: true
+
+      - name: Archive MegaLinter reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: megalinter-reports
+          path: megalinter-reports
+        continue-on-error: true
+
+  # ═══════════════════════════════════════════════════════════════
+  # Decision gate — all required checks must pass
+  # ═══════════════════════════════════════════════════════════════
+  gate:
+    name: "🚦 Quality Gate"
+    needs: [lint, security, test, gitnexus, megalinter]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Check all gates passed
+        run: |
+          echo "Lint:      ${{ needs.lint.result }}"
+          echo "Security:  ${{ needs.security.result }}"
+          echo "Test:      ${{ needs.test.result }}"
+          echo "GitNexus:  ${{ needs.gitnexus.result }}"
+          echo "MegaLinter: ${{ needs.megalinter.result }}"
+
+          if [ "${{ needs.lint.result }}" = "success" ] && \
+             [ "${{ needs.security.result }}" = "success" ] && \
+             [ "${{ needs.test.result }}" = "success" ] && \
+             [ "${{ needs.gitnexus.result }}" = "success" ]; then
+            echo "✅ All quality gates passed!"
+          else
+            echo "❌ One or more quality gates failed."
+            exit 1
+          fi

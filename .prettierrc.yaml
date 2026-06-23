@@ -1,0 +1,20 @@
+# ── Prettier — universal formatter for non-Python files ──────────
+printWidth: 100
+tabWidth: 2
+useTabs: false
+semi: true
+singleQuote: false
+trailingComma: all
+bracketSpacing: true
+arrowParens: always
+proseWrap: always
+endOfLine: lf
+overrides:
+  - files: "*.md"
+    options:
+      proseWrap: always
+      printWidth: 80
+  - files: "*.{yaml,yml}"
+    options:
+      singleQuote: true
+      printWidth: 80

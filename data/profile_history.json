@@ -1,0 +1,364 @@
+[
+  {
+    "timestamp": "2026-06-21T11:45:41.673302+00:00",
+    "key": "demographics.age",
+    "old_value": null,
+    "new_value": 35,
+    "source": "test"
+  },
+  {
+    "timestamp": "2026-06-21T11:45:41.674372+00:00",
+    "key": "demographics.gender",
+    "old_value": null,
+    "new_value": "Male",
+    "source": "test"
+  },
+  {
+    "timestamp": "2026-06-21T11:45:41.674808+00:00",
+    "key": "employment.status",
+    "old_value": null,
+    "new_value": "Full-time",
+    "source": "test"
+  },
+  {
+    "timestamp": "2026-06-22T06:36:32.541186+00:00",
+    "key": "demographics.ethnicity",
+    "old_value": null,
+    "new_value": "Black/African American",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:36:40.696279+00:00",
+    "key": "demographics.marital_status",
+    "old_value": null,
+    "new_value": "Domestic partnership",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:36:43.762133+00:00",
+    "key": "demographics.zip_code",
+    "old_value": null,
+    "new_value": "78736",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:36:46.269420+00:00",
+    "key": "demographics.state",
+    "old_value": null,
+    "new_value": "TX",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:36:48.146574+00:00",
+    "key": "demographics.city",
+    "old_value": null,
+    "new_value": "Austin",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:36:50.129011+00:00",
+    "key": "demographics.country",
+    "old_value": null,
+    "new_value": "US",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:37:00.720207+00:00",
+    "key": "employment.status",
+    "old_value": "Full-time",
+    "new_value": "Self-employed",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:37:07.798788+00:00",
+    "key": "employment.industry",
+    "old_value": null,
+    "new_value": "Technology",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:37:14.201857+00:00",
+    "key": "employment.job_title",
+    "old_value": null,
+    "new_value": "Founder/CTO",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:37:17.941550+00:00",
+    "key": "employment.company_size",
+    "old_value": null,
+    "new_value": "1-10",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:37:20.024952+00:00",
+    "key": "employment.years_experience",
+    "old_value": null,
+    "new_value": 8,
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:37:24.042162+00:00",
+    "key": "employment.work_remote",
+    "old_value": null,
+    "new_value": "Fully remote",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:37:41.947150+00:00",
+    "key": "income.household_income",
+    "old_value": null,
+    "new_value": "$50,000-$74,999",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:37:57.771323+00:00",
+    "key": "income.personal_income",
+    "old_value": null,
+    "new_value": "$50,000-$74,999",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:38:03.225463+00:00",
+    "key": "income.credit_score_range",
+    "old_value": null,
+    "new_value": "Poor",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:38:08.284348+00:00",
+    "key": "income.homeownership",
+    "old_value": null,
+    "new_value": "Rent",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:38:31.197956+00:00",
+    "key": "education.highest_degree",
+    "old_value": null,
+    "new_value": "Trade/vocational",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:38:39.614613+00:00",
+    "key": "education.field_of_study",
+    "old_value": null,
+    "new_value": "Software Engineering",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:38:41.976613+00:00",
+    "key": "education.currently_enrolled",
+    "old_value": null,
+    "new_value": false,
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:38:46.990929+00:00",
+    "key": "health.general_health",
+    "old_value": null,
+    "new_value": "Very good",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:38:51.291399+00:00",
+    "key": "health.smoker",
+    "old_value": null,
+    "new_value": "Former",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:38:58.907465+00:00",
+    "key": "health.exercise_frequency",
+    "old_value": null,
+    "new_value": "Several times a week",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:39:05.967408+00:00",
+    "key": "health.conditions",
+    "old_value": null,
+    "new_value": [
+      "Other"
+    ],
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:39:11.662265+00:00",
+    "key": "health.insurance_type",
+    "old_value": null,
+    "new_value": "Uninsured",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:39:21.080612+00:00",
+    "key": "shopping.online_shopping_frequency",
+    "old_value": null,
+    "new_value": "Monthly",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:39:32.546258+00:00",
+    "key": "shopping.preferred_stores",
+    "old_value": null,
+    "new_value": [
+      "Amazon",
+      "Target",
+      "Costco",
+      "Best Buy"
+    ],
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:39:45.962275+00:00",
+    "key": "shopping.decision_factors",
+    "old_value": null,
+    "new_value": [
+      "Price then Quality"
+    ],
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:40:05.211086+00:00",
+    "key": "shopping.annual_spending_range",
+    "old_value": null,
+    "new_value": "$1,000-$5,000",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:40:22.318089+00:00",
+    "key": "politics.political_affiliation",
+    "old_value": null,
+    "new_value": "None or Independent",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:40:27.565268+00:00",
+    "key": "politics.political_views",
+    "old_value": null,
+    "new_value": "Moderate",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:40:40.164836+00:00",
+    "key": "politics.social_issues",
+    "old_value": null,
+    "new_value": "Somewhat interested",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:40:48.906863+00:00",
+    "key": "household.household_size",
+    "old_value": null,
+    "new_value": 5,
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:40:50.865100+00:00",
+    "key": "household.children_count",
+    "old_value": null,
+    "new_value": 3,
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:40:56.891430+00:00",
+    "key": "household.children_ages",
+    "old_value": null,
+    "new_value": "4, 5, 5",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:40:59.466851+00:00",
+    "key": "household.pets",
+    "old_value": null,
+    "new_value": [
+      "None"
+    ],
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:41:06.415429+00:00",
+    "key": "technology.primary_device",
+    "old_value": null,
+    "new_value": "Laptop",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:41:11.256495+00:00",
+    "key": "technology.os_preference",
+    "old_value": null,
+    "new_value": "macOS",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:41:31.698714+00:00",
+    "key": "technology.social_media",
+    "old_value": null,
+    "new_value": [
+      "Facebook",
+      "Instagram",
+      "X/Twitter",
+      "LinkedIn",
+      "Reddit",
+      "YouTube"
+    ],
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:42:05.563578+00:00",
+    "key": "technology.streaming_services",
+    "old_value": null,
+    "new_value": [
+      "Netflix",
+      "Hulu",
+      "HBO Max",
+      "Amazon Prime",
+      "Spotify"
+    ],
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:42:25.648400+00:00",
+    "key": "technology.tech_comfort",
+    "old_value": null,
+    "new_value": "Expert",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:42:49.721361+00:00",
+    "key": "lifestyle.hobbies",
+    "old_value": null,
+    "new_value": [
+      "Reading",
+      "Gaming",
+      "Cooking",
+      "Travel",
+      "Music",
+      "Art",
+      "Photography",
+      "Other"
+    ],
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:42:56.799501+00:00",
+    "key": "lifestyle.travel_frequency",
+    "old_value": null,
+    "new_value": "Rarely",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:43:06.681522+00:00",
+    "key": "lifestyle.dining_out_frequency",
+    "old_value": null,
+    "new_value": "Rarely",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-22T06:43:14.211242+00:00",
+    "key": "lifestyle.alcohol_consumption",
+    "old_value": null,
+    "new_value": "Never",
+    "source": "interview"
+  }
+]

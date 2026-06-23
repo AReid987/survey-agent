@@ -1,0 +1,101 @@
+{
+  "demographics": {
+    "age": 39,
+    "gender": "Male",
+    "ethnicity": "Black/African American",
+    "marital_status": "Domestic partnership",
+    "zip_code": "78736",
+    "state": "TX",
+    "city": "Austin",
+    "country": "US"
+  },
+  "employment": {
+    "status": "Self-employed",
+    "industry": "Technology",
+    "job_title": "Founder/CTO",
+    "company_size": "1-10",
+    "years_experience": 8,
+    "work_remote": "Fully remote"
+  },
+  "income": {
+    "household_income": "$50,000-$74,999",
+    "personal_income": "$50,000-$74,999",
+    "credit_score_range": "Poor",
+    "homeownership": "Rent"
+  },
+  "education": {
+    "highest_degree": "Trade/vocational",
+    "field_of_study": "Software Engineering",
+    "currently_enrolled": false
+  },
+  "health": {
+    "general_health": "Very good",
+    "smoker": "Former",
+    "exercise_frequency": "Several times a week",
+    "conditions": [
+      "Other"
+    ],
+    "insurance_type": "Uninsured"
+  },
+  "shopping": {
+    "online_shopping_frequency": "Monthly",
+    "preferred_stores": [
+      "Amazon",
+      "Target",
+      "Costco",
+      "Best Buy"
+    ],
+    "decision_factors": [
+      "Price then Quality"
+    ],
+    "annual_spending_range": "$1,000-$5,000"
+  },
+  "politics": {
+    "political_affiliation": "None or Independent",
+    "political_views": "Moderate",
+    "social_issues": "Somewhat interested"
+  },
+  "household": {
+    "household_size": 5,
+    "children_count": 3,
+    "children_ages": "4, 5, 5",
+    "pets": [
+      "None"
+    ]
+  },
+  "technology": {
+    "primary_device": "Laptop",
+    "os_preference": "macOS",
+    "social_media": [
+      "Facebook",
+      "Instagram",
+      "X/Twitter",
+      "LinkedIn",
+      "Reddit",
+      "YouTube"
+    ],
+    "streaming_services": [
+      "Netflix",
+      "Hulu",
+      "HBO Max",
+      "Amazon Prime",
+      "Spotify"
+    ],
+    "tech_comfort": "Expert"
+  },
+  "lifestyle": {
+    "hobbies": [
+      "Reading",
+      "Gaming",
+      "Cooking",
+      "Travel",
+      "Music",
+      "Art",
+      "Photography",
+      "Other"
+    ],
+    "travel_frequency": "Rarely",
+    "dining_out_frequency": "Rarely",
+    "alcohol_consumption": "Never"
+  }
+}
