@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 from dataclasses import dataclass
 
 import keyring
@@ -58,14 +59,10 @@ class CredentialStore:
         service = self._service_name(site_slug)
         creds = self.retrieve(site_slug)
         if creds:
-            try:
+            with contextlib.suppress(keyring.errors.PasswordDeleteError):
                 keyring.delete_password(service, creds.username)
-            except keyring.errors.PasswordDeleteError:
-                pass
-        try:
+        with contextlib.suppress(keyring.errors.PasswordDeleteError):
             keyring.delete_password(service, "__last_username__")
-        except keyring.errors.PasswordDeleteError:
-            pass
 
     def has_credentials(self, site_slug: str) -> bool:
         """Check if credentials exist for a site."""

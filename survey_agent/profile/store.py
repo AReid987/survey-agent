@@ -98,7 +98,7 @@ class ProfileStore:
             items = [c for c in items if c.key == key]
         return items[-limit:]
 
-    def correct(self, key: str, new_value: Any, note: str = "") -> None:
+    def correct(self, key: str, new_value: Any, _note: str = "") -> None:
         """Apply a correction to the profile. Same as set but source='correction'."""
         self.set(key, new_value, source="correction")
 

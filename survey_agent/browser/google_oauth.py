@@ -67,7 +67,7 @@ class GoogleOAuthHandler:
 
         if not google_btn:
             logger.warning("No Google sign-in button found on page")
-            content = await page.content()
+            await page.content()
             # Log all button/link text for debugging
             all_buttons = await page.query_selector_all("button, a, input[type='submit']")
             button_texts = []
@@ -93,7 +93,7 @@ class GoogleOAuthHandler:
         # Handle the Google page
         return await self._handle_google_page(page)
 
-    async def _handle_google_page(self, page: BrowserPage) -> bool:
+    async def _handle_google_page(self, page: BrowserPage) -> bool:  # noqa: PLR0911
         """Handle the Google login/account chooser page."""
         url = await page.url()
         logger.info(f"Handling Google page: {url}")
@@ -106,8 +106,7 @@ class GoogleOAuthHandler:
         # Wait for Google's login UI to load
         try:
             await page.wait_for_selector(
-                "input[type='email'], #identifierId, [data-email], "
-                ".BHzsHc, div[data-email], .L5Fo6c-P1ILyc",
+                "input[type='email'], #identifierId, [data-email], .BHzsHc, div[data-email], .L5Fo6c-P1ILyc",
                 timeout=10,
             )
             logger.info("Google login UI loaded")
@@ -115,17 +114,13 @@ class GoogleOAuthHandler:
             logger.warning("Timed out waiting for Google login UI")
             # Check if we're already past Google
             url = await page.url()
-            if "accounts.google.com" not in url:
-                return True
-            return False
+            return "accounts.google.com" not in url
 
         await self._behavior.random_delay(1.0)
 
         # Check for account chooser (already signed into Google before)
         account_option = await page.query_selector(
-            f"[data-email='{self._email}'], "
-            f"div[data-email='{self._email}'], "
-            f".BHzsHc[data-email='{self._email}']"
+            f"[data-email='{self._email}'], div[data-email='{self._email}'], .BHzsHc[data-email='{self._email}']"
         )
 
         if account_option:
@@ -135,9 +130,7 @@ class GoogleOAuthHandler:
             return await self._handle_consent(page)
 
         # Check for list of accounts (different selector patterns)
-        account_items = await page.query_selector_all(
-            ".BHzsHc, div[data-email], li[data-email], .zZVDYe"
-        )
+        account_items = await page.query_selector_all(".BHzsHc, div[data-email], li[data-email], .zZVDYe")
         for item in account_items:
             email = await item.evaluate("el => el.getAttribute('data-email') || el.textContent || ''")
             if self._email in str(email):
@@ -148,9 +141,7 @@ class GoogleOAuthHandler:
 
         # Need to type email
         logger.info(f"No existing account found, typing email: {self._email}")
-        email_input = await page.query_selector(
-            "input[type='email'], #identifierId, input[name='identifier']"
-        )
+        email_input = await page.query_selector("input[type='email'], #identifierId, input[name='identifier']")
         if email_input:
             selector = await email_input.evaluate(
                 "el => { el.id = el.id || 'g-email-' + Math.random().toString(36).slice(2); return '#' + el.id; }"
@@ -159,9 +150,7 @@ class GoogleOAuthHandler:
             await self._behavior.random_delay(0.5)
 
             # Click Next
-            next_btn = await page.query_selector(
-                "#identifierNext, button:has-text('Next'), button[type='submit']"
-            )
+            next_btn = await page.query_selector("#identifierNext, button:has-text('Next'), button[type='submit']")
             if next_btn:
                 logger.info("Clicking Next after email entry")
                 await next_btn.click()
@@ -186,9 +175,7 @@ class GoogleOAuthHandler:
             return True
 
         # Check for password input
-        pw_input = await page.query_selector(
-            "input[type='password'], input[name='password']"
-        )
+        pw_input = await page.query_selector("input[type='password'], input[name='password']")
         if pw_input:
             # Google wants a password. In headed mode, the user needs to type it.
             # We don't store Google passwords for security.

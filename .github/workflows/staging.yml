@@ -10,20 +10,20 @@ on:
     branches: [staging]
 
 env:
-  PYTHON_VERSION: "3.11"
-  NODE_VERSION: "22"
+  PYTHON_VERSION: '3.11'
+  NODE_VERSION: '22'
   DEPLOY_ENV: staging
 
 jobs:
   # ── Reuse CI quality gates ───────────────────────────────────
   ci:
-    name: "🔁 CI Quality Gates"
+    name: '🔁 CI Quality Gates'
     uses: ./.github/workflows/ci.yml
     secrets: inherit
 
   # ── Deploy to Staging ────────────────────────────────────────
   deploy-staging:
-    name: "🚀 Deploy to Staging"
+    name: '🚀 Deploy to Staging'
     needs: [ci]
     runs-on: ubuntu-latest
     environment:

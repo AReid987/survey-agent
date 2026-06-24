@@ -4,10 +4,9 @@ from __future__ import annotations
 
 import asyncio
 import logging
-from typing import Any
 
 from .browser.agent_controller import SurveyAgent
-from .config import AppConfig, load_config, DATA_DIR
+from .config import DATA_DIR, AppConfig, load_config
 from .profile.store import ProfileStore
 
 logger = logging.getLogger(__name__)
@@ -36,7 +35,7 @@ SITES = {
 class SurveySession:
     """Agent-driven survey session with resilience."""
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         agent: SurveyAgent,
         site_slug: str,
@@ -79,7 +78,7 @@ class SurveySession:
 
                 if result.success:
                     self._stats["surveys_completed"] += 1
-                    logger.info(f"[Session {self._session_id}] Survey {i+1} completed")
+                    logger.info(f"[Session {self._session_id}] Survey {i + 1} completed")
                 elif "captcha" in (result.output or "").lower():
                     self._stats["captchas_solved"] += 1
                 else:

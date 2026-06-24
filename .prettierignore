@@ -1,0 +1,7 @@
+.claude/
+node_modules/
+.gitnexus/
+.venv/
+__pycache__/
+*.py
+pnpm-lock.yaml

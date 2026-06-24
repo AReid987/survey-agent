@@ -11,8 +11,8 @@ on:
     branches: [main, staging]
 
 env:
-  PYTHON_VERSION: "3.11"
-  NODE_VERSION: "22"
+  PYTHON_VERSION: '3.11'
+  NODE_VERSION: '22'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -23,7 +23,7 @@ jobs:
   # Lint & Format
   # ═══════════════════════════════════════════════════════════════
   lint:
-    name: "🧹 Lint & Format"
+    name: '🧹 Lint & Format'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -81,7 +81,7 @@ jobs:
   # Security & Static Analysis
   # ═══════════════════════════════════════════════════════════════
   security:
-    name: "🔒 Security Scan"
+    name: '🔒 Security Scan'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -97,7 +97,9 @@ jobs:
           pdm install -d
 
       - name: Bandit security scan
-        run: pdm run bandit -r survey_agent/ -f sarif -o bandit-results.sarif || true
+        run:
+          pdm run bandit -r survey_agent/ -f sarif -o bandit-results.sarif ||
+          true
         continue-on-error: true
 
       - name: Vulture dead code check
@@ -108,7 +110,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: fs
-          scan-ref: "."
+          scan-ref: '.'
           format: sarif
           output: trivy-results.sarif
           severity: CRITICAL,HIGH
@@ -124,11 +126,11 @@ jobs:
   # Tests & Coverage
   # ═══════════════════════════════════════════════════════════════
   test:
-    name: "🧪 Tests (py${{ matrix.python }})"
+    name: '🧪 Tests (py${{ matrix.python }})'
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: ["3.11", "3.12", "3.13"]
+        python: ['3.11', '3.12', '3.13']
       fail-fast: false
 
     steps:
@@ -146,7 +148,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .venv
-          key: ${{ runner.os }}-pdm-${{ matrix.python }}-${{ hashFiles('pdm.lock') }}
+          key:
+            ${{ runner.os }}-pdm-${{ matrix.python }}-${{ hashFiles('pdm.lock')
+            }}
           restore-keys: |
             ${{ runner.os }}-pdm-${{ matrix.python }}-
 
@@ -154,7 +158,9 @@ jobs:
         run: pdm install -d
 
       - name: Run tests with coverage
-        run: pdm run pytest --cov=survey_agent --cov-report=xml --cov-report=term-missing -v
+        run:
+          pdm run pytest --cov=survey_agent --cov-report=xml
+          --cov-report=term-missing -v
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
@@ -169,7 +175,7 @@ jobs:
   # GitNexus Impact Analysis
   # ═══════════════════════════════════════════════════════════════
   gitnexus:
-    name: "📊 GitNexus Impact Analysis"
+    name: '📊 GitNexus Impact Analysis'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -193,7 +199,7 @@ jobs:
   # MegaLinter (comprehensive polyglot linting)
   # ═══════════════════════════════════════════════════════════════
   megalinter:
-    name: "🦸 MegaLinter"
+    name: '🦸 MegaLinter'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -220,7 +226,7 @@ jobs:
   # Decision gate — all required checks must pass
   # ═══════════════════════════════════════════════════════════════
   gate:
-    name: "🚦 Quality Gate"
+    name: '🚦 Quality Gate'
     needs: [lint, security, test, gitnexus, megalinter]
     runs-on: ubuntu-latest
     if: always()

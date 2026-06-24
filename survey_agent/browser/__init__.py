@@ -7,7 +7,7 @@ from .human_behavior import HumanBehavior
 
 # Lazy import to avoid requiring playwright at import time
 def get_playwright_engine():
-    from .playwright_engine import PlaywrightEngine
+    from .playwright_engine import PlaywrightEngine  # noqa: PLC0415
 
     return PlaywrightEngine
 

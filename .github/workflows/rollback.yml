@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       ref:
-        description: "Git ref (commit SHA, tag, or branch) to rollback to"
+        description: 'Git ref (commit SHA, tag, or branch) to rollback to'
         required: true
         type: string
 
@@ -16,7 +16,7 @@ env:
 
 jobs:
   rollback:
-    name: "⏪ Rollback to ${{ github.event.inputs.ref }}"
+    name: '⏪ Rollback to ${{ github.event.inputs.ref }}'
     runs-on: ubuntu-latest
     environment:
       name: production
@@ -29,7 +29,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: '3.11'
 
       - name: Install PDM
         run: pip install pdm

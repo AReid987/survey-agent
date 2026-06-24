@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import importlib
 import pkgutil
 from typing import TYPE_CHECKING
@@ -31,14 +32,12 @@ class SiteRegistry:
 
     def _discover_adapters(self) -> None:
         """Auto-discover adapter modules in the sites package."""
-        import survey_agent.sites as pkg
+        import survey_agent.sites as pkg  # noqa: PLC0415
 
-        for importer, modname, ispkg in pkgutil.iter_modules(pkg.__path__):
+        for _importer, modname, _ispkg in pkgutil.iter_modules(pkg.__path__):
             if modname not in ("base", "registry", "__init__"):
-                try:
+                with contextlib.suppress(ImportError):
                     importlib.import_module(f"survey_agent.sites.{modname}")
-                except ImportError:
-                    pass
 
     def list_sites(self) -> list[str]:
         """List all registered site slugs."""

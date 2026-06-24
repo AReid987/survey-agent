@@ -45,3 +45,4 @@ data/browser_session/
 .env
 .env.local
 .env.production
+.vercel

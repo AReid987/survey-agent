@@ -2,17 +2,16 @@
 
 from __future__ import annotations
 
-import asyncio
 import logging
 import re
 from typing import Any
 
 from ..browser.engine import BrowserPage
-from ..browser.human_behavior import HumanBehavior
 from ..browser.google_oauth import GoogleOAuthHandler
+from ..browser.human_behavior import HumanBehavior
 from ..credentials import CredentialStore
 from ..profile.store import ProfileStore
-from .base import SiteAdapter, Survey, Question, Answer, SiteBalance, WithdrawalResult
+from .base import Answer, Question, SiteAdapter, SiteBalance, Survey, WithdrawalResult
 from .registry import register
 
 logger = logging.getLogger(__name__)
@@ -148,7 +147,7 @@ class BrandedSurveysAdapter(SiteAdapter):
                     "el => el.getAttribute('href') || el.querySelector('a')?.getAttribute('href') || ''"
                 )
                 points = await elem.evaluate(
-                    "el => { const m = el.textContent?.match(/(\\d+)\\s*(?:pts|points|credits)/i); return m ? m[1] : '0'; }"
+                    "el => { const m = el.textContent?.match(/(\\d+)\\s*(?:pts|points|credits)/i); return m ? m[1] : '0'; }"  # noqa: E501
                 )
                 minutes = await elem.evaluate(
                     "el => { const m = el.textContent?.match(/(\\d+)\\s*(?:min|minutes)/i); return m ? m[1] : '0'; }"
@@ -191,11 +190,11 @@ class BrandedSurveysAdapter(SiteAdapter):
 
     async def _has_questions(self, page: BrowserPage) -> bool:
         content = await page.content()
-        return bool(re.search(r'(?:question|survey|select|choose|rate|agree)', content, re.I))
+        return bool(re.search(r"(?:question|survey|select|choose|rate|agree)", content, re.I))
 
     async def get_current_question(self, page: BrowserPage) -> Question | None:
         content = await page.content()
-        if re.search(r'(?:thank\s+you|complete|finished|congratulations|survey\s+complete)', content, re.I):
+        if re.search(r"(?:thank\s+you|complete|finished|congratulations|survey\s+complete)", content, re.I):
             return None
 
         question_el = await page.query_selector(
@@ -218,13 +217,13 @@ class BrandedSurveysAdapter(SiteAdapter):
         options = await self._extract_options(page)
 
         return Question(
-            id=abs(hash(text)) % 1000000,
+            id=str(abs(hash(text)) % 1000000),
             text=text,
             question_type=q_type,
             options=options,
         )
 
-    async def answer_question(self, page: BrowserPage, question: Question, answer: Answer) -> bool:
+    async def answer_question(self, page: BrowserPage, question: Question, answer: Answer) -> bool:  # noqa: PLR0911
         try:
             qtype = question.question_type
             value = answer.value
@@ -251,11 +250,18 @@ class BrandedSurveysAdapter(SiteAdapter):
 
     async def submit_survey(self, page: BrowserPage) -> bool:
         for selector in [
-            "button:has-text('Submit')", "button:has-text('Finish')",
-            "button:has-text('Complete')", "button:has-text('Next')",
-            "button:has-text('Continue')", "button:has-text('Done')",
-            "input[type='submit']", "button[type='submit']",
-            ".submit-btn", ".finish-btn", ".next-btn", ".continue-btn",
+            "button:has-text('Submit')",
+            "button:has-text('Finish')",
+            "button:has-text('Complete')",
+            "button:has-text('Next')",
+            "button:has-text('Continue')",
+            "button:has-text('Done')",
+            "input[type='submit']",
+            "button[type='submit']",
+            ".submit-btn",
+            ".finish-btn",
+            ".next-btn",
+            ".continue-btn",
         ]:
             btn = await page.query_selector(selector)
             if btn:
@@ -274,7 +280,7 @@ class BrandedSurveysAdapter(SiteAdapter):
         )
         if balance_el:
             text = await balance_el.evaluate("el => el.textContent || ''")
-            match = re.search(r'[\d,]+\.?\d*', text.replace(",", ""))
+            match = re.search(r"[\d,]+\.?\d*", text.replace(",", ""))
             if match:
                 return SiteBalance(available=float(match.group()), pending=0.0)
 
@@ -295,34 +301,43 @@ class BrandedSurveysAdapter(SiteAdapter):
             await self._behavior.random_delay(1.0)
 
             confirm_btn = await page.query_selector(
-                "button:has-text('Confirm'), button:has-text('Submit'), "
-                "button:has-text('Yes'), input[type='submit']"
+                "button:has-text('Confirm'), button:has-text('Submit'), button:has-text('Yes'), input[type='submit']"
             )
             if confirm_btn:
                 await confirm_btn.click()
                 await self._behavior.random_delay(2.0)
 
             return WithdrawalResult(
-                success=True, amount=amount, method="paypal",
+                success=True,
+                amount=amount,
+                method="paypal",
                 message=f"Withdrawal to {self._paypal_email}",
             )
 
         return WithdrawalResult(
-            success=False, amount=amount, method=method,
+            success=False,
+            amount=amount,
+            method=method,
             message="Could not find withdrawal option",
         )
 
     async def detect_captcha(self, page: BrowserPage) -> bool:
         content = await page.content()
         indicators = [
-            "captcha", "recaptcha", "hcaptcha", "g-recaptcha",
-            "verify you are human", "prove you are not a robot",
-            "security check", "unusual traffic",
+            "captcha",
+            "recaptcha",
+            "hcaptcha",
+            "g-recaptcha",
+            "verify you are human",
+            "prove you are not a robot",
+            "security check",
+            "unusual traffic",
         ]
         return any(ind in content.lower() for ind in indicators)
 
     def _classify_from_context(self, html: str) -> str:
-        from ..answering.question_classifier import classify
+        from ..answering.question_classifier import classify  # noqa: PLC0415
+
         qtype = classify("", html)
         return qtype.value
 
@@ -335,9 +350,7 @@ class BrandedSurveysAdapter(SiteAdapter):
                 options.append(text)
 
         if not options:
-            items = await page.query_selector_all(
-                "li, .option, .answer-option, [class*='option'], [class*='answer']"
-            )
+            items = await page.query_selector_all("li, .option, .answer-option, [class*='option'], [class*='answer']")
             for item in items:
                 text = await item.evaluate("el => el.textContent?.trim() || ''")
                 if text and 2 < len(text) < 200:
@@ -345,7 +358,7 @@ class BrandedSurveysAdapter(SiteAdapter):
 
         return options if options else None
 
-    async def _answer_radio(self, page: BrowserPage, value: Any, options: list[str] | None) -> bool:
+    async def _answer_radio(self, page: BrowserPage, value: Any, options: list[str] | None) -> bool:  # noqa: ARG002
         val_str = str(value).lower()
         labels = await page.query_selector_all("label")
         for label in labels:
@@ -356,7 +369,7 @@ class BrandedSurveysAdapter(SiteAdapter):
                 return True
         return False
 
-    async def _answer_checkbox(self, page: BrowserPage, value: Any, options: list[str] | None) -> bool:
+    async def _answer_checkbox(self, page: BrowserPage, value: Any, options: list[str] | None) -> bool:  # noqa: ARG002
         values = value if isinstance(value, list) else [value]
         for val in values:
             val_str = str(val).lower()

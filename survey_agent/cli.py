@@ -5,16 +5,15 @@ from __future__ import annotations
 import asyncio
 import logging
 import os
-from pathlib import Path
 
 import typer
 from rich.console import Console
 from rich.table import Table
 
-from .config import AppConfig, load_config, save_config, DATA_DIR
+from .config import DATA_DIR, load_config, save_config
 from .llm_provider import PROVIDERS
-from .profile.store import ProfileStore
 from .profile.categories import CATEGORIES
+from .profile.store import ProfileStore
 
 app = typer.Typer(
     name="survey-agent",
@@ -52,7 +51,7 @@ def profile_setup():
                     try:
                         val = float(answer) if "." in answer else int(answer)
                     except ValueError:
-                        console.print(f"  [red]Invalid number[/red]")
+                        console.print("  [red]Invalid number[/red]")
                         continue
                 elif field.field_type == "boolean":
                     val = answer.lower() in ("yes", "y", "true", "1")
@@ -88,11 +87,14 @@ def profile_update(
 
 # ── Account commands ──
 
+
 @app.command("account")
-def account_setup(
+def account_setup(  # noqa: PLR0913
     google_email: str = typer.Option(None, "--google", "-g", help="Gmail for OAuth logins"),
     paypal_email: str = typer.Option(None, "--paypal", "-p", help="PayPal for withdrawals"),
-    provider: str = typer.Option(None, "--provider", help="LLM provider (gemini, groq, mistral, openai-compatible, cerebras)"),
+    provider: str = typer.Option(
+        None, "--provider", help="LLM provider (gemini, groq, mistral, openai-compatible, cerebras)"
+    ),
     model: str = typer.Option(None, "--model", "-m", help="LLM model name"),
     api_key: str = typer.Option(None, "--api-key", "-k", help="API key for the LLM provider"),
     base_url: str = typer.Option(None, "--base-url", help="Base URL (for openai-compatible providers)"),
@@ -133,7 +135,8 @@ def account_setup(
     if not changed:
         p = config.llm_provider
         pc = PROVIDERS.get(p, {})
-        env_key = pc.get("env_var", "")
+        raw_key = pc.get("env_var", "")
+        env_key = raw_key if isinstance(raw_key, str) else ""
         has_env = bool(os.environ.get(env_key, ""))
         has_config = bool(config.llm_api_key)
 
@@ -153,9 +156,10 @@ def account_setup(
 
 # ── Run commands ──
 
+
 @app.command("run")
 def run_surveys(
-    sites: list[str] = typer.Option([], "--site", "-s", help="Site slugs"),
+    sites: list[str] = typer.Option([], "--site", "-s", help="Site slugs"),  # noqa: B008
     max_surveys: int = typer.Option(5, "--max", "-n", help="Max surveys"),
     headless: bool = typer.Option(False, "--headless/--no-headless"),
     verbose: bool = typer.Option(False, "--verbose", "-v"),
@@ -171,7 +175,8 @@ def run_surveys(
 
     # Resolve API key: config > env var
     pc = PROVIDERS.get(config.llm_provider, {})
-    env_key = pc.get("env_var", "")
+    raw_key = pc.get("env_var", "")
+    env_key = raw_key if isinstance(raw_key, str) else ""
     api_key = config.llm_api_key or os.environ.get(env_key, "")
     if not api_key:
         console.print(f"[red]No API key for {config.llm_provider}[/red]")
@@ -186,14 +191,14 @@ def run_surveys(
     if not config.account.google_email:
         console.print("[yellow]Warning: Google email not set[/yellow]")
 
-    from .orchestrator import SessionOrchestrator
+    from .orchestrator import SessionOrchestrator  # noqa: PLC0415
 
     orchestrator = SessionOrchestrator(max_sessions=1, config=config, headless=headless)
     orchestrator.set_profile(str(DATA_DIR / "profile.json"))
 
     site_list = sites if sites else ["branded-surveys"]
 
-    console.print(f"[bold]Survey Agent[/bold]")
+    console.print("[bold]Survey Agent[/bold]")
     console.print(f"  Provider: {config.llm_provider} ({pc.get('name', '')})")
     console.print(f"  Model: {config.llm_model or pc.get('default_model', '')}")
     console.print(f"  Sites: {', '.join(site_list)}")
@@ -205,7 +210,7 @@ def run_surveys(
 
     results = asyncio.run(orchestrator.run(sites=site_list, max_surveys=max_surveys))
 
-    for i, result in enumerate(results):
+    for _i, result in enumerate(results):
         if "error" in result:
             console.print(f"[red]Error: {result['error']}[/red]")
         else:

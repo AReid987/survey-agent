@@ -32,22 +32,13 @@
     "general_health": "Very good",
     "smoker": "Former",
     "exercise_frequency": "Several times a week",
-    "conditions": [
-      "Other"
-    ],
+    "conditions": ["['Other']"],
     "insurance_type": "Uninsured"
   },
   "shopping": {
     "online_shopping_frequency": "Monthly",
-    "preferred_stores": [
-      "Amazon",
-      "Target",
-      "Costco",
-      "Best Buy"
-    ],
-    "decision_factors": [
-      "Price then Quality"
-    ],
+    "preferred_stores": ["['Amazon'", "'Target'", "'Costco'", "'Best Buy']"],
+    "decision_factors": ["['Price then Quality']"],
     "annual_spending_range": "$1,000-$5,000"
   },
   "politics": {
@@ -59,40 +50,32 @@
     "household_size": 5,
     "children_count": 3,
     "children_ages": "4, 5, 5",
-    "pets": [
-      "None"
-    ]
+    "pets": ["['None']"]
   },
   "technology": {
     "primary_device": "Laptop",
     "os_preference": "macOS",
     "social_media": [
-      "Facebook",
-      "Instagram",
-      "X/Twitter",
-      "LinkedIn",
-      "Reddit",
-      "YouTube"
+      "['Facebook'",
+      "'Instagram'",
+      "'X/Twitter'",
+      "'LinkedIn'",
+      "'Reddit'",
+      "'YouTube']"
     ],
-    "streaming_services": [
-      "Netflix",
-      "Hulu",
-      "HBO Max",
-      "Amazon Prime",
-      "Spotify"
-    ],
+    "streaming_services": ["['Netflix'", "'Hulu'", "'HBO Max'", "'Amazon Prime'", "'Spotify']"],
     "tech_comfort": "Expert"
   },
   "lifestyle": {
     "hobbies": [
-      "Reading",
-      "Gaming",
-      "Cooking",
-      "Travel",
-      "Music",
-      "Art",
-      "Photography",
-      "Other"
+      "['Reading'",
+      "'Gaming'",
+      "'Cooking'",
+      "'Travel'",
+      "'Music'",
+      "'Art'",
+      "'Photography'",
+      "'Other']"
     ],
     "travel_frequency": "Rarely",
     "dining_out_frequency": "Rarely",

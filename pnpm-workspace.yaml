@@ -1,0 +1,16 @@
+allowBuilds:
+  '3': true
+  ',': true
+  '-': true
+  '@biomejs/biome': true
+  b: true
+  d: true
+  e: true
+  i: true
+  l: true
+  lefthook: true
+  q: true
+  r: true
+  s: true
+  t: true
+  u: true

@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-import os
 import logging
+import os
 from typing import Any
 
 logger = logging.getLogger(__name__)
@@ -98,7 +98,8 @@ def get_llm(
 
 
 def _get_gemini(model: str, api_key: str, temperature: float) -> Any:
-    from langchain_google_genai import ChatGoogleGenerativeAI
+    from langchain_google_genai import ChatGoogleGenerativeAI  # noqa: PLC0415
+
     return ChatGoogleGenerativeAI(
         model=model,
         google_api_key=api_key,
@@ -107,7 +108,8 @@ def _get_gemini(model: str, api_key: str, temperature: float) -> Any:
 
 
 def _get_groq(model: str, api_key: str, temperature: float) -> Any:
-    from langchain_groq import ChatGroq
+    from langchain_groq import ChatGroq  # noqa: PLC0415
+
     return ChatGroq(
         model=model,
         groq_api_key=api_key,
@@ -116,7 +118,8 @@ def _get_groq(model: str, api_key: str, temperature: float) -> Any:
 
 
 def _get_mistral(model: str, api_key: str, temperature: float) -> Any:
-    from langchain_mistralai import ChatMistralAI
+    from langchain_mistralai import ChatMistralAI  # noqa: PLC0415
+
     return ChatMistralAI(
         model=model,
         mistral_api_key=api_key,
@@ -125,7 +128,8 @@ def _get_mistral(model: str, api_key: str, temperature: float) -> Any:
 
 
 def _get_openai(model: str, api_key: str, temperature: float) -> Any:
-    from langchain_openai import ChatOpenAI
+    from langchain_openai import ChatOpenAI  # noqa: PLC0415
+
     return ChatOpenAI(
         model=model,
         api_key=api_key,
@@ -134,7 +138,8 @@ def _get_openai(model: str, api_key: str, temperature: float) -> Any:
 
 
 def _get_openai_compatible(model: str, api_key: str, base_url: str, temperature: float) -> Any:
-    from langchain_openai import ChatOpenAI
+    from langchain_openai import ChatOpenAI  # noqa: PLC0415
+
     kwargs = {
         "model": model,
         "api_key": api_key,

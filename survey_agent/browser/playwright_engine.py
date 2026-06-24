@@ -6,10 +6,12 @@ import logging
 from pathlib import Path
 from typing import Any
 
-from playwright.async_api import async_playwright, Browser, BrowserContext as PwContext, Page as PwPage, Playwright
+from playwright.async_api import Browser, Playwright, async_playwright
+from playwright.async_api import BrowserContext as PwContext
+from playwright.async_api import Page as PwPage
 from playwright_stealth import Stealth
 
-from .engine import BrowserEngine, BrowserContext, BrowserPage
+from .engine import BrowserContext, BrowserEngine, BrowserPage
 from .fingerprint import Fingerprint, FingerprintGenerator
 from .human_behavior import HumanBehavior
 

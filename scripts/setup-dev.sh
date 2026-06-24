@@ -16,27 +16,31 @@ command -v python3 >/dev/null 2>&1 || {
     echo "❌ python3 required"
     exit 1
 }
-command -v pip3 >/dev/null 2>&1 || {
-    echo "❌ pip3 required"
+command -v pdm >/dev/null 2>&1 || {
+    echo "❌ pdm required — install via: curl -sSL https://pdm-project.org/install-pdm.py | python3"
+    exit 1
+}
+command -v uv >/dev/null 2>&1 || {
+    echo "❌ uv required — install via: curl -LsSf https://astral.sh/uv/install.sh | sh"
     exit 1
 }
 command -v node >/dev/null 2>&1 || {
     echo "❌ Node.js required (install via nvm or brew)"
     exit 1
 }
-command -v npm >/dev/null 2>&1 || {
-    echo "❌ npm required"
+command -v pnpm >/dev/null 2>&1 || {
+    echo "❌ pnpm required — install via: npm i -g pnpm"
     exit 1
 }
 
 echo "   ✅ Python $(python3 --version)"
 echo "   ✅ Node $(node --version)"
+echo "   ✅ pnpm $(pnpm --version)"
 
-# ── Install Python deps (PDM) ────────────────────────────────────
+# ── Install Python deps (PDM with uv) ────────────────────────────
 echo ""
 echo "📦 Installing Python dependencies..."
-pip3 install pdm --quiet
-pdm install -d
+pdm install -d --frozen --no-self 2>/dev/null || pdm install -d
 echo "   ✅ Python deps installed"
 
 # ── Install Playwright browsers ──────────────────────────────────
@@ -48,13 +52,13 @@ echo "   ✅ Playwright installed"
 # ── Install JS deps (czg, lefthook, prettier, etc.) ────────────
 echo ""
 echo "📦 Installing Node.js tooling..."
-npm install
+pnpm install
 echo "   ✅ Node tooling installed (lefthook, czg, commitizen, commitlint, prettier, biome)"
 
 # ── Verify lefthook hooks are installed ──────────────────────────
 echo ""
 echo "🔗 Verifying git hooks..."
-npx lefthook install 2>/dev/null || true
+pnpm exec lefthook install 2>/dev/null || true
 echo "   ✅ Git hooks active"
 
 # ── Final summary ────────────────────────────────────────────────
@@ -63,10 +67,10 @@ echo "========================================="
 echo "  ✅ Setup complete!"
 echo "========================================="
 echo ""
-echo "  📝 Commit helper:     npm run commit    (czg)"
+echo "  📝 Commit helper:     pnpm commit        (czg)"
 echo "  🧪 Run tests:         pdm run pytest"
 echo "  🐍 Lint Python:       pdm run ruff check"
-echo "  ✨ Format all:        npm run format    (prettier)"
+echo "  ✨ Format all:        pnpm format         (prettier)"
 echo ""
 echo "  Next: configure your Git remote and profile:"
 echo "    survey-agent profile setup"

@@ -33,7 +33,7 @@ class HumanBehavior:
         await page.click(selector)
         await self.random_delay(0.3)
 
-        for i, char in enumerate(text):
+        for _i, char in enumerate(text):
             # Base typing speed: 50-150ms per character
             base_delay = self._rng.uniform(0.05, 0.15)
 

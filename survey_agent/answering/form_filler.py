@@ -17,13 +17,13 @@ class FormFiller:
     def __init__(self, behavior: HumanBehavior | None = None):
         self._behavior = behavior or HumanBehavior()
 
-    async def fill(
+    async def fill(  # noqa: PLR0911
         self,
         page: BrowserPage,
         question_type: QuestionType,
         selector: str,
         value: Any,
-        options: list[str] | None = None,
+        _options: list[str] | None = None,
     ) -> bool:
         """Fill a form element based on its type.
 
@@ -40,9 +40,9 @@ class FormFiller:
         try:
             match question_type:
                 case QuestionType.RADIO:
-                    return await self._fill_radio(page, selector, value, options)
+                    return await self._fill_radio(page, selector, value, _options)
                 case QuestionType.CHECKBOX:
-                    return await self._fill_checkbox(page, selector, value, options)
+                    return await self._fill_checkbox(page, selector, value, _options)
                 case QuestionType.TEXT | QuestionType.OPEN_ENDED:
                     return await self._fill_text(page, selector, str(value))
                 case QuestionType.TEXTAREA:
@@ -61,8 +61,8 @@ class FormFiller:
             print(f"Form fill error: {e}")
             return False
 
-    async def _fill_radio(
-        self, page: BrowserPage, container_selector: str, value: Any, options: list[str] | None
+    async def _fill_radio(  # noqa: ARG002
+        self, page: BrowserPage, container_selector: str, value: Any, _options: list[str] | None
     ) -> bool:
         """Click a radio button matching the value."""
         # Try to find radio inputs within the container
@@ -96,7 +96,7 @@ class FormFiller:
         return False
 
     async def _fill_checkbox(
-        self, page: BrowserPage, container_selector: str, value: Any, options: list[str] | None
+        self, page: BrowserPage, container_selector: str, value: Any, _options: list[str] | None
     ) -> bool:
         """Check checkbox(es) matching the value."""
         values = value if isinstance(value, list) else [value]

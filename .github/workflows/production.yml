@@ -15,20 +15,20 @@ on:
         required: true
 
 env:
-  PYTHON_VERSION: "3.11"
-  NODE_VERSION: "22"
+  PYTHON_VERSION: '3.11'
+  NODE_VERSION: '22'
   DEPLOY_ENV: production
 
 jobs:
   # ── Reuse CI quality gates ───────────────────────────────────
   ci:
-    name: "🔁 CI Quality Gates"
+    name: '🔁 CI Quality Gates'
     uses: ./.github/workflows/ci.yml
     secrets: inherit
 
   # ── Deploy to Production (requires environment approval) ─────
   deploy-production:
-    name: "🚀 Deploy to Production"
+    name: '🚀 Deploy to Production'
     needs: [ci]
     runs-on: ubuntu-latest
     environment:

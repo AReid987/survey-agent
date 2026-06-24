@@ -2,11 +2,9 @@
 
 from __future__ import annotations
 
-import asyncio
 import logging
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable
 
 from browser_use import Agent, Browser, BrowserConfig, Controller
 
@@ -34,7 +32,7 @@ class BrowserAgent:
     and the agent figures out how to accomplish them.
     """
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         llm_provider: str = "gemini",
         llm_model: str | None = None,
@@ -177,7 +175,7 @@ class SurveyAgent:
     async def stop(self) -> None:
         await self._browser_agent.stop()
 
-    async def login(self, site_url: str, site_name: str) -> AgentResult:
+    async def login(self, site_url: str, _site_name: str) -> AgentResult:
         """Log into a survey site. Agent figures out the flow dynamically."""
         task = f"""Navigate to {site_url} and log in.
 

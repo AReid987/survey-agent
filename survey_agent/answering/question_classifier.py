@@ -3,10 +3,10 @@
 from __future__ import annotations
 
 import re
-from enum import Enum
+from enum import StrEnum
 
 
-class QuestionType(str, Enum):
+class QuestionType(StrEnum):
     RADIO = "radio"
     CHECKBOX = "checkbox"
     TEXT = "text"
@@ -47,7 +47,7 @@ _PATTERNS = [
 ]
 
 
-def classify(question_text: str, html_context: str = "") -> QuestionType:
+def classify(question_text: str, html_context: str = "") -> QuestionType:  # noqa: PLR0911
     """Classify a question type from its text and optional HTML context.
 
     Uses keyword pattern matching. For higher accuracy, pass HTML context
@@ -80,7 +80,7 @@ def classify(question_text: str, html_context: str = "") -> QuestionType:
     return QuestionType.TEXT
 
 
-def classify_from_page_elements(elements: list[dict]) -> QuestionType:
+def classify_from_page_elements(elements: list[dict]) -> QuestionType:  # noqa: PLR0911
     """Classify based on actual page form elements.
 
     Args:

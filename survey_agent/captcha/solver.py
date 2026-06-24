@@ -5,14 +5,14 @@ from __future__ import annotations
 import re
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     pass
 
 
-class CaptchaType(str, Enum):
+class CaptchaType(StrEnum):
     ARITHMETIC = "arithmetic"
     IMAGE_SLIDER = "image_slider"
     IMAGE_SELECT = "image_select"
@@ -88,7 +88,7 @@ class LLMVisionSolver(CaptchaTier):
     def __init__(self, llm_fn: Any = None):
         self._llm_fn = llm_fn  # callable(prompt, image_bytes) -> str
 
-    async def can_solve(self, challenge: CaptchaChallenge) -> bool:
+    async def can_solve(self, challenge: CaptchaChallenge) -> bool:  # noqa: ARG002 -> bool:
         return (
             challenge.captcha_type
             in (
@@ -120,7 +120,7 @@ What is the answer? Reply with just the answer text."""
 class ManualVNCFallback(CaptchaTier):
     """Manual CAPTCHA solving via VNC — alert user and wait for manual intervention."""
 
-    async def can_solve(self, challenge: CaptchaChallenge) -> bool:
+    async def can_solve(self, challenge: CaptchaChallenge) -> bool:  # noqa: ARG002 -> bool:
         return True  # always available as last resort
 
     async def solve(self, challenge: CaptchaChallenge) -> CaptchaSolution:
@@ -180,7 +180,7 @@ class APICaptchaSolver(CaptchaTier):
         self._api_key = api_key
         self._provider = provider
 
-    async def can_solve(self, challenge: CaptchaChallenge) -> bool:
+    async def can_solve(self, challenge: CaptchaChallenge) -> bool:  # noqa: ARG002 -> bool:
         return challenge.captcha_type in (CaptchaType.HCAPTCHA, CaptchaType.RECAPTCHA)
 
     async def solve(self, challenge: CaptchaChallenge) -> CaptchaSolution:

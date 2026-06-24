@@ -139,14 +139,14 @@ class SiteAdapter(ABC):
         """Attempt a withdrawal."""
         ...
 
-    async def detect_captcha(self, page: BrowserPage) -> bool:
+    async def detect_captcha(self, page: BrowserPage) -> bool:  # noqa: ARG002 -> bool:
         """Detect if a CAPTCHA is present on the page. Override for site-specific detection."""
         return False
 
-    async def is_logged_in(self, page: BrowserPage) -> bool:
+    async def is_logged_in(self, page: BrowserPage) -> bool:  # noqa: ARG002 -> bool:
         """Check if currently logged in. Override for site-specific detection."""
         return False
 
-    async def logout(self, page: BrowserPage) -> None:
+    async def logout(self, page: BrowserPage) -> None:  # noqa: B027
         """Logout. Override for site-specific logout flow."""
         pass

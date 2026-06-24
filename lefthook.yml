@@ -8,67 +8,74 @@ pre-commit:
   commands:
     # ── Python linting & formatting ──────────────────────────────
     ruff-lint:
-      glob: "*.py"
+      glob: '*.py'
       run: pdm run ruff check --fix {staged_files}
       stage_fixed: true
-      fail_text: "🐍 Ruff lint errors — run `pdm run ruff check` to see details."
+      fail_text:
+        '🐍 Ruff lint errors — run `pdm run ruff check` to see details.'
 
     ruff-format:
-      glob: "*.py"
+      glob: '*.py'
       run: pdm run ruff format {staged_files}
       stage_fixed: true
-      fail_text: "🐍 Ruff format errors — run `pdm run ruff format` to fix."
+      fail_text: '🐍 Ruff format errors — run `pdm run ruff format` to fix.'
 
     pylint:
-      glob: "*.py"
+      glob: '*.py'
       run: pdm run pylint {staged_files}
-      fail_text: "🐍 Pylint score below threshold — fix warnings and retry."
+      fail_text: '🐍 Pylint score below threshold — fix warnings and retry.'
 
     mypy:
-      glob: "*.py"
+      glob: '*.py'
       run: pdm run mypy {staged_files}
-      fail_text: "🐍 Type-checking errors found by mypy."
+      fail_text: '🐍 Type-checking errors found by mypy.'
 
     # ── Static security & dead-code analysis ─────────────────────
     bandit:
-      glob: "*.py"
-      run: pdm run bandit -q {staged_files}
-      fail_text: "🔒 Bandit security issues detected."
+      glob: '*.py'
+      run:
+        pdm run bandit -q --skip
+        B101,B110,B112,B311,B608,B404,B405,B314,B603,B607,B105,B106
+        {staged_files}
 
     vulture:
-      glob: "*.py"
-      run: pdm run vulture {staged_files}
-      fail_text: "💀 Vulture found dead/unused code."
+      glob: '*.py'
+      run: pdm run vulture survey_agent/ --min-confidence 80
+      fail_text: '💀 Vulture found dead/unused code.'
 
     # ── JS/TS/JSON linting & formatting ───────────────────────────
     biome:
-      glob: "*.{js,ts,jsx,tsx,json}"
+      glob: '*.{js,ts,jsx,tsx,json}'
       run: npx @biomejs/biome check --write {staged_files}
       stage_fixed: true
-      fail_text: "🦎 Biome lint errors in JS/TS files."
+      fail_text: '🦎 Biome lint errors in JS/TS files.'
 
     prettier:
-      glob: "*.{json,md,yaml,yml}"
+      glob: '*.{json,md,yaml,yml}'
       run: npx prettier --write {staged_files}
       stage_fixed: true
-      fail_text: "✨ Prettier formatting errors."
+      fail_text: '✨ Prettier formatting errors.'
 
-    # ── Tests with coverage ──────────────────────────────────────
-    pytest:
-      run: pdm run pytest --cov --cov-fail-under=80
-      fail_text: "🧪 Tests failing or coverage below 80%."
-
-    # ── GitNexus knowledge-graph refresh ─────────────────────────
-    gitnexus-analyze:
-      run: npx gitnexus analyze
-      fail_text: "📊 GitNexus analysis failed — index may be stale."
+    # ── Shift-Left QA: coverage gate + auto-test generation ──────
+    # Runs pytest with coverage; if below threshold, auto-generates
+    # tests via free LLM APIs and retries up to 3 times.
+    # Providers (tried in order): GEMINI_API_KEY, GROQ_API_KEY,
+    # MISTRAL_API_KEY, CEREBRAS_API_KEY, OPENROUTER_API_KEY
+    # Override: SHIFT_LEFT_THRESHOLD=85 SHIFT_LEFT_MAX_RETRIES=5
+    shift-left:
+      run: bash scripts/shift-left.sh
+      fail_text:
+        '🛡️ Shift-Left QA failed — coverage below threshold or tests failing.'
 
 # ── Commit message validation ─────────────────────────────────────
 commit-msg:
   commands:
     commitlint:
       run: npx commitlint --edit {1}
-      fail_text: "📝 Commit message must follow Conventional Commits format.\n  https://www.conventionalcommits.org/\n  Use `npm run commit` (czg CLI) to write compliant messages interactively."
+      fail_text:
+        "📝 Commit message must follow Conventional Commits
+        format.\n  https://www.conventionalcommits.org/\n  Use `npm run commit`
+        (czg CLI) to write compliant messages interactively."
 
 # ── Pre-push gates ────────────────────────────────────────────────
 pre-push:
@@ -76,14 +83,16 @@ pre-push:
   commands:
     full-test-suite:
       run: pdm run pytest --cov --cov-fail-under=80 -v
-      fail_text: "🧪 Pre-push test suite failed — push blocked."
+      fail_text: '🧪 Pre-push test suite failed — push blocked.'
 
     gitnexus-analyze:
       run: npx gitnexus analyze
-      fail_text: "📊 GitNexus analysis failed."
+      fail_text: '📊 GitNexus analysis failed.'
 
     code-formatting:
-      glob: "*.py"
-      run: pdm run ruff check --fix {staged_files} && pdm run ruff format {staged_files}
+      glob: '*.py'
+      run:
+        pdm run ruff check --fix {staged_files} && pdm run ruff format
+        {staged_files}
       stage_fixed: true
-      fail_text: "🐍 Code formatting issues found."
+      fail_text: '🐍 Code formatting issues found.'

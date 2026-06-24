@@ -1,21 +1,10 @@
 account:
   google_email: read.musik@gmail.com
   paypal_email: musicmusiq@live.com
-anti_detection:
-  fingerprint_rotation: true
-  human_delays: true
-  max_delay_ms: 2500
-  min_delay_ms: 500
-  proxy_list: []
-captcha:
-  api_enabled: false
-  api_key: ''
-  api_provider: ''
-  llm_vision_enabled: true
-  vnc_fallback: true
-  vnc_port: 5900
-llm_model: gpt-4o-mini
-llm_provider: openai
+llm_api_key: sk-cp-avCs4hbiHfZmu-EOZ-K9fyovdENYwz7bop7f4ZurO892Usb3bv1JpJW00ggf-KhcdZ3jFReAaTDdql5feSVDoTxjzTKMXyiHZdQcPjWBzgWRDE3yv6lOCYs
+llm_base_url: https://api.minimax.io/v1
+llm_model: MiniMax-M3
+llm_provider: openai-compatible
 max_concurrent_sessions: 1
 schedule:
   heartbeat_interval_seconds: 30
@@ -27,4 +16,3 @@ schedule:
   min_session_minutes: 15
   sleep_time: '23:00'
   wake_time: 08:00
-sites: {}

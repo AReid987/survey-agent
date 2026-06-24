@@ -19,7 +19,7 @@ permissions:
 
 jobs:
   gemini-review:
-    name: "🤖 Gemini AI Review"
+    name: '🤖 Gemini AI Review'
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
 

@@ -42,14 +42,14 @@ def build_interview_questions() -> list[dict]:
     return questions
 
 
-def apply_answer(
+def apply_answer(  # noqa: PLR0911, PLR0913, PLR0912
     store: ProfileStore, category: str, field_key: str, answer: str, field_type: str, options: list[str] | None = None
 ) -> bool:
     """Apply an answer to the profile store. Returns True if valid."""
     dotted_key = f"{category}.{field_key}"
 
     if field_type == "boolean":
-        val = answer.strip().lower() in ("yes", "y", "true", "1")
+        val: bool | int | float = answer.strip().lower() in ("yes", "y", "true", "1")
         store.set(dotted_key, val, source="interview")
         return True
     elif field_type == "number":

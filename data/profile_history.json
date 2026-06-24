@@ -178,9 +178,7 @@
     "timestamp": "2026-06-22T06:39:05.967408+00:00",
     "key": "health.conditions",
     "old_value": null,
-    "new_value": [
-      "Other"
-    ],
+    "new_value": ["Other"],
     "source": "interview"
   },
   {
@@ -201,21 +199,14 @@
     "timestamp": "2026-06-22T06:39:32.546258+00:00",
     "key": "shopping.preferred_stores",
     "old_value": null,
-    "new_value": [
-      "Amazon",
-      "Target",
-      "Costco",
-      "Best Buy"
-    ],
+    "new_value": ["Amazon", "Target", "Costco", "Best Buy"],
     "source": "interview"
   },
   {
     "timestamp": "2026-06-22T06:39:45.962275+00:00",
     "key": "shopping.decision_factors",
     "old_value": null,
-    "new_value": [
-      "Price then Quality"
-    ],
+    "new_value": ["Price then Quality"],
     "source": "interview"
   },
   {
@@ -271,9 +262,7 @@
     "timestamp": "2026-06-22T06:40:59.466851+00:00",
     "key": "household.pets",
     "old_value": null,
-    "new_value": [
-      "None"
-    ],
+    "new_value": ["None"],
     "source": "interview"
   },
   {
@@ -294,27 +283,14 @@
     "timestamp": "2026-06-22T06:41:31.698714+00:00",
     "key": "technology.social_media",
     "old_value": null,
-    "new_value": [
-      "Facebook",
-      "Instagram",
-      "X/Twitter",
-      "LinkedIn",
-      "Reddit",
-      "YouTube"
-    ],
+    "new_value": ["Facebook", "Instagram", "X/Twitter", "LinkedIn", "Reddit", "YouTube"],
     "source": "interview"
   },
   {
     "timestamp": "2026-06-22T06:42:05.563578+00:00",
     "key": "technology.streaming_services",
     "old_value": null,
-    "new_value": [
-      "Netflix",
-      "Hulu",
-      "HBO Max",
-      "Amazon Prime",
-      "Spotify"
-    ],
+    "new_value": ["Netflix", "Hulu", "HBO Max", "Amazon Prime", "Spotify"],
     "source": "interview"
   },
   {
@@ -328,16 +304,7 @@
     "timestamp": "2026-06-22T06:42:49.721361+00:00",
     "key": "lifestyle.hobbies",
     "old_value": null,
-    "new_value": [
-      "Reading",
-      "Gaming",
-      "Cooking",
-      "Travel",
-      "Music",
-      "Art",
-      "Photography",
-      "Other"
-    ],
+    "new_value": ["Reading", "Gaming", "Cooking", "Travel", "Music", "Art", "Photography", "Other"],
     "source": "interview"
   },
   {
@@ -359,6 +326,71 @@
     "key": "lifestyle.alcohol_consumption",
     "old_value": null,
     "new_value": "Never",
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-24T08:21:23.176522+00:00",
+    "key": "health.conditions",
+    "old_value": ["Other"],
+    "new_value": ["['Other']"],
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-24T08:21:25.479404+00:00",
+    "key": "shopping.preferred_stores",
+    "old_value": ["Amazon", "Target", "Costco", "Best Buy"],
+    "new_value": ["['Amazon'", "'Target'", "'Costco'", "'Best Buy']"],
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-24T08:21:26.259702+00:00",
+    "key": "shopping.decision_factors",
+    "old_value": ["Price then Quality"],
+    "new_value": ["['Price then Quality']"],
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-24T08:21:28.984694+00:00",
+    "key": "household.pets",
+    "old_value": ["None"],
+    "new_value": ["['None']"],
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-24T08:21:29.859694+00:00",
+    "key": "technology.social_media",
+    "old_value": ["Facebook", "Instagram", "X/Twitter", "LinkedIn", "Reddit", "YouTube"],
+    "new_value": [
+      "['Facebook'",
+      "'Instagram'",
+      "'X/Twitter'",
+      "'LinkedIn'",
+      "'Reddit'",
+      "'YouTube']"
+    ],
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-24T08:21:30.193141+00:00",
+    "key": "technology.streaming_services",
+    "old_value": ["Netflix", "Hulu", "HBO Max", "Amazon Prime", "Spotify"],
+    "new_value": ["['Netflix'", "'Hulu'", "'HBO Max'", "'Amazon Prime'", "'Spotify']"],
+    "source": "interview"
+  },
+  {
+    "timestamp": "2026-06-24T08:21:30.828755+00:00",
+    "key": "lifestyle.hobbies",
+    "old_value": ["Reading", "Gaming", "Cooking", "Travel", "Music", "Art", "Photography", "Other"],
+    "new_value": [
+      "['Reading'",
+      "'Gaming'",
+      "'Cooking'",
+      "'Travel'",
+      "'Music'",
+      "'Art'",
+      "'Photography'",
+      "'Other']"
+    ],
     "source": "interview"
   }
 ]

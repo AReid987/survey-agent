@@ -10,11 +10,11 @@ arrowParens: always
 proseWrap: always
 endOfLine: lf
 overrides:
-  - files: "*.md"
+  - files: '*.md'
     options:
       proseWrap: always
       printWidth: 80
-  - files: "*.{yaml,yml}"
+  - files: '*.{yaml,yml}'
     options:
       singleQuote: true
       printWidth: 80

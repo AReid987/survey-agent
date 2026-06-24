@@ -10,7 +10,7 @@ on:
 
 jobs:
   review:
-    name: "🐰 CodeRabbit Review"
+    name: '🐰 CodeRabbit Review'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

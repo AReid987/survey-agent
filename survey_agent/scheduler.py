@@ -3,18 +3,18 @@
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import logging
 import random
-import signal
-from dataclasses import dataclass, field
-from datetime import datetime, time, timedelta, timezone
-from enum import Enum
-from typing import Any, Callable
+from collections.abc import Callable
+from dataclasses import dataclass
+from datetime import UTC, datetime, time, timedelta, timezone
+from enum import StrEnum
 
 logger = logging.getLogger(__name__)
 
 
-class SessionState(str, Enum):
+class SessionState(StrEnum):
     WORKING = "working"
     BREAK = "break"
     LUNCH = "lunch"
@@ -28,7 +28,7 @@ class ScheduleConfig:
     """Configuration for realistic work schedule."""
 
     # Work hours (when the agent is "awake" and active)
-    wake_time: time = time(8, 0)   # 8:00 AM
+    wake_time: time = time(8, 0)  # 8:00 AM
     sleep_time: time = time(23, 0)  # 11:00 PM
 
     # Work session parameters
@@ -49,7 +49,7 @@ class ScheduleConfig:
     heartbeat_interval_seconds: int = 30
 
     # Timezone
-    timezone: timezone = timezone.utc
+    timezone: timezone = UTC
 
 
 @dataclass
@@ -111,7 +111,7 @@ class Scheduler:
                     sleep_until = self._next_wake_time(now)
                     sleep_seconds = (sleep_until - now).total_seconds()
                     if sleep_seconds > 0:
-                        logger.info(f"Sleeping until {self._config.wake_time} ({sleep_seconds/3600:.1f}h)")
+                        logger.info(f"Sleeping until {self._config.wake_time} ({sleep_seconds / 3600:.1f}h)")
                         await self._interruptible_sleep(sleep_seconds)
                     continue
 
@@ -138,7 +138,7 @@ class Scheduler:
                             self._work_fn(),
                             timeout=session_seconds,
                         )
-                    except asyncio.TimeoutError:
+                    except TimeoutError:
                         pass  # Normal — session time limit reached
                     except Exception as e:
                         logger.error(f"Work session error: {e}")
@@ -174,10 +174,8 @@ class Scheduler:
 
     async def _interruptible_sleep(self, seconds: float) -> None:
         """Sleep that can be interrupted by stop()."""
-        try:
+        with contextlib.suppress(TimeoutError):
             await asyncio.wait_for(self._stop_event.wait(), timeout=seconds)
-        except asyncio.TimeoutError:
-            pass  # Normal wakeup
 
     def _should_sleep(self, current_time: time) -> bool:
         """Check if the agent should be sleeping."""
@@ -193,7 +191,8 @@ class Scheduler:
         wake = now.replace(
             hour=self._config.wake_time.hour,
             minute=self._config.wake_time.minute,
-            second=0, microsecond=0,
+            second=0,
+            microsecond=0,
         )
         if wake <= now:
             wake += timedelta(days=1)
