@@ -33,6 +33,15 @@ package-lock.json
 # are installable per machine.
 .claude/commands/
 
+# ── Brain foundation (profile-derived data, LLM-generated proposals) ──
+# Spec: docs/superpowers/specs/2026-07-16-brain-foundation-design.md
+# data/brain/ contains events.jsonl, brain.db (SQLite WAL),
+# rules.yaml (LLM-generated), persona_hints.json (LLM-generated),
+# diffs/*.json (before/after snapshots of profile.json — sensitive),
+# last_digest.txt, paused.
+data/brain/
+!data/brain/.gitkeep
+
 # ── GitNexus ─────────────────────────────────────────────────────
 .gitnexus/*.db
 .gitnexus/*.sqlite
