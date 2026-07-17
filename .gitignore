@@ -28,6 +28,11 @@ package-lock.json
 *~
 .DS_Store
 
+# ── Per-machine Claude Code commands (SEED, etc.) ─────────────────
+# `.claude/skills/` is project-tracked (shared skills); `.claude/commands/`
+# are installable per machine.
+.claude/commands/
+
 # ── GitNexus ─────────────────────────────────────────────────────
 .gitnexus/*.db
 .gitnexus/*.sqlite
@@ -40,6 +45,7 @@ megalinter-reports/
 
 # ── Playwright / Browser session data ────────────────────────────
 data/browser_session/
+data/camoufox_session/
 
 # ── Environment ──────────────────────────────────────────────────
 .env
