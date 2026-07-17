@@ -34,6 +34,15 @@ class AccountConfig(BaseModel):
     paypal_email: str = ""
 
 
+class BrainConfig(BaseModel):
+    """Brain foundation configuration (spec §4.3)."""
+
+    interval_hours: int = 6
+    events_per_digest: int = 200
+    max_per_day: int = 4
+    promotion_threshold: int = 3
+
+
 class AppConfig(BaseModel):
     """Root application configuration."""
 
@@ -41,11 +50,41 @@ class AppConfig(BaseModel):
     schedule: ScheduleConfig = Field(default_factory=ScheduleConfig)
     account: AccountConfig = Field(default_factory=AccountConfig)
 
-    # LLM provider settings
+    # LLM provider settings (default for all backends)
     llm_provider: str = "gemini"  # gemini, groq, mistral, openai, openai-compatible, cerebras
     llm_model: str = ""  # uses provider default if empty
     llm_api_key: str = ""  # or set provider-specific env var
     llm_base_url: str = ""  # for openai-compatible providers
+
+    # Browser backend: "browser-use" (LLM+Playwright) or "browser-harness" (real Chrome)
+    browser_backend: str = "browser-use"
+
+    # Override LLM for browser-harness (falls back to global llm_* if empty)
+    harness_llm_provider: str = ""
+    harness_llm_model: str = ""
+    harness_llm_api_key: str = ""
+    harness_llm_base_url: str = ""
+
+    # Brain foundation (autonomous digest triggers)
+    brain: BrainConfig = Field(default_factory=BrainConfig)
+
+    def harness_llm_settings(self) -> dict:
+        """Return harness LLM settings, falling back to global.
+
+        Note: llm_base_url only falls back if the provider is openai-compatible.
+        For named providers (groq, cerebras, mistral), the base URL is set by
+        the provider config and should NOT inherit from the global setting.
+        """
+        provider = self.harness_llm_provider or self.llm_provider
+        base_url = self.harness_llm_base_url
+        if not base_url and provider == "openai-compatible":
+            base_url = self.llm_base_url
+        return {
+            "llm_provider": provider,
+            "llm_model": self.harness_llm_model or self.llm_model or None,
+            "llm_api_key": self.harness_llm_api_key or self.llm_api_key or None,
+            "llm_base_url": base_url or None,
+        }
 
 
 def load_config() -> AppConfig:
