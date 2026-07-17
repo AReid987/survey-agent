@@ -54,6 +54,51 @@ The brain package is purely additive — no existing module is rewritten, only `
 
 ---
 
+## Task 0: Update .gitignore for Brain Data
+
+**Files:**
+- Modify: `.gitignore`
+
+This task runs **before Task 1** so every subsequent brain commit stays
+clean. The brain generates files that contain profile-derived data and
+LLM-generated proposals that should not enter version control:
+`data/brain/events.jsonl`, `data/brain/brain.db`, `data/brain/brain.db-*`,
+`data/brain/diffs/`, `data/brain/last_digest.txt`, `data/brain/paused`.
+The diffs, in particular, contain `before` and `after` snapshots of
+`profile.json` — sensitive if committed.
+
+- [ ] **Step 1: Verify entries are absent**
+
+Run:
+```bash
+grep -E "^data/brain/" .gitignore || echo "MISSING"
+```
+Expected: prints `MISSING`.
+
+- [ ] **Step 2: Append a single block to `.gitignore`**
+
+Append after the existing `# ── Playwright / Browser session data ──` block:
+
+```gitignore
+
+# ── Brain foundation (profile-derived data, LLM-generated proposals) ──
+data/brain/
+!data/brain/.gitkeep
+```
+
+The `.gitkeep` exception lets the directory itself exist on checkout even
+if a fresh clone has no brain yet. Test fixtures create the brain dir
+under `tmp_data_dir`, so production paths are unaffected.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add .gitignore
+git commit -m "chore: gitignore data/brain to keep profile-derived data local"
+```
+
+---
+
 ## Task 1: Pydantic Schemas + Denylist Definition
 
 **Files:**
@@ -212,14 +257,26 @@ class EventRecord(BaseModel):
 
 
 class Promotion(BaseModel):
-    event_id: str = Field(pattern=r"^[0-9a-fA-F-]{36}$")
-    site: str
-    event_type: str
-    context_hash: str
+    """A signature-level promotion (spec Appendix C).
+
+    A promotion is keyed on the failure signature (site, event_type,
+    context_hash) — not on a single event_id — because re-occurrences of the
+    same signature increment one promotion row's count, not create new rows.
+    """
+
+    site: str = Field(min_length=1, max_length=64)
+    event_type: str = Field(min_length=1, max_length=64)
+    context_hash: str = Field(pattern=r"^[0-9a-fA-F]{64}$")
     status: Literal["pending_digest", "digested"]
     count: int = Field(ge=1)
     first_seen_at: str
     last_seen_at: str
+
+    @field_validator("first_seen_at", "last_seen_at")
+    @classmethod
+    def _validate_iso8601(cls, v: str) -> str:
+        datetime.fromisoformat(v.replace("Z", "+00:00"))
+        return v
 
 
 class PersonaHint(BaseModel):
@@ -557,13 +614,15 @@ logger = logging.getLogger(__name__)
 # conservative 512 to be portable.
 PIPE_BUF_BYTES = 512
 
-# Per-process advisory lock for concurrent appends on the same session.
-# 0 means append is always allowed; any positive int is the writer id.
-_APPEND_LOCK = 0
-
 
 class SerializationTooLargeError(RuntimeError):
-    """A single event serialized above PIPE_BUF_BYTES — caller must split."""
+    """A single event serialized above PIPE_BUF_BYTES — caller must split.
+
+    Per spec §3.1 / Appendix C, the caller decides whether to split into
+    multiple smaller events or fall back to per-session JSONL. There is
+    no per-process advisory lock; `O_APPEND` on POSIX is the actual
+    concurrency guarantee.
+    """
 
 
 class FailureStore:
@@ -758,7 +817,6 @@ class FailureStore:
         rows = cur.fetchall()
         return [
             Promotion(
-                event_id="0" * 32,  # placeholder; promotion is keyed on signature, not event_id
                 site=r["site"],
                 event_type=r["event_type"],
                 context_hash=r["context_hash"],
@@ -781,23 +839,8 @@ Expected: 4 passed.
 - [ ] **Step 5: Run lint**
 
 Run: `ruff check survey_agent/brain/store.py tests/brain/test_store.py tests/brain/conftest.py`
-
-If ruff complains about the synthetic UUID workaround, add a `# noqa: PLR2004` or split `Promotion` into two models (signature-level + event-level). Pick the split path if needed:
-
-```python
-# In schemas.py — replace Promotion with:
-class Promotion(BaseModel):
-    """A signature-level promotion, not tied to a single event."""
-    site: str
-    event_type: str
-    context_hash: str
-    status: Literal["pending_digest", "digested"]
-    count: int = Field(ge=1)
-    first_seen_at: str
-    last_seen_at: str
-```
-
-…and update `event_id` references in `store.py` to remove it. Re-run tests.
+Expected: clean. If ruff complains about anything besides a synthetic UUID
+line that has already been removed, fix in this task before continuing.
 
 - [ ] **Step 6: Commit**
 
@@ -975,8 +1018,11 @@ def test_record_is_idempotent_under_repeated_calls(tmp_data_dir):
 def test_record_never_raises_even_on_bad_input(tmp_data_dir, caplog):
     # Missing required fields should not crash
     brain.record(site=None, event_type="captcha_failed")  # type: ignore[arg-type]
-    # Should log a warning, not raise
-    assert any("brain" in r.message or "record" in r.message for r in caplog.records)
+    # The implementation wraps the whole body in `try/except Exception: log`,
+    # so we expect a log record from the `brain` logger with `record` in the
+    # message text AND no exception bubbles up to the test runner.
+    matching = [r for r in caplog.records if r.name == "survey_agent.brain" and "record" in r.message.lower()]
+    assert matching, f"expected a swallowed-log record, got: {caplog.records!r}"
 
 
 def test_query_recent_returns_empty_on_no_data(tmp_data_dir):
@@ -1794,6 +1840,25 @@ def run_digest(
                     store.recent(site=p.site, event_type=p.event_type, limit=p.count)
                 )
 
+            # Volume-only triggers fire with no promotions but plenty of
+            # recent events. We must collect those too.
+            if not recent:
+                cur = store.connection.cursor()
+                cur.execute(
+                    """
+                    SELECT payload_json FROM events
+                    WHERE created_at > datetime('now', '-7 days')
+                    ORDER BY created_at DESC
+                    LIMIT ?
+                    """,
+                    (config.events_per_digest if config else 200,),
+                )
+                for r in cur.fetchall():
+                    try:
+                        recent.append(EventRecord.model_validate_json(r["payload_json"]))
+                    except Exception:
+                        logger.exception("brain: skipping bad event row")
+
             if not promotions and not recent:
                 summary["status"] = "skipped_no_signal"
                 summary["finished_at"] = _now_iso()
@@ -2227,15 +2292,40 @@ def _event_count_since(store: FailureStore, since_iso: str) -> int:
     return row["c"] if hasattr(row, "keys") else row[0]
 
 
-def _digests_in_last_24h(brain_dir: Path) -> int:
+def _digests_in_last_24h(brain_dir: Path, tail_lines: int = 500) -> int:
+    """Count digest runs in the last 24h, scanning only the tail of the log.
+
+    The full log can grow indefinitely; reading all of it on every session
+    start is O(n). Capping at `tail_lines` trades a tiny accuracy loss in
+    pathological cases (>500 digests/day) for bounded cost. With the spec
+    default of `max_per_day=4`, hitting the cap is impossible in normal use.
+    """
     runs_path = brain_dir / "digest_runs.jsonl"
     if not runs_path.exists():
         return 0
     cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
     count = 0
-    for line in runs_path.read_text().splitlines():
+    # Read last N lines cheaply by seeking from EOF.
+    try:
+        with open(runs_path, "rb") as f:
+            f.seek(0, os.SEEK_END)
+            size = f.tell()
+            # Read up to ~64 KiB at a time until we have tail_lines newlines
+            lines_needed = tail_lines + 1
+            block = b""
+            pos = size
+            while pos > 0 and lines_needed > 0:
+                read_size = min(64 * 1024, pos)
+                pos -= read_size
+                f.seek(pos)
+                block = f.read(read_size) + block
+                lines_needed = 0  # one block read is enough for tail_lines
+            recent_lines = block.splitlines()[-tail_lines:]
+    except OSError:
+        return 0
+    for line_bytes in recent_lines:
         try:
-            entry = json.loads(line)
+            entry = json.loads(line_bytes.decode("utf-8"))
             started = datetime.fromisoformat(entry["started_at"].replace("Z", "+00:00"))
             if started > cutoff and entry.get("status") in ("ok", "skipped_no_signal"):
                 count += 1
@@ -2251,6 +2341,12 @@ def should_trigger_digest(
 ) -> str | None:
     brain_dir = data_dir / "brain"
     last = _read_last_digest(brain_dir)
+
+    # Backoff: skip ALL triggers if the last digest failed within the
+    # configured backoff window. Without this, a 429 / malformed-output
+    # cascade could trigger a digest every session start.
+    if last is not None and _last_run_status_was_failed_within(brain_dir, minutes=5):
+        return None
 
     # Promotion trigger: any pending promotion row
     if store.pending_promotions():
@@ -2272,6 +2368,40 @@ def should_trigger_digest(
                 return "time"
 
     return None
+
+
+def _last_run_status_was_failed_within(brain_dir: Path, minutes: int) -> bool:
+    """Read the very last line of digest_runs.jsonl (cheap). If it was a
+    failure within the last `minutes`, return True so the trigger backs off.
+    """
+    runs_path = brain_dir / "digest_runs.jsonl"
+    if not runs_path.exists():
+        return False
+    try:
+        with open(runs_path, "rb") as f:
+            f.seek(0, os.SEEK_END)
+            # Walk back to find the last newline
+            pos = f.tell()
+            last_byte = b""
+            while pos > 0:
+                pos -= 1
+                f.seek(pos)
+                byte = f.read(1)
+                if byte == b"\n" and last_byte:
+                    break
+                last_byte = byte + last_byte
+            if not last_byte:
+                return False
+            entry = json.loads(last_byte.decode("utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return False
+    if entry.get("status") != "failed":
+        return False
+    try:
+        started = datetime.fromisoformat(entry["started_at"].replace("Z", "+00:00"))
+        return (datetime.now(timezone.utc) - started) < timedelta(minutes=minutes)
+    except (KeyError, ValueError):
+        return False
 
 
 def trigger_if_due(
@@ -2317,9 +2447,14 @@ git commit -m "feat(brain): add autonomy triggers (time/volume/promotion)"
 - Adds subcommands: `survey-agent brain status`, `survey-agent brain pause`, `survey-agent brain resume`, `survey-agent brain inspect <run_id>`, `survey-agent brain rollback <timestamp>`.
 - Pure delegation to `_BrainState` + `digest_runs.jsonl`.
 
-- [ ] **Step 1: Look at `survey_agent/cli.py` to find the existing app + command patterns**
+- [ ] **Step 1: Confirm existing CLI app pattern (already inspected during planning)**
 
-Read enough of `cli.py` to discover the typer app definition and how existing commands like `status` are wired.
+`survey_agent/cli.py` defines `app = typer.Typer(...)` at module scope, then
+attaches sub-apps via `app.add_typer(profile_app, name="profile")`. The
+`brain_app` must follow the same pattern — declared at module scope and
+attached to `app` via `app.add_typer(brain_app, name="brain")`. Do NOT
+re-declare `app`; do not introduce a second root typer. This pattern is
+verified, not assumed.
 
 - [ ] **Step 2: Write the failing test**
 
@@ -2609,7 +2744,11 @@ Every call uses the existing `_BrainState.store()` singleton; no signature chang
 In each site adapter file:
 - Add `from survey_agent import brain` at the top.
 - At each login/discover/complete/disqualify return point, after computing the result, emit a `brain.record(site=self.name, event_type=..., context=..., session_id=...)` call.
-- Wrap each call in `try: ... except Exception: pass` so the brain never breaks the adapter.
+- Wrap each call in `try: ... except Exception: logger.exception(...)` so a
+  never-raised edge case is still visible in logs. DO NOT use bare `pass`
+  — silent swallowing hides bugs. Note: `brain.record()` itself already
+  swallows exceptions per spec §4.4, so this layer is a safety net, not
+  the primary defense.
 
 - [ ] **Step 5: Wire captcha/solver.py**
 
@@ -2723,6 +2862,13 @@ def _bg_digest(data_dir_path: Path, store: FailureStore, cfg: BrainConfig) -> No
 store = FailureStore(DATA_DIR / "brain")
 cfg = load_config().brain
 threading.Thread(target=_bg_digest, args=(DATA_DIR, store, cfg), daemon=True).start()
+
+# Note on daemon threads + crashes: a daemon thread that is killed mid-
+# digest can leave the brain in an inconsistent *cosmetic* state (e.g.,
+# half-written `digest_runs.jsonl`), but every state-mutating write
+# (rules.yaml, persona_hints.json, profile.json, diff, brain.db) uses
+# atomic rename + WAL, so the brain's *content* is never partial. Per
+# spec §5 "Crash safety" — this is the documented worst case.
 ```
 
 (If the codebase already has a different concurrency pattern — e.g., `asyncio.create_task` — adapt the threading call to fit. The acceptance criterion is "digest never blocks survey session".)
