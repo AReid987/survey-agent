@@ -93,6 +93,12 @@ Build a small "brain" foundation for `survey-agent` that:
 - Append-only, one JSON object per line.
 - Cheap to write, easy to grep, easy to ship.
 - Never queried by runtime code (only by the offline digest).
+- Concurrent writes: each session opens with `O_APPEND`. POSIX guarantees
+  atomic writes for payloads under `PIPE_BUF` (4 KiB on Linux, 512 B on
+  macOS); serialized events are kept under 1 KiB, so concurrent appends are
+  safe by construction. If a serialized event ever exceeds the platform's
+  `PIPE_BUF`, it falls back to a per-session `events.<session_id>.jsonl`
+  which is merged into the main log at session end.
 
 **Medium-term: `data/brain/brain.db` (SQLite, WAL mode)**
 
@@ -171,6 +177,9 @@ brain.record(event)                            # synchronous, never blocks
                      │
                      └─► if count ≥ 3 AND last digest > 1h ago:
                             INSERT INTO promotions (status='pending_digest')
+                            ON CONFLICT(event_id) DO NOTHING
+                            (re-occurrences update count via trigger but do
+                             not re-insert — see Appendix C)
                             enqueue background digest task
        │
        ▼
@@ -386,3 +395,31 @@ class EventRecord(BaseModel):
 
 Rules are append-only. Supersession is explicit (status=superseded,
 supersedes=<id>). Nothing is deleted.
+
+---
+
+## Appendix C: Promotion Dedup & Concurrency Semantics
+
+**Promotion dedup.** The `promotions` table has a unique constraint on
+`(site, event_type, context_hash, status='pending_digest')` — only one
+pending-digest entry per failure signature exists at a time. Re-occurrences
+(4th, 5th, ... instance of the same signature) increment a counter via a
+SQLite trigger but do NOT create new `promotions` rows. The digest reads
+the underlying `events` table to count the true population.
+
+**Concurrency model.**
+
+- `events.jsonl` writes: per-session `O_APPEND` (see §3.1).
+- `events` SQLite writes: serialized via a single connection per session; the
+  store uses `PRAGMA journal_mode=WAL` to allow concurrent reads (digest)
+  while writes are serialized.
+- `promotions` writes: single-process, serialized. Multi-process safety is
+  out of scope for MVP (one survey-agent process at a time).
+- `rules.yaml`, `persona_hints.json`, `profile.json`: written only by the
+  digest task, which acquires a file lock (`data/brain/digest.lock`) to
+  prevent two digests running concurrently.
+
+**Why this is safe.** The only writers are (a) `record()` calls from one
+process, (b) the digest task. They never overlap on the same file under the
+stated locking rules. The audit trail (diffs + digest_runs.jsonl) makes any
+deviation visible post-hoc.
