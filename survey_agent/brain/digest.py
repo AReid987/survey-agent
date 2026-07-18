@@ -6,26 +6,88 @@ Spec: docs/superpowers/specs/2026-07-16-brain-foundation-design.md §4.3,
 
 from __future__ import annotations
 
+import asyncio
 import json
 import logging
+import re
 import uuid
 from datetime import datetime
 from pathlib import Path
 from typing import Any
 
 import yaml
+from langchain_core.messages import HumanMessage
 
 from survey_agent.brain._lock import DigestLock, atomic_write_bytes
 from survey_agent.brain.schemas import DigestResult, EventRecord, PersonaDenylist
 from survey_agent.brain.store import FailureStore
+from survey_agent.config import load_config
+from survey_agent.llm_provider import PROVIDERS, get_llm
 
 logger = logging.getLogger(__name__)
+__all__ = ["call_llm", "run_digest"]
 
 
-# Stub; tests monkeypatch this. Production binds to llm_provider.py in Task 9.
-def call_llm(prompt: str) -> dict:
-    """Stub — real implementation is wired in Task 9 (LLM wiring)."""
-    raise NotImplementedError("call_llm must be wired by the integration layer")
+def call_llm(prompt: str) -> dict:  # noqa: PLR0915
+    """Production call_llm: routes through the existing llm_provider.
+
+    Tests monkeypatch this function directly at the module level
+    (`survey_agent.brain.digest.call_llm = my_fn`), so the real
+    implementation only runs in production digests.
+
+    Returns the parsed JSON dict the digest consumes. Raises any error
+    up; the digest's outer try/except logs and marks the run failed.
+    """
+    cfg = load_config()
+    settings = cfg.harness_llm_settings() if hasattr(cfg, "harness_llm_settings") else None
+    if settings and settings.get("llm_model"):
+        provider = settings["llm_provider"]
+        model = settings["llm_model"]
+        api_key = settings["llm_api_key"]
+        base_url = settings["llm_base_url"]
+    else:
+        provider = cfg.llm_provider
+        model = cfg.llm_model or PROVIDERS[provider]["default_model"]
+        api_key = cfg.llm_api_key
+        base_url = cfg.llm_base_url or None
+
+    llm = get_llm(
+        provider=provider,
+        model=model,
+        api_key=api_key,
+        base_url=base_url,
+        temperature=0.0,  # deterministic for structured output
+    )
+
+    # ainvoke supports both sync and async; we're called from sync digest
+    # code path, so we run sync via asyncio.run rather than blocking the
+    # event loop. For higher-throughput cases this can move to an async
+    # digest path.
+    async def _invoke() -> Any:
+        return await llm.ainvoke([HumanMessage(content=prompt)])
+
+    completion = asyncio.run(_invoke())
+
+    # Capture the raw text from the completion
+    content = getattr(completion, "content", completion)
+    if isinstance(content, list):
+        # Some providers return a list of content blocks
+        content = "".join(
+            block.get("text", "") if isinstance(block, dict) else str(block)
+            for block in content
+        )
+    text = str(content)
+
+    # Strip   ...   blocks
+    text = re.sub(r" .*? ", "", text, flags=re.DOTALL).strip()
+
+    # Find first JSON object in the response
+    start = text.find("{")
+    end = text.rfind("}")
+    if start == -1 or end == -1:
+        raise ValueError(f"no JSON object in LLM response: {text[:200]!r}")
+
+    return json.loads(text[start : end + 1])
 
 
 def _now_iso() -> str:
