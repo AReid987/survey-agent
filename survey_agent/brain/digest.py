@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
-from langchain_core.messages import HumanMessage
+from browser_use.llm.messages import UserMessage
 
 from survey_agent.brain._lock import DigestLock, atomic_write_bytes
 from survey_agent.brain.schemas import DigestResult, EventRecord, PersonaDenylist
@@ -64,19 +64,22 @@ def call_llm(prompt: str) -> dict:  # noqa: PLR0915
     # event loop. For higher-throughput cases this can move to an async
     # digest path.
     async def _invoke() -> Any:
-        return await llm.ainvoke([HumanMessage(content=prompt)])
+        return await llm.ainvoke([UserMessage(content=prompt)])
 
     completion = asyncio.run(_invoke())
 
-    # Capture the raw text from the completion
-    content = getattr(completion, "content", completion)
-    if isinstance(content, list):
-        # Some providers return a list of content blocks
-        content = "".join(
-            block.get("text", "") if isinstance(block, dict) else str(block)
-            for block in content
-        )
-    text = str(content)
+    # ChatInvokeCompletion has .completion (the text), not .content
+    raw = getattr(completion, "completion", completion)
+    if isinstance(raw, str):
+        text = raw
+    else:
+        content = getattr(completion, "content", raw)
+        if isinstance(content, list):
+            content = "".join(
+                block.get("text", "") if isinstance(block, dict) else str(block)
+                for block in content
+            )
+        text = str(content)
 
     # Strip   ...   blocks
     text = re.sub(r" .*? ", "", text, flags=re.DOTALL).strip()
@@ -320,7 +323,31 @@ def _build_prompt(
         "RULES:\n"
         "- Only propose changes to soft-preference persona fields; never "
         "demographics/employment/income/education/health.\n"
-        '- Output strictly JSON with keys: "new_rules", "persona_hints", "rationale".\n\n'
+        "- Output STRICTLY valid JSON matching the schema below.\n\n"
+        "OUTPUT SCHEMA:\n"
+        "{\n"
+        '  "new_rules": [\n'
+        "    {\n"
+        '      "rule_id": "uuid-v4-string",\n'
+        '      "site": "site_slug",\n'
+        '      "applies_when": {"event_type": "...", "context": {...}},\n'
+        '      "recommends": {"action": "...", "args": {...}},\n'
+        '      "confidence_evidence": 3,\n'
+        '      "created_at": "ISO-8601",\n'
+        '      "source_digest_run": "run_id",\n'
+        '      "status": "active",\n'
+        '      "supersedes": null\n'
+        "    }\n"
+        "  ],\n"
+        '  "persona_hints": [\n'
+        "    {\n"
+        '      "path": "category.field_name",\n'
+        '      "new_value": "the new value",\n'
+        '      "rationale": "why this helps"\n'
+        "    }\n"
+        "  ],\n"
+        '  "rationale": "overall analysis summary"\n'
+        "}\n\n"
         f"PROMOTIONS ({len(promotions)}):\n{json.dumps([p.model_dump() for p in promotions])}\n\n"
         f"RECENT EVENTS ({len(recent)}):\n{json.dumps([e.model_dump() for e in recent])}\n\n"
         f"CURRENT RULES ({len(current_rules)}):\n{json.dumps(current_rules)}\n"
