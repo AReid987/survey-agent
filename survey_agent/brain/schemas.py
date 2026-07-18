@@ -22,9 +22,7 @@ class PersonaDenylist:
     DENYLIST_PREFIXES: frozenset[str] = frozenset(
         {
             "demographics",
-            "employment.status",
-            "employment.industry",
-            "employment.job_title",
+            "employment",
             "income",
             "education",
             "health",
@@ -33,10 +31,7 @@ class PersonaDenylist:
 
     @classmethod
     def is_denied(cls, dotted_path: str) -> bool:
-        return any(
-            dotted_path == prefix or dotted_path.startswith(prefix + ".")
-            for prefix in cls.DENYLIST_PREFIXES
-        )
+        return any(dotted_path == prefix or dotted_path.startswith(prefix + ".") for prefix in cls.DENYLIST_PREFIXES)
 
 
 class EventRecord(BaseModel):
