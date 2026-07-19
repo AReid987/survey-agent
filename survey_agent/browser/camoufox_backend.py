@@ -41,7 +41,7 @@ class CamoufoxBackend(SurveyAgentBackend):
         self._headless = headless
         self._humanize = humanize
         self._geoip = geoip
-        self._persistent = persistent
+        self._persistent = False  # Fresh profile to avoid stale cookie issues
         self._user_data_dir = Path(user_data_dir) if user_data_dir else DATA_DIR / "profile"
         self._engine: CamoufoxEngine | None = None
         self._context: CamoufoxBrowserContext | None = None
@@ -59,9 +59,9 @@ class CamoufoxBackend(SurveyAgentBackend):
             user_data_dir=self._user_data_dir,
         )
 
-        launch_kwargs: dict[str, Any] = {"humanize": self._humanize}
+        launch_kwargs: dict[str, Any] = {}
         if self._geoip:
-            launch_kwargs["geoip"] = True
+            launch_kwargs["geoip"] = False  # Disabled — causes hangs
 
         await self._engine.launch(headless=self._headless, **launch_kwargs)
         self._context = await self._engine.create_context()
@@ -93,9 +93,28 @@ class CamoufoxBackend(SurveyAgentBackend):
 
         self._current_site = site_name
         try:
-            logger.info(f"Navigating to {site_name} ({site_url})")
-            await self._page.goto(site_url, wait_until="domcontentloaded")
+            # Navigate to login page directly (root URL redirect is slow)
+            login_url = site_url.rstrip("/") + "/users/login/"
+            logger.info(f"Navigating to {site_name} ({login_url})")
+            await self._page.goto(login_url, wait_until="domcontentloaded", timeout=30000)
             await asyncio.sleep(3)
+
+            # Dismiss cookie banners (common on survey sites)
+            for banner_sel in [
+                "#_evidon-banner-acceptbutton",
+                "#onetrust-accept-btn-handler",
+                "button[id*='accept']",
+                "button[class*='accept']",
+                "button[class*='close']",
+                "#_evidon_banner button",
+            ]:
+                try:
+                    await self._page.click(banner_sel, timeout=1)
+                    logger.info(f"Dismissed cookie banner via {banner_sel}")
+                    await asyncio.sleep(0.5)
+                    break
+                except Exception:
+                    continue
 
             url = await self._page.url()
             title = await self._page.evaluate("() => document.title")
@@ -115,7 +134,8 @@ class CamoufoxBackend(SurveyAgentBackend):
             if (is_login_page or has_login_form) and self._login_email and self._login_password:
                 logger.info(f"Login form detected, filling credentials for {self._login_email}")
                 try:
-                    # Use Playwright's fill() — use specific IDs from Branded Surveys
+                    # Use Playwright's type() for proper keystroke simulation
+                    # fill() doesn't trigger CakePHP's JavaScript validation
                     email_selectors = [
                         '#UserEmail',
                         'input[type="email"]',
@@ -124,9 +144,10 @@ class CamoufoxBackend(SurveyAgentBackend):
                     email_filled = False
                     for sel in email_selectors:
                         try:
-                            await self._page.fill(sel, self._login_email, timeout=3)
+                            await self._page._page.click(sel, timeout=3000)
+                            await self._page._page.type(sel, self._login_email, delay=50)
                             email_filled = True
-                            logger.info(f"Filled email via {sel}")
+                            logger.info(f"Typed email via {sel}")
                             break
                         except Exception:
                             continue
@@ -138,30 +159,38 @@ class CamoufoxBackend(SurveyAgentBackend):
                     pw_filled = False
                     for sel in pw_selectors:
                         try:
-                            await self._page.fill(sel, self._login_password, timeout=3)
+                            await self._page._page.click(sel, timeout=3000)
+                            await self._page._page.type(sel, self._login_password, delay=50)
                             pw_filled = True
-                            logger.info(f"Filled password via {sel}")
+                            logger.info(f"Typed password via {sel}")
                             break
                         except Exception:
                             continue
 
                     if email_filled and pw_filled:
-                        # Click submit — try multiple selectors
+                        # Click submit — try multiple selectors, then Enter key
                         submit_selectors = [
-                            '#_evh-ric-c',
-                            'button[type="submit"]',
+                            "#_evh-ric-c",
+                            "button[type='submit']",
                         ]
                         clicked = False
                         for sel in submit_selectors:
                             try:
-                                el = await self._page.query_selector(sel)
-                                if el and await el.is_visible():
-                                    await self._page.click(sel)
-                                    clicked = True
-                                    logger.info(f"Clicked submit via {sel}")
-                                    break
+                                await self._page.click(sel, timeout=3)
+                                clicked = True
+                                logger.info(f"Clicked submit via {sel}")
+                                break
                             except Exception:
                                 continue
+
+                        if not clicked:
+                            # Fallback: press Enter on password field via keyboard
+                            try:
+                                await self._page._page.press("#UserPassword", "Enter")
+                                clicked = True
+                                logger.info("Submitted via Enter key on password field")
+                            except Exception:
+                                pass
 
                         if clicked:
                             logger.info("Login form submitted, waiting for navigation...")
@@ -273,136 +302,132 @@ class CamoufoxBackend(SurveyAgentBackend):
     ) -> AgentResult:
         """Complete a survey by answering questions.
 
-        Reads questions from the page, generates answers via profile context,
-        and handles CAPTCHAs using the vision solver.
+        Uses the survey engine to:
+        1. Answer quick-questions on the dashboard
+        2. Click on full surveys and answer each question
+        3. Handle CAPTCHAs using the vision solver
         """
         if not self._page:
             return AgentResult(success=False, error="Backend not started")
 
         try:
-            # Check for CAPTCHA first
-            page_text = await self._page.evaluate(
-                "() => document.body?.innerText?.substring(0, 2000) || ''"
+            from survey_agent.browser.survey_engine import (  # noqa: PLC0415
+                answer_quick_question,
+                answer_survey_question,
             )
-
             from survey_agent.captcha.solver import (  # noqa: PLC0415
                 CaptchaDetector, CaptchaSolver, create_vision_llm_fn,
             )
 
-            captcha = CaptchaDetector.detect_from_page(page_text, "")
-            if captcha:
-                logger.info(f"CAPTCHA detected: {captcha.captcha_type.value} — {captcha.description}")
-
-                # Take screenshot for vision solver
-                screenshot_bytes = None
-                try:
-                    screenshot_bytes = await self._page.screenshot()
-                except Exception:
-                    logger.warning("Could not take screenshot for CAPTCHA")
-
-                # Create vision solver with Groq
-                vision_fn = create_vision_llm_fn(provider="groq")
-                solver = CaptchaSolver(llm_fn=vision_fn)
-
-                solution = await solver.solve(captcha)
-                if solution.solved and solution.answer:
-                    logger.info(f"CAPTCHA solved: {solution.answer} (method: {solution.method})")
-
-                    # Try to enter the answer into the CAPTCHA input field
-                    answer_escaped = solution.answer.replace("'", "\\'")
-                    entered = await self._page.evaluate(
-                        f"(() => {{"
-                        f"const inputs = document.querySelectorAll('input[type=\"text\"], input[type=\"number\"], input:not([type])');"
-                        f"for (const input of inputs) {{"
-                        f"if (input.offsetParent !== null && (input.placeholder || '').toLowerCase().includes('code')) {{"
-                        f"input.value = '{answer_escaped}';"
-                        f"input.dispatchEvent(new Event('input', {{bubbles: true}}));"
-                        f"input.dispatchEvent(new Event('change', {{bubbles: true}}));"
-                        f"return true;}}}}"
-                        f"return false;}})()"
-                    )
-
-                    if entered:
-                        logger.info("CAPTCHA answer entered into field")
-                    else:
-                        logger.warning("Could not find CAPTCHA input field")
-                else:
-                    logger.warning(f"CAPTCHA not solved: {solution.error}")
-                    from survey_agent import brain  # noqa: PLC0415
-                    brain.record(
-                        site="branded_surveys",
-                        event_type="captcha_failed",
-                        context={
-                            "challenge_type": captcha.captcha_type.value,
-                            "description": captcha.description,
-                            "solver_error": solution.error or "unknown",
-                            "method": solution.method,
-                        },
-                    )
-                    return AgentResult(
-                        success=False,
-                        error=f"CAPTCHA not solved: {solution.error}",
-                    )
-
-            # Capture current page state for answering
-            page_state = await self._page.evaluate("""() => {
-                const state = {
-                    url: location.href,
-                    title: document.title,
-                    questions: [],
-                    buttons: [],
-                };
-
-                // Find question containers
-                const questionEls = document.querySelectorAll(
-                    '[class*="question"], [class*="survey-question"], ' +
-                    '[id*="question"], fieldset, .q-text'
-                );
-                questionEls.forEach(el => {
-                    const text = (el.textContent || '').trim().substring(0, 500);
-                    if (text) state.questions.push(text);
-                });
-
-                // Find form elements
-                const inputs = document.querySelectorAll(
-                    'input[type="radio"], input[type="checkbox"], select, textarea, input[type="text"]'
-                );
-                inputs.forEach(el => {
-                    const name = el.name || el.id || '';
-                    const type = el.type || el.tagName.toLowerCase();
-                    const label = el.closest('label')?.textContent?.trim() ||
-                                  document.querySelector(`label[for="${el.id}"]`)?.textContent?.trim() || '';
-                    const opts = [];
-                    if (el.tagName === 'SELECT') {
-                        Array.from(el.options).forEach(o => opts.push({v: o.value, t: o.text.trim()}));
-                    }
-                    state.questions.push({name, type, label: label.substring(0, 200), opts});
-                });
-
-                // Find next/submit buttons
-                const btns = document.querySelectorAll(
-                    'button, input[type="submit"], [class*="next"], [class*="submit"]'
-                );
-                btns.forEach(el => {
-                    const text = (el.textContent || el.value || '').trim();
-                    if (text) state.buttons.push(text.substring(0, 100));
-                });
-
-                return JSON.stringify(state);
-            }""")
-
-            import json
-
-            parsed = json.loads(page_state)
-
-            return AgentResult(
-                success=True,
-                output=f"Survey page captured. Questions: {len(parsed.get('questions', []))}, "
-                f"Buttons: {parsed.get('buttons', [])}. "
-                f"URL: {parsed.get('url', 'unknown')}. "
-                f"Use this data for LLM-driven answering.",
-                url=parsed.get("url", ""),
+            # Create LLM function for answering questions
+            from survey_agent.config import load_config  # noqa: PLC0415
+            cfg = load_config()
+            from survey_agent.llm_provider import get_llm, PROVIDERS  # noqa: PLC0415
+            llm = get_llm(
+                provider=cfg.llm_provider,
+                model=cfg.llm_model or PROVIDERS.get(cfg.llm_provider, {}).get("default_model", ""),
+                api_key=cfg.llm_api_key,
+                base_url=cfg.llm_base_url or None,
+                temperature=0.1,
             )
+
+            async def llm_fn(prompt: str) -> str:
+                from browser_use.llm.messages import UserMessage  # noqa: PLC0415
+                result = await llm.ainvoke([UserMessage(content=prompt)])
+                completion = getattr(result, "completion", None)
+                if completion is None:
+                    # Try .content for different LLM wrappers
+                    content = getattr(result, "content", None)
+                    if content is not None:
+                        return str(content).strip()
+                    return str(result)
+                return str(completion).strip()
+
+            url = await self._page.url()
+
+            # If on dashboard, try quick questions first, then click a survey
+            if "dashboard" in url.lower():
+                # Try answering quick questions
+                answered = await answer_quick_question(self._page._page, profile_context, llm_fn)
+                if answered:
+                    logger.info("Answered a quick question on dashboard")
+                    return AgentResult(success=True, output="Quick question answered on dashboard")
+
+                # Find and click a survey
+                survey_clicked = await self._page.evaluate("""() => {
+                    const links = document.querySelectorAll('a[href*="survey"], a[href*="pre/"], a[class*="survey"]');
+                    for (const link of links) {
+                        const text = (link.textContent || '').toLowerCase();
+                        if (text.includes('take') || text.includes('start') || text.includes('begin')) {
+                            link.click();
+                            return link.href || 'clicked';
+                        }
+                    }
+                    // Try any "TAKE SURVEY" button
+                    const btns = document.querySelectorAll('a, button');
+                    for (const btn of btns) {
+                        if ((btn.textContent || '').toLowerCase().includes('take survey')) {
+                            btn.click();
+                            return btn.href || 'clicked';
+                        }
+                    }
+                    return null;
+                }""")
+
+                if survey_clicked:
+                    logger.info(f"Clicked survey: {survey_clicked[:100]}")
+                    await asyncio.sleep(3)
+                else:
+                    return AgentResult(success=True, output="No clickable surveys found on dashboard")
+
+            # Now we're on a survey page — answer questions in a loop
+            max_questions = 50
+            for i in range(max_questions):
+                # Check for CAPTCHA
+                page_text = await self._page.evaluate(
+                    "() => document.body?.innerText?.substring(0, 2000) || ''"
+                )
+                captcha = CaptchaDetector.detect_from_page(page_text, "")
+                if captcha:
+                    logger.info(f"CAPTCHA detected: {captcha.captcha_type.value}")
+                    screenshot_bytes = await self._page.screenshot()
+                    vision_fn = create_vision_llm_fn(provider="groq")
+                    solver = CaptchaSolver(llm_fn=vision_fn)
+                    solution = await solver.solve(captcha)
+                    if solution.solved and solution.answer:
+                        logger.info(f"CAPTCHA solved: {solution.answer}")
+                        # Enter answer
+                        escaped = solution.answer.replace("'", "\\'")
+                        await self._page.evaluate(
+                            "(() => {"
+                            "const inputs = document.querySelectorAll('input[type=\"text\"], input[type=\"number\"]');"
+                            "for (const input of inputs) {"
+                            "if (input.offsetParent !== null) {"
+                            f"input.value = '{escaped}';"
+                            "input.dispatchEvent(new Event('input', {bubbles: true}));"
+                            "return true;}}"
+                            "return false;})()"
+                        )
+                    else:
+                        logger.warning(f"CAPTCHA not solved: {solution.error}")
+                        return AgentResult(success=False, error=f"CAPTCHA: {solution.error}")
+
+                # Answer the current question
+                result = await answer_survey_question(self._page._page, profile_context, llm_fn)
+
+                if result == "completed":
+                    logger.info(f"Survey completed after {i + 1} questions")
+                    return AgentResult(success=True, output=f"Survey completed after {i + 1} questions")
+                elif result == "disqualified":
+                    logger.info(f"Disqualified after {i + 1} questions")
+                    return AgentResult(success=False, error="Disqualified from survey")
+                elif result == "no_question":
+                    # Might be between pages, wait and try again
+                    await asyncio.sleep(2)
+                    continue
+
+            return AgentResult(success=True, output=f"Answered {max_questions} questions (loop limit)")
+
         except Exception as e:
             logger.error(f"Survey completion failed: {e}")
             return AgentResult(success=False, error=f"Completion error: {e}")

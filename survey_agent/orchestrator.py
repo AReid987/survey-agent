@@ -88,7 +88,25 @@ class SurveySession:
         logger.info(f"[Session {self._session_id}] Starting on {self._site['name']}")
 
         try:
-            # Login
+            # Check if backend supports run_full_session (browser-use)
+            if hasattr(self._agent, 'run_full_session'):
+                profile_ctx = self._profile.to_context_string()
+                result = await self._agent.run_full_session(
+                    site_url=self._site["url"],
+                    site_name=self._site["name"],
+                    dashboard_url=self._site["dashboard"],
+                    profile_context=profile_ctx,
+                    max_surveys=max_surveys,
+                )
+                if result.success:
+                    self._stats["surveys_completed"] = max_surveys
+                    logger.info(f"[Session {self._session_id}] Full session completed: {result.output[:300]}")
+                else:
+                    self._stats["errors"] += 1
+                    logger.warning(f"[Session {self._session_id}] Session failed: {result.error or result.output}")
+                return {"stats": self._stats}
+
+            # Login (for backends without run_full_session)
             login_result = await self._agent.login(self._site["url"], self._site["name"])
             if not login_result.success:
                 if brain:
