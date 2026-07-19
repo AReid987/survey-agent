@@ -134,7 +134,10 @@ def _last_run_status_was_failed_within(brain_dir: Path, minutes: int) -> bool:
         started = datetime.fromisoformat(started_raw.replace("Z", "+00:00"))
     except (ValueError, TypeError):
         return False
-    return (datetime.now(UTC) - started) < timedelta(minutes=minutes)
+    now = datetime.now(UTC)
+    if started.tzinfo is None:
+        started = started.replace(tzinfo=UTC)
+    return (now - started) < timedelta(minutes=minutes)
 
 
 def should_trigger_digest(
@@ -158,7 +161,11 @@ def should_trigger_digest(
         if recent_count >= config.events_per_digest and _digests_in_last_24h(brain_dir) < config.max_per_day:
             return "volume"
 
-    if last is not None and (datetime.now(UTC) - last) >= timedelta(hours=config.interval_hours) and _digests_in_last_24h(brain_dir) < config.max_per_day:
+    if (
+        last is not None
+        and (datetime.now(UTC) - last) >= timedelta(hours=config.interval_hours)
+        and _digests_in_last_24h(brain_dir) < config.max_per_day
+    ):
         return "time"
 
     return None

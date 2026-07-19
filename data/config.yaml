@@ -1,10 +1,13 @@
 account:
   google_email: read.musik@gmail.com
   paypal_email: musicmusiq@live.com
-llm_api_key: sk-cp-avCs4hbiHfZmu-EOZ-K9fyovdENYwz7bop7f4ZurO892Usb3bv1JpJW00ggf-KhcdZ3jFReAaTDdql5feSVDoTxjzTKMXyiHZdQcPjWBzgWRDE3yv6lOCYs
-llm_base_url: https://api.minimax.io/v1
-llm_model: MiniMax-M3
-llm_provider: openai-compatible
+harness_llm_api_key: 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
+harness_llm_model: llama-3.3-70b-versatile
+harness_llm_provider: groq
+llm_api_key: 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
+llm_base_url: ''
+llm_model: llama-3.3-70b-versatile
+llm_provider: groq
 max_concurrent_sessions: 1
 schedule:
   heartbeat_interval_seconds: 30

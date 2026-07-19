@@ -190,7 +190,20 @@ def run_digest(  # noqa: PLR0915  # function is intentionally long per spec §4.
                     current_rules = []
 
             # Build prompt + call LLM
-            prompt = _build_prompt(promotions, recent, current_rules)
+            # Gather research context for better diagnosis
+            research_context = None
+            try:
+                from survey_agent.brain.research import gather_research_context  # noqa: PLC0415
+                from survey_agent.config import DATA_DIR as _DATA_DIR  # noqa: PLC0415
+                from pathlib import Path as _Path  # noqa: PLC0415
+                root_dir = _Path(__file__).resolve().parent.parent.parent
+                research_context = gather_research_context(
+                    [e.model_dump() for e in recent], _DATA_DIR, root_dir
+                )
+            except Exception:
+                logger.debug("Research context gathering failed (non-blocking)", exc_info=True)
+
+            prompt = _build_prompt(promotions, recent, current_rules, research_context)
             raw = call_llm(prompt)
 
             try:
@@ -240,6 +253,40 @@ def run_digest(  # noqa: PLR0915  # function is intentionally long per spec §4.
                 hints_path,
                 json.dumps(prior_hints + accepted_dicts, indent=2).encode("utf-8"),
             )
+
+            # Save fix proposals from digest result
+            fix_proposals_saved = 0
+            if result.fix_proposals:
+                import uuid as _uuid  # noqa: PLC0415
+                from survey_agent.brain.schemas import FixProposal, ImplementationStep  # noqa: PLC0415
+                from survey_agent.brain.fixer import save_proposal  # noqa: PLC0415
+
+                for fp_raw in result.fix_proposals:
+                    try:
+                        steps = []
+                        for s in fp_raw.get("implementation_steps", []):
+                            steps.append(ImplementationStep(
+                                step_type=s.get("step_type", "command"),
+                                description=s.get("description", ""),
+                                target_file=s.get("target_file"),
+                                command=s.get("command"),
+                                expected_outcome=s.get("expected_outcome", ""),
+                            ))
+                        proposal = FixProposal(
+                            proposal_id=str(_uuid.uuid4()),
+                            trigger_event_type=promotions[0].event_type if promotions else "unknown",
+                            site=promotions[0].site if promotions else "unknown",
+                            diagnosis=fp_raw.get("diagnosis", ""),
+                            solution=fp_raw.get("solution", ""),
+                            implementation_steps=steps,
+                            confidence=float(fp_raw.get("confidence", 0.5)),
+                            created_at=_now_iso(),
+                        )
+                        save_proposal(proposal, brain_dir)
+                        fix_proposals_saved += 1
+                    except Exception:
+                        logger.exception("Failed to save fix proposal")
+            summary["fix_proposals_saved"] = fix_proposals_saved
 
             # Apply allowlisted persona hints to profile.json (atomic)
             if accepted_dicts and profile_path.exists():
@@ -316,14 +363,40 @@ def _build_prompt(
     promotions: list,
     recent: list,
     current_rules: list,
+    research_context: dict | None = None,
 ) -> str:
+    research_section = ""
+    if research_context:
+        web = research_context.get("web_results", [])
+        code = research_context.get("code_references", [])
+        learnings = research_context.get("past_learnings", [])
+
+        if web or code or learnings:
+            research_section = "\nRESEARCH CONTEXT:\n"
+            if web:
+                research_section += "Web search results:\n"
+                for w in web[:3]:
+                    research_section += f"  - {w.get('title', '?')}: {w.get('snippet', '')[:150]}\n"
+            if code:
+                research_section += "Relevant code:\n"
+                for c in code[:5]:
+                    research_section += f"  - {c.get('file', '?')}:{c.get('line', '?')}: {c.get('excerpt', '')[:100]}\n"
+            if learnings:
+                research_section += "Past learnings:\n"
+                for l in learnings[:3]:
+                    research_section += f"  - {l.get('fix_description', '?')[:100]} (outcome: {l.get('outcome', '?')})\n"
+            research_section += "\n"
+
     return (
-        "You are the survey-agent brain. Analyze observed failures and "
-        "propose (a) new rules and (b) persona refinements.\n\n"
+        "You are the survey-agent brain. Analyze observed failures and propose fixes.\n\n"
+        "Your job is NOT to skip surveys. Your job is to DIAGNOSE the root cause and "
+        "propose CONCRETE IMPLEMENTATION STEPS to fix the problem.\n\n"
         "RULES:\n"
         "- Only propose changes to soft-preference persona fields; never "
         "demographics/employment/income/education/health.\n"
-        "- Output STRICTLY valid JSON matching the schema below.\n\n"
+        "- Output STRICTLY valid JSON matching the schema below.\n"
+        "- For fix_proposals: be specific about what code to change, what config to set, etc.\n"
+        "- NEVER propose 'skip' or 'avoid' as a solution. Always propose a fix.\n\n"
         "OUTPUT SCHEMA:\n"
         "{\n"
         '  "new_rules": [\n'
@@ -346,11 +419,28 @@ def _build_prompt(
         '      "rationale": "why this helps"\n'
         "    }\n"
         "  ],\n"
+        '  "fix_proposals": [\n'
+        "    {\n"
+        '      "diagnosis": "root cause analysis",\n'
+        '      "solution": "proposed fix description",\n'
+        '      "implementation_steps": [\n'
+        "        {\n"
+        '          "step_type": "code_edit|config_change|command|test",\n'
+        '          "description": "what to do",\n'
+        '          "target_file": "path/to/file.py or null",\n'
+        '          "command": "shell command or null",\n'
+        '          "expected_outcome": "what should happen"\n'
+        "        }\n"
+        "      ],\n"
+        '      "confidence": 0.7\n'
+        "    }\n"
+        "  ],\n"
         '  "rationale": "overall analysis summary"\n'
         "}\n\n"
         f"PROMOTIONS ({len(promotions)}):\n{json.dumps([p.model_dump() for p in promotions])}\n\n"
         f"RECENT EVENTS ({len(recent)}):\n{json.dumps([e.model_dump() for e in recent])}\n\n"
         f"CURRENT RULES ({len(current_rules)}):\n{json.dumps(current_rules)}\n"
+        f"{research_section}"
     )
 
 

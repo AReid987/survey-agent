@@ -510,5 +510,125 @@ def brain_rollback(
     console.print(f"[green]Rolled back to {run_id}.[/green]")
 
 
+@brain_app.command("proposals")
+def brain_proposals(
+    status: str = typer.Option(None, "--status", "-s", help="Filter by status (proposed/implementing/applied/failed)"),
+):
+    """List fix proposals from the autoresearch pipeline."""
+    from .brain.fixer import list_proposals  # noqa: PLC0415
+
+    brain_dir = DATA_DIR / "brain"
+    proposals = list_proposals(brain_dir, status=status)
+
+    if not proposals:
+        console.print("[dim]No fix proposals found.[/dim]")
+        return
+
+    console.print(f"[bold]Fix Proposals ({len(proposals)}):[/bold]\n")
+    for p in proposals:
+        status_color = {
+            "proposed": "yellow",
+            "researching": "cyan",
+            "implementing": "blue",
+            "applied": "green",
+            "verified": "green",
+            "failed": "red",
+        }.get(p.status, "white")
+
+        console.print(f"  [{status_color}]{p.status.upper()}[/{status_color}] {p.proposal_id[:12]}...")
+        console.print(f"    Site: {p.site} | Trigger: {p.trigger_event_type}")
+        console.print(f"    Diagnosis: {p.diagnosis[:100]}")
+        console.print(f"    Solution: {p.solution[:100]}")
+        console.print(f"    Confidence: {p.confidence:.0%} | Steps: {len(p.implementation_steps)}")
+        console.print()
+
+
+@brain_app.command("fix")
+def brain_fix(
+    proposal_id: str = typer.Argument(help="Proposal ID to execute"),
+    dry_run: bool = typer.Option(False, "--dry-run", "-n", help="Show what would be done without making changes"),
+):
+    """Execute a fix proposal."""
+    import os  # noqa: PLC0415
+    from pathlib import Path  # noqa: PLC0415
+
+    from .brain.fixer import execute_fix, load_proposal, record_learning  # noqa: PLC0415
+
+    brain_dir = DATA_DIR / "brain"
+    root_dir = Path(__file__).resolve().parent.parent
+
+    proposal = load_proposal(proposal_id, brain_dir)
+    if not proposal:
+        # Try prefix match
+        proposals = list(brain_dir.glob("proposals/*.json"))
+        matches = [p for p in proposals if p.stem.startswith(proposal_id)]
+        if len(matches) == 1:
+            proposal = load_proposal(matches[0].stem, brain_dir)
+
+    if not proposal:
+        console.print(f"[red]Proposal {proposal_id} not found.[/red]")
+        raise typer.Exit(code=1)
+
+    console.print(f"[bold]Executing fix proposal:[/bold] {proposal.proposal_id[:12]}...")
+    console.print(f"  Diagnosis: {proposal.diagnosis}")
+    console.print(f"  Solution: {proposal.solution}")
+    console.print(f"  Steps: {len(proposal.implementation_steps)}")
+    console.print(f"  Confidence: {proposal.confidence:.0%}")
+    console.print()
+
+    if dry_run:
+        console.print("[yellow]DRY RUN — no changes will be made[/yellow]\n")
+
+    for i, step in enumerate(proposal.implementation_steps):
+        console.print(f"  Step {i+1}: [{step.step_type}] {step.description}")
+        if step.target_file:
+            console.print(f"    Target: {step.target_file}")
+        if step.command:
+            console.print(f"    Command: {step.command}")
+
+    console.print()
+    proposal = execute_fix(proposal, brain_dir, root_dir, dry_run=dry_run)
+
+    # Record learning
+    if proposal.status == "applied":
+        record_learning(proposal, "success", "All steps completed", brain_dir)
+        console.print("[green]Fix applied successfully![/green]")
+    else:
+        failed_steps = [s for s in proposal.implementation_steps if s.status == "failed"]
+        record_learning(proposal, "failed", f"{len(failed_steps)} steps failed", brain_dir)
+        console.print(f"[red]Fix failed — {len(failed_steps)} steps failed[/red]")
+
+    # Show trace
+    if proposal.trace:
+        console.print(f"\n[bold]Execution trace ({len(proposal.trace)} entries):[/bold]")
+        for t in proposal.trace[-10:]:
+            console.print(f"  {t.timestamp[:19]} | {t.phase:10} | {t.action[:50]} | {t.result[:30]}")
+
+
+@brain_app.command("learnings")
+def brain_learnings():
+    """Show past fix outcomes and learnings."""
+    import json as _json  # noqa: PLC0415
+
+    learnings_path = DATA_DIR / "brain" / "learnings.jsonl"
+    if not learnings_path.exists():
+        console.print("[dim]No learnings recorded yet.[/dim]")
+        return
+
+    lines = learnings_path.read_text().strip().splitlines()
+    console.print(f"[bold]Learnings ({len(lines)}):[/bold]\n")
+
+    for line in lines:
+        try:
+            l = _json.loads(line)
+            outcome_color = "green" if l.get("outcome") == "success" else "red"
+            console.print(f"  [{outcome_color}]{l.get('outcome', '?').upper()}[/{outcome_color}] {l.get('failure_pattern', '?')}")
+            console.print(f"    Fix: {l.get('fix_description', '?')[:100]}")
+            console.print(f"    Evidence: {l.get('evidence', '?')[:100]}")
+            console.print()
+        except Exception:
+            continue
+
+
 if __name__ == "__main__":
     app()

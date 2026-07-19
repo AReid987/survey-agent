@@ -103,4 +103,68 @@ class DigestResult(BaseModel):
 
     new_rules: list[Rule] = Field(default_factory=list)
     persona_hints: list[PersonaHint] = Field(default_factory=list)
+    fix_proposals: list[dict[str, Any]] = Field(default_factory=list)
     rationale: str = ""
+
+
+# ── Autoresearch Pipeline Schemas ──────────────────────────────────────
+
+
+class ImplementationStep(BaseModel):
+    """A single step in a fix proposal's implementation plan."""
+
+    step_type: Literal["code_edit", "config_change", "command", "web_search", "test"]
+    description: str
+    target_file: str | None = None
+    command: str | None = None
+    expected_outcome: str
+    actual_outcome: str | None = None
+    status: Literal["pending", "running", "success", "failed", "skipped"] = "pending"
+
+
+class TraceEntry(BaseModel):
+    """A single entry in the fix execution trace."""
+
+    timestamp: str
+    phase: str  # "research", "implement", "verify"
+    action: str
+    result: str
+    duration_ms: int = 0
+
+
+class FixProposal(BaseModel):
+    """A proposed fix for a recurring failure pattern.
+
+    Unlike a Rule (which is passive — "skip when X"), a FixProposal is active:
+    it diagnoses the root cause, researches solutions, and proposes concrete
+    implementation steps to fix the problem.
+    """
+
+    proposal_id: str = Field(pattern=r"^[0-9a-fA-F-]{36}$")
+    trigger_event_type: str
+    site: str
+    diagnosis: str  # Root cause analysis
+    research_findings: list[str] = Field(default_factory=list)
+    solution: str  # Proposed fix description
+    implementation_steps: list[ImplementationStep] = Field(default_factory=list)
+    confidence: float = Field(ge=0.0, le=1.0)
+    status: Literal[
+        "proposed", "researching", "implementing", "verified", "applied", "failed"
+    ] = "proposed"
+    created_at: str
+    applied_at: str | None = None
+    trace: list[TraceEntry] = Field(default_factory=list)
+
+
+class Learning(BaseModel):
+    """A documented learning from a fix attempt."""
+
+    learning_id: str = Field(pattern=r"^[0-9a-fA-F-]{36}$")
+    proposal_id: str
+    site: str
+    failure_pattern: str
+    fix_description: str
+    fix_type: str  # "code_edit", "config_change", "workaround"
+    outcome: Literal["success", "partial", "failed"]
+    evidence: str  # What proved it worked or didn't
+    created_at: str
