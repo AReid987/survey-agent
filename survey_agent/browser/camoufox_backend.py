@@ -273,14 +273,77 @@ class CamoufoxBackend(SurveyAgentBackend):
     ) -> AgentResult:
         """Complete a survey by answering questions.
 
-        This is the hardest part — reads questions from the page,
-        generates answers via profile context, and submits.
-        For now, captures the page state for LLM-driven answering.
+        Reads questions from the page, generates answers via profile context,
+        and handles CAPTCHAs using the vision solver.
         """
         if not self._page:
             return AgentResult(success=False, error="Backend not started")
 
         try:
+            # Check for CAPTCHA first
+            page_text = await self._page.evaluate(
+                "() => document.body?.innerText?.substring(0, 2000) || ''"
+            )
+
+            from survey_agent.captcha.solver import (  # noqa: PLC0415
+                CaptchaDetector, CaptchaSolver, create_vision_llm_fn,
+            )
+
+            captcha = CaptchaDetector.detect_from_page(page_text, "")
+            if captcha:
+                logger.info(f"CAPTCHA detected: {captcha.captcha_type.value} — {captcha.description}")
+
+                # Take screenshot for vision solver
+                screenshot_bytes = None
+                try:
+                    screenshot_bytes = await self._page.screenshot()
+                except Exception:
+                    logger.warning("Could not take screenshot for CAPTCHA")
+
+                # Create vision solver with Groq
+                vision_fn = create_vision_llm_fn(provider="groq")
+                solver = CaptchaSolver(llm_fn=vision_fn)
+
+                solution = await solver.solve(captcha)
+                if solution.solved and solution.answer:
+                    logger.info(f"CAPTCHA solved: {solution.answer} (method: {solution.method})")
+
+                    # Try to enter the answer into the CAPTCHA input field
+                    answer_escaped = solution.answer.replace("'", "\\'")
+                    entered = await self._page.evaluate(
+                        f"(() => {{"
+                        f"const inputs = document.querySelectorAll('input[type=\"text\"], input[type=\"number\"], input:not([type])');"
+                        f"for (const input of inputs) {{"
+                        f"if (input.offsetParent !== null && (input.placeholder || '').toLowerCase().includes('code')) {{"
+                        f"input.value = '{answer_escaped}';"
+                        f"input.dispatchEvent(new Event('input', {{bubbles: true}}));"
+                        f"input.dispatchEvent(new Event('change', {{bubbles: true}}));"
+                        f"return true;}}}}"
+                        f"return false;}})()"
+                    )
+
+                    if entered:
+                        logger.info("CAPTCHA answer entered into field")
+                    else:
+                        logger.warning("Could not find CAPTCHA input field")
+                else:
+                    logger.warning(f"CAPTCHA not solved: {solution.error}")
+                    from survey_agent import brain  # noqa: PLC0415
+                    brain.record(
+                        site="branded_surveys",
+                        event_type="captcha_failed",
+                        context={
+                            "challenge_type": captcha.captcha_type.value,
+                            "description": captcha.description,
+                            "solver_error": solution.error or "unknown",
+                            "method": solution.method,
+                        },
+                    )
+                    return AgentResult(
+                        success=False,
+                        error=f"CAPTCHA not solved: {solution.error}",
+                    )
+
             # Capture current page state for answering
             page_state = await self._page.evaluate("""() => {
                 const state = {
