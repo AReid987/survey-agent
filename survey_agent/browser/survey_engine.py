@@ -122,18 +122,21 @@ Reply with ONLY the label text of the best option. If multiple options apply (ch
                     except Exception as e:
                         logger.warning(f"Failed to click option: {e}")
 
-        # Click submit
+        # Click submit — buttons are INPUT[type=submit], not BUTTON
         await asyncio.sleep(0.5)
-        await page.evaluate("""() => {
-            const btns = document.querySelectorAll('button[type="submit"], input[type="submit"]');
+        submitted = await page.evaluate("""() => {
+            // Find visible submit INPUT elements (quick-question and poll)
+            const btns = document.querySelectorAll('input.submit-quick-question, input.submit-poll, input[type="submit"]');
             for (const btn of btns) {
                 if (btn.offsetParent !== null) {
+                    btn.scrollIntoView({behavior: 'smooth', block: 'center'});
                     btn.click();
-                    return true;
+                    return 'clicked: ' + btn.className.substring(0, 50);
                 }
             }
-            return false;
+            return 'not found';
         }""")
+        logger.info(f"Quick question submit: {submitted}")
 
         await asyncio.sleep(2)
         return True
