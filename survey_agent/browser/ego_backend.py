@@ -489,21 +489,25 @@ const body = await js(String.raw`(function(){
     catch(e) { return 'err: ' + e.message; }
 })()`);
 const elements = await js(String.raw`(function(){
-    // Get labels (standalone clickable options)
+    // Get labels (standalone clickable options) — skip Google Translate
     var labels = document.querySelectorAll('label');
     var result = [];
     for (var i = 0; i < labels.length && i < 30; i++) {
         var el = labels[i];
         if (el.offsetParent === null) continue;
+        // Skip Google Translate widget
+        if (el.closest('.goog-te-combo') || el.closest('[class*="translate"]')) continue;
         var text = el.textContent.trim().substring(0, 80);
         if (text.length < 2) continue;
         result.push({tag: 'LABEL', type: '', name: '', id: el.id || '', label: text, visible: true, value: ''});
     }
-    // Get selects, text inputs
+    // Get selects, text inputs — skip Google Translate
     var inputs = document.querySelectorAll('select, textarea, input[type="text"], input[type="number"]');
     for (var i = 0; i < inputs.length && i < 10; i++) {
         var el = inputs[i];
         if (el.offsetParent === null) continue;
+        // Skip Google Translate widget
+        if (el.closest('.goog-te-combo') || el.closest('[class*="translate"]')) continue;
         var opts = [];
         if (el.tagName === 'SELECT') {
             for (var j = 0; j < el.options.length && j < 10; j++) {
@@ -554,8 +558,12 @@ cliLog('ELEMENTS: ' + elements);
                 line = line.strip()
                 if not line or len(line) < 10:
                     continue
-                # Skip navigation/progress elements
-                if any(skip in line.lower() for skip in ["technical problem", "click here", "skip to content", "my dashboard", "my points"]):
+                # Skip navigation/progress/widget elements
+                if any(skip in line.lower() for skip in [
+                    "technical problem", "click here", "skip to content",
+                    "my dashboard", "my points", "select language",
+                    "translate", "cookie", "privacy policy",
+                ]):
                     continue
                 # Look for question indicators
                 if '?' in line or 'select' in line.lower() or 'how' in line.lower() or 'what' in line.lower() or 'which' in line.lower() or 'have you' in line.lower():
