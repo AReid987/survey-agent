@@ -451,7 +451,7 @@ For text inputs, reply with "TEXT: your answer here"."""
                 const els = document.querySelectorAll('a, button, input[type="submit"]');
                 for (const el of els) {
                     const text = (el.textContent || el.value || '').trim().toUpperCase();
-                    if (text === 'ACCEPT' || text === 'AGREE' || text === 'I AGREE' || text === 'START >>' || text === 'BEGIN SURVEY') {
+                    if (text.includes('ACCEPT') || text.includes('AGREE') || text === 'I AGREE' || text === 'START >>' || text === 'BEGIN SURVEY') {
                         el.click();
                         return;
                     }
