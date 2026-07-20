@@ -386,23 +386,30 @@ cliLog(surveyUrl);
 
         logger.info(f"Survey URL: {survey_url[:80]}")
 
-        # Step 2: Navigate to survey pre-page and click TAKE SURVEY
+        # Step 2: Navigate to survey pre-page and click TAKE SURVEY then BEGIN SURVEY
         start_survey_script = f"""
 const task = await useOrCreateTaskSpace('survey answering');
 await gotoAndWait('{survey_url}', {{ timeout: 30, settle: 5 }});
 await new Promise(r => setTimeout(r, 3000));
-// Click TAKE SURVEY via JS (avoids CDP mouse timeout)
-const takeResult = await js(String.raw`(function(){{
-    var els = document.querySelectorAll('a, button');
+// Click TAKE SURVEY via JS
+await js(String.raw`(function(){{
+    var els = document.querySelectorAll('a, button, input[type="submit"]');
     for (var i = 0; i < els.length; i++) {{
-        if ((els[i].textContent||'').trim().toUpperCase() === 'TAKE SURVEY') {{
-            els[i].click();
-            return 'clicked';
-        }}
+        var text = (els[i].textContent||els[i].value||'').trim().toUpperCase();
+        if (text === 'TAKE SURVEY') {{ els[i].click(); return 'clicked'; }}
     }}
     return 'not found';
 }})()`);
-cliLog('TAKE: ' + takeResult);
+await new Promise(r => setTimeout(r, 8000));
+// Click BEGIN SURVEY if present (second pre-survey page)
+await js(String.raw`(function(){{
+    var els = document.querySelectorAll('a, button, input[type="submit"]');
+    for (var i = 0; i < els.length; i++) {{
+        var text = (els[i].textContent||els[i].value||'').trim().toUpperCase();
+        if (text === 'BEGIN SURVEY' || text === 'START SURVEY') {{ els[i].click(); return 'clicked'; }}
+    }}
+    return 'not found';
+}})()`);
 await new Promise(r => setTimeout(r, 10000));
 // Get survey page content
 const body = await js(String.raw`(function(){{
@@ -420,8 +427,6 @@ cliLog('BODY: ' + body);
         for line in output.strip().split("\n"):
             if line.startswith("BODY: "):
                 body_text = line[6:]
-            elif line.startswith("TAKE: "):
-                logger.info(f"TAKE SURVEY: {line[6:]}")
 
         if "not found" in output.lower():
             return AgentResult(success=False, error="TAKE SURVEY button not found")
