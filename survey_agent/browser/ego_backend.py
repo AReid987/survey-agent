@@ -477,11 +477,11 @@ cliLog('BODY: ' + body);
 
         # Step 4: Answer questions using js() for all interactions
         max_questions = 50
-        last_question = ""
+        last_body = ""
         same_count = 0
 
         for i in range(max_questions):
-            # Get current page content and interactive elements
+            # Get current page content and ALL interactive elements (including labels)
             get_state_script = """
 const task = await useOrCreateTaskSpace('survey answering');
 const body = await js(String.raw`(function(){
@@ -489,18 +489,28 @@ const body = await js(String.raw`(function(){
     catch(e) { return 'err: ' + e.message; }
 })()`);
 const elements = await js(String.raw`(function(){
-    var els = document.querySelectorAll('input[type="radio"], input[type="checkbox"], select, textarea, input[type="text"]');
+    // Get labels (standalone clickable options)
+    var labels = document.querySelectorAll('label');
     var result = [];
-    for (var i = 0; i < els.length && i < 30; i++) {
-        var el = els[i];
-        var label = '';
-        var parent = el.closest('label');
-        if (parent) label = parent.textContent.trim().substring(0, 80);
-        if (!label) {
-            var lbl = document.querySelector('label[for="' + el.id + '"]');
-            if (lbl) label = lbl.textContent.trim().substring(0, 80);
+    for (var i = 0; i < labels.length && i < 30; i++) {
+        var el = labels[i];
+        if (el.offsetParent === null) continue;
+        var text = el.textContent.trim().substring(0, 80);
+        if (text.length < 2) continue;
+        result.push({tag: 'LABEL', type: '', name: '', id: el.id || '', label: text, visible: true, value: ''});
+    }
+    // Get selects, text inputs
+    var inputs = document.querySelectorAll('select, textarea, input[type="text"], input[type="number"]');
+    for (var i = 0; i < inputs.length && i < 10; i++) {
+        var el = inputs[i];
+        if (el.offsetParent === null) continue;
+        var opts = [];
+        if (el.tagName === 'SELECT') {
+            for (var j = 0; j < el.options.length && j < 10; j++) {
+                opts.push(el.options[j].text.trim().substring(0, 50));
+            }
         }
-        result.push({tag: el.tagName, type: el.type||'', name: el.name||'', id: el.id||'', label: label, visible: el.offsetParent !== null, value: el.value||''});
+        result.push({tag: el.tagName, type: el.type || '', name: el.name || '', id: el.id || '', label: '', visible: true, value: el.value || '', options: opts});
     }
     return JSON.stringify(result);
 })()`);
@@ -548,23 +558,29 @@ cliLog('ELEMENTS: ' + elements);
                 if len(line) > 20 and not question_text:
                     question_text = line[:300]
 
-            # Build options list with labels
+            # Build options list with labels and select options
             options = []
             for el in elements:
                 if not el.get("visible"):
                     continue
+                tag = el.get("tag", "")
                 label = el.get("label", "").strip()
-                if not label or len(label) < 2:
-                    continue
-                if any(skip in label.lower() for skip in ["dashboard", "profile", "logout", "menu"]):
-                    continue
-                options.append({
-                    "name": el.get("name", ""),
-                    "id": el.get("id", ""),
-                    "type": el.get("type", ""),
-                    "label": label,
-                    "value": el.get("value", ""),
-                })
+
+                if tag == "SELECT":
+                    # Add each select option as a separate choice
+                    for opt in el.get("options", []):
+                        if opt and len(opt) > 1 and opt != "Select one":
+                            options.append({"name": el.get("name", ""), "id": el.get("id", ""), "type": "select", "label": opt, "value": opt})
+                elif tag == "LABEL":
+                    if label and len(label) > 1:
+                        if any(skip in label.lower() for skip in ["dashboard", "profile", "logout", "menu"]):
+                            continue
+                        options.append({"name": el.get("name", ""), "id": el.get("id", ""), "type": "label", "label": label, "value": ""})
+                else:
+                    if label and len(label) > 1:
+                        if any(skip in label.lower() for skip in ["dashboard", "profile", "logout", "menu"]):
+                            continue
+                        options.append({"name": el.get("name", ""), "id": el.get("id", ""), "type": el.get("type", ""), "label": label, "value": el.get("value", "")})
 
             if not options:
                 # Also look for links/buttons that might be answer options
@@ -603,8 +619,8 @@ cliLog('LINKS: ' + els);
                 await asyncio.sleep(2)
                 continue
 
-            # Stuck detection — same question 3 times in a row
-            if question_text == last_question:
+            # Stuck detection — same page content 3 times in a row
+            if body_text == last_body:
                 same_count += 1
                 if same_count >= 3:
                     # Try scrolling to reveal more content
@@ -617,7 +633,7 @@ await new Promise(r => setTimeout(r, 1000));
                     same_count = 0
             else:
                 same_count = 0
-            last_question = question_text
+            last_body = body_text
 
             # Use LLM to pick the best answer
             prompt = f"""Answer this survey question as the user described below.
@@ -668,23 +684,40 @@ cliLog('applied');
 """
                 await _run_ego(apply_script, timeout=15)
             else:
-                # Click the matching option — handles radio, checkbox, AND links
+                # Click the matching option — handles labels, radio, checkbox, AND links
                 answer_clean = answer.strip().replace("'", "\\'").replace('"', '\\"')
                 click_script = f"""
 const task = await useOrCreateTaskSpace('survey answering');
 await js(String.raw`(function(){{
-    // First try radio/checkbox
+    // Try standalone labels first (common in survey providers)
+    var labels = document.querySelectorAll('label');
+    for (var i = 0; i < labels.length; i++) {{
+        var text = labels[i].textContent.trim();
+        if (text.toLowerCase().indexOf('{answer_clean.lower()[:40]}') !== -1 && labels[i].offsetParent !== null) {{
+            labels[i].click();
+            return 'clicked label: ' + text;
+        }}
+    }}
+    // Try radio/checkbox inputs with parent labels
     var els = document.querySelectorAll('input[type="radio"], input[type="checkbox"]');
     for (var i = 0; i < els.length; i++) {{
         var parent = els[i].closest('label');
         var label = parent ? parent.textContent.trim() : '';
-        if (!label) {{
-            var lbl = document.querySelector('label[for="' + els[i].id + '"]');
-            if (lbl) label = lbl.textContent.trim();
-        }}
         if (label.toLowerCase().indexOf('{answer_clean.lower()[:40]}') !== -1) {{
             els[i].click();
             return 'clicked radio: ' + label;
+        }}
+    }}
+    // Try select options
+    var selects = document.querySelectorAll('select');
+    for (var i = 0; i < selects.length; i++) {{
+        for (var j = 0; j < selects[i].options.length; j++) {{
+            var opt = selects[i].options[j];
+            if (opt.text.toLowerCase().indexOf('{answer_clean.lower()[:40]}') !== -1) {{
+                selects[i].value = opt.value;
+                selects[i].dispatchEvent(new Event('change', {{bubbles: true}}));
+                return 'selected: ' + opt.text;
+            }}
         }}
     }}
     // Try links and buttons
@@ -704,14 +737,18 @@ cliLog('answered');
 
             await asyncio.sleep(1)
 
-            # Click Next/Submit via JS
+            # Click Next/Submit via JS — handle XX_NXT button and standard buttons
             next_script = """
 const task = await useOrCreateTaskSpace('survey answering');
 await js(String.raw`(function(){
+    // Try XX_NXT button first (common in survey providers)
+    var nxt = document.querySelector('input[type="submit"][name="XX_NXT"]');
+    if (nxt && nxt.offsetParent !== null) { nxt.click(); return 'clicked XX_NXT'; }
+    // Try standard buttons
     var btns = document.querySelectorAll('button, input[type="submit"], a.btn');
     for (var i = 0; i < btns.length; i++) {
         var text = (btns[i].textContent || btns[i].value || '').trim().toUpperCase();
-        if (text === 'NEXT' || text === 'SUBMIT' || text === 'CONTINUE' || text === '>>' || text === 'NEXT >') {
+        if (text === 'NEXT' || text === 'SUBMIT' || text === 'CONTINUE' || text === '>>' || text === 'NEXT >' || text === 'START >>') {
             btns[i].click();
             return 'clicked: ' + text;
         }
@@ -719,7 +756,7 @@ await js(String.raw`(function(){
     return 'no next button';
 })()`);
 cliLog('nexted');
-await new Promise(r => setTimeout(r, 3000));
+await new Promise(r => setTimeout(r, 5000));
 """
             await _run_ego(next_script, timeout=15)
 
