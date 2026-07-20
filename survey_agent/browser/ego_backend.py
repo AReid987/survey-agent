@@ -616,6 +616,111 @@ cliLog('SNAP: ' + snap);
             if sm:
                 start_ref = sm.group(1)
 
+            # No options found — try js() fallback if snapshot is minimal
+            if not opts and len(snapshot.strip().split("\n")) < 10:
+                # Snapshot is minimal (just "root" etc.) — use js() for content
+                js_fallback, js_rc = await _run_ego("""
+const task = await useOrCreateTaskSpace('survey answering');
+var body = await js('(function(){ return document.body ? document.body.innerText.substring(0, 2000) : "no body"; })()');
+var els = await js('(function(){
+    var result = [];
+    document.querySelectorAll("label").forEach(function(l) {
+        if (l.offsetParent === null) return;
+        var t = l.textContent.trim().substring(0, 80);
+        if (t.length > 1) result.push({type: "label", text: t});
+    });
+    document.querySelectorAll("select").forEach(function(s) {
+        if (s.offsetParent === null) return;
+        Array.from(s.options).forEach(function(o) {
+            if (o.value && o.text.trim() !== "Select one")
+                result.push({type: "select", text: o.text.trim().substring(0, 80), id: s.id, value: o.value});
+        });
+    });
+    document.querySelectorAll("input[type=text], input[type=number], textarea").forEach(function(t) {
+        if (t.offsetParent !== null) result.push({type: "text", id: t.id, name: t.name});
+    });
+    return JSON.stringify(result);
+})()');
+cliLog('JS_BODY: ' + body);
+cliLog('JS_ELS: ' + els);
+""", timeout=15)
+
+                if js_rc == 0:
+                    js_body = ""
+                    js_els_json = "[]"
+                    for line in (js_fallback or "").strip().split("\n"):
+                        if line.startswith("JS_BODY: "):
+                            js_body = line[9:]
+                        elif line.startswith("JS_ELS: "):
+                            js_els_json = line[8:]
+
+                    try:
+                        js_els = json.loads(js_els_json)
+                    except json.JSONDecodeError:
+                        js_els = []
+
+                    if js_els:
+                        # Found elements via js() — use them
+                        # Filter out dashboard/poll elements (percentage answers)
+                        import re as _re
+                        js_els = [e for e in js_els if not _re.match(r"^\d+\.\d+%", e.get("text", ""))]
+
+                        # Find question text from body
+                        for line in js_body.split("\n"):
+                            line = line.strip()
+                            if not line or len(line) < 10: continue
+                            if any(s in line.lower() for s in ["technical problem", "click here", "translate"]): continue
+                            if "?" in line or any(kw in line.lower() for kw in ["how", "what", "which", "are you", "have you", "please"]):
+                                q_text = line[:300]
+                                break
+
+                        if js_els:
+                            logger.info(f"js() fallback found {len(js_els)} elements: {js_els[0].get('text', '')[:40]}")
+                            # Click first option via js()
+                            el = js_els[0]
+                            if el.get("type") == "label":
+                                txt = el["text"].replace("'", "\\'")
+                                await _run_ego(f"""
+const task = await useOrCreateTaskSpace('survey answering');
+await js(String.raw`(function(){{
+    var labels = document.querySelectorAll("label");
+    for(var i=0;i<labels.length;i++){{
+        if(labels[i].textContent.trim()==="{txt}" && labels[i].offsetParent!==null){{
+            labels[i].click(); return "clicked";
+        }}
+    }}
+    return "not found";
+}})()`);
+""", timeout=10)
+                            elif el.get("type") == "select":
+                                await _run_ego(f"""
+const task = await useOrCreateTaskSpace('survey answering');
+await js(String.raw`(function(){{
+    var s = document.getElementById("{el['id']}");
+    if(s){{ s.value="{el['value']}"; s.dispatchEvent(new Event("change",{{bubbles:true}})); return "selected"; }}
+    return "not found";
+}})()`);
+""", timeout=10)
+
+                            await asyncio.sleep(1)
+                            # Click Next via js()
+                            await _run_ego("""
+const task = await useOrCreateTaskSpace('survey answering');
+await js(String.raw`(function(){
+    var btns = document.querySelectorAll('button, input[type="submit"]');
+    for(var i=0;i<btns.length;i++){
+        var t=(btns[i].textContent||btns[i].value||'').trim().toUpperCase();
+        if(t.includes('NEXT')||t.includes('SUBMIT')||t.includes('>>')){
+            btns[i].scrollIntoView(); btns[i].click(); return 'clicked';
+        }
+    }
+    return 'no next';
+})()`);
+""", timeout=10)
+                            await asyncio.sleep(3)
+                            no_option_count = 0
+                            continue
+
             # No options found
             if not opts:
                 no_option_count += 1
