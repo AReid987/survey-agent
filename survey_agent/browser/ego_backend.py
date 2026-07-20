@@ -468,7 +468,7 @@ var beginResult = await js(String.raw`(function(){
     return 'not found';
 })()`);
 cliLog('BEGIN_RESULT: ' + beginResult);
-await new Promise(r => setTimeout(r, 10000));
+await new Promise(r => setTimeout(r, 15000));
 var url = (await currentTab()).url;
 cliLog('AFTER_BEGIN_URL: ' + url);
 """, timeout=30)
@@ -477,9 +477,10 @@ cliLog('AFTER_BEGIN_URL: ' + url);
             if line.startswith("BEGIN_RESULT:") or line.startswith("AFTER_BEGIN_URL:"):
                 logger.info(line)
 
-        # Step 5: Handle consent
+        # Step 5: Handle consent and Start buttons
         consent_output, _ = await _run_ego("""
 const task = await useOrCreateTaskSpace('survey answering');
+// Click consent/accept/start buttons
 var consentResult = await js(String.raw`(function(){
     var cb = document.getElementById('confirmationCheckbox');
     if (cb && !cb.checked) { cb.click(); }
@@ -490,14 +491,14 @@ var consentResult = await js(String.raw`(function(){
     var btns = document.querySelectorAll('a, button, input[type="submit"]');
     for (var i = 0; i < btns.length; i++) {
         var text = (btns[i].textContent||btns[i].value||'').trim().toUpperCase();
-        if (text === 'ACCEPT' || text === 'AGREE' || text === 'I AGREE' || text === 'I CONSENT' || text === 'CONTINUE') {
-            btns[i].click(); return 'accepted';
+        if (text === 'ACCEPT' || text === 'AGREE' || text === 'I AGREE' || text === 'I CONSENT' || text === 'CONTINUE' || text === 'START') {
+            btns[i].click(); return 'clicked ' + text;
         }
     }
     return 'no_consent';
 })()`);
 cliLog('CONSENT: ' + consentResult);
-await new Promise(r => setTimeout(r, 5000));
+await new Promise(r => setTimeout(r, 8000));
 """, timeout=20)
 
         for line in (consent_output or "").strip().split("\n"):
