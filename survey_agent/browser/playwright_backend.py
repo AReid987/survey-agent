@@ -280,6 +280,29 @@ class PlaywrightBackend(SurveyAgentBackend):
             if "dashboard" in url.lower() and "survey" not in url.lower():
                 return AgentResult(success=False, error="Redirected to dashboard (likely disqualified or full)")
 
+            # Detect CAPTCHA/verification codes — skip immediately
+            if any(kw in body_lower for kw in ["type the following code", "enter the code", "captcha", "verification code", "prove you are human"]):
+                logger.info(f"Q{i+1}: CAPTCHA detected, skipping survey")
+                return AgentResult(success=False, error="CAPTCHA/verification code required (cannot read images)")
+
+            # Detect timer-based questions ("click NEXT after N seconds")
+            import re as _re
+            timer_match = _re.search(r"(?:click|press).*?(?:next|continue).*?after\s+(\d+)\s*sec", body_lower)
+            if timer_match:
+                wait_secs = int(timer_match.group(1))
+                logger.info(f"Q{i+1}: Timer question detected, waiting {wait_secs} seconds")
+                await asyncio.sleep(wait_secs + 2)
+                # Then click Next
+                await self._page.evaluate("""() => {
+                    const btns = document.querySelectorAll('button, input[type="submit"]');
+                    for (const b of btns) {
+                        const t = (b.textContent || b.value || '').trim().toUpperCase();
+                        if (t.includes('NEXT') || t.includes('CONTINUE')) { b.click(); return; }
+                    }
+                }""")
+                await asyncio.sleep(3)
+                continue
+
             # Get question and options (including standalone labels)
             question_data = await self._page.evaluate("""() => {
                 // Find question text
