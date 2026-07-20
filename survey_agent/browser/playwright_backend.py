@@ -95,39 +95,55 @@ class PlaywrightBackend(SurveyAgentBackend):
         logger.info("Playwright backend stopped")
 
     async def login(self, site_url: str, site_name: str) -> AgentResult:
-        """Log into a survey site."""
+        """Log into a survey site with retry for bot detection."""
         login_url = site_url.rstrip("/") + "/users/login/"
-        await self._page.goto(login_url, wait_until="domcontentloaded", timeout=30000)
-        await asyncio.sleep(3)
 
-        # Dismiss cookie banner
-        for sel in ["#_evidon_banner button", "button[id*='close']"]:
-            try:
-                await self._page.click(sel, timeout=1000)
-                break
-            except Exception:
-                continue
+        for attempt in range(3):
+            await self._page.goto(login_url, wait_until="domcontentloaded", timeout=30000)
+            await asyncio.sleep(3)
 
-        # Fill credentials
-        if self._login_email and self._login_password:
-            try:
-                await self._page.click("#UserEmail", timeout=3000)
-                await self._page.type("#UserEmail", self._login_email, delay=50)
-                await self._page.click("#UserPassword", timeout=3000)
-                await self._page.type("#UserPassword", self._login_password, delay=50)
-                await self._page.press("#UserPassword", "Enter")
-                await asyncio.sleep(8)
+            # Dismiss cookie banner
+            for sel in ["#_evidon_banner button", "button[id*='close']"]:
+                try:
+                    await self._page.click(sel, timeout=1000)
+                    break
+                except Exception:
+                    continue
 
-                url = self._page.url
-                if "dashboard" in url.lower():
-                    logger.info(f"Login successful: {url}")
-                    return AgentResult(success=True, output=f"Logged in to {site_name}")
-                else:
-                    return AgentResult(success=False, error=f"Login failed, at: {url}")
-            except Exception as e:
-                return AgentResult(success=False, error=f"Login error: {e}")
+            # Fill credentials
+            if self._login_email and self._login_password:
+                try:
+                    await self._page.click("#UserEmail", timeout=3000)
+                    await self._page.type("#UserEmail", self._login_email, delay=50)
+                    await self._page.click("#UserPassword", timeout=3000)
+                    await self._page.type("#UserPassword", self._login_password, delay=50)
+                    await self._page.press("#UserPassword", "Enter")
+                    await asyncio.sleep(12)
 
-        return AgentResult(success=False, error="No credentials provided")
+                    url = self._page.url
+                    if "dashboard" in url.lower():
+                        logger.info(f"Login successful: {url}")
+
+                        # Wait for dynamic content to load
+                        await asyncio.sleep(5)
+                        try:
+                            await self._page.wait_for_load_state("networkidle", timeout=15000)
+                        except Exception:
+                            pass
+
+                        return AgentResult(success=True, output=f"Logged in to {site_name}")
+                    elif "system.gobranded" in url:
+                        logger.warning(f"Bot detection (attempt {attempt+1}): {url}")
+                        await asyncio.sleep(5)
+                        continue
+                    else:
+                        return AgentResult(success=False, error=f"Login failed, at: {url}")
+                except Exception as e:
+                    logger.warning(f"Login error (attempt {attempt+1}): {e}")
+                    await asyncio.sleep(5)
+                    continue
+
+        return AgentResult(success=False, error="Login failed after 3 attempts (bot detection)")
 
     async def discover_surveys(self, dashboard_url: str) -> AgentResult:
         """Find available surveys on the dashboard."""
@@ -157,15 +173,24 @@ class PlaywrightBackend(SurveyAgentBackend):
 
         Flow: Dashboard → Pre-page → TAKE SURVEY → BEGIN SURVEY → Questions
         """
-        # Step 1: Find and navigate to a survey
+        # Step 1: Find survey links on dashboard
+        # Wait for dynamic content
+        await asyncio.sleep(3)
+        try:
+            await self._page.wait_for_load_state("networkidle", timeout=10000)
+        except Exception:
+            pass
+
+        # Find pre-survey links (real surveys) — navigate directly, don't click
         survey_url = await self._page.evaluate("""() => {
-            // Prefer /router/go (regular surveys), fallback to /qualifications/ (profile surveys)
-            const router = document.querySelector('a[href*="/router/go"]');
-            if (router) return router.href;
-            const qual = document.querySelector('a[href*="/qualifications/"]');
-            if (qual) return qual.href;
             const pre = document.querySelector('a[href*="/surveys/pre/"]');
             if (pre) return pre.href;
+            // Fallback to qualifications
+            const qual = document.querySelector('a[href*="/qualifications/"]');
+            if (qual) return qual.href;
+            // Fallback to router (refreshes survey list)
+            const router = document.querySelector('a[href*="/router/go"]');
+            if (router) return router.href;
             return '';
         }""")
 
@@ -173,23 +198,25 @@ class PlaywrightBackend(SurveyAgentBackend):
             return AgentResult(success=True, output="No surveys available")
 
         logger.info(f"Survey URL: {survey_url[:80]}")
-        await self._page.goto(survey_url, wait_until="domcontentloaded", timeout=30000)
-        await asyncio.sleep(8)
 
-        # Check if redirected back to dashboard (no survey available)
+        # Navigate directly to the survey URL (don't click — clicking redirects differently)
+        await self._page.goto(survey_url, wait_until="domcontentloaded", timeout=30000)
+        await asyncio.sleep(5)
+
+        # Check if redirected back to dashboard
         current_url = self._page.url
         if "/users/dashboard" in current_url.lower():
-            # Try qualifications as fallback
+            # Survey was full — try next one or qualifications
             qual_url = await self._page.evaluate("""() => {
                 const l = document.querySelector('a[href*="/qualifications/"]');
                 return l ? l.href : '';
             }""")
             if qual_url:
-                logger.info(f"Router redirected to dashboard, trying qualifications: {qual_url[:80]}")
+                logger.info("Survey full, trying qualifications")
                 await self._page.goto(qual_url, wait_until="domcontentloaded", timeout=30000)
                 await asyncio.sleep(5)
             else:
-                return AgentResult(success=True, output="No surveys available (router redirects to dashboard)")
+                return AgentResult(success=True, output="No surveys available (all redirected to dashboard)")
 
         # Step 2: Click TAKE SURVEY (only if on gobranded pre-page)
         url_after_nav = self._page.url
