@@ -271,7 +271,7 @@ class PlaywrightBackend(SurveyAgentBackend):
             if "dashboard" in url.lower() and "survey" not in url.lower():
                 return AgentResult(success=False, error="Redirected to dashboard (likely disqualified or full)")
 
-            # Get question and options
+            # Get question and options (including standalone labels)
             question_data = await self._page.evaluate("""() => {
                 // Find question text
                 let question = '';
@@ -285,28 +285,29 @@ class PlaywrightBackend(SurveyAgentBackend):
                     if (t.length > 20 && !question) question = t.substring(0, 300);
                 }
 
-                // Find radio/checkbox options
                 const options = [];
-                const radios = document.querySelectorAll('input[type="radio"], input[type="checkbox"]');
-                radios.forEach(r => {
-                    const label = r.closest('label')?.textContent?.trim() ||
-                                  document.querySelector(`label[for="${r.id}"]`)?.textContent?.trim() || '';
-                    if (label && label.length > 1) {
-                        options.push({type: r.type, name: r.name, id: r.id, label: label.substring(0, 80)});
+
+                // Get standalone labels (common in survey providers)
+                const labels = document.querySelectorAll('label');
+                labels.forEach(l => {
+                    if (l.offsetParent === null) return;
+                    const text = l.textContent.trim().substring(0, 80);
+                    if (text.length > 1) {
+                        options.push({type: 'label', name: '', id: l.id || '', label: text});
                     }
                 });
 
-                // Find select dropdowns
+                // Get select dropdowns
                 const selects = document.querySelectorAll('select');
                 selects.forEach(s => {
-                    const opts = [];
                     Array.from(s.options).forEach(o => {
-                        if (o.value && o.text.trim()) opts.push({value: o.value, label: o.text.trim()});
+                        if (o.value && o.text.trim() && o.text.trim() !== 'Select one') {
+                            options.push({type: 'select', name: s.name, id: s.id, label: o.text.trim().substring(0, 80)});
+                        }
                     });
-                    if (opts.length > 0) options.push({type: 'select', name: s.name, id: s.id, options: opts});
                 });
 
-                // Find text inputs
+                // Get text inputs
                 const textInputs = document.querySelectorAll('input[type="text"], input[type="number"], textarea');
                 textInputs.forEach(t => {
                     if (t.offsetParent !== null) options.push({type: 'text', name: t.name, id: t.id, placeholder: t.placeholder});
@@ -374,42 +375,51 @@ For text inputs, reply with "TEXT: your answer here"."""
                     "return false;})()"
                 )
             else:
-                # Click matching option — try label click first (works for radio/checkbox)
+                # Click matching option — try labels first, then radio, then select
                 answer_clean = answer.strip().lower()[:40].replace("'", "\\'")
-                clicked = await self._page.evaluate(
+                js_code = (
                     "(() => {"
+                    "const labels = document.querySelectorAll('label');"
+                    "for (const l of labels) {"
+                    "if (l.offsetParent === null) continue;"
+                    "if (l.textContent.trim().toLowerCase().includes('" + answer_clean + "')) {"
+                    "l.click();"
+                    "return 'clicked label: ' + l.textContent.trim();}}"
                     "const els = document.querySelectorAll('input[type=\"radio\"], input[type=\"checkbox\"]');"
                     "for (const el of els) {"
                     "const label = el.closest('label')?.textContent?.trim() || '';"
-                    f"if (label.toLowerCase().includes('{answer_clean}')) {{"
-                    "const labelEl = el.closest('label') || el;"
-                    "labelEl.click();"
-                    "return 'clicked: ' + label;}}"
+                    "if (label.toLowerCase().includes('" + answer_clean + "')) {"
+                    "el.click();"
+                    "return 'clicked radio: ' + label;}}"
                     "const selects = document.querySelectorAll('select');"
                     "for (const sel of selects) {"
                     "for (const opt of sel.options) {"
-                    f"if (opt.text.toLowerCase().includes('{answer_clean}')) {{"
+                    "if (opt.text.toLowerCase().includes('" + answer_clean + "')) {"
                     "sel.value = opt.value;"
                     "sel.dispatchEvent(new Event('change', {bubbles: true}));"
                     "return 'selected: ' + opt.text;}}}"
                     "return 'no match';})()"
                 )
+                clicked = await self._page.evaluate(js_code)
                 if clicked.startswith("no match"):
                     logger.warning(f"No match for answer: {answer_clean[:50]}")
 
             await asyncio.sleep(1)
 
-            # Click Next/Submit
+            # Click Next/Submit — try XX_NXT first, then standard buttons
             await self._page.evaluate("""() => {
+                // Try XX_NXT button first (common in survey providers)
+                const nxt = document.querySelector('input[type="submit"][name="XX_NXT"]');
+                if (nxt && nxt.offsetParent !== null) { nxt.click(); return; }
+                // Try standard buttons
                 const btns = document.querySelectorAll('button, input[type="submit"], a.btn');
                 for (const btn of btns) {
                     const text = (btn.textContent || btn.value || '').trim().toUpperCase();
-                    if (text === 'NEXT' || text === 'SUBMIT' || text === 'CONTINUE' || text === 'NEXT >' || text === '>>') {
+                    if (text === 'NEXT' || text === 'SUBMIT' || text === 'CONTINUE' || text === '>>' || text === 'NEXT >' || text === 'START >>') {
                         btn.click();
-                        return 'clicked: ' + text;
+                        return;
                     }
                 }
-                return 'no next button';
             }""")
             await asyncio.sleep(3)
 
@@ -429,17 +439,16 @@ For text inputs, reply with "TEXT: your answer here"."""
             }""")
             await asyncio.sleep(1)
 
-            # Click Accept
+            # Click Accept/START
             await self._page.evaluate("""() => {
                 const els = document.querySelectorAll('a, button, input[type="submit"]');
                 for (const el of els) {
                     const text = (el.textContent || el.value || '').trim().toUpperCase();
-                    if (text === 'ACCEPT' || text === 'AGREE' || text === 'I AGREE') {
+                    if (text === 'ACCEPT' || text === 'AGREE' || text === 'I AGREE' || text === 'START >>' || text === 'BEGIN SURVEY') {
                         el.click();
-                        return true;
+                        return;
                     }
                 }
-                return false;
             }""")
             await asyncio.sleep(5)
         except Exception:
