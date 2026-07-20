@@ -1,0 +1,465 @@
+"""Ego Lite browser backend for survey automation.
+
+Ego Lite (https://lite.ego.app) is a free, open-source Chromium-based browser
+designed for AI agents. It can inherit your real Chrome data (cookies, logins,
+extensions) on first launch, solving the Google OAuth problem for Prime Opinion.
+
+Prerequisites:
+1. Install Ego Lite app: https://lite.ego.app (free DMG download)
+2. Run it once, migrate Chrome data when prompted
+3. Install ego-browser CLI: copy from GitHub releases or use npx
+
+Usage:
+    from .ego_backend import EgoLiteBackend
+    backend = EgoLiteBackend()
+    await backend.start()
+    result = await backend.complete_survey(survey_info, profile_context)
+"""
+
+from __future__ import annotations
+
+import asyncio
+import json
+import logging
+import os
+import re
+import subprocess
+import tempfile
+import time
+from pathlib import Path
+from typing import Any
+
+from .backend import AgentResult, SurveyAgentBackend
+
+logger = logging.getLogger(__name__)
+
+EGO_BROWSER_BIN = os.environ.get("EGO_BROWSER_PATH", os.path.expanduser("~/.local/bin/ego-browser"))
+EGO_NODE = "/opt/homebrew/bin/node"  # Node 26+ required
+EGO_BROWSER_TIMEOUT = 120  # seconds per command
+
+
+def _check_node_version() -> bool:
+    """Check if Node.js is new enough for ego-browser (needs 22+)."""
+    try:
+        result = subprocess.run(
+            [EGO_NODE, "--version"], capture_output=True, text=True, timeout=5, check=False
+        )
+        if result.returncode == 0:
+            ver = result.stdout.strip().lstrip("v")
+            major = int(ver.split(".")[0])
+            return major >= 22
+    except (FileNotFoundError, ValueError, subprocess.TimeoutExpired):
+        pass
+    return False
+
+
+def _check_installed() -> tuple[bool, str]:
+    """Check if ego-browser CLI is available and compatible."""
+    try:
+        result = subprocess.run(
+            ["which", EGO_BROWSER_BIN], capture_output=True, text=True, timeout=5, check=False
+        )
+        if result.returncode != 0:
+            return False, "ego-browser not found on PATH"
+        if not _check_node_version():
+            return False, "Node.js >=22 required (current: {})".format(
+                subprocess.run(["node", "--version"], capture_output=True, text=True, timeout=5).stdout.strip()
+            )
+        return True, "ready"
+    except Exception as e:
+        return False, str(e)
+
+
+async def _run_ego(
+    script: str,
+    timeout: float = EGO_BROWSER_TIMEOUT,
+) -> tuple[str, int]:
+    """Run a Node.js heredoc script through ego-browser.
+
+    The script is a Node.js program that uses ego-browser's built-in helpers:
+    - snapshotText(), click('@N'), fillInput('@N', text)
+    - openOrReuseTab(url), gotoAndWait(url)
+    - js(expression), cliLog(value)
+    """
+    # Write script to temp file
+    with tempfile.NamedTemporaryFile(
+        mode="w", suffix=".js", delete=False, prefix="ego_"
+    ) as f:
+        f.write(script)
+        script_path = f.name
+
+    try:
+        # Read script and pass via -e flag (ego-browser doesn't accept file args)
+        with open(script_path) as f:
+            script_content = f.read()
+
+        proc = await asyncio.create_subprocess_exec(
+            EGO_BROWSER_BIN,
+            "nodejs",
+            "-e",
+            script_content,
+            stdin=asyncio.subprocess.DEVNULL,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+        )
+        stdout, stderr = await asyncio.wait_for(
+            proc.communicate(), timeout=timeout
+        )
+        Path(script_path).unlink(missing_ok=True)
+
+        # cliLog output goes to stderr
+        output = stderr.decode("utf-8", errors="replace")
+        err_output = stdout.decode("utf-8", errors="replace")
+        if err_output.strip():
+            logger.debug("ego-browser stdout: %s", err_output[:200])
+
+        return output, proc.returncode or 0
+    except asyncio.TimeoutError:
+        Path(script_path).unlink(missing_ok=True)
+        return "TIMEOUT", 1
+    except FileNotFoundError:
+        Path(script_path).unlink(missing_ok=True)
+        return "ego-browser not found. Install Ego Lite from https://lite.ego.app", 1
+
+
+def _build_snapshot_script(url: str) -> str:
+    """Build a script that navigates and takes a snapshot."""
+    return f"""
+const task = await useOrCreateTaskSpace('survey automation');
+await openOrReuseTab('{url}', {{ wait: true, timeout: 20 }});
+await waitForLoad();
+await new Promise(r => setTimeout(r, 3000));
+
+const pageSnap = await snapshotText();
+const pageUrl = (await currentTab()).url;
+const pageTitle = (await pageInfo()).title;
+
+cliLog(JSON.stringify({{
+    url: pageUrl,
+    title: pageTitle,
+    snapshot: pageSnap,
+}}));
+await completeTaskSpace(task.name);
+"""
+
+
+def _build_action_script(actions: list[dict]) -> str:
+    """Build a script that executes survey actions (click, fill, select)."""
+    action_lines = []
+    for i, action in enumerate(actions):
+        act = action.get("action", "click")
+        sel = action.get("selector", "")
+        val = action.get("value", "")
+        label = action.get("label", f"action_{i}")
+
+        if act == "click":
+            if sel.startswith("@"):
+                action_lines.append(f"await click('{sel}', {{ label: '{label}' }});")
+            else:
+                action_lines.append(f"await click('{sel}', {{ label: '{label}' }});")
+        elif act == "fill":
+            escaped_val = val.replace("'", "\\'").replace("\\", "\\\\")
+            action_lines.append(f"await fillInput('{sel}', '{escaped_val}');")
+        elif act == "select":
+            action_lines.append(f"await fillInput('{sel}', '{val}');")
+        elif act == "type":
+            escaped_val = val.replace("'", "\\'").replace("\\", "\\\\")
+            action_lines.append(f"await typeText('{escaped_val}');")
+        elif act == "press":
+            action_lines.append(f"await pressKey('{val}');")
+
+    actions_code = "\n  ".join(action_lines) if action_lines else "// no actions"
+
+    return f"""
+const task = await useOrCreateTaskSpace('survey answering');
+await waitForLoad();
+await new Promise(r => setTimeout(r, 2000));
+
+{actions_code}
+
+await new Promise(r => setTimeout(r, 1500));
+const pageSnap = await snapshotText();
+const pageUrl = (await currentTab()).url;
+
+cliLog(JSON.stringify({{
+    url: pageUrl,
+    snapshot: pageSnap,
+}}));
+await completeTaskSpace(task.name);
+"""
+
+
+class EgoLiteBackend(SurveyAgentBackend):
+    """Browser backend powered by Ego Lite.
+
+    Requires:
+    - Ego Lite app installed (https://lite.ego.app)
+    - Chrome data migrated on first launch
+    - ego-browser CLI on PATH
+    - Node.js >=22
+    """
+
+    def __init__(
+        self,
+        llm_provider: str = "opencode",
+        llm_model: str | None = None,
+        llm_api_key: str | None = None,
+        llm_base_url: str | None = None,
+        headless: bool = False,
+        google_email: str = "",
+        paypal_email: str = "",
+        login_email: str = "",
+        login_password: str = "",
+    ):
+        self._llm_provider = llm_provider
+        self._llm_model = llm_model
+        self._llm_api_key = llm_api_key
+        self._llm_base_url = llm_base_url
+        self._headless = headless
+        self._google_email = google_email
+        self._paypal_email = paypal_email
+        self._login_email = login_email
+        self._login_password = login_password
+
+    async def start(self) -> None:
+        """Verify ego-browser is available."""
+        available, msg = _check_installed()
+        if not available:
+            raise RuntimeError(
+                f"Ego Lite not ready: {msg}\n"
+                "Install from https://lite.ego.app and ensure ego-browser is on PATH."
+            )
+        logger.info("Ego Lite backend ready (Node.js OK, ego-browser found)")
+
+    async def stop(self) -> None:
+        """Clean up — leave Ego Lite running (user may use it)."""
+        logger.info("Ego Lite backend stopped (browser left running)")
+
+    async def login(self, site_url: str, site_name: str) -> AgentResult:
+        """Log into a survey site using Ego Lite (inherits Chrome data)."""
+        script = _build_snapshot_script(site_url)
+        output, rc = await _run_ego(script, timeout=60)
+
+        if rc != 0:
+            return AgentResult(success=False, error=f"ego-browser error (rc={rc}): {output[:200]}")
+
+        try:
+            data = json.loads(output.strip())
+            url = data.get("url", "")
+            if "dashboard" in url.lower() or "survey" in url.lower():
+                return AgentResult(success=True, output="already_logged_in")
+            if "login" in url.lower() or "sign" in url.lower():
+                # Profile inherited from Chrome — should be auto-logged-in
+                logger.warning("Login page detected — Chrome data may not have been migrated")
+                return AgentResult(
+                    success=False,
+                    error="Login page shown. Run Ego Lite once, migrate Chrome data, then retry.",
+                )
+            return AgentResult(success=True, output="navigated")
+        except json.JSONDecodeError:
+            return AgentResult(success=True, output=output)
+
+    async def discover_surveys(self, dashboard_url: str) -> AgentResult:
+        """Find available surveys on the dashboard."""
+        script = _build_snapshot_script(dashboard_url)
+        output, rc = await _run_ego(script, timeout=60)
+
+        if rc != 0:
+            return AgentResult(success=False, error=f"ego-browser error: {output[:200]}")
+
+        # Ego Lite snapshots include refs for interactive elements
+        try:
+            data = json.loads(output.strip())
+            snapshot = data.get("snapshot", "")
+            has_surveys = bool(re.search(r"(take survey|start|begin|\d+\s*pts)", snapshot, re.I))
+            return AgentResult(
+                success=True,
+                output=output if has_surveys else "no surveys available",
+            )
+        except json.JSONDecodeError:
+            return AgentResult(success=True, output=output)
+
+    async def complete_survey(self, survey_info: str, profile_context: str) -> AgentResult:
+        """Complete a survey using Ego Lite's snapshot-based interaction.
+
+        Uses snapshotText() to read questions, LLM to generate answers,
+        and click('@N') / fillInput('@N') to interact with the page.
+        """
+        # Create LLM function for answering questions
+        from ..llm_provider import get_llm, PROVIDERS  # noqa: PLC0415
+        from ..config import load_config  # noqa: PLC0415
+
+        cfg = load_config()
+        llm = get_llm(
+            provider=cfg.llm_provider,
+            model=cfg.llm_model or PROVIDERS.get(cfg.llm_provider, {}).get("default_model", ""),
+            api_key=cfg.llm_api_key,
+            base_url=cfg.llm_base_url or None,
+            temperature=0.1,
+        )
+
+        max_questions = 50
+        for i in range(max_questions):
+            # Get page snapshot
+            snapshot_script = """
+const task = await useOrCreateTaskSpace('survey answering');
+await waitForLoad();
+await new Promise(r => setTimeout(r, 2000));
+
+const pageSnap = await snapshotText();
+const pageUrl = (await currentTab()).url;
+const pageInfoData = await pageInfo();
+
+cliLog(JSON.stringify({
+    url: pageUrl,
+    title: pageInfoData.title || '',
+    snapshot: pageSnap,
+}));
+"""
+            output, rc = await _run_ego(snapshot_script, timeout=30)
+            if rc != 0:
+                return AgentResult(success=False, error=f"ego-browser error: {output[:200]}")
+
+            try:
+                data = json.loads(output.strip())
+            except json.JSONDecodeError:
+                return AgentResult(success=False, error=f"Failed to parse ego output: {output[:200]}")
+
+            url = data.get("url", "")
+            snapshot = data.get("snapshot", "")
+
+            # Check for completion/disqualification
+            snapshot_lower = snapshot.lower()
+            if any(kw in snapshot_lower for kw in ["thank you", "survey complete", "successfully completed"]):
+                return AgentResult(success=True, output=f"Survey completed after {i} questions")
+            if any(kw in snapshot_lower for kw in ["not a match", "disqualified", "screened out", "do not qualify"]):
+                return AgentResult(success=False, error="Disqualified from survey")
+
+            # Parse snapshot for questions and interactive elements
+            # snapshotText() returns lines like: [ref=5, loc=...] text content
+            lines = snapshot.split("\n")
+            question_text = ""
+            options = []  # list of {ref, text}
+
+            for line in lines:
+                # Extract ref number
+                ref_match = re.search(r'\[ref=(\d+)', line)
+                if not ref_match:
+                    # It's a text line — might be the question
+                    text = line.strip()
+                    if len(text) > 10 and not question_text:
+                        question_text = text[:300]
+                    continue
+
+                ref = ref_match.group(1)
+                # Extract text after the ref annotations
+                text_part = re.sub(r'\[ref=\d+[^\]]*\]\s*', '', line).strip()
+                if text_part and len(text_part) > 1:
+                    options.append({"ref": ref, "text": text_part[:100]})
+
+            if not options:
+                # No interactive elements found — might be between pages
+                await asyncio.sleep(2)
+                continue
+
+            # Use LLM to pick the best answer
+            prompt = f"""Answer this survey question as the user described below.
+
+USER PROFILE:
+{profile_context}
+
+QUESTION: {question_text}
+
+OPTIONS (each has a ref number):
+{json.dumps(options[:20], indent=2)}
+
+Reply with ONLY the ref number of the best option (e.g. "5").
+For text inputs, reply with "TEXT: your answer here"."""
+
+            try:
+                from browser_use.llm.messages import UserMessage  # noqa: PLC0415
+                result = await llm.ainvoke([UserMessage(content=prompt)])
+                answer = (getattr(result, "completion", None) or str(result)).strip()
+            except Exception as e:
+                logger.warning(f"LLM call failed: {e}")
+                answer = ""
+
+            if not answer or answer == "None":
+                await asyncio.sleep(1)
+                continue
+
+            logger.info(f"Survey Q{i+1}: {question_text[:50]} → {answer[:50]}")
+
+            # Apply the answer
+            if answer.startswith("TEXT:"):
+                # Text input — find the first text input and fill it
+                text_val = answer[5:].strip().replace("'", "\\'")
+                fill_script = f"""
+const task = await useOrCreateTaskSpace('survey answering');
+const inputs = await js(String.raw`(() => {{
+    const els = document.querySelectorAll('input[type="text"], textarea, input:not([type])');
+    for (const el of els) {{
+        if (el.offsetParent !== null) return '@' + (el.getAttribute('data-ref') || '');
+    }}
+    return '';
+}})()`);
+// Find first visible text input from snapshot
+const pageSnap = await snapshotText();
+const lines = pageSnap.split('\\n');
+for (const line of lines) {{
+    const refMatch = line.match(/\\[ref=(\\d+)/);
+    if (refMatch && (line.includes('text') || line.includes('input'))) {{
+        await fillInput('@' + refMatch[1], '{text_val}');
+        break;
+    }}
+}}
+cliLog('filled');
+"""
+                await _run_ego(fill_script, timeout=15)
+            else:
+                # Click by ref number
+                ref_num = re.search(r'\d+', answer)
+                if ref_num:
+                    click_script = f"""
+const task = await useOrCreateTaskSpace('survey answering');
+await click('@{ref_num.group()}', {{ label: 'select answer' }});
+cliLog('clicked @{ref_num.group()}');
+"""
+                    await _run_ego(click_script, timeout=15)
+
+            await asyncio.sleep(1)
+
+            # Click Next/Submit
+            submit_script = """
+const task = await useOrCreateTaskSpace('survey answering');
+const pageSnap = await snapshotText();
+const lines = pageSnap.split('\\n');
+for (const line of lines) {
+    const refMatch = line.match(/\\[ref=(\\d+)/);
+    if (refMatch) {
+        const text = line.toLowerCase();
+        if (text.includes('next') || text.includes('submit') || text.includes('continue') || text.includes('>>')) {
+            await click('@' + refMatch[1], { label: 'click next/submit' });
+            cliLog('clicked next: @' + refMatch[1]);
+            break;
+        }
+    }
+}
+await new Promise(r => setTimeout(r, 2000));
+"""
+            await _run_ego(submit_script, timeout=15)
+
+        return AgentResult(success=True, output=f"Answered {max_questions} questions (loop limit)")
+
+    async def check_balance(self, dashboard_url: str) -> AgentResult:
+        """Check account balance."""
+        script = _build_snapshot_script(dashboard_url)
+        output, rc = await _run_ego(script, timeout=60)
+        return AgentResult(success=rc == 0, output=output)
+
+    async def withdraw(self, redeem_url: str, method: str = "paypal") -> AgentResult:
+        """Withdraw earnings."""
+        script = _build_snapshot_script(redeem_url)
+        script += "\ncliLog('RESULT: withdraw_navigate_complete');\n"
+        output, rc = await _run_ego(script, timeout=60)
+        return AgentResult(success=rc == 0, output=output, error="" if rc == 0 else output[:200])
