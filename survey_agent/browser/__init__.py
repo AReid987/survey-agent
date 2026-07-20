@@ -1,23 +1,88 @@
-"""Browser engine module."""
+"""Browser engine module — pluggable backend system.
 
+Four backends available:
+- browser-use: LLM agent + Playwright (default, works headless)
+- browser-harness: Real Chrome via CDP (zero bot detection, needs Chrome open)
+- camoufox: Stealth Firefox via Camoufox (best anti-detection, headless)
+- cloakbrowser: Stealth Chromium via Playwright API (drop-in Playwright replacement,
+              passes 30/30 bot detection tests, bypasses Cloudflare/Turnstile)
+"""
+
+from .backend import AgentResult, SurveyAgentBackend
 from .engine import BrowserContext, BrowserEngine, BrowserPage
 from .fingerprint import Fingerprint, FingerprintGenerator
 from .human_behavior import HumanBehavior
 
+BACKENDS = {
+    "browser-use",
+    "browser-harness",
+    "camoufox",
+    "cloakbrowser",
+    "ego-lite",
+    "playwright",
+}
 
-# Lazy import to avoid requiring playwright at import time
-def get_playwright_engine():
-    from .playwright_engine import PlaywrightEngine  # noqa: PLC0415
 
-    return PlaywrightEngine
+def create_backend(
+    backend: str = "browser-use",
+    **kwargs,
+) -> SurveyAgentBackend:
+    """Create a browser backend by name.
+
+    Args:
+        backend: One of "browser-use", "browser-harness", "camoufox", or "cloakbrowser".
+        **kwargs: Passed to the backend constructor (llm_provider, headless, etc.)
+
+    Returns:
+        A SurveyAgentBackend instance.
+
+    Raises:
+        ValueError: If backend name is unknown.
+    """
+    backend = backend.lower().strip()
+
+    if backend == "browser-use":
+        from .agent_controller import BrowserUseBackend  # noqa: PLC0415
+
+        return BrowserUseBackend(**kwargs)
+
+    if backend == "browser-harness":
+        from .harness_backend import BrowserHarnessBackend  # noqa: PLC0415
+
+        return BrowserHarnessBackend(**kwargs)
+
+    if backend == "camoufox":
+        from .camoufox_backend import CamoufoxBackend  # noqa: PLC0415
+
+        return CamoufoxBackend(**kwargs)
+
+    if backend == "cloakbrowser":
+        from .cloakbrowser_backend import CloakBrowserBackend  # noqa: PLC0415
+
+        return CloakBrowserBackend(**kwargs)
+
+    if backend == "ego-lite":
+        from .ego_backend import EgoLiteBackend  # noqa: PLC0415
+
+        return EgoLiteBackend(**kwargs)
+
+    if backend == "playwright":
+        from .playwright_backend import PlaywrightBackend  # noqa: PLC0415
+
+        return PlaywrightBackend(**kwargs)
+
+    raise ValueError(f"Unknown browser backend: {backend!r}. Available: {BACKENDS}")
 
 
 __all__ = [
-    "BrowserEngine",
+    "AgentResult",
+    "SurveyAgentBackend",
     "BrowserContext",
+    "BrowserEngine",
     "BrowserPage",
-    "get_playwright_engine",
     "Fingerprint",
     "FingerprintGenerator",
     "HumanBehavior",
+    "BACKENDS",
+    "create_backend",
 ]
