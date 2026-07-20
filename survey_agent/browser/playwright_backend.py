@@ -268,6 +268,10 @@ class PlaywrightBackend(SurveyAgentBackend):
                 return AgentResult(success=False, error="Disqualified from survey")
             if "survey full" in body_lower:
                 return AgentResult(success=False, error="Survey full")
+            if "/members/oq" in url or ("/members/" in url and "/surveys/" not in url):
+                return AgentResult(success=False, error="Redirected to members page (survey rejected)")
+            if any(kw in body_lower for kw in ["recommend branded surveys", "my top surveys", "daily poll", "branded elite", "points until payout"]):
+                return AgentResult(success=False, error="Back on Branded Surveys dashboard/feedback page")
             if "dashboard" in url.lower() and "survey" not in url.lower():
                 return AgentResult(success=False, error="Redirected to dashboard (likely disqualified or full)")
 
