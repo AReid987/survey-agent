@@ -236,8 +236,13 @@ class EgoLiteBackend(SurveyAgentBackend):
         logger.info("Ego Lite backend stopped (browser left running)")
 
     async def login(self, site_url: str, site_name: str) -> AgentResult:
-        """Log into a survey site using Ego Lite (inherits Chrome data)."""
-        script = _build_snapshot_script(site_url)
+        """Log into a survey site using Ego Lite.
+
+        First checks if already logged in (inherited Chrome session).
+        If on login page, fills credentials using ego-browser helpers.
+        """
+        login_url = site_url.rstrip("/") + "/users/login/"
+        script = _build_snapshot_script(login_url)
         output, rc = await _run_ego(script, timeout=60)
 
         if rc != 0:
@@ -246,16 +251,79 @@ class EgoLiteBackend(SurveyAgentBackend):
         try:
             data = json.loads(output.strip())
             url = data.get("url", "")
-            if "dashboard" in url.lower() or "survey" in url.lower():
+            snapshot = data.get("snapshot", "")
+
+            # Already logged in
+            if "dashboard" in url.lower():
                 return AgentResult(success=True, output="already_logged_in")
+
+            # Login page — fill credentials
             if "login" in url.lower() or "sign" in url.lower():
-                # Profile inherited from Chrome — should be auto-logged-in
-                logger.warning("Login page detected — Chrome data may not have been migrated")
-                return AgentResult(
-                    success=False,
-                    error="Login page shown. Run Ego Lite once, migrate Chrome data, then retry.",
-                )
-            return AgentResult(success=True, output="navigated")
+                email = self._login_email or self._google_email
+                password = self._login_password
+
+                if not email or not password:
+                    # Try Google OAuth button (inherited Chrome session)
+                    if "Sign in as Antonio" in snapshot or "read.musik@gmail.com" in snapshot:
+                        # Click the Google sign-in button
+                        oauth_script = f"""
+const task = await useOrCreateTaskSpace('survey automation');
+const pageSnap2 = await snapshotText();
+const lines = pageSnap2.split('\\n');
+for (const line of lines) {{
+    if (line.includes('Sign in as') || line.includes('read.musik@gmail.com')) {{
+        const refMatch = line.match(/\\[ref=(\\d+)/);
+        if (refMatch) {{
+            await click('@' + refMatch[1], {{ label: 'click google sign-in' }});
+            cliLog('clicked google sign-in');
+            break;
+        }}
+    }}
+}}
+await new Promise(r => setTimeout(r, 5000));
+const finalUrl = (await currentTab()).url;
+cliLog(JSON.stringify({{ url: finalUrl }}));
+"""
+                        output2, rc2 = await _run_ego(oauth_script, timeout=30)
+                        if rc2 == 0:
+                            try:
+                                result = json.loads(output2.strip().split("\n")[-1])
+                                if "dashboard" in result.get("url", "").lower():
+                                    return AgentResult(success=True, output="logged_in_via_google")
+                            except (json.JSONDecodeError, IndexError):
+                                pass
+
+                    return AgentResult(
+                        success=False,
+                        error="Login page shown. No credentials provided and Google OAuth failed.",
+                    )
+
+                # Fill email/password
+                login_script = f"""
+const task = await useOrCreateTaskSpace('survey automation');
+await fillInput('input[name="email"]', '{email}');
+await fillInput('input[name="password"]', '{password}');
+await new Promise(r => setTimeout(r, 500));
+await click('button[type="submit"], input[type="submit"]', {{ label: 'click sign in' }});
+await new Promise(r => setTimeout(r, 5000));
+const finalUrl = (await currentTab()).url;
+cliLog(JSON.stringify({{ url: finalUrl }}));
+"""
+                output3, rc3 = await _run_ego(login_script, timeout=30)
+                if rc3 == 0:
+                    try:
+                        result = json.loads(output3.strip().split("\n")[-1])
+                        final_url = result.get("url", "")
+                        if "dashboard" in final_url.lower() or "survey" in final_url.lower():
+                            return AgentResult(success=True, output=f"logged_in: {final_url}")
+                        return AgentResult(success=False, error=f"Login failed, still at: {final_url}")
+                    except (json.JSONDecodeError, IndexError):
+                        pass
+
+                return AgentResult(success=False, error="Login form submission failed")
+
+            # Some other page — might be logged in
+            return AgentResult(success=True, output=f"navigated to {url}")
         except json.JSONDecodeError:
             return AgentResult(success=True, output=output)
 
