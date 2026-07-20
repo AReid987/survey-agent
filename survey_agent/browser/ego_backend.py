@@ -400,6 +400,15 @@ cliLog('SURVEY_URL: ' + surveyUrl);
                 survey_url = line[12:].strip()
 
         if not survey_url or survey_url == "none":
+            # Check if "IN PROGRESS" is blocking
+            in_progress_check, _ = await _run_ego("""
+const task = await useOrCreateTaskSpace('survey answering');
+var body = await js('(function(){ return document.body ? document.body.innerText : ""; })()');
+cliLog('IN_PROGRESS: ' + (body.indexOf('IN PROGRESS') !== -1));
+""", timeout=10)
+            is_blocked = "IN_PROGRESS: true" in (in_progress_check or "")
+            if is_blocked:
+                return AgentResult(success=True, output="Survey in progress blocking new surveys (IN PROGRESS state)")
             return AgentResult(success=True, output="No surveys available on dashboard")
 
         logger.info(f"Survey URL: {survey_url[:80]}")
