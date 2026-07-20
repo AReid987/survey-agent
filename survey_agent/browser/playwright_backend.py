@@ -433,8 +433,25 @@ For text inputs, reply with "TEXT: your answer here"."""
         return AgentResult(success=True, output=f"Answered {max_questions} questions (loop limit)")
 
     async def _handle_consent(self) -> None:
-        """Handle consent/agreement pages."""
+        """Handle consent/agreement pages and cookie banners."""
         try:
+            # Dismiss cookie banners first (common on survey provider pages)
+            await self._page.evaluate("""() => {
+                // Cookie consent buttons
+                const cookieTexts = ['ACCEPT ALL', 'ACCEPT COOKIES', 'I AGREE', 'AGREE', 'OK', 'GOT IT'];
+                const btns = document.querySelectorAll('button, a, input[type="submit"]');
+                for (const btn of btns) {
+                    const text = (btn.textContent || btn.value || '').trim().toUpperCase();
+                    for (const ct of cookieTexts) {
+                        if (text === ct && btn.offsetParent !== null) {
+                            btn.click();
+                            return;
+                        }
+                    }
+                }
+            }""")
+            await asyncio.sleep(2)
+
             # Check consent checkbox
             await self._page.evaluate("""() => {
                 const cb = document.getElementById('confirmationCheckbox');
