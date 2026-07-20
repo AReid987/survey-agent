@@ -279,8 +279,8 @@ class PlaywrightBackend(SurveyAgentBackend):
                 for (const line of textNodes) {
                     const t = line.trim();
                     if (!t || t.length < 10) continue;
-                    // Skip navigation/progress elements
-                    if (t.toLowerCase().includes('technical problem') || t.toLowerCase().includes('click here')) continue;
+                    // Skip navigation/progress/widget elements
+                    if (t.toLowerCase().includes('technical problem') || t.toLowerCase().includes('click here') || t.toLowerCase().includes('select language') || t.toLowerCase().includes('translate')) continue;
                     // Look for question indicators
                     if (t.includes('?') || t.toLowerCase().includes('select') || t.toLowerCase().includes('how') || t.toLowerCase().includes('what') || t.toLowerCase().includes('which') || t.toLowerCase().includes('have you')) {
                         question = t.substring(0, 300);
@@ -291,19 +291,22 @@ class PlaywrightBackend(SurveyAgentBackend):
 
                 const options = [];
 
-                // Get standalone labels (common in survey providers)
+                // Get standalone labels (common in survey providers) — skip Google Translate
                 const labels = document.querySelectorAll('label');
                 labels.forEach(l => {
                     if (l.offsetParent === null) return;
+                    if (l.closest('.goog-te-combo') || l.closest('[class*="translate"]') || l.closest('.skiptranslate')) return;
                     const text = l.textContent.trim().substring(0, 80);
                     if (text.length > 1) {
                         options.push({type: 'label', name: '', id: l.id || '', label: text});
                     }
                 });
 
-                // Get select dropdowns
+                // Get select dropdowns — skip Google Translate
                 const selects = document.querySelectorAll('select');
                 selects.forEach(s => {
+                    if (s.offsetParent === null) return;
+                    if (s.closest('.goog-te-combo') || s.closest('[class*="translate"]') || s.closest('.skiptranslate')) return;
                     Array.from(s.options).forEach(o => {
                         if (o.value && o.text.trim() && o.text.trim() !== 'Select one') {
                             options.push({type: 'select', name: s.name, id: s.id, label: o.text.trim().substring(0, 80)});
