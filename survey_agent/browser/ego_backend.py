@@ -758,16 +758,19 @@ cliLog('answered');
             # Click Next/Submit via JS — handle XX_NXT button and standard buttons
             next_script = """
 const task = await useOrCreateTaskSpace('survey answering');
+// Scroll to bottom to make submit button visible
+await js(String.raw`(function(){ window.scrollTo(0, document.body.scrollHeight); return 'scrolled'; })()`);
+await new Promise(r => setTimeout(r, 1000));
 await js(String.raw`(function(){
     // Try XX_NXT button first (common in survey providers)
     var nxt = document.querySelector('input[type="submit"][name="XX_NXT"]');
-    if (nxt && nxt.offsetParent !== null) { nxt.click(); return 'clicked XX_NXT'; }
+    if (nxt) { nxt.scrollIntoView(); nxt.click(); return 'clicked XX_NXT'; }
     // Try standard buttons
     var btns = document.querySelectorAll('button, input[type="submit"], a.btn');
     for (var i = 0; i < btns.length; i++) {
         var text = (btns[i].textContent || btns[i].value || '').trim().toUpperCase();
         if (text === 'NEXT' || text === 'SUBMIT' || text === 'CONTINUE' || text === '>>' || text === 'NEXT >' || text === 'START >>') {
-            btns[i].click();
+            btns[i].scrollIntoView(); btns[i].click();
             return 'clicked: ' + text;
         }
     }
