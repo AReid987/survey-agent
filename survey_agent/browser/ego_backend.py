@@ -475,183 +475,99 @@ cliLog('BODY: ' + body);
         if "not found" in output.lower():
             return AgentResult(success=False, error="TAKE SURVEY button not found")
 
-        # Step 4: Answer questions using js() for all interactions
+        # Step 4: Answer questions using snapshotText() + click('@ref')
+        # This approach works with custom radio implementations (nfield, opinionway, etc.)
+        import re
         max_questions = 50
-        last_body = ""
+        last_snap = ""
         same_count = 0
 
         for i in range(max_questions):
-            # Get current page content and ALL interactive elements (including labels)
-            get_state_script = """
+            # Get page snapshot with refs
+            get_snap = """
 const task = await useOrCreateTaskSpace('survey answering');
-const body = await js(String.raw`(function(){
-    try { return document.body ? document.body.innerText.substring(0, 3000) : 'no body'; }
-    catch(e) { return 'err: ' + e.message; }
-})()`);
-const elements = await js(String.raw`(function(){
-    // Get labels (standalone clickable options) — skip Google Translate
-    var labels = document.querySelectorAll('label');
-    var result = [];
-    for (var i = 0; i < labels.length && i < 30; i++) {
-        var el = labels[i];
-        if (el.offsetParent === null) continue;
-        // Skip Google Translate widget
-        if (el.closest('.goog-te-combo') || el.closest('[class*="translate"]')) continue;
-        var text = el.textContent.trim().substring(0, 80);
-        if (text.length < 2) continue;
-        result.push({tag: 'LABEL', type: '', name: '', id: el.id || '', label: text, visible: true, value: ''});
-    }
-    // Get selects, text inputs — skip Google Translate
-    var inputs = document.querySelectorAll('select, textarea, input[type="text"], input[type="number"]');
-    for (var i = 0; i < inputs.length && i < 10; i++) {
-        var el = inputs[i];
-        if (el.offsetParent === null) continue;
-        // Skip Google Translate widget
-        if (el.closest('.goog-te-combo') || el.closest('[class*="translate"]')) continue;
-        var opts = [];
-        if (el.tagName === 'SELECT') {
-            for (var j = 0; j < el.options.length && j < 10; j++) {
-                opts.push(el.options[j].text.trim().substring(0, 50));
-            }
-        }
-        result.push({tag: el.tagName, type: el.type || '', name: el.name || '', id: el.id || '', label: '', visible: true, value: el.value || '', options: opts});
-    }
-    return JSON.stringify(result);
-})()`);
-cliLog('BODY: ' + body);
-cliLog('ELEMENTS: ' + elements);
+const snap = await snapshotText();
+cliLog('SNAP: ' + snap);
 """
-            output, rc = await _run_ego(get_state_script, timeout=30)
+            output, rc = await _run_ego(get_snap, timeout=15)
             if rc != 0:
                 await asyncio.sleep(2)
                 continue
 
-            # Parse output
-            body_text = ""
-            elements_json = "[]"
+            snapshot = ""
             for line in output.strip().split("\n"):
-                if line.startswith("BODY: "):
-                    body_text = line[6:]
-                elif line.startswith("ELEMENTS: "):
-                    elements_json = line[10:]
+                if line.startswith("SNAP: "):
+                    snapshot = line[6:]
 
             # Check for completion/disqualification
-            body_lower = body_text.lower()
-            if any(kw in body_lower for kw in ["thank you", "survey complete", "successfully completed"]):
+            sl = snapshot.lower()
+            if any(kw in sl for kw in ["thank you", "survey complete", "successfully completed"]):
                 return AgentResult(success=True, output=f"Survey completed after {i} questions")
-            if any(kw in body_lower for kw in ["not a match", "disqualified", "screened out"]):
+            if any(kw in sl for kw in ["not a match", "disqualified", "screened out"]):
                 return AgentResult(success=False, error="Disqualified from survey")
-            # Check if we're on the dashboard (not a survey page) — look for dashboard indicators
-            if any(kw in body_lower for kw in ["my top surveys", "daily poll", "branded elite", "my points", "500 points until payout"]):
-                return AgentResult(success=True, output=f"Back on dashboard after {i} questions (survey ended or redirected)")
+            if any(kw in sl for kw in ["my top surveys", "daily poll", "branded elite", "500 points until payout"]):
+                return AgentResult(success=True, output=f"Back on dashboard after {i} questions")
 
-            # Parse elements
-            try:
-                elements = json.loads(elements_json)
-            except json.JSONDecodeError:
-                elements = []
-
-            if not elements:
-                await asyncio.sleep(2)
-                continue
-
-            # Find question text from body — more robust extraction
-            question_text = ""
-            for line in body_text.split("\n"):
-                line = line.strip()
-                if not line or len(line) < 10:
-                    continue
-                # Skip navigation/progress/widget elements
-                if any(skip in line.lower() for skip in [
-                    "technical problem", "click here", "skip to content",
-                    "my dashboard", "my points", "select language",
-                    "translate", "cookie", "privacy policy",
+            # Parse snapshot for question text and option refs
+            q_text = ""
+            opts = []
+            snap_lines = snapshot.split("\n")
+            for j, raw in enumerate(snap_lines):
+                sline = raw.strip()
+                if any(skip in sline.lower() for skip in [
+                    "button-back", "button-next", "error message",
+                    "select language", "translate", "cookie",
+                    "technical problem", "click here",
                 ]):
                     continue
-                # Look for question indicators
-                if '?' in line or 'select' in line.lower() or 'how' in line.lower() or 'what' in line.lower() or 'which' in line.lower() or 'have you' in line.lower():
-                    question_text = line[:300]
-                    break
-                # Also capture descriptive text that precedes options
-                if len(line) > 20 and not question_text:
-                    question_text = line[:300]
+                # Find question text
+                if not sline.startswith(("container", "button", "text", "form", "navigation", "anchor", "root")):
+                    if len(sline) > 10 and not q_text:
+                        if any(kw in sline.lower() for kw in ["?", "select", "how", "what", "which", "are you", "have you"]):
+                            q_text = sline[:300]
+                # Find options: text "X" followed by container [ref=N]
+                if sline.startswith('text "'):
+                    txt = sline[6:].rstrip('"')
+                    if j + 1 < len(snap_lines):
+                        nxt = snap_lines[j + 1].strip()
+                        rm = re.search(r'ref=(\d+)', nxt)
+                        if rm and txt:
+                            opts.append({"text": txt, "ref": rm.group(1)})
 
-            # Build options list with labels and select options
-            options = []
-            for el in elements:
-                if not el.get("visible"):
-                    continue
-                tag = el.get("tag", "")
-                label = el.get("label", "").strip()
+            # Find next button ref
+            next_ref = ""
+            nm = re.search(r'button \[ref=(\d+), loc=css:input\[name="button-next"\]\]', snapshot)
+            if nm:
+                next_ref = nm.group(1)
 
-                if tag == "SELECT":
-                    # Add each select option as a separate choice
-                    for opt in el.get("options", []):
-                        if opt and len(opt) > 1 and opt != "Select one":
-                            options.append({"name": el.get("name", ""), "id": el.get("id", ""), "type": "select", "label": opt, "value": opt})
-                elif tag == "LABEL":
-                    if label and len(label) > 1:
-                        if any(skip in label.lower() for skip in ["dashboard", "profile", "logout", "menu"]):
-                            continue
-                        options.append({"name": el.get("name", ""), "id": el.get("id", ""), "type": "label", "label": label, "value": ""})
-                else:
-                    if label and len(label) > 1:
-                        if any(skip in label.lower() for skip in ["dashboard", "profile", "logout", "menu"]):
-                            continue
-                        options.append({"name": el.get("name", ""), "id": el.get("id", ""), "type": el.get("type", ""), "label": label, "value": el.get("value", "")})
+            # Find START/submit button ref
+            start_ref = ""
+            sm = re.search(r'input \[ref=(\d+), loc=css:input\[name="XX_(?:NXT|START)"\]\]', snapshot)
+            if sm:
+                start_ref = sm.group(1)
 
-            if not options:
-                # Also look for links/buttons that might be answer options
-                link_get_script = """
+            # No options: try START button or scroll
+            if not opts:
+                if start_ref:
+                    await _run_ego(f"""
 const task = await useOrCreateTaskSpace('survey answering');
-const els = await js(String.raw`(function(){
-    var els = document.querySelectorAll('a, button, [onclick], [role="button"]');
-    var result = [];
-    for (var i = 0; i < els.length && i < 30; i++) {
-        var el = els[i];
-        var text = (el.textContent||'').trim().substring(0, 80);
-        if (text && text.length > 1 && el.offsetParent !== null) {
-            result.push({tag: el.tagName, text: text, href: el.href||''});
-        }
-    }
-    return JSON.stringify(result);
-})()`);
-cliLog('LINKS: ' + els);
-"""
-                link_output, link_rc = await _run_ego(link_get_script, timeout=15)
-                if link_rc == 0:
-                    for line in link_output.strip().split("\n"):
-                        if line.startswith("LINKS: "):
-                            try:
-                                link_els = json.loads(line[7:])
-                                for el in link_els:
-                                    text = el.get("text", "").strip()
-                                    if text and len(text) > 1 and len(text) < 60:
-                                        if any(skip in text.lower() for skip in ["dashboard", "profile", "logout", "menu", "cookie", "privacy", "terms"]):
-                                            continue
-                                        options.append({"name": "", "id": "", "type": "link", "label": text, "value": el.get("href", "")})
-                            except json.JSONDecodeError:
-                                pass
-
-            if not options:
+await click('@{start_ref}', {{ label: 'click START' }});
+""", timeout=10)
+                    await asyncio.sleep(5)
+                    continue
+                if snapshot == last_snap:
+                    same_count += 1
+                    if same_count >= 3:
+                        await _run_ego("""
+const task = await useOrCreateTaskSpace('survey answering');
+await scrollBy(500);
+""", timeout=10)
+                        same_count = 0
+                else:
+                    same_count = 0
+                last_snap = snapshot
                 await asyncio.sleep(2)
                 continue
-
-            # Stuck detection — same page content 3 times in a row
-            if body_text == last_body:
-                same_count += 1
-                if same_count >= 3:
-                    # Try scrolling to reveal more content
-                    scroll_script = """
-const task = await useOrCreateTaskSpace('survey answering');
-await js(String.raw`(function(){ window.scrollBy(0, 500); return 'scrolled'; })()`);
-await new Promise(r => setTimeout(r, 1000));
-"""
-                    await _run_ego(scroll_script, timeout=10)
-                    same_count = 0
-            else:
-                same_count = 0
-            last_body = body_text
 
             # Use LLM to pick the best answer
             prompt = f"""Answer this survey question as the user described below.
@@ -659,12 +575,12 @@ await new Promise(r => setTimeout(r, 1000));
 USER PROFILE:
 {profile_context}
 
-QUESTION: {question_text}
+QUESTION: {q_text}
 
-OPTIONS:
-{json.dumps(options[:20], indent=2)}
+OPTIONS (each has a ref number):
+{json.dumps(opts[:20], indent=2)}
 
-Reply with ONLY the label text of the best option.
+Reply with ONLY the ref number of the best option (e.g. "5").
 For text inputs, reply with "TEXT: your answer here"."""
 
             try:
@@ -679,107 +595,44 @@ For text inputs, reply with "TEXT: your answer here"."""
                 await asyncio.sleep(1)
                 continue
 
-            logger.info(f"Survey Q{i+1}: {question_text[:50]} → {answer[:50]}")
-
-            # Apply answer via js()
+            # Find the matching option ref
+            sel_ref = ""
             if answer.startswith("TEXT:"):
-                text_val = answer[5:].strip().replace("'", "\\'").replace('"', '\\"')
-                apply_script = f"""
+                # Handle text/spinbutton input
+                tb = re.search(r'spinbutton \[ref=(\d+)', snapshot)
+                if tb:
+                    tval = answer[5:].strip().replace("'", "\\'")
+                    tref = tb.group(1)
+                    await _run_ego(f"""
 const task = await useOrCreateTaskSpace('survey answering');
-await js(String.raw`(function(){{
-    var inputs = document.querySelectorAll('input[type="text"], textarea');
-    for (var i = 0; i < inputs.length; i++) {{
-        if (inputs[i].offsetParent !== null) {{
-            inputs[i].value = '{text_val}';
-            inputs[i].dispatchEvent(new Event('input', {{bubbles: true}}));
-            inputs[i].dispatchEvent(new Event('change', {{bubbles: true}}));
-            return 'filled';
-        }}
-    }}
-    return 'no input found';
-}})()`);
-cliLog('applied');
-"""
-                await _run_ego(apply_script, timeout=15)
+await fillInput('@{tref}', '{tval}');
+""", timeout=10)
+                    sel_ref = tref
             else:
-                # Click the matching option — handles labels, radio, checkbox, AND links
-                answer_clean = answer.strip().replace("'", "\\'").replace('"', '\\"')
-                click_script = f"""
-const task = await useOrCreateTaskSpace('survey answering');
-await js(String.raw`(function(){{
-    // Try standalone labels first (common in survey providers)
-    var labels = document.querySelectorAll('label');
-    for (var i = 0; i < labels.length; i++) {{
-        var text = labels[i].textContent.trim();
-        if (text.toLowerCase().indexOf('{answer_clean.lower()[:40]}') !== -1 && labels[i].offsetParent !== null) {{
-            labels[i].click();
-            return 'clicked label: ' + text;
-        }}
-    }}
-    // Try radio/checkbox inputs with parent labels
-    var els = document.querySelectorAll('input[type="radio"], input[type="checkbox"]');
-    for (var i = 0; i < els.length; i++) {{
-        var parent = els[i].closest('label');
-        var label = parent ? parent.textContent.trim() : '';
-        if (label.toLowerCase().indexOf('{answer_clean.lower()[:40]}') !== -1) {{
-            els[i].click();
-            return 'clicked radio: ' + label;
-        }}
-    }}
-    // Try select options
-    var selects = document.querySelectorAll('select');
-    for (var i = 0; i < selects.length; i++) {{
-        for (var j = 0; j < selects[i].options.length; j++) {{
-            var opt = selects[i].options[j];
-            if (opt.text.toLowerCase().indexOf('{answer_clean.lower()[:40]}') !== -1) {{
-                selects[i].value = opt.value;
-                selects[i].dispatchEvent(new Event('change', {{bubbles: true}}));
-                return 'selected: ' + opt.text;
-            }}
-        }}
-    }}
-    // Try links and buttons
-    var links = document.querySelectorAll('a, button, [onclick], [role="button"]');
-    for (var i = 0; i < links.length; i++) {{
-        var text = (links[i].textContent||'').trim();
-        if (text.toLowerCase().indexOf('{answer_clean.lower()[:40]}') !== -1 && links[i].offsetParent !== null) {{
-            links[i].click();
-            return 'clicked link: ' + text;
-        }}
-    }}
-    return 'no match for: {answer_clean[:40]}';
-}})()`);
-cliLog('answered');
-"""
-                await _run_ego(click_script, timeout=15)
+                rn = re.search(r'\d+', answer)
+                if rn:
+                    sel_ref = rn.group()
 
-            await asyncio.sleep(1)
+            if not sel_ref:
+                await asyncio.sleep(1)
+                continue
 
-            # Click Next/Submit via JS — handle XX_NXT button and standard buttons
-            next_script = """
+            logger.info(f"Survey Q{i+1}: {q_text[:50]} -> ref={sel_ref}")
+
+            # Click the selected option
+            await _run_ego(f"""
 const task = await useOrCreateTaskSpace('survey answering');
-// Scroll to bottom to make submit button visible
-await js(String.raw`(function(){ window.scrollTo(0, document.body.scrollHeight); return 'scrolled'; })()`);
-await new Promise(r => setTimeout(r, 1000));
-await js(String.raw`(function(){
-    // Try XX_NXT button first (common in survey providers)
-    var nxt = document.querySelector('input[type="submit"][name="XX_NXT"]');
-    if (nxt) { nxt.scrollIntoView(); nxt.click(); return 'clicked XX_NXT'; }
-    // Try standard buttons
-    var btns = document.querySelectorAll('button, input[type="submit"], a.btn');
-    for (var i = 0; i < btns.length; i++) {
-        var text = (btns[i].textContent || btns[i].value || '').trim().toUpperCase();
-        if (text === 'NEXT' || text === 'SUBMIT' || text === 'CONTINUE' || text === '>>' || text === 'NEXT >' || text === 'START >>') {
-            btns[i].scrollIntoView(); btns[i].click();
-            return 'clicked: ' + text;
-        }
-    }
-    return 'no next button';
-})()`);
-cliLog('nexted');
-await new Promise(r => setTimeout(r, 5000));
-"""
-            await _run_ego(next_script, timeout=15)
+await click('@{sel_ref}', {{ label: 'select answer' }});
+""", timeout=10)
+            await asyncio.sleep(0.5)
+
+            # Click next button
+            if next_ref:
+                await _run_ego(f"""
+const task = await useOrCreateTaskSpace('survey answering');
+await click('@{next_ref}', {{ label: 'click next' }});
+""", timeout=10)
+                await asyncio.sleep(5)
 
         return AgentResult(success=True, output=f"Answered {max_questions} questions (loop limit)")
 
