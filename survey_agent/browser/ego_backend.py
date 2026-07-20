@@ -426,18 +426,44 @@ cliLog('NAV_URL: ' + url);
             if line.startswith("NAV_URL:"):
                 logger.info(f"Nav: {line}")
 
-        # Step 3: Click TAKE SURVEY
+        # Step 3: Click TAKE SURVEY using snapshot ref (handles navigation better)
         take_output, take_rc = await _run_ego("""
 const task = await useOrCreateTaskSpace('survey answering');
-var takeResult = await js(String.raw`(function(){
-    var els = document.querySelectorAll('a, button, input[type="submit"]');
-    for (var i = 0; i < els.length; i++) {
-        var text = (els[i].textContent||els[i].value||'').trim().toUpperCase();
-        if (text === 'TAKE SURVEY') { els[i].click(); return 'clicked'; }
+// Get snapshot to find TAKE SURVEY ref
+var snap = await snapshotText();
+var takeRef = '';
+var lines = snap.split('\\n');
+for (var i = 0; i < lines.length; i++) {
+    if (lines[i].indexOf('TAKE SURVEY') !== -1) {
+        // Look backwards for ref
+        for (var j = i; j >= Math.max(0, i - 3); j--) {
+            var m = lines[j].match(/ref=(\d+)/);
+            if (m) { takeRef = m[1]; break; }
+        }
+        if (takeRef) break;
     }
-    return 'not found';
-})()`);
-cliLog('TAKE_RESULT: ' + takeResult);
+}
+cliLog('TAKE_REF: ' + takeRef);
+if (takeRef) {
+    try {
+        await click('@' + takeRef, { label: 'TAKE SURVEY' });
+        cliLog('TAKE_RESULT: clicked @' + takeRef);
+    } catch(e) {
+        cliLog('TAKE_RESULT: click failed: ' + e.message);
+        // Fallback: js click
+        await js(String.raw`(function(){
+            var els = document.querySelectorAll('a, button, input[type="submit"]');
+            for (var i = 0; i < els.length; i++) {
+                var text = (els[i].textContent||els[i].value||'').trim().toUpperCase();
+                if (text === 'TAKE SURVEY') { els[i].click(); return 'clicked'; }
+            }
+            return 'not found';
+        })()`);
+        cliLog('TAKE_RESULT: fallback js click');
+    }
+} else {
+    cliLog('TAKE_RESULT: no ref found');
+}
 await new Promise(r => setTimeout(r, 10000));
 var url = (await currentTab()).url;
 cliLog('AFTER_TAKE_URL: ' + url);
