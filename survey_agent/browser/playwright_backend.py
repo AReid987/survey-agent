@@ -72,8 +72,16 @@ class PlaywrightBackend(SurveyAgentBackend):
 
         async def _llm_fn(prompt: str) -> str:
             from browser_use.llm.messages import UserMessage  # noqa: PLC0415
-            result = await llm.ainvoke([UserMessage(content=prompt)])
-            return (getattr(result, "completion", None) or str(result)).strip()
+            for attempt in range(3):
+                try:
+                    result = await llm.ainvoke([UserMessage(content=prompt)])
+                    return (getattr(result, "completion", None) or str(result)).strip()
+                except Exception as e:
+                    if "429" in str(e) or "rate" in str(e).lower():
+                        await asyncio.sleep(5 * (attempt + 1))
+                        continue
+                    raise
+            return ""
 
         self._llm_fn = _llm_fn
         logger.info("Playwright backend started")
@@ -129,7 +137,7 @@ class PlaywrightBackend(SurveyAgentBackend):
 
         # Find survey links
         surveys = await self._page.evaluate("""() => {
-            const links = document.querySelectorAll('a[href*="/surveys/pre/"]');
+            const links = document.querySelectorAll('a[href*="/surveys/pre/"], a[href*="/router/go"], a[href*="/qualifications/"]');
             return Array.from(links).map(l => ({
                 href: l.href,
                 text: l.textContent.trim().substring(0, 50),
@@ -151,8 +159,14 @@ class PlaywrightBackend(SurveyAgentBackend):
         """
         # Step 1: Find and navigate to a survey
         survey_url = await self._page.evaluate("""() => {
-            const link = document.querySelector('a[href*="/surveys/pre/"]');
-            return link ? link.href : '';
+            // Prefer /router/go (regular surveys), fallback to /qualifications/ (profile surveys)
+            const router = document.querySelector('a[href*="/router/go"]');
+            if (router) return router.href;
+            const qual = document.querySelector('a[href*="/qualifications/"]');
+            if (qual) return qual.href;
+            const pre = document.querySelector('a[href*="/surveys/pre/"]');
+            if (pre) return pre.href;
+            return '';
         }""")
 
         if not survey_url:
@@ -160,30 +174,51 @@ class PlaywrightBackend(SurveyAgentBackend):
 
         logger.info(f"Survey URL: {survey_url[:80]}")
         await self._page.goto(survey_url, wait_until="domcontentloaded", timeout=30000)
-        await asyncio.sleep(3)
-
-        # Step 2: Click TAKE SURVEY
-        take_clicked = await self._page.evaluate("""() => {
-            const els = document.querySelectorAll('a, button, input[type="submit"]');
-            for (const el of els) {
-                const text = (el.textContent || el.value || '').trim().toUpperCase();
-                if (text === 'TAKE SURVEY') { el.click(); return true; }
-            }
-            return false;
-        }""")
-        if not take_clicked:
-            return AgentResult(success=False, error="TAKE SURVEY button not found")
         await asyncio.sleep(8)
 
-        # Step 3: Click BEGIN SURVEY
-        begin_clicked = await self._page.evaluate("""() => {
-            const els = document.querySelectorAll('a, button, input[type="submit"]');
-            for (const el of els) {
-                const text = (el.textContent || el.value || '').trim().toUpperCase();
-                if (text === 'BEGIN SURVEY' || text === 'START SURVEY') { el.click(); return true; }
-            }
-            return false;
-        }""")
+        # Check if redirected back to dashboard (no survey available)
+        current_url = self._page.url
+        if "/users/dashboard" in current_url.lower():
+            # Try qualifications as fallback
+            qual_url = await self._page.evaluate("""() => {
+                const l = document.querySelector('a[href*="/qualifications/"]');
+                return l ? l.href : '';
+            }""")
+            if qual_url:
+                logger.info(f"Router redirected to dashboard, trying qualifications: {qual_url[:80]}")
+                await self._page.goto(qual_url, wait_until="domcontentloaded", timeout=30000)
+                await asyncio.sleep(5)
+            else:
+                return AgentResult(success=True, output="No surveys available (router redirects to dashboard)")
+
+        # Step 2: Click TAKE SURVEY (only if on gobranded pre-page)
+        url_after_nav = self._page.url
+        if "survey" in url_after_nav.lower() or "gobranded" in url_after_nav.lower():
+            try:
+                await self._page.evaluate("""() => {
+                    const els = document.querySelectorAll('a, button, input[type="submit"]');
+                    for (const el of els) {
+                        const text = (el.textContent || el.value || '').trim().toUpperCase();
+                        if (text === 'TAKE SURVEY') { el.click(); return true; }
+                    }
+                    return false;
+                }""")
+            except Exception:
+                pass  # Navigation destroys context — that's expected
+            await asyncio.sleep(8)
+
+        # Step 3: Click BEGIN SURVEY (on external provider page)
+        try:
+            await self._page.evaluate("""() => {
+                const els = document.querySelectorAll('a, button, input[type="submit"]');
+                for (const el of els) {
+                    const text = (el.textContent || el.value || '').trim().toUpperCase();
+                    if (text === 'BEGIN SURVEY' || text === 'START SURVEY') { el.click(); return true; }
+                }
+                return false;
+            }""")
+        except Exception:
+            pass  # Navigation destroys context — that's expected
         await asyncio.sleep(8)
 
         # Step 4: Handle consent page
