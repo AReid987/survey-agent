@@ -25,9 +25,7 @@ import os
 import re
 import subprocess
 import tempfile
-import time
 from pathlib import Path
-from typing import Any
 
 from .backend import AgentResult, SurveyAgentBackend
 
@@ -269,7 +267,7 @@ class EgoLiteBackend(SurveyAgentBackend):
                         oauth_script = f"""
 const task = await useOrCreateTaskSpace('survey automation');
 const pageSnap2 = await snapshotText();
-const lines = pageSnap2.split('\\n');
+const lines = pageSnap2.split(String.fromCharCode(10));
 for (const line of lines) {{
     if (line.includes('Sign in as') || line.includes('read.musik@gmail.com')) {{
         const refMatch = line.match(/\\[ref=(\\d+)/);
@@ -350,12 +348,12 @@ cliLog(JSON.stringify({{ url: finalUrl }}));
     async def complete_survey(self, survey_info: str, profile_context: str) -> AgentResult:
         """Complete a survey using Ego Lite's snapshot-based interaction.
 
-        Uses snapshotText() to read questions, LLM to generate answers,
-        and click('@N') / fillInput('@N') to interact with the page.
+        Navigates to dashboard, clicks a survey, then answers questions
+        using snapshotText() for page reading and click('@N') for interaction.
         """
-        # Create LLM function for answering questions
         from ..llm_provider import get_llm, PROVIDERS  # noqa: PLC0415
         from ..config import load_config  # noqa: PLC0415
+        from .survey_engine_ego import _find_interactive_elements, _find_survey_links  # noqa: PLC0415
 
         cfg = load_config()
         llm = get_llm(
@@ -366,69 +364,116 @@ cliLog(JSON.stringify({{ url: finalUrl }}));
             temperature=0.1,
         )
 
-        max_questions = 50
-        for i in range(max_questions):
-            # Get page snapshot
-            snapshot_script = """
+        # Step 1: Navigate to dashboard and find surveys
+        dashboard_url = "https://surveys.gobranded.com/users/dashboard"
+        nav_script = f"""
 const task = await useOrCreateTaskSpace('survey answering');
+await openOrReuseTab('{dashboard_url}', {{ wait: true, timeout: 20 }});
 await waitForLoad();
-await new Promise(r => setTimeout(r, 2000));
-
+await new Promise(r => setTimeout(r, 5000));
 const pageSnap = await snapshotText();
 const pageUrl = (await currentTab()).url;
-const pageInfoData = await pageInfo();
-
-cliLog(JSON.stringify({
-    url: pageUrl,
-    title: pageInfoData.title || '',
-    snapshot: pageSnap,
-}));
+cliLog(JSON.stringify({{ url: pageUrl, snapshot: pageSnap }}));
 """
-            output, rc = await _run_ego(snapshot_script, timeout=30)
-            if rc != 0:
-                return AgentResult(success=False, error=f"ego-browser error: {output[:200]}")
+        output, rc = await _run_ego(nav_script, timeout=45)
+        if rc != 0:
+            return AgentResult(success=False, error=f"Dashboard navigation failed: {output[:200]}")
 
-            try:
-                data = json.loads(output.strip())
-            except json.JSONDecodeError:
-                return AgentResult(success=False, error=f"Failed to parse ego output: {output[:200]}")
-
-            url = data.get("url", "")
+        try:
+            data = json.loads(output.strip())
             snapshot = data.get("snapshot", "")
+        except json.JSONDecodeError:
+            return AgentResult(success=False, error=f"Failed to parse dashboard: {output[:200]}")
 
+        # Find survey links
+        elements = _find_interactive_elements(snapshot)
+        surveys = _find_survey_links(elements)
+
+        if not surveys:
+            return AgentResult(success=True, output="No surveys available on dashboard")
+
+        # Click the first survey
+        survey_ref = surveys[0]["ref"]
+        logger.info(f"Clicking survey ref={survey_ref}: {surveys[0].get('url', '')[:80]}")
+
+        click_script = f"""
+const task = await useOrCreateTaskSpace('survey answering');
+await click('@{survey_ref}', {{ label: 'click survey' }});
+await new Promise(r => setTimeout(r, 5000));
+const pageSnap = await snapshotText();
+const pageUrl = (await currentTab()).url;
+cliLog(JSON.stringify({{ url: pageUrl, snapshot: pageSnap }}));
+"""
+        output, rc = await _run_ego(click_script, timeout=30)
+        if rc != 0:
+            return AgentResult(success=False, error=f"Survey click failed: {output[:200]}")
+
+        try:
+            data = json.loads(output.strip())
+            snapshot = data.get("snapshot", "")
+            url = data.get("url", "")
+        except json.JSONDecodeError:
+            return AgentResult(success=False, error=f"Failed to parse survey page: {output[:200]}")
+
+        # Step 2: Answer questions in a loop
+        max_questions = 50
+        for i in range(max_questions):
             # Check for completion/disqualification
-            snapshot_lower = snapshot.lower()
-            if any(kw in snapshot_lower for kw in ["thank you", "survey complete", "successfully completed"]):
+            snap_lower = snapshot.lower()
+            if any(kw in snap_lower for kw in ["thank you", "survey complete", "successfully completed"]):
                 return AgentResult(success=True, output=f"Survey completed after {i} questions")
-            if any(kw in snapshot_lower for kw in ["not a match", "disqualified", "screened out", "do not qualify"]):
+            if any(kw in snap_lower for kw in ["not a match", "disqualified", "screened out"]):
                 return AgentResult(success=False, error="Disqualified from survey")
 
-            # Parse snapshot for questions and interactive elements
-            # snapshotText() returns lines like: [ref=5, loc=...] text content
-            lines = snapshot.split("\n")
-            question_text = ""
-            options = []  # list of {ref, text}
+            # Parse snapshot for questions and options
+            elements = _find_interactive_elements(snapshot)
 
-            for line in lines:
-                # Extract ref number
-                ref_match = re.search(r'\[ref=(\d+)', line)
-                if not ref_match:
-                    # It's a text line — might be the question
-                    text = line.strip()
-                    if len(text) > 10 and not question_text:
-                        question_text = text[:300]
-                    continue
-
-                ref = ref_match.group(1)
-                # Extract text after the ref annotations
-                text_part = re.sub(r'\[ref=\d+[^\]]*\]\s*', '', line).strip()
-                if text_part and len(text_part) > 1:
-                    options.append({"ref": ref, "text": text_part[:100]})
+            # Filter for answer options (radio/checkbox/select)
+            options = []
+            for el in elements:
+                text = el.get("text", "").strip()
+                ref = el.get("ref", "")
+                raw = el.get("raw", "").lower()
+                # Look for radio/checkbox/select elements
+                if ("radio" in raw or "checkbox" in raw or "option" in raw or
+                    "button" in raw or "select" in raw):
+                    if text and len(text) < 100 and len(text) > 1:
+                        # Skip navigation elements
+                        if any(skip in text.lower() for skip in ["dashboard", "profile", "logout", "menu", "skip"]):
+                            continue
+                        options.append({"ref": ref, "text": text})
 
             if not options:
-                # No interactive elements found — might be between pages
+                # No options found — might be between pages or need scrolling
+                scroll_script = """
+const task = await useOrCreateTaskSpace('survey answering');
+await scrollBy(500);
+await new Promise(r => setTimeout(r, 1000));
+const pageSnap = await snapshotText();
+cliLog(JSON.stringify({snapshot: pageSnap}));
+"""
+                output, rc = await _run_ego(scroll_script, timeout=15)
+                if rc == 0:
+                    try:
+                        data = json.loads(output.strip())
+                        snapshot = data.get("snapshot", "")
+                    except json.JSONDecodeError:
+                        pass
                 await asyncio.sleep(2)
                 continue
+
+            # Extract question text from non-interactive lines
+            lines = snapshot.split("\n")
+            question_text = ""
+            for line in lines:
+                if re.search(r'\[ref=\d+', line):
+                    continue
+                text = line.strip()
+                if len(text) > 15 and ('?' in text or 'select' in text.lower() or 'how' in text.lower()):
+                    question_text = text[:300]
+                    break
+                if len(text) > 20 and not question_text:
+                    question_text = text[:300]
 
             # Use LLM to pick the best answer
             prompt = f"""Answer this survey question as the user described below.
@@ -460,24 +505,13 @@ For text inputs, reply with "TEXT: your answer here"."""
 
             # Apply the answer
             if answer.startswith("TEXT:"):
-                # Text input — find the first text input and fill it
-                text_val = answer[5:].strip().replace("'", "\\'")
+                text_val = answer[5:].strip()
                 fill_script = f"""
 const task = await useOrCreateTaskSpace('survey answering');
-const inputs = await js(String.raw`(() => {{
-    const els = document.querySelectorAll('input[type="text"], textarea, input:not([type])');
-    for (const el of els) {{
-        if (el.offsetParent !== null) return '@' + (el.getAttribute('data-ref') || '');
-    }}
-    return '';
-}})()`);
-// Find first visible text input from snapshot
-const pageSnap = await snapshotText();
-const lines = pageSnap.split('\\n');
-for (const line of lines) {{
-    const refMatch = line.match(/\\[ref=(\\d+)/);
-    if (refMatch && (line.includes('text') || line.includes('input'))) {{
-        await fillInput('@' + refMatch[1], '{text_val}');
+const inputs = document.querySelectorAll('input[type="text"], textarea');
+for (const input of inputs) {{
+    if (input.offsetParent !== null) {{
+        await fillInput(input, '{text_val.replace("'", "\\'")}');
         break;
     }}
 }}
@@ -485,7 +519,6 @@ cliLog('filled');
 """
                 await _run_ego(fill_script, timeout=15)
             else:
-                # Click by ref number
                 ref_num = re.search(r'\d+', answer)
                 if ref_num:
                     click_script = f"""
@@ -501,7 +534,7 @@ cliLog('clicked @{ref_num.group()}');
             submit_script = """
 const task = await useOrCreateTaskSpace('survey answering');
 const pageSnap = await snapshotText();
-const lines = pageSnap.split('\\n');
+const lines = pageSnap.split(String.fromCharCode(10));
 for (const line of lines) {
     const refMatch = line.match(/\\[ref=(\\d+)/);
     if (refMatch) {
@@ -513,9 +546,24 @@ for (const line of lines) {
         }
     }
 }
-await new Promise(r => setTimeout(r, 2000));
+await new Promise(r => setTimeout(r, 3000));
 """
             await _run_ego(submit_script, timeout=15)
+
+            # Get updated snapshot for next iteration
+            snap_script = """
+const task = await useOrCreateTaskSpace('survey answering');
+const pageSnap = await snapshotText();
+const pageUrl = (await currentTab()).url;
+cliLog(JSON.stringify({ url: pageUrl, snapshot: pageSnap }));
+"""
+            output, rc = await _run_ego(snap_script, timeout=30)
+            if rc == 0:
+                try:
+                    data = json.loads(output.strip())
+                    snapshot = data.get("snapshot", "")
+                except json.JSONDecodeError:
+                    pass
 
         return AgentResult(success=True, output=f"Answered {max_questions} questions (loop limit)")
 
