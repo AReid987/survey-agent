@@ -258,8 +258,13 @@ class PlaywrightBackend(SurveyAgentBackend):
 
         for i in range(max_questions):
             # Check for completion/disqualification
-            url = self._page.url
-            body = await self._page.evaluate("() => document.body?.innerText?.substring(0, 2000) || ''")
+            try:
+                url = self._page.url
+                body = await self._page.evaluate("() => document.body?.innerText?.substring(0, 2000) || ''")
+            except Exception as nav_err:
+                logger.warning(f"Q{i+1} page error (navigation?): {nav_err}")
+                await asyncio.sleep(3)
+                continue
             body_lower = body.lower()
 
             if any(kw in body_lower for kw in ["thank you", "survey complete", "successfully completed"]):
