@@ -541,6 +541,9 @@ cliLog('ELEMENTS: ' + elements);
                 return AgentResult(success=True, output=f"Survey completed after {i} questions")
             if any(kw in body_lower for kw in ["not a match", "disqualified", "screened out"]):
                 return AgentResult(success=False, error="Disqualified from survey")
+            # Check if we're on the dashboard (not a survey page) — look for dashboard indicators
+            if any(kw in body_lower for kw in ["my top surveys", "daily poll", "branded elite", "my points", "500 points until payout"]):
+                return AgentResult(success=True, output=f"Back on dashboard after {i} questions (survey ended or redirected)")
 
             # Parse elements
             try:
