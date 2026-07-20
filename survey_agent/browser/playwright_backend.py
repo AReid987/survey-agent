@@ -278,7 +278,11 @@ class PlaywrightBackend(SurveyAgentBackend):
                 const textNodes = document.body.innerText.split('\\n');
                 for (const line of textNodes) {
                     const t = line.trim();
-                    if (t.length > 15 && (t.includes('?') || t.toLowerCase().includes('select') || t.toLowerCase().includes('how'))) {
+                    if (!t || t.length < 10) continue;
+                    // Skip navigation/progress elements
+                    if (t.toLowerCase().includes('technical problem') || t.toLowerCase().includes('click here')) continue;
+                    // Look for question indicators
+                    if (t.includes('?') || t.toLowerCase().includes('select') || t.toLowerCase().includes('how') || t.toLowerCase().includes('what') || t.toLowerCase().includes('which') || t.toLowerCase().includes('have you')) {
                         question = t.substring(0, 300);
                         break;
                     }

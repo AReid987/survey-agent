@@ -548,13 +548,20 @@ cliLog('ELEMENTS: ' + elements);
                 await asyncio.sleep(2)
                 continue
 
-            # Find question text from body
+            # Find question text from body — more robust extraction
             question_text = ""
             for line in body_text.split("\n"):
                 line = line.strip()
-                if len(line) > 15 and ('?' in line or 'select' in line.lower() or 'how' in line.lower()):
+                if not line or len(line) < 10:
+                    continue
+                # Skip navigation/progress elements
+                if any(skip in line.lower() for skip in ["technical problem", "click here", "skip to content", "my dashboard", "my points"]):
+                    continue
+                # Look for question indicators
+                if '?' in line or 'select' in line.lower() or 'how' in line.lower() or 'what' in line.lower() or 'which' in line.lower() or 'have you' in line.lower():
                     question_text = line[:300]
                     break
+                # Also capture descriptive text that precedes options
                 if len(line) > 20 and not question_text:
                     question_text = line[:300]
 
