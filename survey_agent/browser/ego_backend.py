@@ -428,11 +428,58 @@ cliLog('BODY: ' + body);
             if line.startswith("BODY: "):
                 body_text = line[6:]
 
+        # Step 3: Handle consent/agreement pages before question loop
+        consent_script = """
+const task = await useOrCreateTaskSpace('survey answering');
+// Check for consent checkbox and click Accept
+const consentResult = await js(String.raw`(function(){
+    // Check the confirmation checkbox if present
+    var cb = document.getElementById('confirmationCheckbox');
+    if (cb && !cb.checked) { cb.click(); return 'checked_and_accepting'; }
+    // Also try generic agreement checkboxes
+    var cbs = document.querySelectorAll('input[type="checkbox"]');
+    for (var i = 0; i < cbs.length; i++) {
+        if (!cbs[i].checked && cbs[i].offsetParent !== null) {
+            cbs[i].click();
+            break;
+        }
+    }
+    // Click Accept button
+    var btns = document.querySelectorAll('button, input[type="submit"]');
+    for (var i = 0; i < btns.length; i++) {
+        var text = (btns[i].textContent||btns[i].value||'').trim().toUpperCase();
+        if (text === 'ACCEPT' || text === 'AGREE' || text === 'I AGREE' || text === 'CONTINUE') {
+            btns[i].click();
+            return 'accepted';
+        }
+    }
+    return 'no_consent_page';
+})()`);
+cliLog('CONSENT: ' + consentResult);
+await new Promise(r => setTimeout(r, 8000));
+// Get page after consent
+const body = await js(String.raw`(function(){
+    try { return document.body ? document.body.innerText.substring(0, 3000) : 'no body'; }
+    catch(e) { return 'err: ' + e.message; }
+})()`);
+cliLog('BODY: ' + body);
+"""
+        output, rc = await _run_ego(consent_script, timeout=30)
+        if rc == 0:
+            for line in output.strip().split("\n"):
+                if line.startswith("BODY: "):
+                    body_text = line[6:]
+            if "CONSENT:" in output:
+                logger.info(f"Consent: {[l for l in output.split(chr(10)) if 'CONSENT:' in l][0].strip()}")
+
         if "not found" in output.lower():
             return AgentResult(success=False, error="TAKE SURVEY button not found")
 
-        # Step 3: Answer questions using js() for all interactions
+        # Step 4: Answer questions using js() for all interactions
         max_questions = 50
+        last_question = ""
+        same_count = 0
+
         for i in range(max_questions):
             # Get current page content and interactive elements
             get_state_script = """
@@ -520,8 +567,57 @@ cliLog('ELEMENTS: ' + elements);
                 })
 
             if not options:
+                # Also look for links/buttons that might be answer options
+                link_get_script = """
+const task = await useOrCreateTaskSpace('survey answering');
+const els = await js(String.raw`(function(){
+    var els = document.querySelectorAll('a, button, [onclick], [role="button"]');
+    var result = [];
+    for (var i = 0; i < els.length && i < 30; i++) {
+        var el = els[i];
+        var text = (el.textContent||'').trim().substring(0, 80);
+        if (text && text.length > 1 && el.offsetParent !== null) {
+            result.push({tag: el.tagName, text: text, href: el.href||''});
+        }
+    }
+    return JSON.stringify(result);
+})()`);
+cliLog('LINKS: ' + els);
+"""
+                link_output, link_rc = await _run_ego(link_get_script, timeout=15)
+                if link_rc == 0:
+                    for line in link_output.strip().split("\n"):
+                        if line.startswith("LINKS: "):
+                            try:
+                                link_els = json.loads(line[7:])
+                                for el in link_els:
+                                    text = el.get("text", "").strip()
+                                    if text and len(text) > 1 and len(text) < 60:
+                                        if any(skip in text.lower() for skip in ["dashboard", "profile", "logout", "menu", "cookie", "privacy", "terms"]):
+                                            continue
+                                        options.append({"name": "", "id": "", "type": "link", "label": text, "value": el.get("href", "")})
+                            except json.JSONDecodeError:
+                                pass
+
+            if not options:
                 await asyncio.sleep(2)
                 continue
+
+            # Stuck detection — same question 3 times in a row
+            if question_text == last_question:
+                same_count += 1
+                if same_count >= 3:
+                    # Try scrolling to reveal more content
+                    scroll_script = """
+const task = await useOrCreateTaskSpace('survey answering');
+await js(String.raw`(function(){ window.scrollBy(0, 500); return 'scrolled'; })()`);
+await new Promise(r => setTimeout(r, 1000));
+"""
+                    await _run_ego(scroll_script, timeout=10)
+                    same_count = 0
+            else:
+                same_count = 0
+            last_question = question_text
 
             # Use LLM to pick the best answer
             prompt = f"""Answer this survey question as the user described below.
@@ -572,11 +668,12 @@ cliLog('applied');
 """
                 await _run_ego(apply_script, timeout=15)
             else:
-                # Click the matching option via JS
+                # Click the matching option — handles radio, checkbox, AND links
                 answer_clean = answer.strip().replace("'", "\\'").replace('"', '\\"')
                 click_script = f"""
 const task = await useOrCreateTaskSpace('survey answering');
 await js(String.raw`(function(){{
+    // First try radio/checkbox
     var els = document.querySelectorAll('input[type="radio"], input[type="checkbox"]');
     for (var i = 0; i < els.length; i++) {{
         var parent = els[i].closest('label');
@@ -587,7 +684,16 @@ await js(String.raw`(function(){{
         }}
         if (label.toLowerCase().indexOf('{answer_clean.lower()[:40]}') !== -1) {{
             els[i].click();
-            return 'clicked: ' + label;
+            return 'clicked radio: ' + label;
+        }}
+    }}
+    // Try links and buttons
+    var links = document.querySelectorAll('a, button, [onclick], [role="button"]');
+    for (var i = 0; i < links.length; i++) {{
+        var text = (links[i].textContent||'').trim();
+        if (text.toLowerCase().indexOf('{answer_clean.lower()[:40]}') !== -1 && links[i].offsetParent !== null) {{
+            links[i].click();
+            return 'clicked link: ' + text;
         }}
     }}
     return 'no match for: {answer_clean[:40]}';
