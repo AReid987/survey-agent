@@ -346,10 +346,11 @@ cliLog(JSON.stringify({{ url: finalUrl }}));
             return AgentResult(success=True, output=output)
 
     async def complete_survey(self, survey_info: str, profile_context: str) -> AgentResult:
-        """Complete a survey using ego-lite's snapshot-based interaction.
+        """Complete a survey using ego-lite snapshot-based interaction.
 
         Uses snapshotText() for page reading and click('@ref') for interaction.
-        This approach works with custom radio implementations (nfield, opinionway, etc.)
+        Logs extensively so we can diagnose snapshot format issues.
+        Fails fast (3 no-option iterations) so orchestrator can try next survey.
         """
         import re
         from ..llm_provider import get_llm, PROVIDERS  # noqa: PLC0415
@@ -366,64 +367,69 @@ cliLog(JSON.stringify({{ url: finalUrl }}));
 
         dashboard_url = "https://surveys.gobranded.com/users/dashboard"
 
-        # Step 1: Navigate to dashboard and wait for survey links to load
+        # Step 1: Find survey URL on dashboard
         find_survey_script = f"""
 const task = await useOrCreateTaskSpace('survey answering');
 await openOrReuseTab('{dashboard_url}', {{ wait: true, timeout: 30 }});
 await waitForLoad();
-// Wait up to 30s for survey links to appear
-var surveyUrl = '';
-for (var attempt = 0; attempt < 15; attempt++) {{
-    surveyUrl = await js(String.raw`(function(){{
-        var l = document.querySelector('a[href*="/surveys/pre/"]');
-        return l ? l.href : '';
-    }})()`);
-    if (surveyUrl) break;
-    await new Promise(r => setTimeout(r, 2000));
-}}
+await new Promise(r => setTimeout(r, 10000));
+// Try /surveys/pre/ first (real survey links)
+var surveyUrl = await js(String.raw`(function(){{
+    var l = document.querySelector('a[href*="/surveys/pre/"]');
+    return l ? l.href : '';
+}})()`);
 if (!surveyUrl) {{
-    // Fallback: try router/go
+    // Fallback: router/go
     surveyUrl = await js(String.raw`(function(){{
         var l = document.querySelector('a[href*="/router/go"]');
         return l ? l.href : '';
     }})()`);
+    cliLog('FALLBACK: router/go -> ' + surveyUrl);
 }}
+// Check IN PROGRESS
+var body = await js('(function(){{ return document.body ? document.body.innerText : ""; }})()');
+var inProgress = body.indexOf('IN PROGRESS') !== -1;
+cliLog('IN_PROGRESS: ' + inProgress);
 cliLog('SURVEY_URL: ' + surveyUrl);
 """
-        output, rc = await _run_ego(find_survey_script, timeout=60)
+        output, rc = await _run_ego(find_survey_script, timeout=45)
         if rc != 0:
+            logger.warning(f"Dashboard failed (rc={rc}): {output[:200]}")
             return AgentResult(success=False, error=f"Dashboard failed: {output[:200]}")
 
         survey_url = ""
+        is_in_progress = False
         for line in output.strip().split("\n"):
             if line.startswith("SURVEY_URL: "):
                 survey_url = line[12:].strip()
+            if line.startswith("IN_PROGRESS: true"):
+                is_in_progress = True
+            if line.startswith("FALLBACK:"):
+                logger.info(line)
 
         if not survey_url or survey_url == "none":
-            # Check if "IN PROGRESS" is blocking
-            in_progress_check, _ = await _run_ego("""
-const task = await useOrCreateTaskSpace('survey answering');
-var body = await js('(function(){ return document.body ? document.body.innerText : ""; })()');
-cliLog('IN_PROGRESS: ' + (body.indexOf('IN PROGRESS') !== -1));
-""", timeout=10)
-            is_blocked = "IN_PROGRESS: true" in (in_progress_check or "")
-            if is_blocked:
-                return AgentResult(success=True, output="Survey in progress blocking new surveys (IN PROGRESS state)")
-            return AgentResult(success=True, output="No surveys available on dashboard")
+            if is_in_progress:
+                return AgentResult(success=True, output="IN PROGRESS blocking — no /surveys/pre/ links available")
+            return AgentResult(success=True, output="No surveys available")
 
         logger.info(f"Survey URL: {survey_url[:80]}")
 
         # Step 2: Navigate to survey pre-page
-        await _run_ego(f"""
+        nav_output, nav_rc = await _run_ego(f"""
 const task = await useOrCreateTaskSpace('survey answering');
 await gotoAndWait('{survey_url}', {{ timeout: 30, settle: 5 }});
 await new Promise(r => setTimeout(r, 3000));
+var url = (await currentTab()).url;
+cliLog('NAV_URL: ' + url);
 """, timeout=45)
+        for line in (nav_output or "").strip().split("\n"):
+            if line.startswith("NAV_URL:"):
+                logger.info(f"Nav: {line}")
 
-        # Step 3: Click TAKE SURVEY (uses js() to avoid CDP timeout)
-        take_result, take_rc = await _run_ego("""
+        # Step 3: Click TAKE SURVEY
+        take_output, take_rc = await _run_ego("""
 const task = await useOrCreateTaskSpace('survey answering');
-var result = await js(String.raw`(function(){
+var takeResult = await js(String.raw`(function(){
     var els = document.querySelectorAll('a, button, input[type="submit"]');
     for (var i = 0; i < els.length; i++) {
         var text = (els[i].textContent||els[i].value||'').trim().toUpperCase();
@@ -431,43 +437,50 @@ var result = await js(String.raw`(function(){
     }
     return 'not found';
 })()`);
-cliLog('TAKE: ' + result);
+cliLog('TAKE_RESULT: ' + takeResult);
 await new Promise(r => setTimeout(r, 10000));
-// Check if we're still on the survey pre-page or redirected
 var url = (await currentTab()).url;
-cliLog('URL_AFTER_TAKE: ' + url);
+cliLog('AFTER_TAKE_URL: ' + url);
 """, timeout=30)
 
-        # Check if redirected to dashboard (survey full)
-        url_after_take = ""
-        for line in take_result.strip().split("\n"):
-            if line.startswith("URL_AFTER_TAKE: "):
-                url_after_take = line[16:].strip()
+        after_take_url = ""
+        for line in (take_output or "").strip().split("\n"):
+            if line.startswith("AFTER_TAKE_URL:"):
+                after_take_url = line[15:].strip()
+            if line.startswith("TAKE_RESULT:"):
+                logger.info(f"TAKE: {line}")
 
-        if "/users/dashboard" in url_after_take:
+        if "/users/dashboard" in after_take_url:
+            logger.info("TAKE SURVEY redirected to dashboard — survey full or blocked")
             return AgentResult(success=True, output="Survey full (redirected to dashboard)")
 
         # Step 4: Click BEGIN SURVEY / START >>
-        await _run_ego("""
+        begin_output, begin_rc = await _run_ego("""
 const task = await useOrCreateTaskSpace('survey answering');
-await js(String.raw`(function(){
+var beginResult = await js(String.raw`(function(){
     var els = document.querySelectorAll('a, button, input[type="submit"]');
     for (var i = 0; i < els.length; i++) {
         var text = (els[i].textContent||els[i].value||'').trim().toUpperCase();
         if (text === 'BEGIN SURVEY' || text === 'START SURVEY' || text === 'START >>') {
-            els[i].click(); return 'clicked';
+            els[i].click(); return 'clicked ' + text;
         }
     }
     return 'not found';
 })()`);
+cliLog('BEGIN_RESULT: ' + beginResult);
 await new Promise(r => setTimeout(r, 10000));
+var url = (await currentTab()).url;
+cliLog('AFTER_BEGIN_URL: ' + url);
 """, timeout=30)
 
-        # Step 5: Handle consent/agreement pages
-        await _run_ego("""
+        for line in (begin_output or "").strip().split("\n"):
+            if line.startswith("BEGIN_RESULT:") or line.startswith("AFTER_BEGIN_URL:"):
+                logger.info(line)
+
+        # Step 5: Handle consent
+        consent_output, _ = await _run_ego("""
 const task = await useOrCreateTaskSpace('survey answering');
-// Click consent checkboxes and accept buttons
-await js(String.raw`(function(){
+var consentResult = await js(String.raw`(function(){
     var cb = document.getElementById('confirmationCheckbox');
     if (cb && !cb.checked) { cb.click(); }
     var cbs = document.querySelectorAll('input[type="checkbox"]');
@@ -483,35 +496,53 @@ await js(String.raw`(function(){
     }
     return 'no_consent';
 })()`);
+cliLog('CONSENT: ' + consentResult);
 await new Promise(r => setTimeout(r, 5000));
 """, timeout=20)
 
+        for line in (consent_output or "").strip().split("\n"):
+            if line.startswith("CONSENT:"):
+                logger.info(line)
+
         # Step 6: Answer questions using snapshotText() + click('@ref')
         max_questions = 50
+        no_option_count = 0  # Fail fast if no options found 3 times in a row
         last_snap = ""
-        same_count = 0
 
         for i in range(max_questions):
-            # Get page snapshot with refs
-            output, rc = await _run_ego("""
+            # Get page snapshot
+            snap_output, snap_rc = await _run_ego("""
 const task = await useOrCreateTaskSpace('survey answering');
 const snap = await snapshotText();
 cliLog('SNAP: ' + snap);
 """, timeout=15)
-            if rc != 0:
+
+            if snap_rc != 0:
+                no_option_count += 1
+                if no_option_count >= 3:
+                    logger.warning(f"No snapshot after {i} iterations, failing fast")
+                    return AgentResult(success=False, error="Failed to get page snapshot after 3 attempts")
                 await asyncio.sleep(2)
                 continue
 
             snapshot = ""
-            for line in output.strip().split("\n"):
+            for line in (snap_output or "").strip().split("\n"):
                 if line.startswith("SNAP: "):
                     snapshot = line[6:]
 
             if not snapshot:
+                no_option_count += 1
+                if no_option_count >= 3:
+                    logger.warning(f"Empty snapshot after {i} iterations, failing fast")
+                    return AgentResult(success=False, error="Empty page snapshot after 3 attempts")
                 await asyncio.sleep(2)
                 continue
 
-            # Check for completion/disqualification
+            # Log first snapshot for debugging
+            if i == 0:
+                logger.info(f"First snapshot (first 500 chars): {snapshot[:500]}")
+
+            # Check for completion/disqualification/dashboard
             sl = snapshot.lower()
             if any(kw in sl for kw in ["thank you", "survey complete", "successfully completed"]):
                 return AgentResult(success=True, output=f"Survey completed after {i} questions")
@@ -537,7 +568,7 @@ cliLog('SNAP: ' + snap);
                     if len(sline) > 10 and not q_text:
                         if any(kw in sline.lower() for kw in ["?", "select", "how", "what", "which", "are you", "have you", "please"]):
                             q_text = sline[:300]
-                # Find options: text "X" followed by container [ref=N]
+                # Find options: text "X" followed by container with ref
                 if sline.startswith('text "'):
                     txt = sline[6:].rstrip('"')
                     if j + 1 < len(snap_lines):
@@ -558,8 +589,16 @@ cliLog('SNAP: ' + snap);
             if sm:
                 start_ref = sm.group(1)
 
-            # No options: try START button or handle stuck
+            # No options found
             if not opts:
+                no_option_count += 1
+                if no_option_count >= 3:
+                    # Log the snapshot for debugging
+                    logger.warning(f"No options found after {i} iterations. Snapshot (first 1000 chars):")
+                    for snap_line in snapshot[:1000].split("\n"):
+                        logger.warning(f"  SNAP: {snap_line}")
+                    return AgentResult(success=False, error=f"No survey options found after {i} iterations (snapshot format mismatch)")
+
                 if start_ref:
                     await _run_ego(f"""
 const task = await useOrCreateTaskSpace('survey answering');
@@ -567,20 +606,17 @@ await click('@{start_ref}', {{ label: 'click START' }});
 """, timeout=10)
                     await asyncio.sleep(5)
                     continue
+
                 if snapshot == last_snap:
-                    same_count += 1
-                    if same_count >= 3:
-                        # Try scrolling
-                        await _run_ego("""
-const task = await useOrCreateTaskSpace('survey answering');
-await scrollBy(500);
-""", timeout=10)
-                        same_count = 0
+                    await asyncio.sleep(2)
                 else:
-                    same_count = 0
+                    no_option_count = 0  # Reset if snapshot changed
                 last_snap = snapshot
                 await asyncio.sleep(2)
                 continue
+
+            # Found options — reset no-option counter
+            no_option_count = 0
 
             # Use LLM to pick the best answer
             prompt = f"""Answer this survey question as the user described below.
@@ -621,16 +657,13 @@ await fillInput('@{tref}', '{tval}');
 """, timeout=10)
                     sel_ref = tref
             else:
-                # Check if answer is a ref number directly
                 ref_match = re.search(r'\b(\d+)\b', answer)
                 if ref_match:
                     candidate = ref_match.group(1)
-                    # Verify it's a valid ref in our options
                     valid_refs = [o["ref"] for o in opts]
                     if candidate in valid_refs:
                         sel_ref = candidate
                     else:
-                        # Try to find option by text match
                         answer_lower = answer.lower().strip()
                         for opt in opts:
                             if answer_lower in opt["text"].lower() or opt["text"].lower() in answer_lower:
@@ -638,10 +671,11 @@ await fillInput('@{tref}', '{tval}');
                                 break
 
             if not sel_ref:
+                logger.warning(f"Could not match answer '{answer[:50]}' to options")
                 await asyncio.sleep(1)
                 continue
 
-            logger.info(f"Survey Q{i+1}: {q_text[:50]} -> ref={sel_ref}")
+            logger.info(f"Q{i+1}: {q_text[:50]} -> ref={sel_ref} ({answer[:30]})")
 
             # Click the selected option
             await _run_ego(f"""
