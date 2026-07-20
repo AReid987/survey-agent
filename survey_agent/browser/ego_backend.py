@@ -503,6 +503,15 @@ cliLog('AFTER_BEGIN_URL: ' + url);
             if line.startswith("BEGIN_RESULT:") or line.startswith("AFTER_BEGIN_URL:"):
                 logger.info(line)
 
+        # Check if redirected back to Branded Surveys (survey rejected)
+        after_begin_url = ""
+        for line in (begin_output or "").strip().split("\n"):
+            if line.startswith("AFTER_BEGIN_URL:"):
+                after_begin_url = line[16:].strip()
+        if "surveys.gobranded.com" in after_begin_url and "/surveys/" not in after_begin_url:
+            logger.info(f"Redirected back to Branded Surveys after BEGIN: {after_begin_url}")
+            return AgentResult(success=True, output="Survey rejected (redirected to Branded Surveys member page)")
+
         # Step 5: Handle consent and Start buttons
         consent_output, _ = await _run_ego("""
 const task = await useOrCreateTaskSpace('survey answering');
@@ -546,7 +555,7 @@ cliLog('SNAP: ' + snap);
 
             if snap_rc != 0:
                 no_option_count += 1
-                if no_option_count >= 3:
+                if no_option_count >= 5:
                     logger.warning(f"No snapshot after {i} iterations, failing fast")
                     return AgentResult(success=False, error="Failed to get page snapshot after 3 attempts")
                 await asyncio.sleep(2)
@@ -559,7 +568,7 @@ cliLog('SNAP: ' + snap);
 
             if not snapshot:
                 no_option_count += 1
-                if no_option_count >= 3:
+                if no_option_count >= 5:
                     logger.warning(f"Empty snapshot after {i} iterations, failing fast")
                     return AgentResult(success=False, error="Empty page snapshot after 3 attempts")
                 await asyncio.sleep(2)
@@ -619,6 +628,7 @@ cliLog('SNAP: ' + snap);
             # No options found — try js() fallback if snapshot is minimal
             if not opts and len(snapshot.strip().split("\n")) < 10:
                 # Snapshot is minimal (just "root" etc.) — use js() for content
+                logger.info(f"Snapshot minimal ({len(snapshot.strip())} chars), trying js() fallback")
                 js_fallback, js_rc = await _run_ego("""
 const task = await useOrCreateTaskSpace('survey answering');
 var body = await js('(function(){ return document.body ? document.body.innerText.substring(0, 2000) : "no body"; })()');
@@ -658,6 +668,8 @@ cliLog('JS_ELS: ' + els);
                         js_els = json.loads(js_els_json)
                     except json.JSONDecodeError:
                         js_els = []
+
+                    logger.info(f"js() fallback: body={len(js_body)} chars, elements={len(js_els)}")
 
                     if js_els:
                         # Found elements via js() — use them
@@ -724,7 +736,7 @@ await js(String.raw`(function(){
             # No options found
             if not opts:
                 no_option_count += 1
-                if no_option_count >= 3:
+                if no_option_count >= 5:
                     # Log the snapshot for debugging
                     logger.warning(f"No options found after {i} iterations. Snapshot (first 1000 chars):")
                     for snap_line in snapshot[:1000].split("\n"):
