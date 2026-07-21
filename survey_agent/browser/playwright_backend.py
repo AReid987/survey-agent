@@ -327,7 +327,7 @@ class PlaywrightBackend(SurveyAgentBackend):
                     const t = line.trim();
                     if (!t || t.length < 10) continue;
                     // Skip navigation/progress/widget elements
-                    if (t.toLowerCase().includes('technical problem') || t.toLowerCase().includes('click here') || t.toLowerCase().includes('select language') || t.toLowerCase().includes('translate')) continue;
+                    if (t.toLowerCase().includes('technical problem') || t.toLowerCase().includes('click here') || t.toLowerCase().includes('select language') || t.toLowerCase().includes('translate') || t.toLowerCase().includes('chinese') || t.toLowerCase().includes('traditional') || t.toLowerCase().includes('simplified')) continue;
                     // Look for question indicators
                     if (t.includes('?') || t.toLowerCase().includes('select') || t.toLowerCase().includes('how') || t.toLowerCase().includes('what') || t.toLowerCase().includes('which') || t.toLowerCase().includes('have you')) {
                         question = t.substring(0, 300);
@@ -342,7 +342,7 @@ class PlaywrightBackend(SurveyAgentBackend):
                 const labels = document.querySelectorAll('label');
                 labels.forEach(l => {
                     if (l.offsetParent === null) return;
-                    if (l.closest('.goog-te-combo') || l.closest('[class*="translate"]') || l.closest('.skiptranslate')) return;
+                    if (l.closest('.goog-te-combo') || l.closest('[class*="translate"]') || l.closest('.skiptranslate') || l.closest('#google_translate_element')) return;
                     const text = l.textContent.trim().substring(0, 80);
                     if (text.length > 1) {
                         options.push({type: 'label', name: '', id: l.id || '', label: text});
@@ -353,9 +353,12 @@ class PlaywrightBackend(SurveyAgentBackend):
                 const selects = document.querySelectorAll('select');
                 selects.forEach(s => {
                     if (s.offsetParent === null) return;
-                    if (s.closest('.goog-te-combo') || s.closest('[class*="translate"]') || s.closest('.skiptranslate')) return;
+                    if (s.closest('.goog-te-combo') || s.closest('[class*="translate"]') || s.closest('.skiptranslate') || s.closest('#google_translate_element')) return;
+                    // Skip if this select has language options (Google Translate)
+                    const firstOpt = s.options[0]?.text || '';
+                    if (firstOpt.match(/^(Select|Afrikaans|Chinese|Spanish|French|German|Japanese|Korean)/i)) return;
                     Array.from(s.options).forEach(o => {
-                        if (o.value && o.text.trim() && o.text.trim() !== 'Select one') {
+                        if (o.value && o.text.trim() !== 'Select one') {
                             options.push({type: 'select', name: s.name, id: s.id, label: o.text.trim().substring(0, 80)});
                         }
                     });
