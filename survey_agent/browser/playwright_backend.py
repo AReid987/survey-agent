@@ -549,7 +549,7 @@ For text inputs, reply with "TEXT: your answer here"."""
                 return False
 
             # Send to Groq vision
-            vision_fn = create_vision_llm_fn(provider="groq")
+            vision_fn = create_vision_llm_fn(provider="cerebras")
             if not vision_fn:
                 logger.warning("CAPTCHA: No vision function available (missing API key?)")
                 return False

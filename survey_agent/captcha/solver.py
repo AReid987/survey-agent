@@ -366,27 +366,32 @@ def create_vision_llm_fn(provider: str = "groq", model: str = "", api_key: str =
     import base64  # noqa: PLC0415
     import os  # noqa: PLC0415
 
-    api_key = api_key or os.environ.get("GROQ_AGENT_ZERO_API_KEY", "")
+    api_key = api_key or os.environ.get(
+        {"groq": "GROQ_AGENT_ZERO_API_KEY", "cerebras": "CEREBRAS_API_KEY"}.get(provider, "CEREBRAS_API_KEY"),
+        ""
+    )
 
     if not api_key:
         return None
 
     # Model mapping for vision-capable models
     vision_models = {
-        "groq": "qwen/qwen3.6-27b",  # Qwen 3.6 27B with vision (current Groq vision model)
+        "groq": "qwen/qwen3.6-27b",  # Qwen 3.6 27B with vision (200K TPD)
+        "cerebras": "gemma-4-31b",  # Gemma 4 31B with vision (1M TPD)
         "openai": "gpt-4o",
         "freemodel": "claude-haiku-4-5-20251001",
     }
 
-    model = model or vision_models.get(provider, "llama-3.3-70b-versatile")
+    model = model or vision_models.get(provider, "gemma-4-31b")
 
     # API endpoints
     endpoints = {
         "groq": "https://api.groq.com/openai/v1/chat/completions",
+        "cerebras": "https://api.cerebras.ai/v1/chat/completions",
         "openai": "https://api.openai.com/v1/chat/completions",
         "freemodel": "https://api.freemodel.dev/v1/chat/completions",
     }
-    endpoint = base_url or endpoints.get(provider, endpoints["groq"])
+    endpoint = base_url or endpoints.get(provider, endpoints["cerebras"])
 
     def _vision_fn(prompt: str, image_bytes: bytes | None = None) -> str:
         import httpx  # noqa: PLC0415
