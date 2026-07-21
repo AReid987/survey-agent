@@ -486,59 +486,12 @@ For text inputs, reply with "TEXT: your answer here"."""
         return AgentResult(success=True, output=f"Answered {max_questions} questions (loop limit)")
 
     async def _solve_captcha_vision(self) -> bool:
-        """Screenshot CAPTCHA image and solve via Groq vision model."""
+        """Screenshot CAPTCHA area and solve via Groq vision model."""
         try:
             from ..captcha.solver import create_vision_llm_fn  # noqa: PLC0415
 
-            # Find the CAPTCHA image element
-            img_bytes = await self._page.evaluate("""() => {
-                // Look for images near CAPTCHA text
-                const imgs = document.querySelectorAll('img');
-                for (const img of imgs) {
-                    if (img.offsetParent === null) continue;
-                    const near = img.closest('div, section, form');
-                    if (near) {
-                        const text = near.innerText.toLowerCase();
-                        if (text.includes('code') || text.includes('captcha') || text.includes('verification') || text.includes('type the')) {
-                            // Found CAPTCHA image — return its src
-                            return img.src;
-                        }
-                    }
-                }
-                // Fallback: look for canvas elements (CAPTCHAs rendered in canvas)
-                const canvas = document.querySelector('canvas');
-                if (canvas) return 'canvas';
-                return '';
-            }""")
-
-            if not img_bytes:
-                logger.warning("CAPTCHA: No image/canvas element found")
-                return False
-
-            # Get screenshot bytes
-            if img_bytes == 'canvas':
-                # Screenshot the canvas
-                canvas = await self._page.query_selector('canvas')
-                if canvas:
-                    screenshot = await canvas.screenshot()
-                else:
-                    return False
-            elif img_bytes.startswith('data:'):
-                # Data URL — decode directly
-                import base64  # noqa: PLC0415
-                _, data = img_bytes.split(',', 1)
-                screenshot = base64.b64decode(data)
-            elif img_bytes.startswith('http'):
-                # External URL — screenshot the element
-                img_el = await self._page.query_selector(f'img[src="{img_bytes[:100]}"]')
-                if img_el:
-                    screenshot = await img_el.screenshot()
-                else:
-                    # Screenshot the whole page area around the CAPTCHA
-                    screenshot = await self._page.screenshot()
-            else:
-                screenshot = await self._page.screenshot()
-
+            # Just screenshot the whole page — the vision model can find the CAPTCHA
+            screenshot = await self._page.screenshot()
             if not screenshot:
                 logger.warning("CAPTCHA: Could not get screenshot")
                 return False
@@ -549,14 +502,14 @@ For text inputs, reply with "TEXT: your answer here"."""
                 logger.warning("CAPTCHA: No vision function available (missing API key?)")
                 return False
 
-            prompt = "This image contains a CAPTCHA verification code. Read the exact text/characters shown in the image. Reply with ONLY the code characters, nothing else."
+            prompt = "This is a survey page with a CAPTCHA verification code. Find the image that contains a verification code (usually distorted text/characters). Read the exact text/characters shown in that code image. Reply with ONLY the code characters, nothing else."
             answer = await asyncio.to_thread(vision_fn, prompt, screenshot)
 
             if not answer:
                 logger.warning("CAPTCHA: Vision model returned empty response")
                 return False
 
-            # Clean up the answer (remove quotes, spaces, etc.)
+            # Clean up the answer
             answer = answer.strip().strip('"').strip("'").strip()
             logger.info(f"CAPTCHA: Vision model answered: '{answer}'")
 
