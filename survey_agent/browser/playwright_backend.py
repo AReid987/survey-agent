@@ -294,7 +294,8 @@ class PlaywrightBackend(SurveyAgentBackend):
                             if (t.includes('NEXT') || t.includes('SUBMIT') || t.includes('CONTINUE')) { b.click(); return; }
                         }
                     }""")
-                    await asyncio.sleep(3)
+                    await asyncio.sleep(8)  # Wait longer for page to load after CAPTCHA
+                    no_option_count = 0  # Reset counter after CAPTCHA solve
                     continue
                 else:
                     logger.info(f"Q{i+1}: CAPTCHA solve failed, skipping survey")
@@ -517,10 +518,13 @@ For text inputs, reply with "TEXT: your answer here"."""
             # Remove <think>...</think> blocks (Qwen chain-of-thought)
             import re as _re
             answer = _re.sub(r'<think>.*?</think>', '', answer, flags=_re.DOTALL).strip()
-            # Extract just alphanumeric code (CAPTCHAs are usually 4-8 chars)
+            # Extract just alphanumeric code (CAPTCHAs are usually 4-8 chars with mixed case/numbers)
             code_match = _re.search(r'[A-Za-z0-9]{4,8}', answer)
             if code_match:
-                answer = code_match.group(0)
+                candidate = code_match.group(0)
+                # Skip common words that aren't CAPTCHA codes
+                if candidate.lower() not in ('think', 'think', 'image', 'shows', 'code', 'text', 'answer', 'captcha', 'verify', 'enter'):
+                    answer = candidate
             logger.info(f"CAPTCHA: Vision model answered: '{answer}'")
 
             # Fill the answer into the text input
