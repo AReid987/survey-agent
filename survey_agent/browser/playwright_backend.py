@@ -727,14 +727,15 @@ Reply with ONLY the command, nothing else."""
 
             for line in answer.split('\n'):
                 line = line.strip()
-                if any(line.upper().startswith(cmd) for cmd in ['CAPTCHA:', 'DRAG:', 'SLIDE:', 'TYPE:', 'CLICK:', 'NEXT', 'WAIT:', 'DONE', 'SKIP']):
+                upper = line.upper()
+                if any(upper.startswith(cmd) for cmd in ['CAPTCHA:', 'CAPTCHA ', 'DRAG:', 'DRAG ', 'SLIDE:', 'SLIDE ', 'TYPE:', 'TYPE ', 'CLICK:', 'CLICK ', 'NEXT', 'WAIT:', 'WAIT ', 'DONE', 'SKIP']):
                     answer = line
                     break
 
             logger.info(f"Vision command: {answer[:100]}")
 
-            if answer.upper().startswith('CAPTCHA:'):
-                code = answer[8:].strip()
+            if answer.upper().startswith('CAPTCHA:') or answer.upper().startswith('CAPTCHA '):
+                code = answer.split(':', 1)[-1].strip() if ':' in answer else answer.split(' ', 1)[-1].strip()
                 code_match = _re.search(r'[A-Za-z0-9]{4,8}', code)
                 if code_match:
                     code = code_match.group(0)
@@ -759,7 +760,7 @@ Reply with ONLY the command, nothing else."""
                     return True, f"filled CAPTCHA: {code}"
                 return False, "no text input for CAPTCHA"
 
-            elif answer.upper().startswith('DRAG:') or answer.upper().startswith('SLIDE:'):
+            elif answer.upper().startswith('DRAG:') or answer.upper().startswith('DRAG ') or answer.upper().startswith('SLIDE:') or answer.upper().startswith('SLIDE '):
                 coords = _re.findall(r'(\d+)\s*,\s*(\d+)', answer)
                 if len(coords) >= 2:
                     sx, sy = int(coords[0][0]), int(coords[0][1])
@@ -789,8 +790,8 @@ Reply with ONLY the command, nothing else."""
                     return True, f"dragged ({sx},{sy})->({tx},{ty})"
                 return False, "no coordinates in DRAG response"
 
-            elif answer.upper().startswith('TYPE:'):
-                text = answer[5:].strip()
+            elif answer.upper().startswith('TYPE:') or answer.upper().startswith('TYPE '):
+                text = answer.split(':', 1)[-1].strip() if ':' in answer else answer.split(' ', 1)[-1].strip()
                 filled = await self._page.evaluate(f"""() => {{
                     const inputs = document.querySelectorAll('input[type="text"], textarea');
                     for (const inp of inputs) {{
@@ -809,8 +810,8 @@ Reply with ONLY the command, nothing else."""
                     return True, f"typed: {text[:30]}"
                 return False, "no text input found"
 
-            elif answer.upper().startswith('CLICK:'):
-                text = answer[6:].strip()
+            elif answer.upper().startswith('CLICK:') or answer.upper().startswith('CLICK '):
+                text = answer.split(':', 1)[-1].strip() if ':' in answer else answer.split(' ', 1)[-1].strip()
                 clicked = await self._page.evaluate(f"""() => {{
                     const els = document.querySelectorAll('label, button, a, input[type="radio"], input[type="checkbox"]');
                     for (const el of els) {{
@@ -835,7 +836,7 @@ Reply with ONLY the command, nothing else."""
                 await asyncio.sleep(3)
                 return True, "clicked next"
 
-            elif answer.upper().startswith('WAIT:'):
+            elif answer.upper().startswith('WAIT:') or answer.upper().startswith('WAIT '):
                 secs = int(_re.search(r'\d+', answer).group(0)) if _re.search(r'\d+', answer) else 5
                 await asyncio.sleep(min(secs, 30))
                 await self._click_next_button()
