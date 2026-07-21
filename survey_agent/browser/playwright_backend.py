@@ -58,7 +58,12 @@ class PlaywrightBackend(SurveyAgentBackend):
         )
         self._page = await self._context.new_page()
         # Apply stealth — masks navigator.webdriver, plugins, languages, etc.
-        stealth = Stealth()
+        stealth = Stealth(
+            navigator_platform_override="MacIntel",
+            navigator_vendor_override="Google Inc.",
+            webgl_vendor_override="Intel Inc.",
+            webgl_renderer_override="Intel Iris OpenGL Engine",
+        )
         await stealth.apply_stealth_async(self._page)
 
         # Create LLM function for answering questions
