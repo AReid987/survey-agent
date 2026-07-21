@@ -444,8 +444,8 @@ QUESTION: {question_text}
 OPTIONS:
 {json.dumps(options[:20], indent=2)}
 
-Reply with ONLY the label text of the best option.
-For text inputs, reply with "TEXT: your answer here"."""
+If there are label/radio/select options above, reply with the EXACT text of the best option (e.g. "Male" or "Texas").
+ONLY use "TEXT: your answer" if there are NO label/radio/select options and a text input is needed."""
 
             try:
                 answer = await self._llm_fn(prompt)
@@ -456,6 +456,11 @@ For text inputs, reply with "TEXT: your answer here"."""
             if not answer or answer == "None":
                 await asyncio.sleep(1)
                 continue
+
+            # If LLM returned "TEXT:" but we have label options, strip the prefix
+            if answer.startswith("TEXT:") and any(o.get("type") == "label" for o in options):
+                answer = answer[5:].strip()
+                logger.info(f"Stripped TEXT prefix, using label: {answer[:40]}")
 
             logger.info(f"Q{i+1}: {question_text[:50]} → {answer[:50]}")
 
