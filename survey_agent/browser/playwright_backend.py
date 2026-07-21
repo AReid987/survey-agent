@@ -768,27 +768,70 @@ Reply with ONLY the command, nothing else."""
                     sx, sy = int(coords[0][0]), int(coords[0][1])
                     tx, ty = int(coords[1][0]), int(coords[1][1])
                     logger.info(f"Drag/Slide: ({sx},{sy}) -> ({tx},{ty})")
+
+                    # Method 1: Pointer events (works with Vue.js and modern frameworks)
                     await self._page.evaluate(f"""() => {{
                         const srcEl = document.elementFromPoint({sx}, {sy});
                         const tgtEl = document.elementFromPoint({tx}, {ty});
-                        if (!srcEl || !tgtEl) return;
+                        if (!srcEl) return 'no source';
+                        
+                        // Dispatch pointer events on source
+                        srcEl.dispatchEvent(new PointerEvent('pointerdown', {{ bubbles: true, cancelable: true, clientX: {sx}, clientY: {sy}, pointerId: 1, pointerType: 'mouse' }}));
+                        srcEl.dispatchEvent(new MouseEvent('mousedown', {{ bubbles: true, cancelable: true, clientX: {sx}, clientY: {sy} }}));
+                        
+                        // Dispatch pointer move events (step by step)
+                        const steps = 10;
+                        for (let i = 1; i <= steps; i++) {{
+                            const cx = {sx} + ({tx} - {sx}) * i / steps;
+                            const cy = {sy} + ({ty} - {sy}) * i / steps;
+                            srcEl.dispatchEvent(new PointerEvent('pointermove', {{ bubbles: true, cancelable: true, clientX: cx, clientY: cy, pointerId: 1, pointerType: 'mouse' }}));
+                            srcEl.dispatchEvent(new MouseEvent('mousemove', {{ bubbles: true, cancelable: true, clientX: cx, clientY: cy }}));
+                        }}
+                        
+                        // Dispatch pointer up on target
+                        if (tgtEl) {{
+                            tgtEl.dispatchEvent(new PointerEvent('pointerup', {{ bubbles: true, cancelable: true, clientX: {tx}, clientY: {ty}, pointerId: 1, pointerType: 'mouse' }}));
+                            tgtEl.dispatchEvent(new MouseEvent('mouseup', {{ bubbles: true, cancelable: true, clientX: {tx}, clientY: {ty} }}));
+                        }}
+                        
+                        // Also try HTML5 drag events
                         const dt = new DataTransfer();
-                        srcEl.dispatchEvent(new DragEvent('dragstart', {{ bubbles: true, cancelable: true, dataTransfer: dt }}));
-                        tgtEl.dispatchEvent(new DragEvent('dragover', {{ bubbles: true, cancelable: true, dataTransfer: dt }}));
-                        tgtEl.dispatchEvent(new DragEvent('drop', {{ bubbles: true, cancelable: true, dataTransfer: dt }}));
-                        srcEl.dispatchEvent(new DragEvent('dragend', {{ bubbles: true, cancelable: true, dataTransfer: dt }}));
+                        srcEl.dispatchEvent(new DragEvent('dragstart', {{ bubbles: true, cancelable: true, dataTransfer: dt, clientX: {sx}, clientY: {sy} }}));
+                        if (tgtEl) {{
+                            tgtEl.dispatchEvent(new DragEvent('dragover', {{ bubbles: true, cancelable: true, dataTransfer: dt, clientX: {tx}, clientY: {ty} }}));
+                            tgtEl.dispatchEvent(new DragEvent('drop', {{ bubbles: true, cancelable: true, dataTransfer: dt, clientX: {tx}, clientY: {ty} }}));
+                        }}
+                        srcEl.dispatchEvent(new DragEvent('dragend', {{ bubbles: true, cancelable: true, dataTransfer: dt, clientX: {tx}, clientY: {ty} }}));
+                        
+                        return 'dispatched';
                     }}""")
+
+                    # Method 2: Playwright native mouse drag (real OS-level events)
                     await self._page.mouse.move(sx, sy)
+                    await asyncio.sleep(0.1)
                     await self._page.mouse.down()
-                    await asyncio.sleep(0.3)
-                    steps = 15
-                    for s in range(steps + 1):
-                        cx = sx + (tx - sx) * s // steps
-                        cy = sy + (ty - sy) * s // steps
+                    await asyncio.sleep(0.2)
+                    # Move in small steps for smoother drag
+                    for s in range(20 + 1):
+                        cx = sx + (tx - sx) * s / 20
+                        cy = sy + (ty - sy) * s / 20
                         await self._page.mouse.move(cx, cy)
-                        await asyncio.sleep(0.03)
+                        await asyncio.sleep(0.02)
+                    await asyncio.sleep(0.1)
                     await self._page.mouse.up()
                     await asyncio.sleep(2)
+
+                    # Method 3: Playwright's native drag (if available)
+                    try:
+                        src_el = await self._page.query_selector(f':is([draggable], [class*="drag"], [class*="number"]):near(:point({sx}, {sy}))')
+                        if src_el:
+                            tgt_el = await self._page.query_selector(f':is([class*="drop"], [class*="target"], [class*="box"], [class*="square"]):near(:point({tx}, {ty}))')
+                            if tgt_el:
+                                await src_el.drag_to(tgt_el)
+                                await asyncio.sleep(2)
+                    except Exception:
+                        pass
+
                     return True, f"dragged ({sx},{sy})->({tx},{ty})"
                 return False, "no coordinates in DRAG response"
 
