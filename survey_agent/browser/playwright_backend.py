@@ -512,21 +512,52 @@ ONLY use "TEXT: your answer" if there are NO label/radio/select options and a te
                 clicked = await self._page.evaluate(js_code)
                 if clicked.startswith("no match"):
                     logger.warning(f"No match for answer: {answer_clean[:50]}")
+                else:
+                    logger.info(f"Q{i+1}: {clicked}")
+                    # Also click the label with Playwright native click (triggers real mouse events)
+                    try:
+                        label_el = self._page.locator(f'label').filter(has_text=answer[:30]).first
+                        if await label_el.count() > 0:
+                            await label_el.click(timeout=3000)
+                            logger.info(f"Q{i+1}: Also clicked label with Playwright native click")
+                    except Exception as e:
+                        logger.debug(f"Playwright label click failed: {e}")
 
             await asyncio.sleep(1)
 
-            # Click Next/Submit — try XX_NXT first, then standard buttons
+            # Click Next/Submit — try multiple approaches
+            # 1. Try XX_NXT button with Playwright click
+            try:
+                nxt_btn = self._page.locator('input[type="submit"][name="XX_NXT"]').first
+                if await nxt_btn.count() > 0 and await nxt_btn.is_visible():
+                    await nxt_btn.click(timeout=3000)
+                    logger.info(f"Q{i+1}: Clicked XX_NXT with Playwright")
+                    await asyncio.sleep(3)
+                    continue
+            except Exception:
+                pass
+            
+            # 2. Try standard Next/Submit buttons with Playwright click
+            try:
+                for btn_text in ['Next', 'Submit', 'Continue', '>>', 'NEXT >', 'START >>']:
+                    btn = self._page.locator('button, input[type="submit"], a.btn').filter(has_text=btn_text).first
+                    if await btn.count() > 0 and await btn.is_visible():
+                        await btn.click(timeout=3000)
+                        logger.info(f"Q{i+1}: Clicked '{btn_text}' with Playwright")
+                        await asyncio.sleep(3)
+                        break
+            except Exception:
+                pass
+            
+            # 3. Fallback to JS click
             await self._page.evaluate("""() => {
-                // Try XX_NXT button first (common in survey providers)
                 const nxt = document.querySelector('input[type="submit"][name="XX_NXT"]');
                 if (nxt && nxt.offsetParent !== null) { nxt.click(); return; }
-                // Try standard buttons
                 const btns = document.querySelectorAll('button, input[type="submit"], a.btn');
                 for (const btn of btns) {
                     const text = (btn.textContent || btn.value || '').trim().toUpperCase();
                     if (text === 'NEXT' || text === 'SUBMIT' || text === 'CONTINUE' || text === '>>' || text === 'NEXT >' || text === 'START >>') {
-                        btn.click();
-                        return;
+                        btn.click(); return;
                     }
                 }
             }""")
