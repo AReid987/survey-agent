@@ -294,7 +294,13 @@ class PlaywrightBackend(SurveyAgentBackend):
                             if (t.includes('NEXT') || t.includes('SUBMIT') || t.includes('CONTINUE')) { b.click(); return; }
                         }
                     }""")
-                    await asyncio.sleep(8)  # Wait longer for page to load after CAPTCHA
+                    await asyncio.sleep(12)  # Wait for page to load after CAPTCHA
+                    # Wait for page content to stabilize
+                    for _ in range(5):
+                        body_check = await self._page.evaluate("() => document.body?.innerText?.substring(0, 500) || ''")
+                        if body_check and len(body_check) > 20 and '66%' not in body_check:
+                            break
+                        await asyncio.sleep(2)
                     no_option_count = 0  # Reset counter after CAPTCHA solve
                     continue
                 else:
@@ -518,6 +524,8 @@ For text inputs, reply with "TEXT: your answer here"."""
             # Remove <think>...</think> blocks (Qwen chain-of-thought)
             import re as _re
             answer = _re.sub(r'<think>.*?</think>', '', answer, flags=_re.DOTALL).strip()
+            # Also remove unclosed <think> blocks (partial responses)
+            answer = _re.sub(r'<think>.*', '', answer, flags=_re.DOTALL).strip()
             # Extract just alphanumeric code (CAPTCHAs are usually 4-8 chars with mixed case/numbers)
             code_match = _re.search(r'[A-Za-z0-9]{4,8}', answer)
             if code_match:
