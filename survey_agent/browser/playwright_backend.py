@@ -280,6 +280,9 @@ class PlaywrightBackend(SurveyAgentBackend):
                 return AgentResult(success=False, error="Back on Branded Surveys dashboard/feedback page")
             if "dashboard" in url.lower() and "survey" not in url.lower():
                 return AgentResult(success=False, error="Redirected to dashboard (likely disqualified or full)")
+            # Skip PureSpectrum surveys (drag-and-drop prescreening resists automation)
+            if "screener.purespectrum.com" in url:
+                return AgentResult(success=False, error="PureSpectrum screener (drag-and-drop prescreening — cannot automate)")
 
             # Vision fallback for challenges (CAPTCHA, drag-and-drop, slider, etc.)
             if any(kw in body_lower for kw in [
