@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = []
 lock_version = "4.5.0"
-content_hash = "sha256:43ade6eb97cbaffb5fe5a7f2c1ae0409fefd6dec4355a19f2a566f52a154db45"
+content_hash = "sha256:9e97520a14f67f76e8fea46472868fa153397e0da34f5d9024644554c34602ab"
 
 [[metadata.targets]]
 requires_python = ">=3.11"
@@ -2110,6 +2110,19 @@ files = [
 ]
 
 [[package]]
+name = "mouseinfo"
+version = "0.1.3"
+summary = ""
+dependencies = [
+    "pyperclip",
+    "python3-xlib; sys_platform == \"linux\"",
+    "rubicon-objc; sys_platform == \"darwin\"",
+]
+files = [
+    {file = "MouseInfo-0.1.3.tar.gz", hash = "sha256:2c62fb8885062b8e520a3cce0a297c657adcc08c60952eb05bc8256ef6f7f6e7"},
+]
+
+[[package]]
 name = "multidict"
 version = "6.7.1"
 summary = ""
@@ -2916,6 +2929,24 @@ files = [
 ]
 
 [[package]]
+name = "pyautogui"
+version = "0.9.54"
+summary = ""
+dependencies = [
+    "mouseinfo",
+    "pygetwindow",
+    "pymsgbox",
+    "pyobjc-core; sys_platform == \"darwin\"",
+    "pyobjc-framework-quartz; sys_platform == \"darwin\"",
+    "pyscreeze",
+    "python3-xlib; sys_platform == \"linux\"",
+    "pytweening",
+]
+files = [
+    {file = "PyAutoGUI-0.9.54.tar.gz", hash = "sha256:dd1d29e8fd118941cb193f74df57e5c6ff8e9253b99c7b04f39cfc69f3ae04b2"},
+]
+
+[[package]]
 name = "pycparser"
 version = "3.0"
 summary = ""
@@ -3063,6 +3094,17 @@ files = [
 ]
 
 [[package]]
+name = "pygetwindow"
+version = "0.0.9"
+summary = ""
+dependencies = [
+    "pyrect",
+]
+files = [
+    {file = "PyGetWindow-0.0.9.tar.gz", hash = "sha256:17894355e7d2b305cd832d717708384017c1698a90ce24f6f7fbf0242dd0a688"},
+]
+
+[[package]]
 name = "pygments"
 version = "2.20.0"
 summary = ""
@@ -3110,6 +3152,15 @@ dependencies = [
 files = [
     {file = "pylint-4.0.6-py3-none-any.whl", hash = "sha256:d11a0e1fdb7b1cd46ec5d6fc78fee8b95f28695b2d6140e5809925f61e32ea54"},
     {file = "pylint-4.0.6.tar.gz", hash = "sha256:52f19191bee08bf103f9705ad1a0ece4aa5a0a4ef2bdcbd969375a1e6f6579d5"},
+]
+
+[[package]]
+name = "pymsgbox"
+version = "2.0.1"
+summary = ""
+files = [
+    {file = "pymsgbox-2.0.1-py3-none-any.whl", hash = "sha256:5de8ec19bca2ca7e6c09d39c817c83f17c75cee80275235f43a9931db699f73b"},
+    {file = "pymsgbox-2.0.1.tar.gz", hash = "sha256:98d055c49a511dcc10fa08c3043e7102d468f5e4b3a83c6d3c61df722c7d798d"},
 ]
 
 [[package]]
@@ -5927,6 +5978,34 @@ files = [
 ]
 
 [[package]]
+name = "pyperclip"
+version = "1.11.0"
+summary = ""
+files = [
+    {file = "pyperclip-1.11.0-py3-none-any.whl", hash = "sha256:299403e9ff44581cb9ba2ffeed69c7aa96a008622ad0c46cb575ca75b5b84273"},
+    {file = "pyperclip-1.11.0.tar.gz", hash = "sha256:244035963e4428530d9e3a6101a1ef97209c6825edab1567beac148ccc1db1b6"},
+]
+
+[[package]]
+name = "pyrect"
+version = "0.2.0"
+summary = ""
+files = [
+    {file = "PyRect-0.2.0.tar.gz", hash = "sha256:f65155f6df9b929b67caffbd57c0947c5ae5449d3b580d178074bffb47a09b78"},
+]
+
+[[package]]
+name = "pyscreeze"
+version = "1.0.1"
+summary = ""
+dependencies = [
+    "pillow; python_full_version < \"3.12\"",
+]
+files = [
+    {file = "pyscreeze-1.0.1.tar.gz", hash = "sha256:cf1662710f1b46aa5ff229ee23f367da9e20af4a78e6e365bee973cad0ead4be"},
+]
+
+[[package]]
 name = "pysocks"
 version = "1.7.1"
 summary = ""
@@ -6032,6 +6111,22 @@ summary = ""
 files = [
     {file = "python_multipart-0.0.32-py3-none-any.whl", hash = "sha256:ff6d3f776f16878c894e52e107296ffc890e913c611b1a4ec6c44e2821fe2e23"},
     {file = "python_multipart-0.0.32.tar.gz", hash = "sha256:be54b7f3fa167bb83e4fcd936b887b708f4e57fe75911c02aebf53efaf8d938e"},
+]
+
+[[package]]
+name = "python3-xlib"
+version = "0.15"
+summary = ""
+files = [
+    {file = "python3-xlib-0.15.tar.gz", hash = "sha256:dc4245f3ae4aa5949c1d112ee4723901ade37a96721ba9645f2bfa56e5b383f8"},
+]
+
+[[package]]
+name = "pytweening"
+version = "1.2.0"
+summary = ""
+files = [
+    {file = "pytweening-1.2.0.tar.gz", hash = "sha256:243318b7736698066c5f362ec5c2b6434ecf4297c3c8e7caa8abfe6af4cac71b"},
 ]
 
 [[package]]
@@ -6451,6 +6546,15 @@ dependencies = [
 files = [
     {file = "rsa-4.9.1-py3-none-any.whl", hash = "sha256:68635866661c6836b8d39430f97a996acbd61bfa49406748ea243539fe239762"},
     {file = "rsa-4.9.1.tar.gz", hash = "sha256:e7bdbfdb5497da4c07dfd35530e1a902659db6ff241e39d9953cad06ebd0ae75"},
+]
+
+[[package]]
+name = "rubicon-objc"
+version = "0.5.6"
+summary = ""
+files = [
+    {file = "rubicon_objc-0.5.6-py3-none-any.whl", hash = "sha256:b53f6fc458d78ddf2ce82365c34e234ae85cd8217c983438ae4bf9e1bd1252b3"},
+    {file = "rubicon_objc-0.5.6.tar.gz", hash = "sha256:0d3b0a9889f72916c095a58e7e1c275c260cb8a86b8ef8b909e60cb002fd54d5"},
 ]
 
 [[package]]

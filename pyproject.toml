@@ -3,7 +3,7 @@ name = "survey-agent"
 version = "0.1.0"
 description = "Agent-driven survey automation system"
 requires-python = ">=3.11"
-dependencies = ["playwright==1.51.0", "playwright-stealth>=2.0.3", "keyring>=25.0.0", "pydantic>=2.10.0", "httpx>=0.27.0", "Pillow>=10.0.0", "typer>=0.12.0", "pyyaml>=6.0", "rich>=13.0.0", "browser-use==0.13.6", "langchain-google-genai>=4.2.5", "langchain-mistralai>=1.1.5", "langchain-openai>=1.0.0", "pytesseract>=0.3.13", "camoufox[geoip]>=0.4.11", "greenlet>=3.5.2", "cloakbrowser>=0.4.7", "stagehand"]
+dependencies = ["playwright==1.51.0", "playwright-stealth>=2.0.3", "keyring>=25.0.0", "pydantic>=2.10.0", "httpx>=0.27.0", "Pillow>=10.0.0", "typer>=0.12.0", "pyyaml>=6.0", "rich>=13.0.0", "browser-use==0.13.6", "langchain-google-genai>=4.2.5", "langchain-mistralai>=1.1.5", "langchain-openai>=1.0.0", "pytesseract>=0.3.13", "camoufox[geoip]>=0.4.11", "greenlet>=3.5.2", "cloakbrowser>=0.4.7", "stagehand", "pyautogui>=0.9.54"]
 
 [project.scripts]
 survey-agent = "survey_agent.cli:app"
