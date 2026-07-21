@@ -311,7 +311,19 @@ class PlaywrightBackend(SurveyAgentBackend):
                     logger.info(f"Q{i+1}: CAPTCHA solve failed, skipping survey")
                     return AgentResult(success=False, error="CAPTCHA/verification code — vision solve failed")
 
-            # Detect timer-based questions ("click NEXT after N seconds")
+            # Detect drag-and-drop challenges — use vision to find coordinates
+            if any(kw in body_lower for kw in ["drag and drop", "drag the", "drop the", "move the"]):
+                logger.info(f"Q{i+1}: Drag-and-drop detected, attempting vision solve")
+                await asyncio.sleep(5)
+                # Try to solve via vision + mouse drag
+                solved = await self._solve_drag_drop()
+                if solved:
+                    await asyncio.sleep(3)
+                    no_option_count = 0
+                    continue
+                else:
+                    logger.info(f"Q{i+1}: Drag-and-drop solve failed, skipping survey")
+                    return AgentResult(success=False, error="Drag-and-drop challenge — cannot solve")
             import re as _re
             timer_match = _re.search(r"(?:click|press).*?(?:next|continue).*?after\s+(\d+)\s*sec", body_lower)
             if timer_match:
@@ -542,6 +554,68 @@ ONLY use "TEXT: your answer" if there are NO label/radio/select options and a te
 
         return AgentResult(success=True, output=f"Answered {max_questions} questions (loop limit)")
 
+    async def _solve_drag_drop(self) -> bool:
+        """Solve drag-and-drop challenges using vision + Playwright drag."""
+        try:
+            from ..captcha.solver import create_vision_llm_fn  # noqa: PLC0415
+
+            # Screenshot the page
+            screenshot = await self._page.screenshot(type="jpeg", quality=50)
+            if not screenshot:
+                return False
+
+            vision_fn = create_vision_llm_fn(provider="cerebras")
+            if not vision_fn:
+                return False
+
+            # Ask vision model to find the drag source and drop target coordinates
+            prompt = """This image shows a drag-and-drop challenge. Find:
+1. The source element (the number/item to drag)
+2. The target area (the box/zone to drop it into)
+
+Reply in this exact format:
+SOURCE: x,y
+TARGET: x,y
+where x,y are pixel coordinates."""
+            answer = await asyncio.to_thread(vision_fn, prompt, screenshot)
+            if not answer:
+                return False
+
+            logger.info(f"Drag-drop vision: {answer[:200]}")
+
+            # Parse coordinates
+            import re as _re
+            source_match = _re.search(r'SOURCE:\s*(\d+)\s*,\s*(\d+)', answer)
+            target_match = _re.search(r'TARGET:\s*(\d+)\s*,\s*(\d+)', answer)
+            if not source_match or not target_match:
+                logger.warning("Drag-drop: Could not parse coordinates from vision response")
+                return False
+
+            sx, sy = int(source_match.group(1)), int(source_match.group(2))
+            tx, ty = int(target_match.group(1)), int(target_match.group(2))
+            logger.info(f"Drag-drop: ({sx},{sy}) -> ({tx},{ty})")
+
+            # Perform the drag using Playwright
+            await self._page.mouse.move(sx, sy)
+            await self._page.mouse.down()
+            await asyncio.sleep(0.5)
+            # Move in steps for smoother drag
+            steps = 10
+            for s in range(steps + 1):
+                cx = sx + (tx - sx) * s // steps
+                cy = sy + (ty - sy) * s // steps
+                await self._page.mouse.move(cx, cy)
+                await asyncio.sleep(0.05)
+            await self._page.mouse.up()
+            await asyncio.sleep(2)
+
+            logger.info("Drag-drop: Completed drag action")
+            return True
+
+        except Exception as e:
+            logger.warning(f"Drag-drop solve error: {e}")
+            return False
+
     async def _solve_captcha_vision(self) -> bool:
         """Screenshot CAPTCHA area and solve via Groq vision model."""
         try:
@@ -623,6 +697,22 @@ ONLY use "TEXT: your answer" if there are NO label/radio/select options and a te
                             btn.click();
                             return;
                         }
+                    }
+                }
+                // Also try by class (PureSpectrum, CookieYes, etc.)
+                const classBtns = document.querySelectorAll('.cky-btn-accept, .cky-btn.cky-btn-accept, [class*="cookie"] [class*="accept"], [id*="cookie"] [class*="accept"]');
+                for (const btn of classBtns) {
+                    if (btn.offsetParent !== null) { btn.click(); return; }
+                }
+            }""")
+            await asyncio.sleep(2)
+            # Second pass — sometimes cookie banner needs two clicks
+            await self._page.evaluate("""() => {
+                const btns = document.querySelectorAll('.cky-btn-accept, button');
+                for (const btn of btns) {
+                    const text = (btn.textContent || '').trim().toUpperCase();
+                    if ((text === 'ACCEPT ALL' || btn.classList.contains('cky-btn-accept')) && btn.offsetParent !== null) {
+                        btn.click(); return;
                     }
                 }
             }""")
