@@ -48,7 +48,7 @@ class PlaywrightBackend(SurveyAgentBackend):
     async def start(self) -> None:
         """Launch Playwright browser with stealth."""
         from playwright.async_api import async_playwright  # noqa: PLC0415
-        from playwright_stealth import stealth_async  # noqa: PLC0415
+        from playwright_stealth import Stealth  # noqa: PLC0415
 
         self._playwright = await async_playwright().start()
         self._browser = await self._playwright.chromium.launch(headless=self._headless)
@@ -58,7 +58,8 @@ class PlaywrightBackend(SurveyAgentBackend):
         )
         self._page = await self._context.new_page()
         # Apply stealth — masks navigator.webdriver, plugins, languages, etc.
-        await stealth_async(self._page)
+        stealth = Stealth()
+        await stealth.apply_stealth_async(self._page)
 
         # Create LLM function for answering questions
         from ..llm_provider import get_llm, PROVIDERS  # noqa: PLC0415
