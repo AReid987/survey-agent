@@ -399,6 +399,22 @@ class PlaywrightBackend(SurveyAgentBackend):
             last_question = question_text
 
             if not options:
+                # Try clicking Continue/Next buttons (handles consent pages, intro pages)
+                clicked = await self._page.evaluate("""() => {
+                    const btns = document.querySelectorAll('button, input[type="submit"], a');
+                    for (const b of btns) {
+                        const t = (b.textContent || b.value || '').trim().toUpperCase();
+                        if (t.includes('CONTINUE') || t === 'NEXT' || t === 'START' || t === 'BEGIN' || t.includes('I AGREE') || t.includes('ACCEPT')) {
+                            if (b.offsetParent !== null) { b.click(); return true; }
+                        }
+                    }
+                    return false;
+                }""")
+                if clicked:
+                    logger.info(f"Q{i+1}: No labels/text but clicked button")
+                    await asyncio.sleep(3)
+                    no_option_count = 0
+                    continue
                 no_option_count += 1
                 if no_option_count >= 5:
                     logger.info(f"Q{i+1}: No options found after {no_option_count} iterations, page body: {body[:200]}")
