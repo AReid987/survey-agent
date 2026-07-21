@@ -736,6 +736,8 @@ Reply with ONLY the command, nothing else."""
 
             if answer.upper().startswith('CAPTCHA:') or answer.upper().startswith('CAPTCHA '):
                 code = answer.split(':', 1)[-1].strip() if ':' in answer else answer.split(' ', 1)[-1].strip()
+                # Remove spaces from code (vision model sometimes adds spaces)
+                code = code.replace(' ', '')
                 code_match = _re.search(r'[A-Za-z0-9]{4,8}', code)
                 if code_match:
                     code = code_match.group(0)
