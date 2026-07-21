@@ -413,7 +413,16 @@ class PlaywrightBackend(SurveyAgentBackend):
                 if clicked:
                     logger.info(f"Q{i+1}: No labels/text but clicked button")
                     await asyncio.sleep(3)
-                    no_option_count = 0
+                    # Check if page actually changed
+                    new_body = await self._page.evaluate("() => document.body?.innerText?.substring(0, 500) || ''")
+                    if new_body == body:
+                        # Page didn't change — button click didn't work
+                        no_option_count += 1
+                        if no_option_count >= 3:
+                            logger.info(f"Q{i+1}: Button clicks not changing page after {no_option_count} attempts")
+                            return AgentResult(success=False, error="Page not advancing after button clicks")
+                    else:
+                        no_option_count = 0
                     continue
                 no_option_count += 1
                 if no_option_count >= 5:
