@@ -402,7 +402,7 @@ def create_vision_llm_fn(provider: str = "groq", model: str = "", api_key: str =
                     {"type": "text", "text": prompt},
                     {
                         "type": "image_url",
-                        "image_url": {"url": f"data:image/png;base64,{b64}"},
+                        "image_url": {"url": f"data:image/jpeg;base64,{b64}"},
                     },
                 ],
             })

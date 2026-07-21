@@ -504,8 +504,8 @@ For text inputs, reply with "TEXT: your answer here"."""
         try:
             from ..captcha.solver import create_vision_llm_fn  # noqa: PLC0415
 
-            # Crop screenshot to just the CAPTCHA area (top half of page) to save tokens
-            screenshot = await self._page.screenshot(clip={"x": 0, "y": 0, "width": 1280, "height": 400})
+            # Screenshot the page — use JPEG to reduce token usage
+            screenshot = await self._page.screenshot(type="jpeg", quality=50)
             if not screenshot:
                 logger.warning("CAPTCHA: Could not get screenshot")
                 return False
