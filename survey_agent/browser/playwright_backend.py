@@ -294,13 +294,16 @@ class PlaywrightBackend(SurveyAgentBackend):
                             if (t.includes('NEXT') || t.includes('SUBMIT') || t.includes('CONTINUE')) { b.click(); return; }
                         }
                     }""")
-                    await asyncio.sleep(12)  # Wait for page to load after CAPTCHA
-                    # Wait for page content to stabilize
-                    for _ in range(5):
+                    await asyncio.sleep(15)  # Wait for page to load after CAPTCHA
+                    # Wait for page content to stabilize (up to 30s total)
+                    for wait_i in range(10):
                         body_check = await self._page.evaluate("() => document.body?.innerText?.substring(0, 500) || ''")
-                        if body_check and len(body_check) > 20 and '66%' not in body_check:
-                            break
-                        await asyncio.sleep(2)
+                        if body_check and len(body_check.strip()) > 30:
+                            # Check if page has actual content (not just loading percentage)
+                            import re as _re2
+                            if not _re2.match(r'^\d+%$', body_check.strip()) and 'loading' not in body_check.lower():
+                                break
+                        await asyncio.sleep(3)
                     no_option_count = 0  # Reset counter after CAPTCHA solve
                     continue
                 else:
