@@ -595,11 +595,42 @@ where x,y are pixel coordinates."""
             tx, ty = int(target_match.group(1)), int(target_match.group(2))
             logger.info(f"Drag-drop: ({sx},{sy}) -> ({tx},{ty})")
 
-            # Perform the drag using Playwright
+            # Try HTML5 drag-and-drop via JavaScript (more reliable than mouse events)
+            drag_result = await self._page.evaluate(f"""() => {{
+                // Find element at source coordinates
+                const srcEl = document.elementFromPoint({sx}, {sy});
+                if (!srcEl) return 'no source element';
+                
+                // Find element at target coordinates
+                const tgtEl = document.elementFromPoint({tx}, {ty});
+                if (!tgtEl) return 'no target element';
+                
+                // Dispatch HTML5 drag events
+                const dt = new DataTransfer();
+                
+                const dragStart = new DragEvent('dragstart', {{ bubbles: true, cancelable: true, dataTransfer: dt }});
+                srcEl.dispatchEvent(dragStart);
+                
+                const drag = new DragEvent('drag', {{ bubbles: true, cancelable: true, dataTransfer: dt }});
+                srcEl.dispatchEvent(drag);
+                
+                const dragOver = new DragEvent('dragover', {{ bubbles: true, cancelable: true, dataTransfer: dt }});
+                tgtEl.dispatchEvent(dragOver);
+                
+                const drop = new DragEvent('drop', {{ bubbles: true, cancelable: true, dataTransfer: dt }});
+                tgtEl.dispatchEvent(drop);
+                
+                const dragEnd = new DragEvent('dragend', {{ bubbles: true, cancelable: true, dataTransfer: dt }});
+                srcEl.dispatchEvent(dragEnd);
+                
+                return 'html5 drag done: ' + srcEl.tagName + ' -> ' + tgtEl.tagName;
+            }}""")
+            logger.info(f"Drag-drop HTML5: {drag_result}")
+
+            # Also try mouse-based drag as fallback
             await self._page.mouse.move(sx, sy)
             await self._page.mouse.down()
             await asyncio.sleep(0.5)
-            # Move in steps for smoother drag
             steps = 10
             for s in range(steps + 1):
                 cx = sx + (tx - sx) * s // steps
