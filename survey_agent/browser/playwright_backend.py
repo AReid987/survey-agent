@@ -284,6 +284,7 @@ class PlaywrightBackend(SurveyAgentBackend):
             # Detect CAPTCHA/verification codes — solve via Groq vision
             if any(kw in body_lower for kw in ["type the following code", "enter the code", "captcha", "verification code", "prove you are human"]):
                 logger.info(f"Q{i+1}: CAPTCHA detected, attempting vision solve")
+                await asyncio.sleep(10)  # Rate limit: wait between CAPTCHA attempts
                 solved = await self._solve_captcha_vision()
                 if solved:
                     # Click Next/Submit after solving
@@ -503,8 +504,8 @@ For text inputs, reply with "TEXT: your answer here"."""
         try:
             from ..captcha.solver import create_vision_llm_fn  # noqa: PLC0415
 
-            # Just screenshot the whole page — the vision model can find the CAPTCHA
-            screenshot = await self._page.screenshot()
+            # Crop screenshot to just the CAPTCHA area (top half of page) to save tokens
+            screenshot = await self._page.screenshot(clip={"x": 0, "y": 0, "width": 1280, "height": 400})
             if not screenshot:
                 logger.warning("CAPTCHA: Could not get screenshot")
                 return False
