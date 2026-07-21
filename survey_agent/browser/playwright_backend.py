@@ -255,6 +255,7 @@ class PlaywrightBackend(SurveyAgentBackend):
         max_questions = 50
         last_question = ""
         same_count = 0
+        no_option_count = 0
 
         for i in range(max_questions):
             # Check for completion/disqualification
@@ -384,8 +385,14 @@ class PlaywrightBackend(SurveyAgentBackend):
             last_question = question_text
 
             if not options:
+                no_option_count += 1
+                if no_option_count >= 5:
+                    logger.info(f"Q{i+1}: No options found after {no_option_count} iterations, page body: {body[:200]}")
+                    return AgentResult(success=False, error=f"No survey options found after {no_option_count} iterations (page may have redirected)")
                 await asyncio.sleep(2)
                 continue
+            else:
+                no_option_count = 0
 
             # Use LLM to pick the best answer
             prompt = f"""Answer this survey question as the user described below.
