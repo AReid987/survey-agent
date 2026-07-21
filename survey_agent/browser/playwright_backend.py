@@ -502,15 +502,22 @@ For text inputs, reply with "TEXT: your answer here"."""
                 logger.warning("CAPTCHA: No vision function available (missing API key?)")
                 return False
 
-            prompt = "This is a survey page with a CAPTCHA verification code. Find the image that contains a verification code (usually distorted text/characters). Read the exact text/characters shown in that code image. Reply with ONLY the code characters, nothing else."
+            prompt = "Look at this image. Find the CAPTCHA verification code (distorted text/characters). Reply with ONLY the code characters, no explanation, no reasoning, no thinking. Just the code."
             answer = await asyncio.to_thread(vision_fn, prompt, screenshot)
 
             if not answer:
                 logger.warning("CAPTCHA: Vision model returned empty response")
                 return False
 
-            # Clean up the answer
+            # Clean up the answer — extract from <think> tags if present
             answer = answer.strip().strip('"').strip("'").strip()
+            # Remove <think>...</think> blocks (Qwen chain-of-thought)
+            import re as _re
+            answer = _re.sub(r'<think>.*?</think>', '', answer, flags=_re.DOTALL).strip()
+            # Extract just alphanumeric code (CAPTCHAs are usually 4-8 chars)
+            code_match = _re.search(r'[A-Za-z0-9]{4,8}', answer)
+            if code_match:
+                answer = code_match.group(0)
             logger.info(f"CAPTCHA: Vision model answered: '{answer}'")
 
             # Fill the answer into the text input
