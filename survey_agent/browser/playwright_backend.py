@@ -281,63 +281,31 @@ class PlaywrightBackend(SurveyAgentBackend):
             if "dashboard" in url.lower() and "survey" not in url.lower():
                 return AgentResult(success=False, error="Redirected to dashboard (likely disqualified or full)")
 
-            # Detect CAPTCHA/verification codes — solve via Groq vision
-            if any(kw in body_lower for kw in ["type the following code", "enter the code", "captcha", "verification code", "prove you are human"]):
-                logger.info(f"Q{i+1}: CAPTCHA detected, attempting vision solve")
-                await asyncio.sleep(10)  # Rate limit: wait between CAPTCHA attempts
-                solved = await self._solve_captcha_vision()
-                if solved:
-                    # Click Next/Submit after solving
-                    await self._page.evaluate("""() => {
-                        const btns = document.querySelectorAll('button, input[type="submit"]');
-                        for (const b of btns) {
-                            const t = (b.textContent || b.value || '').trim().toUpperCase();
-                            if (t.includes('NEXT') || t.includes('SUBMIT') || t.includes('CONTINUE')) { b.click(); return; }
-                        }
-                    }""")
-                    await asyncio.sleep(15)  # Wait for page to load after CAPTCHA
-                    # Wait for page content to stabilize (up to 30s total)
-                    for wait_i in range(10):
-                        body_check = await self._page.evaluate("() => document.body?.innerText?.substring(0, 500) || ''")
-                        if body_check and len(body_check.strip()) > 30:
-                            # Check if page has actual content (not just loading percentage)
-                            import re as _re2
-                            if not _re2.match(r'^\d+%$', body_check.strip()) and 'loading' not in body_check.lower():
-                                break
-                        await asyncio.sleep(3)
-                    no_option_count = 0  # Reset counter after CAPTCHA solve
-                    continue
-                else:
-                    logger.info(f"Q{i+1}: CAPTCHA solve failed, skipping survey")
-                    return AgentResult(success=False, error="CAPTCHA/verification code — vision solve failed")
-
-            # Detect drag-and-drop challenges — use vision to find coordinates
-            if any(kw in body_lower for kw in ["drag and drop", "drag the", "drop the", "move the"]):
-                logger.info(f"Q{i+1}: Drag-and-drop detected, attempting vision solve")
-                await asyncio.sleep(5)
-                # Try to solve via vision + mouse drag
-                solved = await self._solve_drag_drop()
-                if solved:
-                    await asyncio.sleep(3)
+            # Vision fallback for challenges (CAPTCHA, drag-and-drop, slider, etc.)
+            if any(kw in body_lower for kw in [
+                "type the following code", "enter the code", "captcha", "verification code",
+                "prove you are human", "drag and drop", "drag the", "drop the", "move the",
+                "slide the", "slider"
+            ]):
+                logger.info(f"Q{i+1}: Visual challenge detected, using vision fallback")
+                await asyncio.sleep(8)
+                action_taken, action_desc = await self._vision_handle_page(body)
+                logger.info(f"Q{i+1}: Vision result: {action_desc}")
+                if action_taken:
+                    await asyncio.sleep(5)
                     no_option_count = 0
                     continue
                 else:
-                    logger.info(f"Q{i+1}: Drag-and-drop solve failed, skipping survey")
-                    return AgentResult(success=False, error="Drag-and-drop challenge — cannot solve")
+                    return AgentResult(success=False, error=f"Vision challenge failed: {action_desc}")
+
+            # Timer questions
             import re as _re
             timer_match = _re.search(r"(?:click|press).*?(?:next|continue).*?after\s+(\d+)\s*sec", body_lower)
             if timer_match:
                 wait_secs = int(timer_match.group(1))
-                logger.info(f"Q{i+1}: Timer question detected, waiting {wait_secs} seconds")
+                logger.info(f"Q{i+1}: Timer question, waiting {wait_secs}s")
                 await asyncio.sleep(wait_secs + 2)
-                # Then click Next
-                await self._page.evaluate("""() => {
-                    const btns = document.querySelectorAll('button, input[type="submit"]');
-                    for (const b of btns) {
-                        const t = (b.textContent || b.value || '').trim().toUpperCase();
-                        if (t.includes('NEXT') || t.includes('CONTINUE')) { b.click(); return; }
-                    }
-                }""")
+                await self._click_next_button()
                 await asyncio.sleep(3)
                 continue
 
@@ -712,6 +680,192 @@ where x,y are pixel coordinates."""
         except Exception as e:
             logger.warning(f"CAPTCHA vision solve error: {e}")
             return False
+
+
+    async def _vision_handle_page(self, body_text: str) -> tuple[bool, str]:
+        """Unified vision fallback — screenshot the page and let the vision model decide what to do.
+        
+        Returns (action_taken, action_description).
+        """
+        try:
+            from ..captcha.solver import create_vision_llm_fn  # noqa: PLC0415
+
+            vision_fn = create_vision_llm_fn(provider="cerebras")
+            if not vision_fn:
+                return False, "no vision function"
+
+            screenshot = await self._page.screenshot(type="jpeg", quality=50)
+            if not screenshot:
+                return False, "no screenshot"
+
+            prompt = f"""You are a survey automation assistant. Look at this screenshot of a survey page and determine what action to take.
+
+Page text (first 300 chars):
+{body_text[:300]}
+
+Respond with ONE of these commands:
+- CAPTCHA: <code> — if there's a verification code to read
+- DRAG: x1,y1 TO x2,y2 — if there's a drag-and-drop challenge
+- SLIDE: x1,y1 TO x2,y2 — if there's a slider to move
+- TYPE: <text> — if there's a text input that needs a specific answer
+- CLICK: <text> — if there's a button or option to click
+- NEXT — if the page has a Next/Continue button to click
+- WAIT: <seconds> — if the page says to wait before proceeding
+- DONE — if the survey is complete
+- SKIP — if you can't determine what to do
+
+Reply with ONLY the command, nothing else."""
+
+            answer = await asyncio.to_thread(vision_fn, prompt, screenshot)
+            if not answer:
+                return False, "empty response"
+
+            import re as _re
+            answer = _re.sub(r'<think>.*?</think>', '', answer, flags=_re.DOTALL).strip()
+            answer = _re.sub(r'<think>.*', '', answer, flags=_re.DOTALL).strip()
+            answer = answer.strip().strip('"').strip("'")
+
+            for line in answer.split('\n'):
+                line = line.strip()
+                if any(line.upper().startswith(cmd) for cmd in ['CAPTCHA:', 'DRAG:', 'SLIDE:', 'TYPE:', 'CLICK:', 'NEXT', 'WAIT:', 'DONE', 'SKIP']):
+                    answer = line
+                    break
+
+            logger.info(f"Vision command: {answer[:100]}")
+
+            if answer.upper().startswith('CAPTCHA:'):
+                code = answer[8:].strip()
+                code_match = _re.search(r'[A-Za-z0-9]{4,8}', code)
+                if code_match:
+                    code = code_match.group(0)
+                else:
+                    return False, "no code in CAPTCHA response"
+                safe_code = code.replace("'", "\\'")
+                filled = await self._page.evaluate(f"""() => {{
+                    const inputs = document.querySelectorAll('input[type="text"], textarea');
+                    for (const inp of inputs) {{
+                        if (inp.offsetParent !== null && !inp.disabled) {{
+                            inp.value = '{safe_code}';
+                            inp.dispatchEvent(new Event('input', {{bubbles: true}}));
+                            inp.dispatchEvent(new Event('change', {{bubbles: true}}));
+                            return true;
+                        }}
+                    }}
+                    return false;
+                }}""")
+                if filled:
+                    await self._click_next_button()
+                    await asyncio.sleep(10)
+                    return True, f"filled CAPTCHA: {code}"
+                return False, "no text input for CAPTCHA"
+
+            elif answer.upper().startswith('DRAG:') or answer.upper().startswith('SLIDE:'):
+                coords = _re.findall(r'(\d+)\s*,\s*(\d+)', answer)
+                if len(coords) >= 2:
+                    sx, sy = int(coords[0][0]), int(coords[0][1])
+                    tx, ty = int(coords[1][0]), int(coords[1][1])
+                    logger.info(f"Drag/Slide: ({sx},{sy}) -> ({tx},{ty})")
+                    await self._page.evaluate(f"""() => {{
+                        const srcEl = document.elementFromPoint({sx}, {sy});
+                        const tgtEl = document.elementFromPoint({tx}, {ty});
+                        if (!srcEl || !tgtEl) return;
+                        const dt = new DataTransfer();
+                        srcEl.dispatchEvent(new DragEvent('dragstart', {{ bubbles: true, cancelable: true, dataTransfer: dt }}));
+                        tgtEl.dispatchEvent(new DragEvent('dragover', {{ bubbles: true, cancelable: true, dataTransfer: dt }}));
+                        tgtEl.dispatchEvent(new DragEvent('drop', {{ bubbles: true, cancelable: true, dataTransfer: dt }}));
+                        srcEl.dispatchEvent(new DragEvent('dragend', {{ bubbles: true, cancelable: true, dataTransfer: dt }}));
+                    }}""")
+                    await self._page.mouse.move(sx, sy)
+                    await self._page.mouse.down()
+                    await asyncio.sleep(0.3)
+                    steps = 15
+                    for s in range(steps + 1):
+                        cx = sx + (tx - sx) * s // steps
+                        cy = sy + (ty - sy) * s // steps
+                        await self._page.mouse.move(cx, cy)
+                        await asyncio.sleep(0.03)
+                    await self._page.mouse.up()
+                    await asyncio.sleep(2)
+                    return True, f"dragged ({sx},{sy})->({tx},{ty})"
+                return False, "no coordinates in DRAG response"
+
+            elif answer.upper().startswith('TYPE:'):
+                text = answer[5:].strip()
+                filled = await self._page.evaluate(f"""() => {{
+                    const inputs = document.querySelectorAll('input[type="text"], textarea');
+                    for (const inp of inputs) {{
+                        if (inp.offsetParent !== null && !inp.disabled) {{
+                            inp.value = '{safe_text}';
+                            inp.dispatchEvent(new Event('input', {{bubbles: true}}));
+                            inp.dispatchEvent(new Event('change', {{bubbles: true}}));
+                            return true;
+                        }}
+                    }}
+                    return false;
+                }}""")
+                if filled:
+                    await self._click_next_button()
+                    await asyncio.sleep(3)
+                    return True, f"typed: {text[:30]}"
+                return False, "no text input found"
+
+            elif answer.upper().startswith('CLICK:'):
+                text = answer[6:].strip()
+                clicked = await self._page.evaluate(f"""() => {{
+                    const els = document.querySelectorAll('label, button, a, input[type="radio"], input[type="checkbox"]');
+                    for (const el of els) {{
+                        if (el.offsetParent === null) continue;
+                        const t = (el.textContent || el.value || '').trim();
+                        if (t.toLowerCase().includes('{text.lower()}')) {{
+                            const radio = el.querySelector ? el.querySelector('input[type="radio"]') : null;
+                            if (radio) {{ radio.checked = true; radio.dispatchEvent(new Event('change', {{bubbles:true}})); }}
+                            el.click();
+                            return 'clicked: ' + t;
+                        }}
+                    }}
+                    return 'not found';
+                }}""")
+                if 'clicked' in clicked:
+                    await asyncio.sleep(2)
+                    return True, clicked
+                return False, f"element not found: {text}"
+
+            elif answer.upper() == 'NEXT' or answer.upper().startswith('NEXT'):
+                await self._click_next_button()
+                await asyncio.sleep(3)
+                return True, "clicked next"
+
+            elif answer.upper().startswith('WAIT:'):
+                secs = int(_re.search(r'\d+', answer).group(0)) if _re.search(r'\d+', answer) else 5
+                await asyncio.sleep(min(secs, 30))
+                await self._click_next_button()
+                await asyncio.sleep(3)
+                return True, f"waited {secs}s + clicked next"
+
+            elif answer.upper() == 'DONE':
+                return True, "survey done"
+
+            elif answer.upper() == 'SKIP':
+                return False, "vision says skip"
+
+            return False, f"unrecognized command: {answer[:50]}"
+
+        except Exception as e:
+            logger.warning(f"Vision handle error: {e}")
+            return False, str(e)
+
+    async def _click_next_button(self) -> None:
+        """Click Next/Continue/Submit button."""
+        await self._page.evaluate("""() => {
+            const btns = document.querySelectorAll('button, input[type="submit"]');
+            for (const b of btns) {
+                const t = (b.textContent || b.value || '').trim().toUpperCase();
+                if (t.includes('NEXT') || t.includes('SUBMIT') || t.includes('CONTINUE')) {
+                    b.click(); return;
+                }
+            }
+        }""")
+
 
     async def _handle_consent(self) -> None:
         """Handle consent/agreement pages and cookie banners."""
