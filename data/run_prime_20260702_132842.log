@@ -1,0 +1,19 @@
+Survey Agent
+  Provider: openai-compatible (OpenAI-Compatible (newapi, freellmapi, mimo, 
+etc.))
+  Model: MiniMax-M3
+  Sites: prime-opinion
+  Backend: browser-harness
+  Browser: headed
+
+Using your real Chrome browser. Make sure Chrome is open.
+
+13:28:44 [INFO] survey_agent.orchestrator: Starting agent for Prime Opinion...
+13:28:44 [WARNING] survey_agent.orchestrator: No stored credentials for prime-opinion. Run: survey-agent account
+13:28:44 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=19334 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent --no-first-run
+13:28:54 [WARNING] survey_agent.browser.harness_backend: Chrome may not have started on port 19334
+13:28:54 [INFO] survey_agent.browser.harness_backend: Chrome window kept visible for screenshot access
+13:28:55 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'https://insights.questmindshare.com/pre-questions?id=80b0f481-a708-44bd
+13:28:55 [INFO] survey_agent.orchestrator: [Session 0] Starting on Prime Opinion
+13:28:55 [INFO] survey_agent.browser.harness_backend: Leaving Chrome running (pid=9573) for session persistence
+Error: Login failed: No login credentials. Run: survey-agent credentials

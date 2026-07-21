@@ -1,0 +1,41 @@
+06:14:24 [INFO] CUA Survey Agent v3 starting
+06:14:24 [INFO] Dashboard Chrome: pid=55790 wid=37341
+06:14:34 [INFO] Initial balance: 150
+06:14:34 [INFO] 
+=== Cycle 1: 12 surveys ===
+06:14:34 [INFO] 
+--- Survey 1/12 ---
+06:14:46 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124863057/caubj48h?key=e3ad2a8e&from=d
+06:14:51 [WARNING] Could not open new window
+06:14:51 [INFO] Survey 1 not completed
+06:15:00 [INFO] Pausing 4 seconds...
+06:15:04 [INFO] 
+--- Survey 2/12 ---
+06:15:16 [INFO]   Attempt 1: no survey URLs, waiting...
+06:15:23 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124869773/xn3jtedy?key=2175bbbf&from=d
+06:15:28 [WARNING] Could not open new window
+06:15:28 [INFO] Survey 2 not completed
+06:15:37 [INFO] Pausing 5 seconds...
+06:15:42 [INFO] 
+--- Survey 3/12 ---
+06:15:54 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124869773/gprj14ew?key=2175bbbf&from=d
+06:16:00 [WARNING] Could not open new window
+06:16:00 [INFO] Survey 3 not completed
+06:16:09 [INFO] Pausing 3 seconds...
+06:16:12 [INFO] 
+--- Survey 4/12 ---
+06:16:23 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124869773/2pfvcm59?key=2175bbbf&from=d
+06:16:29 [WARNING] Could not open new window
+06:16:29 [INFO] Survey 4 not completed
+06:16:38 [INFO] Pausing 4 seconds...
+06:16:42 [INFO] 
+--- Survey 5/12 ---
+06:16:54 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124869773/4s5pvkjt?key=2175bbbf&from=d
+06:16:59 [WARNING] Could not open new window
+06:16:59 [INFO] Survey 5 not completed
+06:17:08 [INFO] Pausing 5 seconds...
+06:17:13 [INFO] 
+--- Survey 6/12 ---
+06:17:25 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124869773/bptyk9jf?key=2175bbbf&from=d
+06:17:30 [WARNING] Could not open new window
+06:17:30 [INFO] Survey 6 not completed

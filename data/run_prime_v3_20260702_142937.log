@@ -1,0 +1,23 @@
+Survey Agent
+  Provider: openai-compatible (OpenAI-Compatible (newapi, freellmapi, mimo, 
+etc.))
+  Model: MiniMax-M3
+  Sites: prime-opinion
+  Backend: browser-harness
+  Browser: headed
+
+Using your real Chrome browser. Make sure Chrome is open.
+
+14:29:38 [INFO] survey_agent.orchestrator: Starting agent for Prime Opinion...
+14:29:39 [WARNING] survey_agent.orchestrator: No stored credentials for prime-opinion. Run: survey-agent account
+14:29:39 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=19334 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent_po --no-first-run
+14:29:40 [INFO] survey_agent.browser.harness_backend: Chrome window kept visible for screenshot access
+14:29:41 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'https://app.primeopinion.com/app-login', 'title': '🐴 Prime Opinion', 'w
+14:29:42 [INFO] survey_agent.orchestrator: [Session 0] Starting on Prime Opinion
+14:29:51 [INFO] survey_agent.browser.harness_backend: Using Google OAuth login for Prime Opinion
+14:29:59 [INFO] survey_agent.browser.harness_backend: Google OAuth login output: FINAL_URL: https://app.primeopinion.com/app-login
+RESULT: login_failed_still_on_signin
+
+14:29:59 [INFO] survey_agent.browser.harness_backend: Leaving Chrome running (pid=51011) for session persistence
+Error: Login failed: Google OAuth login failed — check that read.musik@gmail.com
+is signed in

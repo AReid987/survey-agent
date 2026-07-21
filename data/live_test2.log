@@ -1,0 +1,957 @@
+Survey Agent
+  Provider: openai-compatible (OpenAI-Compatible (newapi, freellmapi, mimo, 
+etc.))
+  Model: MiniMax-M3
+  Sites: branded-surveys
+  Backend: browser-harness
+  Browser: headed
+
+Using your real Chrome browser. Make sure Chrome is open.
+
+01:08:30 [INFO] survey_agent.orchestrator: Starting agent for Branded Surveys...
+01:08:30 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=9333 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent --no-first-run
+01:08:31 [INFO] survey_agent.browser.harness_backend: Chrome window minimized
+01:08:32 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'about:blank', 'title': '', 'w': 800, 'h': 513, 'sx': 0, 'sy': 0, 'pw': 
+01:08:33 [INFO] survey_agent.browser.harness_backend: Tab cleanup: CLEANED: 1 tabs
+01:08:33 [INFO] survey_agent.orchestrator: [Session 0] Starting on Branded Surveys
+01:08:38 [INFO] survey_agent.orchestrator: [Session 0] Logged in
+01:08:43 [INFO] survey_agent.orchestrator: [Session 0] Initial balance: 15
+01:08:48 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 800, 'h': 513, 'sx': 0, 'sy': 0, 'pw': 800, 'ph': 3091}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124587665/c2914rwd?key=ed2a47ff&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124695829/7ryewsqz?key=6971c6cd&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surve
+01:08:48 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124587665/c2914rwd?key=ed2a47ff&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/
+01:08:48 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+01:09:01 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre/124707289/qfva54g1?key=1153c952&from=dashboard.click
+RESULT: navigated
+
+01:09:07 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_take_survey
+
+01:09:08 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+01:09:15 [INFO] survey_agent.browser.harness_backend: Page 1: 2 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422?state=1c8bbabc-5f8d-45b
+01:09:16 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:09:16 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:09:16 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): []
+01:09:16 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: []
+01:09:16 [WARNING] survey_agent.browser.harness_backend: LLM empty on page 1 — deterministic fallback
+01:09:18 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+01:09:29 [INFO] survey_agent.browser.harness_backend: Page 2: 69 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422?state=5a0d31b3-8b50-4eb
+01:09:29 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:09:29 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:09:29 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector":"#ans615.0.0","value":"","action":"click"},
+  {"selector":"#btn_continue","value":"","action":"click"}
+]
+01:09:29 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector":"#ans615.0.0","value":"","action":"click"},
+  {"selector":"#btn_continue","value":"","action":"click"}
+]
+01:09:30 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:09:30 [INFO] survey_agent.browser.harness_backend: Applied answers on page 2: [{"selector": "#ans615\\.0\\.0", "value": "", "action": "click"}, {"selector": "#btn_continue", "value": "", "action": "click"}]
+01:09:32 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+01:09:42 [INFO] survey_agent.browser.harness_backend: Page 3: 306 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422#&
+01:09:42 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:09:43 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:09:43 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector":"#ans625.0.4","action":"click","value":""},
+  {"selector":"#btn_continue","action":"click","value":""}
+]
+01:09:43 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector":"#ans625.0.4","action":"click","value":""},
+  {"selector":"#btn_continue","action":"click","value":""}
+]
+01:09:43 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:09:43 [INFO] survey_agent.browser.harness_backend: Applied answers on page 3: [{"selector": "#ans625\\.0\\.4", "action": "click", "value": ""}, {"selector": "#btn_continue", "action": "click", "value": ""}]
+01:09:45 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+01:09:56 [INFO] survey_agent.browser.harness_backend: Page 4: 331 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422#)
+01:09:56 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:09:56 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:09:56 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "#0",
+    "value": "I start by researching online—checking product reviews, specifications, and prices on sites like Amazon.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:09:56 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "#0",
+    "value": "I start by researching online—checking product reviews, specifications, and prices on sites like Amazon.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:09:57 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:09:57 [INFO] survey_agent.browser.harness_backend: Applied answers on page 4: [{"selector": "#\\30 ", "value": "I start by researching online\u2014checking product reviews, specifications, and prices on sites like Amazon.", "act
+01:09:59 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+01:10:10 [INFO] survey_agent.browser.harness_backend: Page 5: 331 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422#,
+01:10:10 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:10:10 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:10:10 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "#0",
+    "value": "I usually start by looking up product reviews and comparisons online, often on sites like Amazon or Google.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:10:10 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "#0",
+    "value": "I usually start by looking up product reviews and comparisons online, often on sites like Amazon or Google.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:10:11 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:10:11 [INFO] survey_agent.browser.harness_backend: Applied answers on page 5: [{"selector": "#\\30 ", "value": "I usually start by looking up product reviews and comparisons online, often on sites like Amazon or Google.", "actio
+01:10:12 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+01:10:23 [INFO] survey_agent.browser.harness_backend: Page 6: 331 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422#;
+01:10:23 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:10:24 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:10:24 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector":"#0","value":"I usually start by researching online, checking reviews and product information.","action":"fill"},
+  {"selector":"#btn_continue","value":"","action":"click"}
+]
+01:10:24 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector":"#0","value":"I usually start by researching online, checking reviews and product information.","action":"fill"},
+  {"selector":"#btn_continue","value":"","action":"click"}
+]
+01:10:24 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:10:24 [INFO] survey_agent.browser.harness_backend: Applied answers on page 6: [{"selector": "#\\30 ", "value": "I usually start by researching online, checking reviews and product information.", "action": "fill"}, {"selector": "
+01:10:26 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+01:10:37 [INFO] survey_agent.browser.harness_backend: Page 7: 331 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422#.
+01:10:37 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:10:37 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:10:37 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "#0",
+    "value": "I start by researching online, looking at product reviews and price comparisons.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:10:37 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "#0",
+    "value": "I start by researching online, looking at product reviews and price comparisons.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:10:38 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:10:38 [INFO] survey_agent.browser.harness_backend: Applied answers on page 7: [{"selector": "#\\30 ", "value": "I start by researching online, looking at product reviews and price comparisons.", "action": "fill"}, {"selector": "
+01:10:39 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+01:10:50 [INFO] survey_agent.browser.harness_backend: Page 8: 331 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422#~
+01:10:50 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:10:51 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:10:51 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "#0",
+    "value": "I usually start by searching online for reviews and product information.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:10:51 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "#0",
+    "value": "I usually start by searching online for reviews and product information.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:10:51 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:10:51 [INFO] survey_agent.browser.harness_backend: Applied answers on page 8: [{"selector": "#\\30 ", "value": "I usually start by searching online for reviews and product information.", "action": "fill"}, {"selector": "#btn_con
+01:10:53 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+01:11:04 [INFO] survey_agent.browser.harness_backend: Page 9: 331 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422#@
+01:11:04 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:11:04 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:11:04 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "#0",
+    "value": "I usually start by checking online reviews and product comparisons on sites like Amazon.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:11:04 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "#0",
+    "value": "I usually start by checking online reviews and product comparisons on sites like Amazon.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:11:05 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:11:05 [INFO] survey_agent.browser.harness_backend: Applied answers on page 9: [{"selector": "#\\30 ", "value": "I usually start by checking online reviews and product comparisons on sites like Amazon.", "action": "fill"}, {"sele
+01:11:06 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+01:11:17 [INFO] survey_agent.browser.harness_backend: Page 10: 331 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422#!_
+01:11:17 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:11:18 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:11:18 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "#0",
+    "value": "I usually start by researching online, checking product reviews and price comparisons on sites like Amazon.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "action": "click"
+  }
+]
+01:11:18 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "#0",
+    "value": "I usually start by researching online, checking product reviews and price comparisons on sites like Amazon.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "action": "click"
+  }
+]
+01:11:18 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:11:18 [INFO] survey_agent.browser.harness_backend: Applied answers on page 10: [{"selector": "#\\30 ", "value": "I usually start by researching online, checking product reviews and price comparisons on sites like Amazon.", "actio
+01:11:20 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+01:11:31 [INFO] survey_agent.browser.harness_backend: Page 11: 331 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422#!$
+01:11:31 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:11:31 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:11:31 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "#0",
+    "value": "I start by researching online—checking product reviews, price comparisons, and recommendations on sites like Amazon or tech forums.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:11:31 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "#0",
+    "value": "I start by researching online—checking product reviews, price comparisons, and recommendations on sites like Amazon or tech forums.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:11:32 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:11:32 [INFO] survey_agent.browser.harness_backend: Applied answers on page 11: [{"selector": "#\\30 ", "value": "I start by researching online\u2014checking product reviews, price comparisons, and recommendations on sites like Am
+01:11:34 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+01:11:44 [INFO] survey_agent.browser.harness_backend: Page 12: 331 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422#!'
+01:11:44 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:11:45 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:11:45 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "#0",
+    "value": "I start by researching online, checking product reviews and prices on sites like Amazon.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:11:45 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "#0",
+    "value": "I start by researching online, checking product reviews and prices on sites like Amazon.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:11:46 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:11:46 [INFO] survey_agent.browser.harness_backend: Applied answers on page 12: [{"selector": "#\\30 ", "value": "I start by researching online, checking product reviews and prices on sites like Amazon.", "action": "fill"}, {"sele
+01:11:47 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+01:11:58 [INFO] survey_agent.browser.harness_backend: Page 13: 331 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422#!*
+01:11:58 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:11:59 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:11:59 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector":"#0","value":"I start by researching online, such as checking product reviews and prices.","action":"fill"},
+  {"selector":"#btn_continue","value":"","action":"click"}
+]
+01:11:59 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector":"#0","value":"I start by researching online, such as checking product reviews and prices.","action":"fill"},
+  {"selector":"#btn_continue","value":"","action":"click"}
+]
+01:11:59 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:11:59 [INFO] survey_agent.browser.harness_backend: Applied answers on page 13: [{"selector": "#\\30 ", "value": "I start by researching online, such as checking product reviews and prices.", "action": "fill"}, {"selector": "#btn_
+01:12:01 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+01:12:12 [INFO] survey_agent.browser.harness_backend: Page 14: 331 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422#!(
+01:12:12 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:12:12 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:12:12 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "#0",
+    "value": "I start by researching online—checking product reviews, price comparisons, and recommendations on sites like Amazon or Google.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:12:12 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "#0",
+    "value": "I start by researching online—checking product reviews, price comparisons, and recommendations on sites like Amazon or Google.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:12:13 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:12:13 [INFO] survey_agent.browser.harness_backend: Applied answers on page 14: [{"selector": "#\\30 ", "value": "I start by researching online\u2014checking product reviews, price comparisons, and recommendations on sites like Am
+01:12:15 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+01:12:25 [INFO] survey_agent.browser.harness_backend: Page 15: 331 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422#!=
+01:12:25 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:12:26 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:12:26 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "#0",
+    "value": "I usually start by doing online research—reading product reviews and comparing prices on sites like Amazon or Best Buy.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:12:26 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "#0",
+    "value": "I usually start by doing online research—reading product reviews and comparing prices on sites like Amazon or Best Buy.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:12:26 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:12:26 [INFO] survey_agent.browser.harness_backend: Applied answers on page 15: [{"selector": "#\\30 ", "value": "I usually start by doing online research\u2014reading product reviews and comparing prices on sites like Amazon or B
+01:12:28 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+01:12:39 [INFO] survey_agent.browser.harness_backend: Page 16: 331 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422#!-
+01:12:39 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:12:40 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:12:40 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector":"#0","value":"I usually start by researching online, checking reviews and product details.","action":"fill"},
+  {"selector":"#btn_continue","value":"","action":"click"}
+]
+01:12:40 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector":"#0","value":"I usually start by researching online, checking reviews and product details.","action":"fill"},
+  {"selector":"#btn_continue","value":"","action":"click"}
+]
+01:12:40 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:12:40 [INFO] survey_agent.browser.harness_backend: Applied answers on page 16: [{"selector": "#\\30 ", "value": "I usually start by researching online, checking reviews and product details.", "action": "fill"}, {"selector": "#btn
+01:12:42 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+01:12:53 [INFO] survey_agent.browser.harness_backend: Page 17: 331 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422#!:
+01:12:53 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:12:53 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:12:53 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "#0",
+    "value": "I usually start by researching online, checking product reviews and prices on sites like Amazon.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:12:53 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "#0",
+    "value": "I usually start by researching online, checking product reviews and prices on sites like Amazon.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:12:54 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:12:54 [INFO] survey_agent.browser.harness_backend: Applied answers on page 17: [{"selector": "#\\30 ", "value": "I usually start by researching online, checking product reviews and prices on sites like Amazon.", "action": "fill"}
+01:12:55 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+01:13:06 [INFO] survey_agent.browser.harness_backend: Page 18: 331 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422#!!
+01:13:06 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:13:07 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:13:07 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "#0",
+    "value": "I start by researching online – searching for product reviews, specifications, and price comparisons.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:13:07 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "#0",
+    "value": "I start by researching online – searching for product reviews, specifications, and price comparisons.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:13:08 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:13:08 [INFO] survey_agent.browser.harness_backend: Applied answers on page 18: [{"selector": "#\\30 ", "value": "I start by researching online \u2013 searching for product reviews, specifications, and price comparisons.", "action
+01:13:09 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+01:13:20 [INFO] survey_agent.browser.harness_backend: Page 19: 331 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422#!!?
+01:13:20 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:13:21 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:13:21 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "#0",
+    "value": "I start by researching online, checking product reviews and prices on sites like Amazon.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:13:21 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "#0",
+    "value": "I start by researching online, checking product reviews and prices on sites like Amazon.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:13:21 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:13:21 [INFO] survey_agent.browser.harness_backend: Applied answers on page 19: [{"selector": "#\\30 ", "value": "I start by researching online, checking product reviews and prices on sites like Amazon.", "action": "fill"}, {"sele
+01:13:22 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): RESULT: no_next_button
+
+01:13:34 [INFO] survey_agent.browser.harness_backend: Page 20: 331 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422#!!$
+01:13:34 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:13:35 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:13:35 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "#0",
+    "value": "I start by researching online – looking at product reviews, price comparisons and recommendations.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:13:35 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "#0",
+    "value": "I start by researching online – looking at product reviews, price comparisons and recommendations.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:13:36 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:13:36 [INFO] survey_agent.browser.harness_backend: Applied answers on page 20: [{"selector": "#\\30 ", "value": "I start by researching online \u2013 looking at product reviews, price comparisons and recommendations.", "action": 
+01:13:37 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+01:13:48 [INFO] survey_agent.browser.harness_backend: Page 21: 331 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422#!!'
+01:13:48 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:13:49 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:13:49 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "#0",
+    "value": "I start by researching online, checking product reviews and prices on sites like Amazon.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:13:49 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "#0",
+    "value": "I start by researching online, checking product reviews and prices on sites like Amazon.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:13:49 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:13:49 [INFO] survey_agent.browser.harness_backend: Applied answers on page 21: [{"selector": "#\\30 ", "value": "I start by researching online, checking product reviews and prices on sites like Amazon.", "action": "fill"}, {"sele
+01:13:51 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+01:14:02 [INFO] survey_agent.browser.harness_backend: Page 22: 331 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422#!!*
+01:14:02 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:14:02 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:14:02 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [{"selector":"#0","value":"I start by researching online, such as checking product reviews and price comparisons.","action":"fill"},{"selector":"#btn_continue","value":"","action":"click"}]
+01:14:02 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [{"selector":"#0","value":"I start by researching online, such as checking product reviews and price comparisons.","action":"fill"},{"selector":"#btn_continue","value":"","action":"click"}]
+01:14:03 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:14:03 [INFO] survey_agent.browser.harness_backend: Applied answers on page 22: [{"selector": "#\\30 ", "value": "I start by researching online, such as checking product reviews and price comparisons.", "action": "fill"}, {"select
+01:14:05 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+01:14:16 [INFO] survey_agent.browser.harness_backend: Page 23: 331 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422#!!(
+01:14:16 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:14:16 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:14:16 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "#0",
+    "value": "I start by researching online—checking product reviews and price comparisons.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:14:16 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "#0",
+    "value": "I start by researching online—checking product reviews and price comparisons.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:14:17 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:14:17 [INFO] survey_agent.browser.harness_backend: Applied answers on page 23: [{"selector": "#\\30 ", "value": "I start by researching online\u2014checking product reviews and price comparisons.", "action": "fill"}, {"selector":
+01:14:18 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+01:14:29 [INFO] survey_agent.browser.harness_backend: Page 24: 331 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422#!!=
+01:14:29 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:14:30 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:14:30 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "#0",
+    "value": "I start by researching online, looking at reviews and product specifications",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:14:30 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "#0",
+    "value": "I start by researching online, looking at reviews and product specifications",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:14:30 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:14:30 [INFO] survey_agent.browser.harness_backend: Applied answers on page 24: [{"selector": "#\\30 ", "value": "I start by researching online, looking at reviews and product specifications", "action": "fill"}, {"selector": "#btn
+01:14:32 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+01:14:43 [INFO] survey_agent.browser.harness_backend: Page 25: 331 chars text, url=https://surveys.lifepointspanel.com/survey/apac/ISE16422#!!-
+01:14:43 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:14:43 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:14:43 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "#0",
+    "value": "I start by researching online, checking product reviews and prices on sites like Amazon.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:14:43 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "#0",
+    "value": "I start by researching online, checking product reviews and prices on sites like Amazon.",
+    "action": "fill"
+  },
+  {
+    "selector": "#btn_continue",
+    "value": "",
+    "action": "click"
+  }
+]
+01:14:44 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:14:44 [INFO] survey_agent.browser.harness_backend: Applied answers on page 25: [{"selector": "#\\30 ", "value": "I start by researching online, checking product reviews and prices on sites like Amazon.", "action": "fill"}, {"sele
+01:14:45 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+01:14:51 [WARNING] survey_agent.orchestrator: [Session 0] Survey 1 failed: Survey not complete after 25 pages
+01:14:59 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 800, 'h': 513, 'sx': 0, 'sy': 0, 'pw': 800, 'ph': 3071}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_router/124699913?key=a23c054d&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_router/124699913?key=a23c054d&from=dashboard.click"}]
+RESULT: discover_complete
+
+01:14:59 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_router/124699913?key=a23c054d&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_ro
+01:14:59 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+01:15:12 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre/124587665/xhcs3z7g?key=ed2a47ff&from=dashboard.click
+RESULT: navigated
+
+01:15:18 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_take_survey
+
+01:15:19 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+01:15:26 [INFO] survey_agent.browser.harness_backend: Page 1: 924 chars text, url=https://survey.tolunastart.com/wix/p540362652366.aspx
+01:15:26 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:15:27 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:15:27 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector":"#ISOConsent_1_control","value":"","action":"click"},
+  {"selector":".cf-navigation-next","value":"","action":"click"}
+]
+01:15:27 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector":"#ISOConsent_1_control","value":"","action":"click"},
+  {"selector":".cf-navigation-next","value":"","action":"click"}
+]
+01:15:27 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:15:27 [INFO] survey_agent.browser.harness_backend: Applied answers on page 1: [{"selector": "#ISOConsent_1_control", "value": "", "action": "click"}, {"selector": ".cf-navigation-next", "value": "", "action": "click"}]
+01:15:29 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+01:15:40 [INFO] survey_agent.browser.harness_backend: Page 2: 291 chars text, url=https://survey.tolunastart.com/wix/p540362652366.aspx
+01:15:40 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:15:41 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:15:41 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector":"#D1_1_control","action":"click"},
+  {"selector":".cf-navigation-next","action":"click"}
+]
+01:15:41 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector":"#D1_1_control","action":"click"},
+  {"selector":".cf-navigation-next","action":"click"}
+]
+01:15:41 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:15:41 [INFO] survey_agent.browser.harness_backend: Applied answers on page 2: [{"selector": "#D1_1_control", "action": "click"}, {"selector": ".cf-navigation-next", "action": "click"}]
+01:15:43 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+01:15:54 [INFO] survey_agent.browser.harness_backend: Page 3: 266 chars text, url=https://survey.tolunastart.com/wix/p540362652366.aspx
+01:15:54 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:15:55 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:15:55 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector":"#D1_1_control","value":"","action":"click"},
+  {"selector":"#D2_input","value":"39","action":"select"},
+  {"selector":".cf-navigation-next","value":"","action":"click"}
+]
+01:15:55 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector":"#D1_1_control","value":"","action":"click"},
+  {"selector":"#D2_input","value":"39","action":"select"},
+  {"selector":".cf-navigation-next","value":"","action":"click"}
+]
+01:15:55 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:3/3
+RESULT: answers_applied
+
+01:15:55 [INFO] survey_agent.browser.harness_backend: Applied answers on page 3: [{"selector": "#D1_1_control", "value": "", "action": "click"}, {"selector": "#D2_input", "value": "39", "action": "select"}, {"selector": ".cf-naviga
+01:15:57 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+01:16:08 [INFO] survey_agent.browser.harness_backend: Page 4: 196 chars text, url=https://survey.tolunastart.com/wix/p540362652366.aspx
+01:16:08 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:16:08 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:16:08 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector":"#cqD3_1_control","action":"click"},
+  {"selector":".cf-navigation-next","action":"click"}
+]
+01:16:08 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector":"#cqD3_1_control","action":"click"},
+  {"selector":".cf-navigation-next","action":"click"}
+]
+01:16:09 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:16:09 [INFO] survey_agent.browser.harness_backend: Applied answers on page 4: [{"selector": "#cqD3_1_control", "action": "click"}, {"selector": ".cf-navigation-next", "action": "click"}]
+01:16:10 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+01:16:14 [INFO] survey_agent.browser.harness_backend: Page didn't advance — trying brute-force radio selection
+01:16:25 [INFO] survey_agent.browser.harness_backend: Page 5: 290 chars text, url=https://survey.tolunastart.com/wix/p540362652366.aspx
+01:16:25 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:16:25 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:16:25 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector": "#cqD4_99_control", "value": "", "action": "click"},
+  {"selector": "button.cf-navigation-next", "value": "", "action": "click"}
+]
+01:16:25 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector": "#cqD4_99_control", "value": "", "action": "click"},
+  {"selector": "button.cf-navigation-next", "value": "", "action": "click"}
+]
+01:16:26 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:16:26 [INFO] survey_agent.browser.harness_backend: Applied answers on page 5: [{"selector": "#cqD4_99_control", "value": "", "action": "click"}, {"selector": "button.cf-navigation-next", "value": "", "action": "click"}]
+01:16:28 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+01:16:31 [INFO] survey_agent.browser.harness_backend: Page didn't advance — trying brute-force radio selection
+01:16:42 [INFO] survey_agent.browser.harness_backend: Page 6: 202 chars text, url=https://survey.tolunastart.com/wix/p540362652366.aspx
+01:16:42 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:16:42 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+01:16:42 [INFO] openai._base_client: Retrying request to /chat/completions in 0.404519 seconds
+01:16:43 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+01:16:43 [INFO] openai._base_client: Retrying request to /chat/completions in 0.837332 seconds
+01:16:44 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+01:16:44 [INFO] openai._base_client: Retrying request to /chat/completions in 1.875091 seconds
+01:16:46 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+01:16:46 [INFO] openai._base_client: Retrying request to /chat/completions in 3.125141 seconds
+01:16:49 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+01:16:49 [INFO] openai._base_client: Retrying request to /chat/completions in 6.806366 seconds
+01:16:56 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+01:16:56 [ERROR] survey_agent.browser.harness_backend: LLM answer generation failed: Error code: 429 - {'message': 'Tokens per day limit exceeded - too many tokens processed.', 'type': 'too_many_tokens_error', 'param': 'quota', 'code': 'token_quota_exceeded'}
+01:16:56 [WARNING] survey_agent.browser.harness_backend: LLM empty on page 6 — deterministic fallback
+01:16:58 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+01:17:01 [INFO] survey_agent.browser.harness_backend: Page didn't advance — trying brute-force radio selection
+01:17:12 [INFO] survey_agent.browser.harness_backend: Page 7: 202 chars text, url=https://survey.tolunastart.com/wix/p540362652366.aspx
+01:17:12 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:17:12 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+01:17:12 [INFO] openai._base_client: Retrying request to /chat/completions in 0.483662 seconds
+01:17:13 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+01:17:13 [INFO] openai._base_client: Retrying request to /chat/completions in 0.844128 seconds
+01:17:14 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+01:17:14 [INFO] openai._base_client: Retrying request to /chat/completions in 1.944329 seconds
+01:17:16 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+01:17:16 [INFO] openai._base_client: Retrying request to /chat/completions in 3.465324 seconds
+01:17:20 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+01:17:20 [INFO] openai._base_client: Retrying request to /chat/completions in 7.506389 seconds
+01:17:27 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+01:17:27 [ERROR] survey_agent.browser.harness_backend: LLM answer generation failed: Error code: 429 - {'message': 'Tokens per day limit exceeded - too many tokens processed.', 'type': 'too_many_tokens_error', 'param': 'quota', 'code': 'token_quota_exceeded'}
+01:17:27 [WARNING] survey_agent.browser.harness_backend: LLM empty on page 7 — deterministic fallback
+01:17:29 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+01:17:33 [INFO] survey_agent.browser.harness_backend: Page didn't advance — trying brute-force radio selection
+01:17:44 [INFO] survey_agent.browser.harness_backend: Page 8: 202 chars text, url=https://survey.tolunastart.com/wix/p540362652366.aspx
+01:17:44 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:17:44 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+01:17:44 [INFO] openai._base_client: Retrying request to /chat/completions in 0.419626 seconds
+01:17:44 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+01:17:44 [INFO] openai._base_client: Retrying request to /chat/completions in 0.951378 seconds
+01:17:45 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+01:17:45 [INFO] openai._base_client: Retrying request to /chat/completions in 1.763073 seconds
+01:17:47 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+01:17:47 [INFO] openai._base_client: Retrying request to /chat/completions in 3.732809 seconds
+01:17:51 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+01:17:51 [INFO] openai._base_client: Retrying request to /chat/completions in 7.565109 seconds
+01:17:59 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+01:17:59 [ERROR] survey_agent.browser.harness_backend: LLM answer generation failed: Error code: 429 - {'message': 'Tokens per day limit exceeded - too many tokens processed.', 'type': 'too_many_tokens_error', 'param': 'quota', 'code': 'token_quota_exceeded'}
+01:17:59 [WARNING] survey_agent.browser.harness_backend: LLM empty on page 8 — deterministic fallback
+01:18:00 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+01:18:04 [INFO] survey_agent.browser.harness_backend: Page didn't advance — trying brute-force radio selection
+01:18:15 [INFO] survey_agent.browser.harness_backend: Page 9: 202 chars text, url=https://survey.tolunastart.com/wix/p540362652366.aspx
+01:18:15 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:18:16 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:18:16 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector":"#cqD5_3_control","value":"","action":"click"},
+  {"selector":".cf-navigation-next","value":"","action":"click"}
+]
+01:18:16 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector":"#cqD5_3_control","value":"","action":"click"},
+  {"selector":".cf-navigation-next","value":"","action":"click"}
+]
+01:18:16 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:18:16 [INFO] survey_agent.browser.harness_backend: Applied answers on page 9: [{"selector": "#cqD5_3_control", "value": "", "action": "click"}, {"selector": ".cf-navigation-next", "value": "", "action": "click"}]
+01:18:18 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+01:18:22 [INFO] survey_agent.browser.harness_backend: Page didn't advance — trying brute-force radio selection
+01:18:32 [INFO] survey_agent.browser.harness_backend: Page 10: 1101 chars text, url=https://survey.tolunastart.com/wix/p540362652366.aspx
+01:18:32 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:18:33 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+01:18:33 [INFO] openai._base_client: Retrying request to /chat/completions in 0.385712 seconds
+01:18:33 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+01:18:33 [INFO] openai._base_client: Retrying request to /chat/completions in 0.928395 seconds
+01:18:34 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+01:18:34 [INFO] openai._base_client: Retrying request to /chat/completions in 1.590482 seconds
+01:18:36 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+01:18:36 [INFO] openai._base_client: Retrying request to /chat/completions in 3.747801 seconds
+01:18:39 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+01:18:39 [INFO] openai._base_client: Retrying request to /chat/completions in 6.727525 seconds
+01:18:46 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+01:18:46 [ERROR] survey_agent.browser.harness_backend: LLM answer generation failed: Error code: 429 - {'message': 'Tokens per day limit exceeded - too many tokens processed.', 'type': 'too_many_tokens_error', 'param': 'quota', 'code': 'token_quota_exceeded'}
+01:18:46 [WARNING] survey_agent.browser.harness_backend: LLM empty on page 10 — deterministic fallback
+01:18:48 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+

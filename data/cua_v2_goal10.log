@@ -1,0 +1,16 @@
+05:56:04 [INFO] CUA Survey Agent v2 starting
+05:56:04 [INFO] Found Chrome: pid=55790 wid=37341
+05:56:15 [INFO] Initial balance: 150
+05:56:15 [INFO] 
+=== Cycle 1: 8 surveys ===
+05:56:15 [INFO] 
+--- Survey 1/8 ---
+05:56:29 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/pre_fusion_router/124850361/usr6pah3?key=6
+05:56:39 [INFO] No pre-survey page, survey may have started directly
+05:56:45 [INFO] [Page 1] PureSpectrum | 256 chars | https://screener.purespectrum.com/?survey_id=50741126&suppli
+05:57:15 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:57:15 [INFO]   LLM: 2 answers for 2 inputs
+05:57:28 [INFO] [Page 2] Branded Surveys | Users | 2244 chars | https://surveys.gobranded.com/users/dashboard
+05:57:28 [INFO] Redirected to dashboard — survey done
+05:57:28 [INFO] Survey 1 completed! (1 total this cycle)
+05:57:37 [INFO] Pausing 4 seconds...

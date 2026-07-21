@@ -7,7 +7,11 @@
     "zip_code": "78736",
     "state": "TX",
     "city": "Austin",
-    "country": "US"
+    "country": "US",
+    "birth_month": 3,
+    "birth_day": 15,
+    "birth_year": 1986,
+    "birth_date": "1986-03-15"
   },
   "employment": {
     "status": "Self-employed",

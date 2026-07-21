@@ -1,0 +1,27 @@
+Starting cloakbrowser backend...
+INFO survey_agent.browser.cloakbrowser_backend: Starting cloakbrowser worker thread...
+INFO httpx: HTTP Request: GET https://pypi.org/pypi/cloakbrowser/json "HTTP/1.1 200 OK"
+INFO survey_agent.browser.cloakbrowser_backend: cloakbrowser launched (persistent context, profile: /Users/antonioreid/survey-agent/data/cloak_profile)
+INFO survey_agent.browser.cloakbrowser_backend: cloakbrowser worker ready
+Backend started.
+
+[1] Testing Google OAuth login on Branded Surveys...
+INFO survey_agent.browser.cloakbrowser_backend: Using Google OAuth login for Branded Surveys (GSI iframes: 1)
+INFO survey_agent.browser.cloakbrowser_backend: Found 1 GSI iframe(s) on page
+INFO survey_agent.browser.cloakbrowser_backend: Frame: <Frame name= url='https://accounts.google.com/gsi/button?type=standard&shape=pill&theme=outline&text=signin_with&size=large&logo_alignment=left&width=280&is_fedcm_supported=true&client_id=32881259601-mm9rs85hnv68gk0o0mm7tgv3oq5ol4th.apps.googleusercontent.com&iframe_id=gsi_905637_281519&cas=29tFw617Y8ua0Vsqm5rPmbYl%2BIR9cgqmZoFACMNWlyw'>
+INFO survey_agent.browser.cloakbrowser_backend: Button coords in iframe: {'x': 150.00034427642822, 'y': 21.99902832508087, 'w': 280, 'h': 40}
+INFO survey_agent.browser.cloakbrowser_backend: Clicking at page coords (640.0003442764282, 130.99902832508087)
+INFO survey_agent.browser.cloakbrowser_backend: Waiting for OAuth popup to close (user must complete login manually)...
+INFO survey_agent.browser.cloakbrowser_backend: Popup closed after 1s, checking auth state...
+INFO survey_agent.browser.cloakbrowser_backend: After OAuth: URL=https://surveys.gobranded.com/users/login/ title=Log In | Branded Surveys text_preview=how it works log in sign up
+or
+sign in with email
+don't have an account? create one today
+forgot som
+  Login result: success=False error="Login didn't complete. URL: https://surveys.gobranded.com/users/login/"
+  URL: https://surveys.gobranded.com/users/login/
+  Output: ''
+
+[3] Stopping backend...
+INFO survey_agent.browser.cloakbrowser_backend: cloakbrowser worker thread exiting
+Done.

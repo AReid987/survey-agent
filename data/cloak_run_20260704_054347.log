@@ -1,0 +1,41 @@
+Survey Agent
+  Provider: openai-compatible (OpenAI-Compatible (newapi, freellmapi, mimo, 
+etc.))
+  Model: MiniMax-M3
+  Sites: branded-surveys
+  Backend: cloakbrowser
+  Browser: headed
+
+Browser window will open. First run: complete Google sign-in if prompted.
+
+05:43:49 [INFO] survey_agent.orchestrator: Starting agent for Branded Surveys...
+05:43:49 [INFO] survey_agent.browser.cloakbrowser_backend: Starting cloakbrowser worker thread...
+05:43:50 [INFO] httpx: HTTP Request: GET https://pypi.org/pypi/cloakbrowser/json "HTTP/1.1 200 OK"
+05:43:52 [INFO] survey_agent.browser.cloakbrowser_backend: cloakbrowser launched (worker thread ready)
+05:43:52 [INFO] survey_agent.browser.cloakbrowser_backend: cloakbrowser worker ready
+05:43:52 [INFO] survey_agent.orchestrator: [Session 0] Starting on Branded Surveys
+05:44:00 [INFO] survey_agent.browser.cloakbrowser_backend: Already logged in to Branded Surveys
+05:44:00 [INFO] survey_agent.orchestrator: [Session 0] Logged in
+05:44:05 [INFO] survey_agent.orchestrator: [Session 0] Initial balance: None
+05:44:10 [INFO] survey_agent.browser.cloakbrowser_backend: complete_survey called
+05:44:10 [WARNING] survey_agent.orchestrator: [Session 0] Survey 1 failed: No survey URL found in survey_info
+05:44:19 [INFO] survey_agent.browser.cloakbrowser_backend: complete_survey called
+05:44:19 [WARNING] survey_agent.orchestrator: [Session 0] Survey 2 failed: No survey URL found in survey_info
+05:44:27 [INFO] survey_agent.browser.cloakbrowser_backend: complete_survey called
+05:44:27 [WARNING] survey_agent.orchestrator: [Session 0] Survey 3 failed: No survey URL found in survey_info
+05:44:38 [INFO] survey_agent.browser.cloakbrowser_backend: complete_survey called
+05:44:38 [WARNING] survey_agent.orchestrator: [Session 0] Survey 4 failed: No survey URL found in survey_info
+05:44:48 [INFO] survey_agent.browser.cloakbrowser_backend: complete_survey called
+05:44:48 [WARNING] survey_agent.orchestrator: [Session 0] Survey 5 failed: No survey URL found in survey_info
+05:44:57 [INFO] survey_agent.browser.cloakbrowser_backend: complete_survey called
+05:44:57 [WARNING] survey_agent.orchestrator: [Session 0] Survey 6 failed: No survey URL found in survey_info
+05:45:06 [INFO] survey_agent.browser.cloakbrowser_backend: complete_survey called
+05:45:06 [WARNING] survey_agent.orchestrator: [Session 0] Survey 7 failed: No survey URL found in survey_info
+05:45:15 [INFO] survey_agent.browser.cloakbrowser_backend: complete_survey called
+05:45:15 [WARNING] survey_agent.orchestrator: [Session 0] Survey 8 failed: No survey URL found in survey_info
+05:45:24 [INFO] survey_agent.browser.cloakbrowser_backend: complete_survey called
+05:45:24 [WARNING] survey_agent.orchestrator: [Session 0] Survey 9 failed: No survey URL found in survey_info
+05:45:34 [INFO] survey_agent.browser.cloakbrowser_backend: complete_survey called
+05:45:34 [WARNING] survey_agent.orchestrator: [Session 0] Survey 10 failed: No survey URL found in survey_info
+05:45:43 [INFO] survey_agent.browser.cloakbrowser_backend: complete_survey called
+05:45:43 [WARNING] survey_agent.orchestrator: [Session 0] Survey 11 failed: No survey URL found in survey_info

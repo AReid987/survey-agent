@@ -1,0 +1,289 @@
+Survey Agent
+  Provider: openai-compatible (OpenAI-Compatible (newapi, freellmapi, mimo, 
+etc.))
+  Model: MiniMax-M3
+  Sites: branded-surveys
+  Backend: browser-harness
+  Browser: headed
+
+Using your real Chrome browser. Make sure Chrome is open.
+
+08:33:29 [INFO] survey_agent.orchestrator: Starting agent for Branded Surveys...
+08:33:29 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=19333 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent --no-first-run
+08:33:31 [INFO] survey_agent.browser.harness_backend: Chrome window kept visible for screenshot access
+08:33:34 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'https://www.google.com/', 'title': 'Google', 'w': 1512, 'h': 827, 'sx':
+08:33:35 [INFO] survey_agent.browser.harness_backend: Tab cleanup: CLEANED: 0 tabs
+08:33:35 [INFO] survey_agent.orchestrator: [Session 0] Starting on Branded Surveys
+08:33:40 [INFO] survey_agent.orchestrator: [Session 0] Logged in
+08:33:44 [INFO] survey_agent.orchestrator: [Session 0] Initial balance: 129
+08:33:49 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw': 1512, 'ph': 2788}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124681509/cgrvx2qj?key=e08552e4&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124753473/b5nspfxr?key=10072cd6&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/sur
+08:33:49 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124681509/cgrvx2qj?key=e08552e4&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/
+08:33:49 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+08:34:07 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_URL: https://surveys.gobranded.com/users/dashboard
+NAV_TEXT: Skip to content
+Hi, Antonio Reid
+2
+My Dashboard
+My Points
+129
+My Payouts
+Branded Elite
+Leaderboard
+I
+NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre/124681509/7azgu4v8?key=e08552e4&from=dashboard.click
+RESULT
+08:34:13 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_take_survey
+
+08:34:15 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+08:34:21 [INFO] survey_agent.browser.harness_backend: Page 1: 331 chars text, url=https://screener.purespectrum.com/?survey_id=50739862&supplier_id=8&surveySig=2d
+08:34:22 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+08:34:50 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+08:34:50 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector": "button.cky-btn.cky-btn-accept", "value": "", "action": "click"},
+  {"selector": "textarea:first-of-type", "value": "My favorite musician is Stevie Wonder because his music is soulful and innovative.", "action": "fill"},
+  {"selector": "button:contains('Next')", "value": "", "action": "click"}
+]
+08:34:50 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector": "button.cky-btn.cky-btn-accept", "value": "", "action": "click"},
+  {"selector": "textarea:first-of-type", "value": "My favorite musician is Stevie Wonder because his music is soulful and innovative.", "action": "fill"},
+  {"selector": "button:contains('Next')", "value": "", "action": "click"}
+]
+08:34:50 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/3
+RESULT: answers_applied
+
+08:34:50 [INFO] survey_agent.browser.harness_backend: Applied answers on page 1: [{"selector": "button.cky-btn.cky-btn-accept", "value": "", "action": "click"}, {"selector": "textarea:first-of-type", "value": "My favorite musician 
+08:34:51 [INFO] survey_agent.browser.harness_backend: Pre-submit: 0
+08:34:53 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+08:34:57 [INFO] survey_agent.browser.harness_backend: Form submit fallback: no_form
+08:35:10 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 141 chars (vs 63 DOM chars)
+08:35:10 [INFO] survey_agent.browser.harness_backend: Page 2: 141 chars text, url=https://screener.purespectrum.com/?survey_id=50739862&supplier_id=8&surveySig=2d
+08:35:10 [INFO] survey_agent.browser.harness_backend: Sparse page (141 chars) on https://screener.purespectrum.com/?survey_id=50739 — skipping survey
+08:35:10 [WARNING] survey_agent.orchestrator: [Session 0] Survey 1 failed: Sparse iframe survey, skipping
+08:35:18 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw': 1512, 'ph': 2788}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_fusion_router/124740817/pqamzjrc?key=8661bf58&from=dashboard.click&invite_id=381144241"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_fusion_router/124740817/pqamzjrc?key=8661bf58&from=dashboard.click&invite_id=3811442
+08:35:18 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_fusion_router/124740817/pqamzjrc?key=8661bf58&from=dashboard.click&invite_id=381144241"},{"text":"Take Survey","href":"https://
+08:35:18 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+08:35:35 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_URL: https://surveys.gobranded.com/users/dashboard
+NAV_TEXT: Skip to content
+Hi, Antonio Reid
+2
+My Dashboard
+My Points
+129
+My Payouts
+Branded Elite
+Leaderboard
+I
+NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre/124745877/f276brzn?key=9763e8cb&from=dashboard.click
+RESULT
+08:35:41 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_take_survey
+
+08:35:42 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+08:35:49 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 153 chars (vs 27 DOM chars)
+08:35:49 [INFO] survey_agent.browser.harness_backend: Page 1: 153 chars text, url=https://surveys.insights-today.com/v1/survey/entry?bid_id=cb139684-6f2f-4dc9-932
+08:35:49 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+08:35:52 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+08:35:52 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [{"selector": "#submitButton", "value": "", "action": "click"}]
+08:35:52 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [{"selector": "#submitButton", "value": "", "action": "click"}]
+08:35:53 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:1/1
+RESULT: answers_applied
+
+08:35:53 [INFO] survey_agent.browser.harness_backend: Applied answers on page 1: [{"selector": "#submitButton", "value": "", "action": "click"}]
+08:35:54 [INFO] survey_agent.browser.harness_backend: Pre-submit: 3
+08:35:55 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:button[type=submit]
+RESULT: next_clicked
+
+08:36:09 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 174 chars (vs 35 DOM chars)
+08:36:09 [INFO] survey_agent.browser.harness_backend: Page 2: 174 chars text, url=https://surveys.insights-today.com/v1/survey/prescreener
+08:36:09 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+08:36:21 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+08:36:21 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [{"selector": "#postcode", "value": "78736", "action": "fill"}, {"selector": "#gender-1", "value": "", "action": "click"}]
+08:36:21 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [{"selector": "#postcode", "value": "78736", "action": "fill"}, {"selector": "#gender-1", "value": "", "action": "click"}]
+08:36:22 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+08:36:22 [INFO] survey_agent.browser.harness_backend: Applied answers on page 2: [{"selector": "#postcode", "value": "78736", "action": "fill"}, {"selector": "#gender-1", "value": "", "action": "click"}]
+08:36:22 [INFO] survey_agent.browser.harness_backend: Pre-submit: 0
+08:36:24 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:button[type=submit]
+RESULT: next_clicked
+
+08:36:36 [INFO] survey_agent.browser.harness_backend: Domain changed (surveys.insights-today.com → surveys.gobranded.com) — survey complete
+08:36:40 [INFO] survey_agent.orchestrator: [Session 0] Survey 2 COMPLETED — earned 0 points (total: 130)
+08:36:40 [INFO] survey_agent.orchestrator: [Session 0] Survey output: RESULT: survey_complete
+08:36:47 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw': 1512, 'ph': 2768}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124753473/nw2zxrub?key=10072cd6&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124744861/jcm57vgb?key=5f1d4006&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/sur
+08:36:47 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124753473/nw2zxrub?key=10072cd6&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/
+08:36:47 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+08:37:05 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_URL: https://surveys.gobranded.com/users/dashboard
+NAV_TEXT: Skip to content
+Hi, Antonio Reid
+2
+My Dashboard
+My Points
+130
+My Payouts
+Branded Elite
+Leaderboard
+I
+NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre/124753473/gue6d5tf?key=10072cd6&from=dashboard.click
+RESULT
+08:37:10 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_take_survey
+
+08:37:11 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+08:37:17 [INFO] survey_agent.browser.harness_backend: Page 1: 338 chars text, url=https://screener.purespectrum.com/?survey_id=50765263&supplier_id=3789&surveySig
+08:37:17 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+08:37:49 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+08:37:49 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector": ".cky-btn-accept", "action": "click"},
+  {"selector": "textarea", "value": "Technology has greatly improved communication and access to information, making it easier to collaborate and learn new skills remotely.", "action": "fill"},
+  {"selector": "button:contains('Next')", "action": "click"}
+]
+08:37:49 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector": ".cky-btn-accept", "action": "click"},
+  {"selector": "textarea", "value": "Technology has greatly improved communication and access to information, making it easier to collaborate and learn new skills remotely.", "action": "fill"},
+  {"selector": "button:contains('Next')", "action": "click"}
+]
+08:37:50 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/3
+RESULT: answers_applied
+
+08:37:50 [INFO] survey_agent.browser.harness_backend: Applied answers on page 1: [{"selector": ".cky-btn-accept", "action": "click"}, {"selector": "textarea", "value": "Technology has greatly improved communication and access to in
+08:37:50 [INFO] survey_agent.browser.harness_backend: Pre-submit: 0
+08:37:52 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+08:37:56 [INFO] survey_agent.browser.harness_backend: Form submit fallback: no_form
+08:38:09 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 162 chars (vs 63 DOM chars)
+08:38:09 [INFO] survey_agent.browser.harness_backend: Page 2: 162 chars text, url=https://screener.purespectrum.com/?survey_id=50765263&supplier_id=3789&surveySig
+08:38:09 [INFO] survey_agent.browser.harness_backend: Sparse page (162 chars) on https://screener.purespectrum.com/?survey_id=50765 — skipping survey
+08:38:09 [WARNING] survey_agent.orchestrator: [Session 0] Survey 3 failed: Sparse iframe survey, skipping
+08:38:16 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw': 1512, 'ph': 2788}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_fusion_router/124740817/xyknqgpw?key=8661bf58&from=dashboard.click&invite_id=381144241"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_fusion_router/124740817/xyknqgpw?key=8661bf58&from=dashboard.click&invite_id=3811442
+08:38:16 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_fusion_router/124740817/xyknqgpw?key=8661bf58&from=dashboard.click&invite_id=381144241"},{"text":"Take Survey","href":"https://
+08:38:16 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+08:38:34 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_URL: https://surveys.gobranded.com/users/dashboard
+NAV_TEXT: Skip to content
+Hi, Antonio Reid
+2
+My Dashboard
+My Points
+130
+My Payouts
+Branded Elite
+Leaderboard
+I
+NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre/124744861/z1scnxa7?key=5f1d4006&from=dashboard.click
+RESULT
+08:38:40 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_take_survey
+
+08:38:40 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+08:38:46 [INFO] survey_agent.browser.harness_backend: Page 1: 324 chars text, url=https://screener.purespectrum.com/?survey_id=50761998&supplier_id=8&surveySig=88
+08:38:46 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+08:39:20 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+08:39:20 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector": "button.cky-btn-reject", "action": "click", "value": ""},
+  {"selector": "textarea", "action": "fill", "value": "Ideal party is a relaxed BBQ with close family and friends, with music and board games."},
+  {"selector": "button:contains('Next')", "action": "click", "value": ""}
+]
+08:39:20 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector": "button.cky-btn-reject", "action": "click", "value": ""},
+  {"selector": "textarea", "action": "fill", "value": "Ideal party is a relaxed BBQ with close family and friends, with music and board games."},
+  {"selector": "button:contains('Next')", "action": "click", "value": ""}
+]
+08:39:21 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/3
+RESULT: answers_applied
+
+08:39:21 [INFO] survey_agent.browser.harness_backend: Applied answers on page 1: [{"selector": "button.cky-btn-reject", "action": "click", "value": ""}, {"selector": "textarea", "action": "fill", "value": "Ideal party is a relaxed 
+08:39:22 [INFO] survey_agent.browser.harness_backend: Pre-submit: 0
+08:39:23 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+08:39:28 [INFO] survey_agent.browser.harness_backend: Form submit fallback: no_form
+08:39:40 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 157 chars (vs 63 DOM chars)
+08:39:40 [INFO] survey_agent.browser.harness_backend: Page 2: 157 chars text, url=https://screener.purespectrum.com/?survey_id=50761998&supplier_id=8&surveySig=88
+08:39:40 [INFO] survey_agent.browser.harness_backend: Sparse page (157 chars) on https://screener.purespectrum.com/?survey_id=50761 — skipping survey
+08:39:40 [WARNING] survey_agent.orchestrator: [Session 0] Survey 4 failed: Sparse iframe survey, skipping
+08:39:48 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw': 1512, 'ph': 2788}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_fusion_router/124740817/xyknqgpw?key=8661bf58&from=dashboard.click&invite_id=381144241"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_fusion_router/124740817/xyknqgpw?key=8661bf58&from=dashboard.click&invite_id=3811442
+08:39:48 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_fusion_router/124740817/xyknqgpw?key=8661bf58&from=dashboard.click&invite_id=381144241"},{"text":"Take Survey","href":"https://
+08:39:48 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+08:40:05 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_URL: https://surveys.gobranded.com/users/dashboard
+NAV_TEXT: Skip to content
+Hi, Antonio Reid
+2
+My Dashboard
+My Points
+130
+My Payouts
+Branded Elite
+Leaderboard
+I
+NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre/124744869/fw5s8yp2?key=f7e86324&from=dashboard.click
+RESULT
+08:40:11 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_take_survey
+
+08:40:12 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+08:40:18 [INFO] survey_agent.browser.harness_backend: Page 1: 341 chars text, url=https://screener.purespectrum.com/?survey_id=50761997&supplier_id=8&surveySig=36
+08:40:18 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+08:41:04 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+08:41:04 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+    {
+        "selector": "textarea",
+        "value": "Over-reliance on technology can reduce face-to-face communication and increase distractions. It also raises privacy concerns and can lead to information overload.",
+        "action": "fill"
+    },
+    {
+        "selector": "button[type='submit']:last-of-type",
+        "value": "",
+        "action": "click"
+    }
+]
+08:41:04 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+    {
+        "selector": "textarea",
+        "value": "Over-reliance on technology can reduce face-to-face communication and increase distractions. It also raises privacy concerns and can lead to information overload.",
+        "action": "fill"
+    },
+    {
+        "selector": "button[type='submit']:last-of-type",
+        "value": "",
+        "action": "click"
+    }
+]
+08:41:05 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:1/2
+RESULT: answers_applied
+
+08:41:05 [INFO] survey_agent.browser.harness_backend: Applied answers on page 1: [{"selector": "textarea", "value": "Over-reliance on technology can reduce face-to-face communication and increase distractions. It also raises privac
+08:41:05 [INFO] survey_agent.browser.harness_backend: Pre-submit: 0
+08:41:07 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+08:41:11 [INFO] survey_agent.browser.harness_backend: Form submit fallback: no_form
+08:41:23 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 150 chars (vs 63 DOM chars)
+08:41:23 [INFO] survey_agent.browser.harness_backend: Page 2: 150 chars text, url=https://screener.purespectrum.com/?survey_id=50761997&supplier_id=8&surveySig=36
+08:41:23 [INFO] survey_agent.browser.harness_backend: Sparse page (150 chars) on https://screener.purespectrum.com/?survey_id=50761 — skipping survey
+08:41:23 [WARNING] survey_agent.orchestrator: [Session 0] Survey 5 failed: Sparse iframe survey, skipping
+08:41:26 [INFO] survey_agent.browser.harness_backend: Leaving Chrome running (pid=22004) for session persistence
+Done: 1 surveys, 0 questions, 4 errors

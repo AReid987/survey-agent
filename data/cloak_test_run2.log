@@ -1,0 +1,14 @@
+[cloak] Launching stealth browser...
+Traceback (most recent call last):
+  File "/Users/antonioreid/survey-agent/scripts/cloak_test.py", line 142, in <module>
+    main()
+    ~~~~^^
+  File "/Users/antonioreid/survey-agent/scripts/cloak_test.py", line 18, in main
+    browser = launch(stealth=True, humanize=True, headless=False)
+  File "/Users/antonioreid/survey-agent/.venv/lib/python3.14/site-packages/cloakbrowser/browser.py", line 222, in launch
+    browser = pw.chromium.launch(
+        executable_path=binary_path,
+    ...<5 lines>...
+        **kwargs,
+    )
+TypeError: BrowserType.launch() got an unexpected keyword argument 'stealth'

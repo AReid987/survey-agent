@@ -1,0 +1,379 @@
+Survey Agent
+  Provider: openai-compatible (OpenAI-Compatible (newapi, freellmapi, mimo, 
+etc.))
+  Model: MiniMax-M3
+  Sites: branded-surveys
+  Backend: browser-harness
+  Browser: headed
+
+Using your real Chrome browser. Make sure Chrome is open.
+
+02:23:41 [INFO] survey_agent.orchestrator: Starting agent for Branded Surveys...
+02:23:42 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=9333 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent --no-first-run
+02:23:43 [INFO] survey_agent.browser.harness_backend: Chrome window kept visible for screenshot access
+02:23:46 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'about:blank', 'title': '', 'w': 800, 'h': 513, 'sx': 0, 'sy': 0, 'pw': 
+02:23:47 [INFO] survey_agent.browser.harness_backend: Tab cleanup: CLEANED: 1 tabs
+02:23:48 [INFO] survey_agent.orchestrator: [Session 0] Starting on Branded Surveys
+02:23:53 [INFO] survey_agent.orchestrator: [Session 0] Logged in
+02:23:57 [INFO] survey_agent.orchestrator: [Session 0] Initial balance: 20
+02:24:02 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 800, 'h': 513, 'sx': 0, 'sy': 0, 'pw': 800, 'ph': 3265}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124737837/pwgyaq38?key=3e3fbdfb&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124608893/9gbnvxkj?key=c8c5cf5a&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surve
+02:24:02 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124737837/pwgyaq38?key=3e3fbdfb&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/
+02:24:02 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+02:24:19 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_URL: https://surveys.gobranded.com/users/dashboard
+NAV_TEXT: Skip to content
+Menu
+
+⚽ Predict Games. Earn Rewards. ⚾
+
+Join Novig, make a $10+ deposit, and earn $4
+NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre/124737837/g6ydbqzv?key=3e3fbdfb&from=dashboard.click
+RESULT
+02:24:25 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_take_survey
+
+02:24:28 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+02:24:35 [INFO] survey_agent.browser.harness_backend: Page 1: 319 chars text, url=https://screener.purespectrum.com/?survey_id=50759195&supplier_id=8&surveySig=39
+02:24:36 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+02:25:04 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+02:25:04 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector": "button.cky-btn-accept", "value": "", "action": "click"},
+  {"selector": "textarea", "value": "My dream job is to continue building my tech startup, focusing on innovative software solutions while maintaining a flexible remote lifestyle that allows me to balance work and family time.", "action": "fill"},
+  {"selector": "button:contains('Next')", "value": "", "action": "click"}
+]
+02:25:04 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector": "button.cky-btn-accept", "value": "", "action": "click"},
+  {"selector": "textarea", "value": "My dream job is to continue building my tech startup, focusing on innovative software solutions while maintaining a flexible remote lifestyle that allows me to balance work and family time.", "action": "fill"},
+  {"selector": "button:contains('Next')", "value": "", "action": "click"}
+]
+02:25:05 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/3
+RESULT: answers_applied
+
+02:25:05 [INFO] survey_agent.browser.harness_backend: Applied answers on page 1: [{"selector": "button.cky-btn-accept", "value": "", "action": "click"}, {"selector": "textarea", "value": "My dream job is to continue building my tec
+02:25:06 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:25:18 [INFO] survey_agent.browser.harness_backend: Page 2: 63 chars text, url=https://screener.purespectrum.com/?survey_id=50759195&supplier_id=8&surveySig=39
+02:25:18 [INFO] survey_agent.browser.harness_backend: CAPTCHA detected: text_challenge — Text image CAPTCHA — needs OCR/vision to read
+02:25:18 [INFO] survey_agent.browser.harness_backend: CAPTCHA on page 2: text_challenge: Text image CAPTCHA — needs OCR/vision to read
+02:25:18 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot window: wid=3839 area=480000
+02:25:18 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot: pid=78104 wid=3839
+02:25:19 [INFO] survey_agent.browser.harness_backend: Screenshot saved via cua-driver (288972 chars b64, pid=78104, wid=3839)
+02:25:19 [INFO] survey_agent.browser.harness_backend: Found CAPTCHA image by label: {'x': 311.0, 'y': 408.0, 'w': 150.0, 'h': 50.0}
+02:25:19 [INFO] survey_agent.browser.harness_backend: Cropped CAPTCHA: (312,746,175,112) scale=1.04
+02:25:24 [INFO] survey_agent.browser.harness_backend: OCR results: ['oe', 'oe', 'oe', 'oe', 'oe'] -> picked: 'oe'
+02:25:28 [INFO] survey_agent.browser.harness_backend: CAPTCHA solved on page 2
+02:25:30 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:25:38 [INFO] survey_agent.browser.harness_backend: Page 3: 63 chars text, url=https://screener.purespectrum.com/?survey_id=50759195&supplier_id=8&surveySig=39
+02:25:38 [INFO] survey_agent.browser.harness_backend: CAPTCHA detected: text_challenge — Text image CAPTCHA — needs OCR/vision to read
+02:25:38 [INFO] survey_agent.browser.harness_backend: CAPTCHA on page 3: text_challenge: Text image CAPTCHA — needs OCR/vision to read
+02:25:38 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot window: wid=3839 area=480000
+02:25:38 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot: pid=78104 wid=3839
+02:25:39 [INFO] survey_agent.browser.harness_backend: Screenshot saved via cua-driver (294048 chars b64, pid=78104, wid=3839)
+02:25:39 [INFO] survey_agent.browser.harness_backend: Found CAPTCHA image by label: {'x': 311.0, 'y': 407.0, 'w': 150.0, 'h': 50.0}
+02:25:39 [INFO] survey_agent.browser.harness_backend: Cropped CAPTCHA: (312,744,175,112) scale=1.04
+02:25:44 [INFO] survey_agent.browser.harness_backend: OCR results: ['oe', 'oe', 'oe', 'oe', 'oe'] -> picked: 'oe'
+02:25:48 [INFO] survey_agent.browser.harness_backend: CAPTCHA solved on page 3
+02:25:49 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:25:58 [INFO] survey_agent.browser.harness_backend: Page 4: 63 chars text, url=https://screener.purespectrum.com/?survey_id=50759195&supplier_id=8&surveySig=39
+02:25:58 [INFO] survey_agent.browser.harness_backend: CAPTCHA detected: text_challenge — Text image CAPTCHA — needs OCR/vision to read
+02:25:58 [INFO] survey_agent.browser.harness_backend: CAPTCHA on page 4: text_challenge: Text image CAPTCHA — needs OCR/vision to read
+02:25:58 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot window: wid=3839 area=480000
+02:25:58 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot: pid=78104 wid=3839
+02:25:58 [INFO] survey_agent.browser.harness_backend: Screenshot saved via cua-driver (296380 chars b64, pid=78104, wid=3839)
+02:25:58 [INFO] survey_agent.browser.harness_backend: Found CAPTCHA image by label: {'x': 311.0, 'y': 407.0, 'w': 150.0, 'h': 50.0}
+02:25:58 [INFO] survey_agent.browser.harness_backend: Cropped CAPTCHA: (312,744,175,112) scale=1.04
+02:26:03 [INFO] survey_agent.browser.harness_backend: OCR results: ['oe', 'oe', 'oe', 'oe', 'oe'] -> picked: 'oe'
+02:26:07 [INFO] survey_agent.browser.harness_backend: CAPTCHA solved on page 4
+02:26:09 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:26:17 [INFO] survey_agent.browser.harness_backend: Page stuck — refreshing page
+02:26:28 [WARNING] survey_agent.browser.harness_backend: Stuck on same page after refresh — skipping survey
+02:26:28 [WARNING] survey_agent.orchestrator: [Session 0] Survey 1 failed: Stuck on same page, skipping
+02:26:35 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 800, 'h': 513, 'sx': 0, 'sy': 0, 'pw': 800, 'ph': 3265}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_router/124740833?key=4d74f1f4&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_router/124740833?key=4d74f1f4&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/p
+02:26:35 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_router/124740833?key=4d74f1f4&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_ro
+02:26:35 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+02:26:53 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_URL: https://surveys.gobranded.com/users/dashboard
+NAV_TEXT: Skip to content
+Menu
+
+🚀 Predict Smarter, Earn More 🚀
+
+Turn your insights into rewards with OG Predic
+NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre/124608893/q1sgp87c?key=c8c5cf5a&from=dashboard.click
+RESULT
+02:26:59 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_take_survey
+
+02:26:59 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+02:27:06 [INFO] survey_agent.browser.harness_backend: Page 1: 345 chars text, url=https://screener.purespectrum.com/?survey_id=50710536&supplier_id=8&surveySig=d1
+02:27:06 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+02:27:43 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+02:27:43 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "textarea",
+    "value": "My favorite tradition is celebrating Kwanzaa with my family, focusing on unity and creativity through stories and music.",
+    "action": "fill"
+  },
+  {
+    "selector": "button:contains('Next')",
+    "value": "",
+    "action": "click"
+  }
+]
+02:27:43 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "textarea",
+    "value": "My favorite tradition is celebrating Kwanzaa with my family, focusing on unity and creativity through stories and music.",
+    "action": "fill"
+  },
+  {
+    "selector": "button:contains('Next')",
+    "value": "",
+    "action": "click"
+  }
+]
+02:27:44 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:1/2
+RESULT: answers_applied
+
+02:27:44 [INFO] survey_agent.browser.harness_backend: Applied answers on page 1: [{"selector": "textarea", "value": "My favorite tradition is celebrating Kwanzaa with my family, focusing on unity and creativity through stories and 
+02:27:45 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:27:57 [INFO] survey_agent.browser.harness_backend: Page 2: 63 chars text, url=https://screener.purespectrum.com/?survey_id=50710536&supplier_id=8&surveySig=d1
+02:27:57 [INFO] survey_agent.browser.harness_backend: CAPTCHA detected: text_challenge — Text image CAPTCHA — needs OCR/vision to read
+02:27:57 [INFO] survey_agent.browser.harness_backend: CAPTCHA on page 2: text_challenge: Text image CAPTCHA — needs OCR/vision to read
+02:27:58 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot window: wid=3839 area=480000
+02:27:58 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot: pid=78104 wid=3839
+02:27:58 [INFO] survey_agent.browser.harness_backend: Screenshot saved via cua-driver (292764 chars b64, pid=78104, wid=3839)
+02:27:58 [INFO] survey_agent.browser.harness_backend: Found CAPTCHA image by label: {'x': 311.0, 'y': 408.0, 'w': 150.0, 'h': 50.0}
+02:27:58 [INFO] survey_agent.browser.harness_backend: Cropped CAPTCHA: (312,746,175,112) scale=1.04
+02:28:03 [INFO] survey_agent.browser.harness_backend: OCR results: ['oe', 'oe', 'oe', 'oe', 'oe'] -> picked: 'oe'
+02:28:07 [INFO] survey_agent.browser.harness_backend: CAPTCHA solved on page 2
+02:28:09 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:28:17 [INFO] survey_agent.browser.harness_backend: Page 3: 63 chars text, url=https://screener.purespectrum.com/?survey_id=50710536&supplier_id=8&surveySig=d1
+02:28:17 [INFO] survey_agent.browser.harness_backend: CAPTCHA detected: text_challenge — Text image CAPTCHA — needs OCR/vision to read
+02:28:17 [INFO] survey_agent.browser.harness_backend: CAPTCHA on page 3: text_challenge: Text image CAPTCHA — needs OCR/vision to read
+02:28:17 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot window: wid=3839 area=480000
+02:28:17 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot: pid=78104 wid=3839
+02:28:18 [INFO] survey_agent.browser.harness_backend: Screenshot saved via cua-driver (297868 chars b64, pid=78104, wid=3839)
+02:28:18 [INFO] survey_agent.browser.harness_backend: Found CAPTCHA image by label: {'x': 311.0, 'y': 407.0, 'w': 150.0, 'h': 50.0}
+02:28:18 [INFO] survey_agent.browser.harness_backend: Cropped CAPTCHA: (312,744,175,112) scale=1.04
+02:28:23 [INFO] survey_agent.browser.harness_backend: OCR results: ['oe', 'oe', 'oe', 'oe', 'oe'] -> picked: 'oe'
+02:28:27 [INFO] survey_agent.browser.harness_backend: CAPTCHA solved on page 3
+02:28:29 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:28:37 [INFO] survey_agent.browser.harness_backend: Page 4: 63 chars text, url=https://screener.purespectrum.com/?survey_id=50710536&supplier_id=8&surveySig=d1
+02:28:37 [INFO] survey_agent.browser.harness_backend: CAPTCHA detected: text_challenge — Text image CAPTCHA — needs OCR/vision to read
+02:28:37 [INFO] survey_agent.browser.harness_backend: CAPTCHA on page 4: text_challenge: Text image CAPTCHA — needs OCR/vision to read
+02:28:37 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot window: wid=3839 area=480000
+02:28:37 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot: pid=78104 wid=3839
+02:28:38 [INFO] survey_agent.browser.harness_backend: Screenshot saved via cua-driver (300380 chars b64, pid=78104, wid=3839)
+02:28:38 [INFO] survey_agent.browser.harness_backend: Found CAPTCHA image by label: {'x': 311.0, 'y': 407.0, 'w': 150.0, 'h': 50.0}
+02:28:38 [INFO] survey_agent.browser.harness_backend: Cropped CAPTCHA: (312,744,175,112) scale=1.04
+02:28:43 [INFO] survey_agent.browser.harness_backend: OCR results: ['oe', 'oe', 'oe', 'oe', 'oe'] -> picked: 'oe'
+02:28:47 [INFO] survey_agent.browser.harness_backend: CAPTCHA solved on page 4
+02:28:48 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:28:57 [INFO] survey_agent.browser.harness_backend: Page stuck — refreshing page
+02:29:07 [WARNING] survey_agent.browser.harness_backend: Stuck on same page after refresh — skipping survey
+02:29:07 [WARNING] survey_agent.orchestrator: [Session 0] Survey 2 failed: Stuck on same page, skipping
+02:29:15 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 800, 'h': 513, 'sx': 0, 'sy': 0, 'pw': 800, 'ph': 3245}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_router/124740833?key=4d74f1f4&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_router/124740833?key=4d74f1f4&from=dashboard.click"}]
+RESULT: discover_complete
+
+02:29:15 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_router/124740833?key=4d74f1f4&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_ro
+02:29:15 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+02:29:32 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_URL: https://surveys.gobranded.com/users/dashboard
+NAV_TEXT: Skip to content
+Menu
+
+🎮 Play Your Next Favorite Game 🎮
+
+Discover new favorites (and classics!) from 
+NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre/124735433/83mxk5bz?key=f9573956&from=dashboard.click
+RESULT
+02:29:38 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_take_survey
+
+02:29:38 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+02:29:45 [INFO] survey_agent.browser.harness_backend: Page 1: 319 chars text, url=https://screener.purespectrum.com/?survey_id=50758628&supplier_id=8&surveySig=d8
+02:29:45 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+02:30:44 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+02:30:44 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector": ".cky-btn-accept", "value": "", "action": "click"},
+  {"selector": "textarea", "value": "One happy memory is learning to ride a bike with my father; he ran alongside me until I could balance on my own.", "action": "fill"}
+]
+02:30:44 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector": ".cky-btn-accept", "value": "", "action": "click"},
+  {"selector": "textarea", "value": "One happy memory is learning to ride a bike with my father; he ran alongside me until I could balance on my own.", "action": "fill"}
+]
+02:30:45 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+02:30:45 [INFO] survey_agent.browser.harness_backend: Applied answers on page 1: [{"selector": ".cky-btn-accept", "value": "", "action": "click"}, {"selector": "textarea", "value": "One happy memory is learning to ride a bike with 
+02:30:46 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:30:58 [INFO] survey_agent.browser.harness_backend: Page 2: 63 chars text, url=https://screener.purespectrum.com/?survey_id=50758628&supplier_id=8&surveySig=d8
+02:30:58 [INFO] survey_agent.browser.harness_backend: CAPTCHA detected: text_challenge — Text image CAPTCHA — needs OCR/vision to read
+02:30:58 [INFO] survey_agent.browser.harness_backend: CAPTCHA on page 2: text_challenge: Text image CAPTCHA — needs OCR/vision to read
+02:30:58 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot window: wid=3839 area=480000
+02:30:58 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot: pid=78104 wid=3839
+02:30:59 [INFO] survey_agent.browser.harness_backend: Screenshot saved via cua-driver (291360 chars b64, pid=78104, wid=3839)
+02:30:59 [INFO] survey_agent.browser.harness_backend: Found CAPTCHA image by label: {'x': 311.0, 'y': 408.0, 'w': 150.0, 'h': 50.0}
+02:30:59 [INFO] survey_agent.browser.harness_backend: Cropped CAPTCHA: (312,746,175,112) scale=1.04
+02:31:04 [INFO] survey_agent.browser.harness_backend: OCR results: ['oe', 'oe', 'oe', 'oe', 'oe'] -> picked: 'oe'
+02:31:08 [INFO] survey_agent.browser.harness_backend: CAPTCHA solved on page 2
+02:31:10 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:31:18 [INFO] survey_agent.browser.harness_backend: Page 3: 63 chars text, url=https://screener.purespectrum.com/?survey_id=50758628&supplier_id=8&surveySig=d8
+02:31:18 [INFO] survey_agent.browser.harness_backend: CAPTCHA detected: text_challenge — Text image CAPTCHA — needs OCR/vision to read
+02:31:18 [INFO] survey_agent.browser.harness_backend: CAPTCHA on page 3: text_challenge: Text image CAPTCHA — needs OCR/vision to read
+02:31:19 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot window: wid=3839 area=480000
+02:31:19 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot: pid=78104 wid=3839
+02:31:19 [INFO] survey_agent.browser.harness_backend: Screenshot saved via cua-driver (296744 chars b64, pid=78104, wid=3839)
+02:31:19 [INFO] survey_agent.browser.harness_backend: Found CAPTCHA image by label: {'x': 311.0, 'y': 407.0, 'w': 150.0, 'h': 50.0}
+02:31:19 [INFO] survey_agent.browser.harness_backend: Cropped CAPTCHA: (312,744,175,112) scale=1.04
+02:31:25 [INFO] survey_agent.browser.harness_backend: OCR results: ['oe', 'oe', 'oe', 'oe', 'oe'] -> picked: 'oe'
+02:31:29 [INFO] survey_agent.browser.harness_backend: CAPTCHA solved on page 3
+02:31:31 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:31:39 [INFO] survey_agent.browser.harness_backend: Page 4: 63 chars text, url=https://screener.purespectrum.com/?survey_id=50758628&supplier_id=8&surveySig=d8
+02:31:39 [INFO] survey_agent.browser.harness_backend: CAPTCHA detected: text_challenge — Text image CAPTCHA — needs OCR/vision to read
+02:31:39 [INFO] survey_agent.browser.harness_backend: CAPTCHA on page 4: text_challenge: Text image CAPTCHA — needs OCR/vision to read
+02:31:39 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot window: wid=3839 area=480000
+02:31:39 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot: pid=78104 wid=3839
+02:31:40 [INFO] survey_agent.browser.harness_backend: Screenshot saved via cua-driver (298988 chars b64, pid=78104, wid=3839)
+02:31:40 [INFO] survey_agent.browser.harness_backend: Found CAPTCHA image by label: {'x': 311.0, 'y': 407.0, 'w': 150.0, 'h': 50.0}
+02:31:40 [INFO] survey_agent.browser.harness_backend: Cropped CAPTCHA: (312,744,175,112) scale=1.04
+02:31:45 [INFO] survey_agent.browser.harness_backend: OCR results: ['oe', 'oe', 'oe', 'oe', 'oe'] -> picked: 'oe'
+02:31:49 [INFO] survey_agent.browser.harness_backend: CAPTCHA solved on page 4
+02:31:50 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:31:59 [INFO] survey_agent.browser.harness_backend: Page stuck — refreshing page
+02:32:09 [WARNING] survey_agent.browser.harness_backend: Stuck on same page after refresh — skipping survey
+02:32:09 [WARNING] survey_agent.orchestrator: [Session 0] Survey 3 failed: Stuck on same page, skipping
+02:32:16 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 800, 'h': 513, 'sx': 0, 'sy': 0, 'pw': 800, 'ph': 3265}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_router/124740833?key=4d74f1f4&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_router/124740833?key=4d74f1f4&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/p
+02:32:16 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_router/124740833?key=4d74f1f4&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_ro
+02:32:17 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+02:32:34 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_URL: https://surveys.gobranded.com/users/dashboard
+NAV_TEXT: Skip to content
+Menu
+
+⚽ Predict Games. Earn Rewards. ⚾
+
+Join Novig, make a $10+ deposit, and earn $4
+NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre/124747469/qhw8u9eb?key=a5f3d9a3&from=dashboard.click
+RESULT
+02:32:40 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_take_survey
+
+02:32:40 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+02:32:47 [INFO] survey_agent.browser.harness_backend: Page 1: 342 chars text, url=https://screener.purespectrum.com/?survey_id=50763049&supplier_id=8&surveySig=57
+02:32:47 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+02:33:51 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+02:33:51 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector": ".cky-btn-accept", "value": "", "action": "click"},
+  {"selector": "textarea", "value": "Starting my own company was a huge challenge; it made me more resilient and taught me to handle uncertainty.", "action": "fill"},
+  {"selector": "button[type='submit']:not(.cky-btn)", "value": "", "action": "click"}
+]
+02:33:51 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector": ".cky-btn-accept", "value": "", "action": "click"},
+  {"selector": "textarea", "value": "Starting my own company was a huge challenge; it made me more resilient and taught me to handle uncertainty.", "action": "fill"},
+  {"selector": "button[type='submit']:not(.cky-btn)", "value": "", "action": "click"}
+]
+02:33:53 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/3
+RESULT: answers_applied
+
+02:33:53 [INFO] survey_agent.browser.harness_backend: Applied answers on page 1: [{"selector": ".cky-btn-accept", "value": "", "action": "click"}, {"selector": "textarea", "value": "Starting my own company was a huge challenge; it 
+02:33:55 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:34:07 [INFO] survey_agent.browser.harness_backend: Page 2: 63 chars text, url=https://screener.purespectrum.com/?survey_id=50763049&supplier_id=8&surveySig=57
+02:34:07 [INFO] survey_agent.browser.harness_backend: CAPTCHA detected: text_challenge — Text image CAPTCHA — needs OCR/vision to read
+02:34:07 [INFO] survey_agent.browser.harness_backend: CAPTCHA on page 2: text_challenge: Text image CAPTCHA — needs OCR/vision to read
+02:34:07 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot window: wid=3839 area=480000
+02:34:07 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot: pid=78104 wid=3839
+02:34:07 [INFO] survey_agent.browser.harness_backend: Screenshot saved via cua-driver (286568 chars b64, pid=78104, wid=3839)
+02:34:07 [INFO] survey_agent.browser.harness_backend: Found CAPTCHA image by label: {'x': 311.0, 'y': 408.0, 'w': 150.0, 'h': 50.0}
+02:34:07 [INFO] survey_agent.browser.harness_backend: Cropped CAPTCHA: (312,746,175,112) scale=1.04
+02:34:13 [INFO] survey_agent.browser.harness_backend: OCR results: ['oe', 'oe', 'oe', 'oe', 'oe'] -> picked: 'oe'
+02:34:17 [INFO] survey_agent.browser.harness_backend: CAPTCHA solved on page 2
+02:34:19 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:34:27 [INFO] survey_agent.browser.harness_backend: Page 3: 63 chars text, url=https://screener.purespectrum.com/?survey_id=50763049&supplier_id=8&surveySig=57
+02:34:27 [INFO] survey_agent.browser.harness_backend: CAPTCHA detected: text_challenge — Text image CAPTCHA — needs OCR/vision to read
+02:34:27 [INFO] survey_agent.browser.harness_backend: CAPTCHA on page 3: text_challenge: Text image CAPTCHA — needs OCR/vision to read
+02:34:27 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot window: wid=3839 area=480000
+02:34:27 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot: pid=78104 wid=3839
+02:34:28 [INFO] survey_agent.browser.harness_backend: Screenshot saved via cua-driver (291952 chars b64, pid=78104, wid=3839)
+02:34:28 [INFO] survey_agent.browser.harness_backend: Found CAPTCHA image by label: {'x': 311.0, 'y': 407.0, 'w': 150.0, 'h': 50.0}
+02:34:28 [INFO] survey_agent.browser.harness_backend: Cropped CAPTCHA: (312,744,175,112) scale=1.04
+02:34:33 [INFO] survey_agent.browser.harness_backend: OCR results: ['oe', 'oe', 'oe', 'oe', 'oe'] -> picked: 'oe'
+02:34:37 [INFO] survey_agent.browser.harness_backend: CAPTCHA solved on page 3
+02:34:39 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:34:47 [INFO] survey_agent.browser.harness_backend: Page 4: 63 chars text, url=https://screener.purespectrum.com/?survey_id=50763049&supplier_id=8&surveySig=57
+02:34:47 [INFO] survey_agent.browser.harness_backend: CAPTCHA detected: text_challenge — Text image CAPTCHA — needs OCR/vision to read
+02:34:47 [INFO] survey_agent.browser.harness_backend: CAPTCHA on page 4: text_challenge: Text image CAPTCHA — needs OCR/vision to read
+02:34:47 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot window: wid=3839 area=480000
+02:34:47 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot: pid=78104 wid=3839
+02:34:48 [INFO] survey_agent.browser.harness_backend: Screenshot saved via cua-driver (294196 chars b64, pid=78104, wid=3839)
+02:34:48 [INFO] survey_agent.browser.harness_backend: Found CAPTCHA image by label: {'x': 311.0, 'y': 407.0, 'w': 150.0, 'h': 50.0}
+02:34:48 [INFO] survey_agent.browser.harness_backend: Cropped CAPTCHA: (312,744,175,112) scale=1.04
+02:34:54 [INFO] survey_agent.browser.harness_backend: OCR results: ['oe', 'oe', 'oe', 'oe', 'oe'] -> picked: 'oe'
+02:34:58 [INFO] survey_agent.browser.harness_backend: CAPTCHA solved on page 4
+02:35:00 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:35:08 [INFO] survey_agent.browser.harness_backend: Page stuck — refreshing page
+02:35:18 [WARNING] survey_agent.browser.harness_backend: Stuck on same page after refresh — skipping survey
+02:35:18 [WARNING] survey_agent.orchestrator: [Session 0] Survey 4 failed: Stuck on same page, skipping
+02:35:27 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 800, 'h': 513, 'sx': 0, 'sy': 0, 'pw': 800, 'ph': 3245}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124747901/7kgra2tq?key=3a8a65b4&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124747945/wydfncpg?key=78f528b6&from=dashboard.click&prioritized=1"},{"text":"Take Survey","href":"https://surveys.gobra
+02:35:27 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124747901/7kgra2tq?key=3a8a65b4&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/
+02:35:27 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+02:35:44 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_URL: https://surveys.gobranded.com/users/dashboard
+NAV_TEXT: Skip to content
+Menu
+
+🧩 Start Your Travel Town Adventure 🧩
+
+Relax, discover new items, and earn up t
+NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/members/oq
+RESULT: still_on_dashboard
+
+02:35:44 [WARNING] survey_agent.orchestrator: [Session 0] Survey 5 failed: Survey link redirected to dashboard — survey unavailable
+02:35:47 [INFO] survey_agent.browser.harness_backend: Leaving Chrome running (pid=78104) for session persistence
+Done: 0 surveys, 0 questions, 5 errors

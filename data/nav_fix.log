@@ -1,0 +1,126 @@
+Survey Agent
+  Provider: openai-compatible (OpenAI-Compatible (newapi, freellmapi, mimo, 
+etc.))
+  Model: MiniMax-M3
+  Sites: branded-surveys
+  Backend: browser-harness
+  Browser: headed
+
+Using your real Chrome browser. Make sure Chrome is open.
+
+01:47:44 [INFO] survey_agent.orchestrator: Starting agent for Branded Surveys...
+01:47:45 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=9333 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent --no-first-run
+01:47:46 [INFO] survey_agent.browser.harness_backend: Chrome window kept visible for screenshot access
+01:47:49 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'about:blank', 'title': '', 'w': 800, 'h': 513, 'sx': 0, 'sy': 0, 'pw': 
+01:47:50 [INFO] survey_agent.browser.harness_backend: Tab cleanup: CLEANED: 1 tabs
+01:47:50 [INFO] survey_agent.orchestrator: [Session 0] Starting on Branded Surveys
+01:47:55 [INFO] survey_agent.orchestrator: [Session 0] Logged in
+01:47:59 [INFO] survey_agent.orchestrator: [Session 0] Initial balance: 20
+01:48:04 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 800, 'h': 513, 'sx': 0, 'sy': 0, 'pw': 800, 'ph': 3265}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124673425/aq6dgupk?key=e56d795b&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124744785/3b724h5j?key=62fe9a4b&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surve
+01:48:04 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124673425/aq6dgupk?key=e56d795b&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/
+01:48:04 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+01:48:16 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_RESULT: no_links
+URL: about:blank
+RESULT: navigated
+
+01:48:17 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+01:48:23 [INFO] survey_agent.browser.harness_backend: Page 1: 0 chars text, url=about:blank
+01:48:24 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+01:48:30 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+01:48:30 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): []
+01:48:30 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: []
+01:48:30 [WARNING] survey_agent.browser.harness_backend: LLM empty on page 1 — deterministic fallback
+01:48:31 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): RESULT: no_next_button
+
+01:48:44 [INFO] survey_agent.browser.harness_backend: Page 2: 0 chars text, url=about:blank
+01:48:44 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+01:48:47 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+01:48:47 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): []
+01:48:47 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: []
+01:48:47 [WARNING] survey_agent.browser.harness_backend: LLM empty on page 2 — deterministic fallback
+01:48:47 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): RESULT: no_next_button
+
+01:49:00 [INFO] survey_agent.browser.harness_backend: Page 3: 0 chars text, url=about:blank
+01:49:00 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+01:49:04 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+01:49:04 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): []
+01:49:04 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: []
+01:49:04 [WARNING] survey_agent.browser.harness_backend: LLM empty on page 3 — deterministic fallback
+01:49:05 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): RESULT: no_next_button
+
+01:49:17 [INFO] survey_agent.browser.harness_backend: Page stuck — refreshing page
+01:49:27 [WARNING] survey_agent.browser.harness_backend: Stuck on same page after refresh — skipping survey
+01:49:27 [WARNING] survey_agent.orchestrator: [Session 0] Survey 1 failed: Stuck on same page, skipping
+01:49:34 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 800, 'h': 513, 'sx': 0, 'sy': 0, 'pw': 800, 'ph': 3245}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_router/124740833?key=4d74f1f4&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_router/124740833?key=4d74f1f4&from=dashboard.click"}]
+RESULT: discover_complete
+
+01:49:34 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_router/124740833?key=4d74f1f4&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_ro
+01:49:34 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+01:49:46 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_RESULT: no_links
+URL: about:blank
+RESULT: navigated
+
+01:49:47 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+01:49:53 [INFO] survey_agent.browser.harness_backend: Page 1: 0 chars text, url=about:blank
+01:49:53 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+01:49:55 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+01:49:55 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): []
+01:49:55 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: []
+01:49:55 [WARNING] survey_agent.browser.harness_backend: LLM empty on page 1 — deterministic fallback
+01:49:55 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): RESULT: no_next_button
+
+01:50:08 [INFO] survey_agent.browser.harness_backend: Page 2: 0 chars text, url=about:blank
+01:50:08 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+01:50:10 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+01:50:10 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): []
+01:50:10 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: []
+01:50:10 [WARNING] survey_agent.browser.harness_backend: LLM empty on page 2 — deterministic fallback
+01:50:10 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): RESULT: no_next_button
+
+01:50:23 [INFO] survey_agent.browser.harness_backend: Page 3: 0 chars text, url=about:blank
+01:50:23 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+01:50:26 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+01:50:26 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): []
+01:50:26 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: []
+01:50:26 [WARNING] survey_agent.browser.harness_backend: LLM empty on page 3 — deterministic fallback
+01:50:26 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): RESULT: no_next_button
+
+01:50:39 [INFO] survey_agent.browser.harness_backend: Page stuck — refreshing page
+01:50:49 [WARNING] survey_agent.browser.harness_backend: Stuck on same page after refresh — skipping survey
+01:50:49 [WARNING] survey_agent.orchestrator: [Session 0] Survey 2 failed: Stuck on same page, skipping
+01:50:57 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 800, 'h': 513, 'sx': 0, 'sy': 0, 'pw': 800, 'ph': 3265}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_router/124740833?key=4d74f1f4&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_router/124740833?key=4d74f1f4&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/p
+01:50:57 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_router/124740833?key=4d74f1f4&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_ro
+01:50:57 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+01:51:09 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_RESULT: no_links
+URL: about:blank
+RESULT: navigated
+
+01:51:09 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+01:51:16 [INFO] survey_agent.browser.harness_backend: Page 1: 0 chars text, url=about:blank
+01:51:16 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+01:51:19 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+01:51:19 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): []
+01:51:19 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: []
+01:51:19 [WARNING] survey_agent.browser.harness_backend: LLM empty on page 1 — deterministic fallback
+01:51:19 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): RESULT: no_next_button
+
+01:51:32 [INFO] survey_agent.browser.harness_backend: Page 2: 0 chars text, url=about:blank
+01:51:32 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+01:51:36 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+01:51:36 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): []
+01:51:36 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: []
+01:51:36 [WARNING] survey_agent.browser.harness_backend: LLM empty on page 2 — deterministic fallback
+01:51:36 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): RESULT: no_next_button
+

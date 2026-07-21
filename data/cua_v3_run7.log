@@ -1,0 +1,78 @@
+07:11:53 [INFO] CUA Survey Agent v3 starting
+07:11:53 [INFO] Dashboard Chrome: pid=55790 wid=38916
+07:12:03 [INFO] Initial balance: 151
+07:12:03 [INFO] 
+=== Cycle 1: 8 surveys ===
+07:12:03 [INFO] 
+--- Survey 1/8 ---
+07:12:14 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124868193/mj8p4cy1?key=32f0a245&from=d
+07:12:31 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124868193/mj8p4cy1?key=32f0a245&from=
+07:12:44 [INFO] [Page 1] PureSpectrum | 335 chars | https://screener.purespectrum.com/?survey_id=50808739&suppli
+07:13:21 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:13:21 [INFO]   LLM: 2 answers for 2 inputs
+07:13:30 [INFO] [Page 2] PureSpectrum | 262 chars | https://screener.purespectrum.com/?survey_id=50808739&suppli
+07:13:59 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:13:59 [INFO]   LLM: 2 answers for 2 inputs
+07:14:08 [INFO] [Page 3] PureSpectrum | 262 chars | https://screener.purespectrum.com/?survey_id=50808739&suppli
+07:14:52 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:14:52 [INFO]   LLM: 0 answers for 2 inputs
+07:15:00 [INFO] [Page 4] PureSpectrum | 262 chars | https://screener.purespectrum.com/?survey_id=50808739&suppli
+07:15:38 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:15:38 [INFO]   LLM: 2 answers for 2 inputs
+07:15:47 [WARNING] Stuck on same page for 3 iterations
+07:15:47 [INFO] Closing survey window
+07:15:50 [INFO] Survey 1 not completed
+07:16:00 [INFO] Pausing 6 seconds...
+07:16:06 [INFO] 
+--- Survey 2/8 ---
+07:16:19 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124871173/m9rbz4gh?key=4dca24f7&from=d
+07:16:37 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124871173/m9rbz4gh?key=4dca24f7&from=
+07:16:52 [INFO] [Page 1] Quest Mindshare Participant Experience | 3243 chars | https://www.samplicio.us/s/RespondentAuthentication.aspx?SID
+07:16:53 [INFO] Consent page detected, clicking agree
+07:17:08 [INFO] [Page 2] Quest Mindshare Participant Experience | 643 chars | https://insights.questmindshare.com/?id=6a43b3af-f497-19ec-6
+07:17:08 [INFO] SURVEY COMPLETED!
+07:17:08 [INFO] Closing survey window
+07:17:12 [INFO] Survey 2 completed! (1 total)
+07:17:21 [INFO] Pausing 3 seconds...
+07:17:24 [INFO] 
+--- Survey 3/8 ---
+07:17:36 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124871177/harugmys?key=3a68fe98&from=d
+07:17:53 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124871177/harugmys?key=3a68fe98&from=
+07:18:07 [INFO] [Page 1] Branded Surveys | Users | 2658 chars | https://surveys.gobranded.com/members/3348786921
+07:18:07 [INFO] Disqualified
+07:18:07 [INFO] Closing survey window
+07:18:11 [INFO] Survey 3 not completed
+07:18:20 [INFO] Pausing 7 seconds...
+07:18:27 [INFO] 
+--- Survey 4/8 ---
+07:18:39 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124867493/s5cz37kx?key=7a00501f&from=d
+07:18:56 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124867493/s5cz37kx?key=7a00501f&from=
+07:19:10 [INFO] [Page 1] Go | 429 chars | https://r.mintvine.com/go/124867493-7a00501f/?pid=43&uid=124
+07:19:21 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:19:21 [INFO]   LLM: 1 answers for 9 inputs
+07:19:29 [INFO] [Page 2] Go | 429 chars | https://r.mintvine.com/go/124867493-7a00501f/?pid=43&uid=124
+07:19:37 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:19:37 [INFO]   LLM: 1 answers for 9 inputs
+07:19:45 [INFO] [Page 3] Go | 429 chars | https://r.mintvine.com/go/124867493-7a00501f/?pid=43&uid=124
+07:19:53 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:19:53 [INFO]   LLM: 1 answers for 9 inputs
+07:20:00 [WARNING] Stuck on same page for 3 iterations
+07:20:00 [INFO] Closing survey window
+07:20:03 [INFO] Survey 4 not completed
+07:20:12 [INFO] Pausing 3 seconds...
+07:20:15 [INFO] 
+--- Survey 5/8 ---
+07:20:27 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124871517/vt7fubgq?key=5c65cd5e&from=d
+07:20:44 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124871517/vt7fubgq?key=5c65cd5e&from=
+07:20:58 [INFO] [Page 1] Branded Surveys | Users | 2561 chars | https://surveys.gobranded.com/members/oq
+07:20:58 [INFO] Never reached survey page
+07:20:58 [INFO] Closing survey window
+07:21:01 [INFO] Survey 5 not completed
+07:21:10 [INFO] Pausing 6 seconds...
+07:21:16 [INFO] 
+--- Survey 6/8 ---
+07:21:28 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124871673/ubxde3m1?key=a7377365&from=d
+07:21:45 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124871673/ubxde3m1?key=a7377365&from=
+07:21:59 [INFO] [Page 1] PureSpectrum | 348 chars | https://screener.purespectrum.com/?survey_id=50810580&suppli
+07:22:42 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:22:42 [INFO]   LLM: 2 answers for 1 inputs

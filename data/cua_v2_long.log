@@ -1,0 +1,84 @@
+21:03:03 [INFO] CUA Survey Agent starting
+21:03:03 [INFO] Found Chrome: pid=55790 wid=25253
+21:03:10 [INFO] Initial balance: 149
+21:03:10 [INFO] 
+=== Survey 1 ===
+21:03:21 [WARNING] No survey links found on dashboard
+21:03:21 [INFO] Survey 1 not completed
+21:03:28 [INFO] Pausing 5 seconds...
+21:03:33 [INFO] 
+=== Survey 2 ===
+21:03:43 [WARNING] No survey links found on dashboard
+21:03:43 [INFO] Survey 2 not completed
+21:03:49 [INFO] Pausing 5 seconds...
+21:03:54 [INFO] 
+=== Survey 3 ===
+21:04:06 [WARNING] No survey links found on dashboard
+21:04:06 [INFO] Survey 3 not completed
+21:04:12 [INFO] Pausing 5 seconds...
+21:04:17 [INFO] 
+=== Survey 4 ===
+21:04:28 [INFO] Clicking survey at (499, 782)
+21:04:41 [INFO] [Page 1] 🐴 Branded Surveys | Users | 1264 chars | https://surveys.gobranded.com/users/dashboard
+21:04:55 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+21:04:55 [WARNING] LLM error: Expecting value: line 1 column 2 (char 1)
+21:04:55 [INFO]   LLM: 0 answers for 3 inputs
+21:05:05 [INFO] [Page 2] 🐴 Branded Surveys | Users | 2194 chars | https://surveys.gobranded.com/users/dashboard
+21:05:05 [INFO] Redirected to dashboard — survey done
+21:05:05 [INFO] Survey 4 completed! (points pending)
+21:05:11 [INFO] Pausing 5 seconds...
+21:05:16 [INFO] 
+=== Survey 5 ===
+21:05:26 [INFO] Clicking survey at (499, 782)
+21:05:42 [INFO] [Page 1] 🐴 FusionScreener | 21 chars | https://fusion.spectrumsurveys.com/start-session/440US0032?l
+21:05:55 [INFO] [Page 2] 🐴 FusionScreener | 212 chars | https://fusion.spectrumsurveys.com/partialScreener?localizat
+21:06:08 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+21:06:08 [INFO]   LLM: 1 answers for 6 inputs
+21:06:17 [INFO] [Page 3] 🐴 FusionScreener | 241 chars | https://fusion.spectrumsurveys.com/partialScreener?localizat
+21:06:30 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+21:06:30 [INFO]   LLM: 0 answers for 8 inputs
+21:06:44 [INFO] [Page 4] 🐴 FusionScreener | 106 chars | https://fusion.spectrumsurveys.com/partialScreener?localizat
+21:07:04 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+21:07:04 [INFO]   LLM: 1 answers for 4 inputs
+21:07:32 [ERROR] Survey 5 error: Command '['cua-driver', 'call', 'page', '{"action": "execute_javascript", "pid": 55790, "window_id": 25253, "bundle_id": "com.google.Chrome", "javascript": "document.title"}']' timed out after 15 seconds
+21:07:40 [INFO] Pausing 5 seconds...
+21:07:45 [INFO] 
+=== Survey 6 ===
+21:07:58 [WARNING] No survey links found on dashboard
+21:07:58 [INFO] Survey 6 not completed
+21:08:05 [INFO] Pausing 5 seconds...
+21:08:10 [INFO] 
+=== Survey 7 ===
+21:08:22 [WARNING] No survey links found on dashboard
+21:08:22 [INFO] Survey 7 not completed
+21:08:29 [INFO] Pausing 5 seconds...
+21:08:34 [INFO] 
+=== Survey 8 ===
+21:08:48 [WARNING] No survey links found on dashboard
+21:08:48 [INFO] Survey 8 not completed
+21:08:55 [INFO] Pausing 5 seconds...
+21:09:00 [INFO] 
+=== Survey 9 ===
+21:09:12 [WARNING] No survey links found on dashboard
+21:09:12 [INFO] Survey 9 not completed
+21:09:19 [INFO] Pausing 5 seconds...
+21:09:24 [INFO] 
+=== Survey 10 ===
+21:09:34 [ERROR] Not logged in
+21:09:34 [INFO] Survey 10 not completed
+21:09:40 [INFO] Pausing 5 seconds...
+21:09:45 [INFO] 
+=== Survey 11 ===
+21:09:56 [INFO] Clicking survey at (499, 601)
+21:10:06 [INFO] Switched to survey window: pid=54905 wid=26616
+21:10:16 [INFO] [Page 1] 🐴 Branded Surveys | Users | 1175 chars | 
+21:10:41 [INFO] [Page 2] Surveys - Begin | 1360 chars | 
+21:11:08 [INFO] [Page 3] 🐴 Surveys - Qualify | 2923 chars | 
+21:11:36 [INFO] [Page 4] 🐴 Branded Surveys | Users | 2926 chars | 
+21:12:02 [INFO] [Page 5] 🐴 Branded Surveys | Users | 1166 chars | 
+21:12:47 [WARNING] Page empty 3 times — giving up
+21:12:47 [INFO] Survey 11 not completed
+21:12:53 [INFO] EARNED 1 POINTS! Balance: 149 -> 150
+21:12:53 [INFO] Pausing 5 seconds...
+21:12:58 [INFO] 
+=== Survey 12 ===

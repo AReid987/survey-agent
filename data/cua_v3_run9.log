@@ -1,0 +1,153 @@
+07:47:03 [INFO] CUA Survey Agent v3 starting
+07:47:03 [INFO] Dashboard Chrome: pid=55790 wid=39144
+07:47:12 [INFO] Initial balance: 151
+07:47:12 [INFO] 
+=== Cycle 1: 9 surveys ===
+07:47:12 [INFO] 
+--- Survey 1/9 ---
+07:47:24 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124871597/cfy53216?key=18030701&from=d
+07:47:42 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124871597/cfy53216?key=18030701&from=
+07:47:58 [INFO] [Page 1] Survey Intro Page | Survey progress 0% | | 89 chars | https://survey.savanta.com/?&id=99b8e693c7&id2=5a2fcb9c&lng=
+07:48:13 [INFO] [Page 2] Survey Question Page | Survey progress 2 | 1062 chars | https://survey.savanta.com/?&id=99b8e693c7&id2=5a2fcb9c&lng=
+07:48:19 [INFO]   Groups: 9 questions from 16 raw inputs
+07:48:19 [INFO]     RADIO_GROUP start_index=0 options=[{"i":0,"label":"Female"},{"i":1,"label":"Male"},{"i":2,"label":"I
+07:48:19 [INFO]     RADIO_GROUP start_index=4 options=[{"i":4,"label":"No"},{"i":5,"label":"Yes, they are all under 10 y
+07:48:19 [INFO]     RADIO_GROUP start_index=8 options=[{"i":8,"label":"No - None of these"}]
+07:48:19 [INFO]     RADIO_GROUP start_index=9 options=[{"i":9,"label":"Yes"},{"i":10,"label":"No"}]
+07:48:19 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"Yes - Over 18 years old, living at home and st
+07:48:19 [INFO]     CHECKBOX_GROUP start_index=1 options=[{"i":1,"label":"Yes - Over 18 years old living at home but not
+07:48:19 [INFO]     CHECKBOX_GROUP start_index=2 options=[{"i":2,"label":"Yes - Over 18 years old, not living at home bu
+07:48:19 [INFO]     CHECKBOX_GROUP start_index=3 options=[{"i":3,"label":"Yes - Over 18 years old not living at home and
+07:48:19 [INFO]     TEXT index=0 label='How old are you?Please type in the box below'
+07:49:07 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:49:07 [INFO]   LLM: 0 answers for 9 questions
+07:49:17 [INFO] [Page 3] Survey Question Page | Survey progress 2 | 1062 chars | https://survey.savanta.com/?&id=99b8e693c7&id2=5a2fcb9c&lng=
+07:49:23 [INFO]   Groups: 9 questions from 16 raw inputs
+07:49:23 [INFO]     RADIO_GROUP start_index=0 options=[{"i":0,"label":"Female"},{"i":1,"label":"Male"},{"i":2,"label":"I
+07:49:23 [INFO]     RADIO_GROUP start_index=4 options=[{"i":4,"label":"No"},{"i":5,"label":"Yes, they are all under 10 y
+07:49:23 [INFO]     RADIO_GROUP start_index=8 options=[{"i":8,"label":"No - None of these"}]
+07:49:23 [INFO]     RADIO_GROUP start_index=9 options=[{"i":9,"label":"Yes"},{"i":10,"label":"No"}]
+07:49:23 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"Yes - Over 18 years old, living at home and st
+07:49:23 [INFO]     CHECKBOX_GROUP start_index=1 options=[{"i":1,"label":"Yes - Over 18 years old living at home but not
+07:49:23 [INFO]     CHECKBOX_GROUP start_index=2 options=[{"i":2,"label":"Yes - Over 18 years old, not living at home bu
+07:49:23 [INFO]     CHECKBOX_GROUP start_index=3 options=[{"i":3,"label":"Yes - Over 18 years old not living at home and
+07:49:23 [INFO]     TEXT index=0 label='How old are you?Please type in the box below'
+07:49:52 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:49:52 [INFO]   LLM: 5 answers for 9 questions
+07:50:04 [INFO] [Page 4] Survey Question Page | Survey progress 2 | 1062 chars | https://survey.savanta.com/?&id=99b8e693c7&id2=5a2fcb9c&lng=
+07:50:11 [INFO]   Groups: 9 questions from 16 raw inputs
+07:50:11 [INFO]     RADIO_GROUP start_index=0 options=[{"i":0,"label":"Female"},{"i":1,"label":"Male"},{"i":2,"label":"I
+07:50:11 [INFO]     RADIO_GROUP start_index=4 options=[{"i":4,"label":"No"},{"i":5,"label":"Yes, they are all under 10 y
+07:50:11 [INFO]     RADIO_GROUP start_index=8 options=[{"i":8,"label":"No - None of these"}]
+07:50:11 [INFO]     RADIO_GROUP start_index=9 options=[{"i":9,"label":"Yes"},{"i":10,"label":"No"}]
+07:50:11 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"Yes - Over 18 years old, living at home and st
+07:50:11 [INFO]     CHECKBOX_GROUP start_index=1 options=[{"i":1,"label":"Yes - Over 18 years old living at home but not
+07:50:11 [INFO]     CHECKBOX_GROUP start_index=2 options=[{"i":2,"label":"Yes - Over 18 years old, not living at home bu
+07:50:11 [INFO]     CHECKBOX_GROUP start_index=3 options=[{"i":3,"label":"Yes - Over 18 years old not living at home and
+07:50:11 [INFO]     TEXT index=0 label='How old are you?Please type in the box below'
+07:50:49 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:50:49 [INFO]   LLM: 0 answers for 9 questions
+07:51:00 [WARNING] Stuck on same page for 3 iterations
+07:51:00 [INFO] Closing survey window
+07:51:03 [INFO] Survey 1 not completed
+07:51:12 [INFO] Pausing 8 seconds...
+07:51:20 [INFO] 
+--- Survey 2/9 ---
+07:51:32 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124873413/u4kf9c61?key=358201ba&from=d
+07:51:49 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124873413/u4kf9c61?key=358201ba&from=
+07:52:03 [INFO] [Page 1] Branded Surveys | Users | 2541 chars | https://surveys.gobranded.com/members/oq
+07:52:03 [INFO] Never reached survey page
+07:52:03 [INFO] Closing survey window
+07:52:06 [INFO] Survey 2 not completed
+07:52:15 [INFO] Pausing 7 seconds...
+07:52:22 [INFO] 
+--- Survey 3/9 ---
+07:52:34 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124873369/vdtr5bzu?key=09d4e12b&from=d
+07:52:51 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124873369/vdtr5bzu?key=09d4e12b&from=
+07:53:00 [INFO] Consent page detected, clicking agree
+07:53:10 [INFO] [Page 1] Survey Offer | 128 chars | https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+07:53:11 [INFO] Consent page detected, clicking agree
+07:53:29 [INFO] [Page 2] Survey Offer | 128 chars | https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+07:53:30 [INFO] Consent page detected, clicking agree
+07:53:48 [INFO] [Page 3] Survey Offer | 128 chars | https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+07:53:49 [INFO] Consent page detected, clicking agree
+07:54:07 [WARNING] Stuck on same page for 3 iterations
+07:54:07 [INFO] Closing survey window
+07:54:10 [INFO] Survey 3 not completed
+07:54:19 [INFO] Pausing 6 seconds...
+07:54:25 [INFO] 
+--- Survey 4/9 ---
+07:54:37 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124873277/wx6zhube?key=eb40c980&from=d
+07:54:54 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124873277/wx6zhube?key=eb40c980&from=
+07:55:09 [INFO] [Page 1] PureSpectrum | 321 chars | https://screener.purespectrum.com/?survey_id=50811136&suppli
+07:55:16 [INFO]   Groups: 2 questions from 2 raw inputs
+07:55:16 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"on"}]
+07:55:16 [INFO]     TEXT index=0 label='Type your answer here...'
+07:55:42 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:55:42 [INFO]   LLM: 2 answers for 2 questions
+07:55:53 [INFO] [Page 2] PureSpectrum | 63 chars | https://screener.purespectrum.com/?survey_id=50811136&suppli
+07:55:54 [INFO] Text CAPTCHA detected
+07:55:55 [WARNING] Could not read CAPTCHA
+07:56:00 [INFO]   Groups: 2 questions from 2 raw inputs
+07:56:00 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"on"}]
+07:56:00 [INFO]     TEXT index=0 label='text_0'
+07:56:07 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:56:07 [INFO]   LLM: 2 answers for 2 questions
+07:56:17 [INFO] [Page 3] PureSpectrum | 63 chars | https://screener.purespectrum.com/?survey_id=50811136&suppli
+07:56:18 [INFO] Text CAPTCHA detected
+07:56:36 [INFO] CAPTCHA read: 'HBLKB'
+07:56:44 [WARNING] Stuck on same page for 3 iterations
+07:56:44 [INFO] Closing survey window
+07:56:47 [INFO] Survey 4 not completed
+07:56:56 [INFO] Pausing 3 seconds...
+07:56:59 [INFO] 
+--- Survey 5/9 ---
+07:57:11 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124873409/jaqcevxk?key=859fff5d&from=d
+07:57:28 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124873409/jaqcevxk?key=859fff5d&from=
+07:57:43 [INFO] [Page 1] Branded Surveys | Users | 2516 chars | https://surveys.gobranded.com/members/oq
+07:57:43 [INFO] Never reached survey page
+07:57:43 [INFO] Closing survey window
+07:57:46 [INFO] Survey 5 not completed
+07:57:55 [INFO] Pausing 4 seconds...
+07:57:59 [INFO] 
+--- Survey 6/9 ---
+07:58:11 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124873341/r1jdacn5?key=c2424f1b&from=d
+07:58:29 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124873341/r1jdacn5?key=c2424f1b&from=
+07:58:45 [INFO] [Page 1] PureSpectrum | 348 chars | https://screener.purespectrum.com/?survey_id=50809908&suppli
+07:58:52 [INFO]   Groups: 2 questions from 2 raw inputs
+07:58:52 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"on"}]
+07:58:52 [INFO]     TEXT index=0 label='Type your answer here...'
+07:59:27 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:59:27 [INFO]   LLM: 2 answers for 2 questions
+07:59:37 [INFO] [Page 2] PureSpectrum | 63 chars | https://screener.purespectrum.com/?survey_id=50809908&suppli
+07:59:39 [INFO] Text CAPTCHA detected
+07:59:43 [INFO] CAPTCHA read: 'YGTGA4'
+07:59:51 [INFO] [Page 3] PureSpectrum | 71 chars | https://screener.purespectrum.com/?survey_id=50809908&suppli
+07:59:57 [INFO]   Groups: 1 questions from 1 raw inputs
+07:59:57 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"on"}]
+08:00:04 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+08:00:04 [INFO]   LLM: 1 answers for 1 questions
+08:00:14 [WARNING] Stuck on same page for 3 iterations
+08:00:14 [INFO] Closing survey window
+08:00:17 [INFO] Survey 6 not completed
+08:00:26 [INFO] Pausing 3 seconds...
+08:00:29 [INFO] 
+--- Survey 7/9 ---
+08:00:42 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124873429/r14xatcn?key=ef5015e9&from=d
+08:00:59 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124873429/r14xatcn?key=ef5015e9&from=
+08:01:14 [INFO] [Page 1] PureSpectrum | 168 chars | https://screener.purespectrum.com/?survey_id=50811125&suppli
+08:01:21 [INFO]   Groups: 2 questions from 9 raw inputs
+08:01:21 [INFO]     RADIO_GROUP start_index=0 options=[{"i":0,"label":"Farm"},{"i":1,"label":"Living with parents"},{"i"
+08:01:21 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"on"}]
+08:01:35 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+08:01:35 [INFO]   LLM: 2 answers for 2 questions
+08:01:45 [INFO] [Page 2] PureSpectrum | 336 chars | https://screener.purespectrum.com/?survey_id=50811125&suppli
+08:01:51 [INFO]   Groups: 2 questions from 2 raw inputs
+08:01:51 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"on"}]
+08:01:51 [INFO]     TEXT index=0 label='Type your answer here...'
+08:02:39 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+08:02:39 [INFO]   LLM: 0 answers for 2 questions
+08:02:48 [INFO] [Page 3] PureSpectrum | 336 chars | https://screener.purespectrum.com/?survey_id=50811125&suppli
+08:02:54 [INFO]   Groups: 2 questions from 2 raw inputs
+08:02:54 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"on"}]
+08:02:54 [INFO]     TEXT index=0 label='Type your answer here...'

@@ -1,0 +1,104 @@
+10:20:22 [INFO] CUA Survey Agent v5 starting
+10:20:22 [INFO] Profile: /Users/antonioreid/survey-agent/data/profile.json (0% complete)
+10:20:22 [INFO] Profile loaded: 100.0
+10:20:22 [INFO] 
+## Demographics
+  Age: 39
+  Gender: Male
+  Ethnicity: Black/African American
+  Marital Status: Domestic partnership
+  ZIP Code: 78736
+  State: TX
+  City: Austin
+  Country: US
+
+## Employment
+  Employment Status: Self-employed
+  Industry: Technology
+  Job Title: Founder/CTO
+  Company Size: 1-10
+  Years of Experience: 8
+  Remote Work: Fully remote
+
+## Income & Finance
+  Household Income Range: $50,000-$74,999
+  Personal Income Range: $50,000-$74,999
+  Credit Score Range: Poor
+  Housing: Rent
+
+## E
+10:20:22 [INFO] Answer history: 44 previous answers
+10:20:22 [INFO] Dashboard Chrome: pid=95764 wid=51105
+10:20:32 [INFO] Initial balance: 153
+10:20:32 [INFO] 
+=== Cycle 1: 11 surveys ===
+10:20:32 [INFO] 
+--- Survey 1/11 ---
+10:20:43 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/125032621/y8ukp5q9?key=b8b5272a&from=d
+10:20:52 [INFO] Extracted take URL: https://surveys.gobranded.com/surveys/take/125032621/y8ukp5q9?key=b8b5272a&from=
+10:21:09 [INFO] [Page 1] PureSpectrum | 332 chars | https://screener.purespectrum.com/?survey_id=50859407&suppli
+10:21:11 [INFO]   Cleaned text: 318 chars (from 332)
+10:21:53 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+10:21:53 [INFO]   LLM: 2 answers, 0 unknowns
+10:21:56 [INFO]   Submit: clicked:next
+10:22:03 [INFO] Iframe survey (1 iframes, 63 chars), skipping
+10:22:03 [INFO] Navigating back to dashboard
+10:22:06 [INFO] Survey 1 not completed
+10:22:22 [INFO] 
+--- Survey 2/11 ---
+10:22:34 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/124968269/egh3bf7s?key=adf65c6c&from=d
+10:22:43 [INFO] Extracted take URL: https://surveys.gobranded.com/surveys/take/124968269/egh3bf7s?key=adf65c6c&from=
+10:23:00 [INFO] [Page 1] PureSpectrum | 341 chars | https://screener.purespectrum.com/?survey_id=50839244&suppli
+10:23:01 [INFO]   Cleaned text: 327 chars (from 341)
+10:23:44 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+10:23:44 [INFO]   LLM: 0 answers, 0 unknowns
+10:23:46 [INFO]   Submit: clicked:next
+10:23:53 [INFO] [Page 2] PureSpectrum | 341 chars | https://screener.purespectrum.com/?survey_id=50839244&suppli
+10:23:54 [INFO]   Cleaned text: 327 chars (from 341)
+10:24:41 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+10:24:41 [INFO]   LLM: 0 answers, 0 unknowns
+10:24:44 [INFO]   Submit: clicked:next
+10:24:50 [INFO] [Page 3] PureSpectrum | 341 chars | https://screener.purespectrum.com/?survey_id=50839244&suppli
+10:24:52 [INFO]   Cleaned text: 327 chars (from 341)
+10:25:36 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+10:25:36 [INFO]   LLM: 0 answers, 0 unknowns
+10:25:38 [INFO]   Submit: clicked:next
+10:25:45 [INFO] [Page 4] PureSpectrum | 341 chars | https://screener.purespectrum.com/?survey_id=50839244&suppli
+10:25:46 [INFO]   Cleaned text: 327 chars (from 341)
+10:26:34 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+10:26:34 [INFO]   LLM: 0 answers, 0 unknowns
+10:26:36 [INFO]   Submit: clicked:next
+10:26:43 [INFO] [Page 5] PureSpectrum | 341 chars | https://screener.purespectrum.com/?survey_id=50839244&suppli
+10:26:44 [INFO]   Cleaned text: 327 chars (from 341)
+10:27:30 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+10:27:30 [INFO]   LLM: 0 answers, 0 unknowns
+10:27:32 [INFO]   Submit: clicked:next
+10:27:38 [WARNING] Stuck on same page for 5 iterations
+10:27:38 [INFO] Navigating back to dashboard
+10:27:42 [INFO] Survey 2 not completed
+10:27:59 [INFO] 
+--- Survey 3/11 ---
+10:28:11 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/124867277/br6e29ta?key=12915cc7&from=d
+10:28:19 [INFO] Extracted take URL: https://surveys.gobranded.com/surveys/take/124867277/br6e29ta?key=12915cc7&from=
+10:28:36 [INFO] Iframe survey (1 iframes, 131 chars), skipping
+10:28:36 [INFO] Navigating back to dashboard
+10:28:39 [INFO] Survey 3 not completed
+10:28:56 [INFO] 
+--- Survey 4/11 ---
+10:29:07 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/125037373/95ekwazh?key=37375b62&from=d
+10:29:16 [INFO] No take URL found, clicking btn-continue
+10:29:32 [INFO] [Page 1] Branded Surveys | Users | 2556 chars | https://surveys.gobranded.com/members/oq
+10:29:32 [INFO] Never reached survey page
+10:29:32 [INFO] Navigating back to dashboard
+10:29:35 [INFO] Survey 4 not completed
+10:29:48 [INFO] 
+--- Survey 5/11 ---
+10:30:00 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/124985125/mt91f5c8?key=a68ff856&from=d
+10:30:09 [INFO] Extracted take URL: https://surveys.gobranded.com/surveys/take/124985125/mt91f5c8?key=a68ff856&from=
+10:30:26 [INFO] [Page 1] PureSpectrum | 338 chars | https://screener.purespectrum.com/?survey_id=50843513&suppli
+10:30:27 [INFO]   Cleaned text: 324 chars (from 338)
+10:31:13 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+10:31:13 [INFO]   LLM: 0 answers, 0 unknowns
+10:31:16 [INFO]   Submit: clicked:next
+10:31:22 [INFO] [Page 2] PureSpectrum | 338 chars | https://screener.purespectrum.com/?survey_id=50843513&suppli
+10:31:24 [INFO]   Cleaned text: 324 chars (from 338)

@@ -3,35 +3,13 @@ name = "survey-agent"
 version = "0.1.0"
 description = "Agent-driven survey automation system"
 requires-python = ">=3.11"
-dependencies = [
-    "playwright>=1.49.0",
-    "playwright-stealth>=2.0.0",
-    "keyring>=25.0.0",
-    "pydantic>=2.10.0",
-    "httpx>=0.27.0",
-    "Pillow>=10.0.0",
-    "typer>=0.12.0",
-    "pyyaml>=6.0",
-    "rich>=13.0.0",
-    "browser-use>=0.13.1",
-    "langchain-google-genai>=4.2.5",
-    "langchain-mistralai>=1.1.5",
-]
-
-[project.optional-dependencies]
-dev = [
-    "pytest>=8.0.0",
-    "pytest-asyncio>=0.24.0",
-    "pytest-cov>=5.0.0",
-    "ruff>=0.6.0",
-    "pylint>=3.2.0",
-    "mypy>=1.11.0",
-    "bandit>=1.7.9",
-    "vulture>=2.11",
-]
+dependencies = ["playwright==1.51.0", "playwright-stealth>=2.0.3", "keyring>=25.0.0", "pydantic>=2.10.0", "httpx>=0.27.0", "Pillow>=10.0.0", "typer>=0.12.0", "pyyaml>=6.0", "rich>=13.0.0", "browser-use==0.13.6", "langchain-google-genai>=4.2.5", "langchain-mistralai>=1.1.5", "langchain-openai>=1.0.0", "pytesseract>=0.3.13", "camoufox[geoip]>=0.4.11", "greenlet>=3.5.2", "cloakbrowser>=0.4.7", "stagehand"]
 
 [project.scripts]
 survey-agent = "survey_agent.cli:app"
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0", "pytest-asyncio>=0.24.0", "pytest-cov>=5.0.0", "ruff>=0.6.0", "pylint>=3.2.0", "mypy>=1.11.0", "bandit>=1.7.9", "vulture>=2.11"]
 
 [build-system]
 requires = ["pdm-backend"]
@@ -50,20 +28,16 @@ line-length = 120
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "W", "UP", "B", "SIM", "ARG", "PL"]
-ignore = [
-    "PLR2004",
-    "PLR0913",
-    "PLR0911",
-    "PLR0912",
-    "ARG002",
-    "E501",
-]
+ignore = ["PLR2004", "PLR0913", "PLR0911", "PLR0912", "ARG002", "E501"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["PLC0415", "PLR2004"]
 "scripts/**" = ["PLC0415"]
+"survey_agent/browser/_page_reader.py" = ["F821"]
+"survey_agent/browser/harness_backend.py" = ["W605"]
 
 [tool.ruff.format]
+
 [tool.pylint]
 max-line-length = 120
 fail-under = 7.0
@@ -73,11 +47,7 @@ python_version = "3.11"
 warn_unused_configs = true
 strict_optional = true
 ignore_missing_imports = true
-exclude = [
-    "survey_agent/llm_provider.py",
-    "survey_agent/browser/agent_controller.py",
-    "survey_agent/browser/playwright_engine.py",
-]
+exclude = ["survey_agent/llm_provider.py", "survey_agent/browser/agent_controller.py", "survey_agent/browser/playwright_engine.py"]
 
 [tool.bandit]
 skips = ["B101", "B110", "B112", "B311", "B608", "B404", "B405", "B314", "B603", "B607", "B105", "B106"]

@@ -1,0 +1,26 @@
+Survey Agent
+  Provider: openai-compatible (OpenAI-Compatible (newapi, freellmapi, mimo, 
+etc.))
+  Model: MiniMax-M3
+  Sites: branded-surveys
+  Backend: browser-harness
+  Browser: headed
+
+Using your real Chrome browser. Make sure Chrome is open.
+
+00:38:15 [INFO] survey_agent.orchestrator: Starting agent for Branded Surveys...
+00:38:15 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=19340 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent_p8 --no-first-run
+00:38:16 [INFO] survey_agent.browser.harness_backend: Chrome window kept visible for screenshot access
+00:38:22 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Sur
+00:38:26 [INFO] survey_agent.orchestrator: [Session 0] Starting on Branded Surveys
+00:38:40 [INFO] survey_agent.orchestrator: [Session 0] Logged in
+00:38:44 [INFO] survey_agent.orchestrator: [Session 0] Initial balance: 208
+00:38:49 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 1200, 'h': 817, 'sx': 0, 'sy': 0, 'pw': 1200, 'ph': 817}
+SURVEYS_RAW: []
+RESULT: discover_complete
+
+00:38:49 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=False, raw_line preview: []
+00:38:49 [INFO] survey_agent.orchestrator: [Session 0] No more surveys
+00:38:49 [INFO] survey_agent.browser.harness_backend: Leaving Chrome running (pid=67390) for session persistence
+Done: 0 surveys, 0 questions, 0 errors

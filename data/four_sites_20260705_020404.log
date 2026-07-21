@@ -1,0 +1,359 @@
+Survey Agent
+  Provider: openai-compatible (OpenAI-Compatible (newapi, freellmapi, mimo, 
+etc.))
+  Model: MiniMax-M3
+  Sites: branded-surveys, prime-opinion, surveypop, qmee
+  Backend: browser-harness
+  Browser: headed
+
+Using your real Chrome browser. Make sure Chrome is open.
+
+02:04:05 [INFO] survey_agent.orchestrator: Starting agent for Branded Surveys...
+02:04:05 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=19333 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent --no-first-run
+02:04:07 [INFO] survey_agent.browser.harness_backend: Chrome window kept visible for screenshot access
+02:04:10 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'about:blank', 'title': '', 'w': 1200, 'h': 783, 'sx': 0, 'sy': 0, 'pw':
+02:04:10 [INFO] survey_agent.orchestrator: [Session 0] Starting on Branded Surveys
+02:04:25 [INFO] survey_agent.orchestrator: [Session 0] Logged in
+02:04:28 [INFO] survey_agent.orchestrator: [Session 0] Initial balance: 209
+02:04:34 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 1200, 'h': 783, 'sx': 0, 'sy': 0, 'pw': 1200, 'ph': 2828}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/125119985/ny3e8fsp?key=bae593d4&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/125189413/c3w4u2f1?key=6056d8b8&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/sur
+02:04:34 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/125119985/ny3e8fsp?key=bae593d4&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/
+02:04:34 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+02:04:51 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_URL: https://surveys.gobranded.com/users/dashboard
+NAV_TEXT: Skip to content
+Hi, Antonio Reid
+My Dashboard
+My Points
+209
+My Payouts
+Branded Elite
+Leaderboard
+Inv
+NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre/125119985/yc4txgwd?key=bae593d4&from=dashboard.click
+RESULT
+02:05:01 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_take_survey
+
+02:05:10 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_begin_survey
+
+02:05:14 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+02:05:23 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 417 chars (vs 209 DOM chars)
+02:05:23 [INFO] survey_agent.browser.harness_backend: Page 1: 417 chars text, url=https://surveys.jibunu.com/Maps_0321/index.aspx?L=1&id=rev-60532565-7701-57d5-9f
+02:05:24 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+02:05:32 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+02:05:32 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector": "#ButtonCheck_13_1", "value": "", "action": "click"},
+  {"selector": "#BS_CONTINUE_BUTTON", "value": "", "action": "click"}
+]
+02:05:32 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector": "#ButtonCheck_13_1", "value": "", "action": "click"},
+  {"selector": "#BS_CONTINUE_BUTTON", "value": "", "action": "click"}
+]
+02:05:33 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+02:05:33 [INFO] survey_agent.browser.harness_backend: Applied answers on page 1: [{"selector": "#ButtonCheck_13_1", "value": "", "action": "click"}, {"selector": "#BS_CONTINUE_BUTTON", "value": "", "action": "click"}]
+02:05:34 [INFO] survey_agent.browser.harness_backend: Pre-submit: 0
+02:05:35 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:button[type=submit]
+RESULT: next_clicked
+
+02:05:40 [INFO] survey_agent.browser.harness_backend: Form submit fallback: submitted
+02:05:53 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 421 chars (vs 234 DOM chars)
+02:05:53 [INFO] survey_agent.browser.harness_backend: Page 2: 421 chars text, url=https://surveys.jibunu.com/Maps_0321/index.aspx?L=1&id=rev-60532565-7701-57d5-9f
+02:05:53 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+02:05:57 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+02:05:57 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [{"selector": "#ButtonCheck_15_1", "value": "", "action": "click"}]
+02:05:57 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [{"selector": "#ButtonCheck_15_1", "value": "", "action": "click"}]
+02:05:58 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:1/1
+RESULT: answers_applied
+
+02:05:58 [INFO] survey_agent.browser.harness_backend: Applied answers on page 2: [{"selector": "#ButtonCheck_15_1", "value": "", "action": "click"}]
+02:05:59 [INFO] survey_agent.browser.harness_backend: Pre-submit: 0
+02:06:00 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:button[type=submit]
+RESULT: next_clicked
+
+02:06:05 [INFO] survey_agent.browser.harness_backend: Form submit fallback: submitted
+02:06:18 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 380 chars (vs 179 DOM chars)
+02:06:18 [INFO] survey_agent.browser.harness_backend: Content similar (89%) — incrementing stuck counter to 1
+02:06:18 [INFO] survey_agent.browser.harness_backend: Page 3: 380 chars text, url=https://surveys.jibunu.com/Maps_0321/index.aspx?L=1&id=rev-60532565-7701-57d5-9f
+02:06:18 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+02:06:23 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+02:06:23 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+    {"selector": "input[name='Q16_1_1_1']", "value": "39", "action": "fill"},
+    {"selector": "#BS_CONTINUE_BUTTON", "value": "", "action": "click"}
+]
+02:06:23 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+    {"selector": "input[name='Q16_1_1_1']", "value": "39", "action": "fill"},
+    {"selector": "#BS_CONTINUE_BUTTON", "value": "", "action": "click"}
+]
+02:06:23 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+02:06:23 [INFO] survey_agent.browser.harness_backend: Applied answers on page 3: [{"selector": "input[name='Q16_1_1_1']", "value": "39", "action": "fill"}, {"selector": "#BS_CONTINUE_BUTTON", "value": "", "action": "click"}]
+02:06:24 [INFO] survey_agent.browser.harness_backend: Pre-submit: 0
+02:06:26 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:button[type=submit]
+RESULT: next_clicked
+
+02:06:30 [INFO] survey_agent.browser.harness_backend: Form submit fallback: submitted
+02:06:41 [INFO] survey_agent.browser.harness_backend: Page 4: 503 chars text, url=https://surveys.jibunu.com/Maps_0321/index.aspx?L=1&id=rev-60532565-7701-57d5-9f
+02:06:41 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+02:06:45 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+02:06:45 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector": "#ButtonCheck_18_7", "action": "click", "value": ""},
+  {"selector": "#BS_CONTINUE_BUTTON", "action": "click", "value": ""}
+]
+02:06:45 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector": "#ButtonCheck_18_7", "action": "click", "value": ""},
+  {"selector": "#BS_CONTINUE_BUTTON", "action": "click", "value": ""}
+]
+02:06:46 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+02:06:46 [INFO] survey_agent.browser.harness_backend: Applied answers on page 4: [{"selector": "#ButtonCheck_18_7", "action": "click", "value": ""}, {"selector": "#BS_CONTINUE_BUTTON", "action": "click", "value": ""}]
+02:06:46 [INFO] survey_agent.browser.harness_backend: Pre-submit: 0
+02:06:48 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:button[type=submit]
+RESULT: next_clicked
+
+02:06:52 [INFO] survey_agent.browser.harness_backend: Form submit fallback: submitted
+02:06:55 [INFO] survey_agent.browser.harness_backend: Page didn't advance — trying brute-force radio selection
+02:07:09 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 390 chars (vs 190 DOM chars)
+02:07:09 [INFO] survey_agent.browser.harness_backend: Page 5: 390 chars text, url=https://surveys.jibunu.com/Maps_0321/index.aspx?L=1&id=rev-60532565-7701-57d5-9f
+02:07:09 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+02:07:14 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+02:07:14 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector": "input[name='Q19_1_1_1']", "value": "78736", "action": "fill"},
+  {"selector": "#BS_CONTINUE_BUTTON", "value": "", "action": "click"}
+]
+02:07:14 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector": "input[name='Q19_1_1_1']", "value": "78736", "action": "fill"},
+  {"selector": "#BS_CONTINUE_BUTTON", "value": "", "action": "click"}
+]
+02:07:15 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+02:07:15 [INFO] survey_agent.browser.harness_backend: Applied answers on page 5: [{"selector": "input[name='Q19_1_1_1']", "value": "78736", "action": "fill"}, {"selector": "#BS_CONTINUE_BUTTON", "value": "", "action": "click"}]
+02:07:16 [INFO] survey_agent.browser.harness_backend: Pre-submit: 1
+02:07:17 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:button[type=submit]
+RESULT: next_clicked
+
+02:07:22 [INFO] survey_agent.browser.harness_backend: Form submit fallback: submitted
+02:07:25 [INFO] survey_agent.browser.harness_backend: Page didn't advance — trying brute-force radio selection
+02:07:39 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 441 chars (vs 269 DOM chars)
+02:07:39 [INFO] survey_agent.browser.harness_backend: Page 6: 441 chars text, url=https://surveys.jibunu.com/Maps_0321/index.aspx?L=1&id=rev-60532565-7701-57d5-9f
+02:07:39 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+02:07:49 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+02:07:49 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [{"selector": "#ButtonCheck_281_5", "value": "", "action": "click"}, {"selector": "#BS_CONTINUE_BUTTON", "value": "", "action": "click"}]
+02:07:49 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [{"selector": "#ButtonCheck_281_5", "value": "", "action": "click"}, {"selector": "#BS_CONTINUE_BUTTON", "value": "", "action": "click"}]
+02:07:50 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+02:07:50 [INFO] survey_agent.browser.harness_backend: Applied answers on page 6: [{"selector": "#ButtonCheck_281_5", "value": "", "action": "click"}, {"selector": "#BS_CONTINUE_BUTTON", "value": "", "action": "click"}]
+02:07:51 [INFO] survey_agent.browser.harness_backend: Pre-submit: 1
+02:07:52 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:button[type=submit]
+RESULT: next_clicked
+
+02:07:57 [INFO] survey_agent.browser.harness_backend: Form submit fallback: submitted
+02:08:00 [INFO] survey_agent.browser.harness_backend: Page didn't advance — trying brute-force radio selection
+02:08:12 [INFO] survey_agent.browser.harness_backend: Page 7: 534 chars text, url=https://surveys.jibunu.com/Maps_0321/index.aspx?L=1&id=rev-60532565-7701-57d5-9f
+02:08:12 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+02:08:30 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+02:08:30 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector": "#ButtonCheck_300_3", "value": "", "action": "click"},
+  {"selector": "#ButtonCheck_300_4", "value": "", "action": "click"},
+  {"selector": "#ButtonCheck_300_5", "value": "", "action": "click"},
+  {"selector": "#BS_CONTINUE_BUTTON", "value": "", "action": "click"}
+]
+02:08:30 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector": "#ButtonCheck_300_3", "value": "", "action": "click"},
+  {"selector": "#ButtonCheck_300_4", "value": "", "action": "click"},
+  {"selector": "#ButtonCheck_300_5", "value": "", "action": "click"},
+  {"selector": "#BS_CONTINUE_BUTTON", "value": "", "action": "click"}
+]
+02:08:31 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:4/4
+RESULT: answers_applied
+
+02:08:31 [INFO] survey_agent.browser.harness_backend: Applied answers on page 7: [{"selector": "#ButtonCheck_300_3", "value": "", "action": "click"}, {"selector": "#ButtonCheck_300_4", "value": "", "action": "click"}, {"selector": 
+02:08:32 [INFO] survey_agent.browser.harness_backend: Pre-submit: 18
+02:08:33 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:button[type=submit]
+RESULT: next_clicked
+
+02:08:38 [INFO] survey_agent.browser.harness_backend: Form submit fallback: submitted
+02:08:41 [INFO] survey_agent.browser.harness_backend: Page didn't advance — trying brute-force radio selection
+02:08:53 [INFO] survey_agent.browser.harness_backend: Page 8: 740 chars text, url=https://surveys.jibunu.com/Maps_0321/index.aspx?L=1&id=rev-60532565-7701-57d5-9f
+02:08:53 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+02:09:32 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+02:09:32 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector": "input[name='Q27_12_1'][value='1']", "value": "", "action": "click"},
+  {"selector": "input[name='Q27_19_1'][value='2']", "value": "", "action": "click"},
+  {"selector": "input[name='Q27_18_1'][value='3']", "value": "", "action": "click"},
+  {"selector": "input[name='Q27_23_1'][value='4']", "value": "", "action": "click"}
+]
+02:09:32 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector": "input[name='Q27_12_1'][value='1']", "value": "", "action": "click"},
+  {"selector": "input[name='Q27_19_1'][value='2']", "value": "", "action": "click"},
+  {"selector": "input[name='Q27_18_1'][value='3']", "value": "", "action": "click"},
+  {"selector": "input[name='Q27_23_1'][value='4']", "value": "", "action": "click"}
+]
+02:09:33 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:4/4
+RESULT: answers_applied
+
+02:09:33 [INFO] survey_agent.browser.harness_backend: Applied answers on page 8: [{"selector": "input[name='Q27_12_1'][value='1']", "value": "", "action": "click"}, {"selector": "input[name='Q27_19_1'][value='2']", "value": "", "ac
+02:09:34 [INFO] survey_agent.browser.harness_backend: Pre-submit: 1
+02:09:36 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:button[type=submit]
+RESULT: next_clicked
+
+02:09:40 [INFO] survey_agent.browser.harness_backend: Form submit fallback: submitted
+02:09:43 [INFO] survey_agent.browser.harness_backend: Page didn't advance — trying brute-force radio selection
+02:09:56 [INFO] survey_agent.browser.harness_backend: Page 9: 740 chars text, url=https://surveys.jibunu.com/Maps_0321/index.aspx?L=1&id=rev-60532565-7701-57d5-9f
+02:09:56 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+02:10:34 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+02:10:34 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector": "input[name='Q27_12_1'][value='1']", "value": "", "action": "click"},
+  {"selector": "input[name='Q27_19_1'][value='2']", "value": "", "action": "click"},
+  {"selector": "input[name='Q27_18_1'][value='3']", "value": "", "action": "click"},
+  {"selector": "input[name='Q27_23_1'][value='4']", "value": "", "action": "click"}
+]
+02:10:34 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector": "input[name='Q27_12_1'][value='1']", "value": "", "action": "click"},
+  {"selector": "input[name='Q27_19_1'][value='2']", "value": "", "action": "click"},
+  {"selector": "input[name='Q27_18_1'][value='3']", "value": "", "action": "click"},
+  {"selector": "input[name='Q27_23_1'][value='4']", "value": "", "action": "click"}
+]
+02:10:35 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:4/4
+RESULT: answers_applied
+
+02:10:35 [INFO] survey_agent.browser.harness_backend: Applied answers on page 9: [{"selector": "input[name='Q27_12_1'][value='1']", "value": "", "action": "click"}, {"selector": "input[name='Q27_19_1'][value='2']", "value": "", "ac
+02:10:36 [INFO] survey_agent.browser.harness_backend: Pre-submit: 4
+02:10:38 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:button[type=submit]
+RESULT: next_clicked
+
+02:10:42 [INFO] survey_agent.browser.harness_backend: Form submit fallback: submitted
+02:10:45 [INFO] survey_agent.browser.harness_backend: Page didn't advance — trying brute-force radio selection
+02:10:57 [INFO] survey_agent.browser.harness_backend: Page 10: 740 chars text, url=https://surveys.jibunu.com/Maps_0321/index.aspx?L=1&id=rev-60532565-7701-57d5-9f
+02:10:57 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+02:11:43 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+02:11:43 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "input[name='Q27_19_1'][value='2']",
+    "value": "",
+    "action": "click"
+  },
+  {
+    "selector": "input[name='Q27_18_1'][value='3']",
+    "value": "",
+    "action": "click"
+  },
+  {
+    "selector": "input[name='Q27_23_1'][value='4']",
+    "value": "",
+    "action": "click"
+  }
+]
+02:11:43 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "input[name='Q27_19_1'][value='2']",
+    "value": "",
+    "action": "click"
+  },
+  {
+    "selector": "input[name='Q27_18_1'][value='3']",
+    "value": "",
+    "action": "click"
+  },
+  {
+    "selector": "input[name='Q27_23_1'][value='4']",
+    "value": "",
+    "action": "click"
+  }
+]
+02:11:44 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:3/3
+RESULT: answers_applied
+
+02:11:44 [INFO] survey_agent.browser.harness_backend: Applied answers on page 10: [{"selector": "input[name='Q27_19_1'][value='2']", "value": "", "action": "click"}, {"selector": "input[name='Q27_18_1'][value='3']", "value": "", "ac
+02:11:44 [INFO] survey_agent.browser.harness_backend: Pre-submit: 0
+02:11:46 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:button[type=submit]
+RESULT: next_clicked
+
+02:11:50 [INFO] survey_agent.browser.harness_backend: Form submit fallback: submitted
+02:11:53 [INFO] survey_agent.browser.harness_backend: Page didn't advance — trying brute-force radio selection
+02:12:05 [INFO] survey_agent.browser.harness_backend: Page stuck — refreshing page
+02:12:15 [WARNING] survey_agent.browser.harness_backend: Stuck on same page after refresh — skipping survey
+02:12:15 [WARNING] survey_agent.orchestrator: [Session 0] Survey 1 failed: Stuck on same page, skipping
+02:12:23 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 1200, 'h': 783, 'sx': 0, 'sy': 0, 'pw': 1200, 'ph': 2809}
+SURVEYS_RAW: []
+RESULT: discover_complete
+
+02:12:23 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=False, raw_line preview: []
+02:12:23 [INFO] survey_agent.orchestrator: [Session 0] No more surveys
+02:12:23 [INFO] survey_agent.browser.harness_backend: Leaving Chrome running (pid=98963) for session persistence
+02:12:23 [INFO] survey_agent.orchestrator: Starting agent for Prime Opinion...
+02:12:23 [WARNING] survey_agent.orchestrator: No stored credentials for prime-opinion. Run: survey-agent account
+02:12:23 [WARNING] survey_agent.browser.harness_backend: Port 19333 already in use — another agent may be running. Killing stale Chrome.
+02:12:23 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=741
+02:12:24 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=98963
+02:12:24 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=99007
+02:12:24 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=99182
+02:12:26 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=19333 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent --no-first-run
+02:12:27 [INFO] survey_agent.browser.harness_backend: Chrome window kept visible for screenshot access
+02:12:29 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'about:blank', 'title': '', 'w': 1200, 'h': 783, 'sx': 0, 'sy': 0, 'pw':
+02:12:29 [INFO] survey_agent.orchestrator: [Session 0] Starting on Prime Opinion
+02:12:38 [INFO] survey_agent.browser.harness_backend: Using Google OAuth login for Prime Opinion
+02:12:46 [INFO] survey_agent.browser.harness_backend: Google OAuth login output: FINAL_URL: https://app.primeopinion.com/app-login
+RESULT: login_failed_still_on_signin
+
+02:12:46 [INFO] survey_agent.browser.harness_backend: Leaving Chrome running (pid=9361) for session persistence
+02:12:46 [INFO] survey_agent.orchestrator: Starting agent for SurveyPop...
+02:12:46 [WARNING] survey_agent.orchestrator: No stored credentials for surveypop. Run: survey-agent account
+02:12:46 [WARNING] survey_agent.browser.harness_backend: Port 19333 already in use — another agent may be running. Killing stale Chrome.
+02:12:46 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=9361
+02:12:46 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=9379
+02:12:46 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=9382
+02:12:46 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=9383
+02:12:46 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=9390
+02:12:46 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=9499
+02:12:46 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=9762
+02:12:48 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=19333 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent --no-first-run
+02:12:49 [INFO] survey_agent.browser.harness_backend: Chrome window kept visible for screenshot access
+02:12:52 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'about:blank', 'title': '', 'w': 1200, 'h': 783, 'sx': 0, 'sy': 0, 'pw':
+02:12:52 [INFO] survey_agent.orchestrator: [Session 0] Starting on SurveyPop
+02:13:01 [INFO] survey_agent.browser.harness_backend: Using Google OAuth login for SurveyPop
+02:13:09 [INFO] survey_agent.browser.harness_backend: Google OAuth login output: FINAL_URL: https://surveypop.com/
+RESULT: login_success
+
+02:13:09 [INFO] survey_agent.orchestrator: [Session 0] Logged in
+02:13:12 [INFO] survey_agent.orchestrator: [Session 0] Initial balance: 404
+02:13:16 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveypop.com/dashboard', 'title': '🐴 Survey Pop: Make Money Fast With Paid Surveys', 'w': 1200, 'h': 783, 'sx': 0, 'sy': 0, 'pw': 1200, 'ph': 783}
+SURVEYS_RAW: []
+RESULT: discover_complete
+
+02:13:16 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=False, raw_line preview: []
+02:13:16 [INFO] survey_agent.orchestrator: [Session 0] No more surveys
+02:13:16 [INFO] survey_agent.browser.harness_backend: Leaving Chrome running (pid=10153) for session persistence
+02:13:16 [INFO] survey_agent.orchestrator: Starting agent for Qmee...
+02:13:16 [WARNING] survey_agent.orchestrator: No stored credentials for qmee. Run: survey-agent account
+02:13:16 [WARNING] survey_agent.browser.harness_backend: Port 19333 already in use — another agent may be running. Killing stale Chrome.
+02:13:16 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=10153
+02:13:16 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=10175
+02:13:17 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=10176
+02:13:17 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=10177
+02:13:17 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=10263
+02:13:19 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=19333 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent --no-first-run
+02:13:20 [INFO] survey_agent.browser.harness_backend: Chrome window kept visible for screenshot access
+02:13:22 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'about:blank', 'title': '', 'w': 1200, 'h': 783, 'sx': 0, 'sy': 0, 'pw':
+02:13:23 [INFO] survey_agent.orchestrator: [Session 0] Starting on Qmee
+02:13:32 [INFO] survey_agent.browser.harness_backend: Using Google OAuth login for Qmee
+02:13:40 [INFO] survey_agent.browser.harness_backend: Google OAuth login output: FINAL_URL: https://www.qmee.com/en-us/login
+RESULT: login_failed_still_on_signin
+
+02:13:40 [INFO] survey_agent.browser.harness_backend: Leaving Chrome running (pid=11096) for session persistence
+Done: 0 surveys, 0 questions, 1 errors
+Error: Login failed: Google OAuth login failed — check that read.musik@gmail.com
+is signed in
+Done: 0 surveys, 0 questions, 0 errors
+Error: Login failed: Google OAuth login failed — check that read.musik@gmail.com
+is signed in

@@ -1,0 +1,10 @@
+Starting cloakbrowser backend...
+Backend started.
+
+[1] Testing Google OAuth login on Branded Surveys...
+  Login result: success=False error="OAuth didn't reach Google. URL: https://surveys.gobranded.com/users/login/"
+  URL: https://surveys.gobranded.com/users/login/
+  Output: ''
+
+[3] Stopping backend...
+Done.

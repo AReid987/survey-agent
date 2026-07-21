@@ -1,0 +1,49 @@
+Starting cloakbrowser backend...
+INFO survey_agent.browser.cloakbrowser_backend: Starting cloakbrowser worker thread...
+INFO httpx: HTTP Request: GET https://pypi.org/pypi/cloakbrowser/json "HTTP/1.1 200 OK"
+ERROR survey_agent.browser.cloakbrowser_backend: Worker thread init error: BrowserType.launch_persistent_context: Target page, context or browser has been closed
+Browser logs:
+
+<launching> /Users/antonioreid/.cloakbrowser/chromium-145.0.7632.109.2/Chromium.app/Contents/MacOS/Chromium --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AcceptCHFrame,AutoExpandDetailsElement,AvoidUnnecessaryBeforeUnloadCheckSync,CertificateTransparencyComponentUpdater,DeferRendererTasksAfterInput,DestroyProfileOnBrowserClose,DialMediaRouteProvider,ExtensionManifestV2Disabled,GlobalMediaControls,HttpsUpgrades,ImprovedCookieControls,LazyFrameLoading,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --enable-automation --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --enable-use-zoom-for-dsf=false --no-sandbox --fingerprint-timezone=America/New_York --lang=en-US --user-data-dir=/Users/antonioreid/Library/Application Support/Google/Chrome/Default --remote-debugging-pipe about:blank
+<launched> pid=72162
+Call log:
+  - <launching> /Users/antonioreid/.cloakbrowser/chromium-145.0.7632.109.2/Chromium.app/Contents/MacOS/Chromium --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AcceptCHFrame,AutoExpandDetailsElement,AvoidUnnecessaryBeforeUnloadCheckSync,CertificateTransparencyComponentUpdater,DeferRendererTasksAfterInput,DestroyProfileOnBrowserClose,DialMediaRouteProvider,ExtensionManifestV2Disabled,GlobalMediaControls,HttpsUpgrades,ImprovedCookieControls,LazyFrameLoading,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --enable-automation --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --enable-use-zoom-for-dsf=false --no-sandbox --fingerprint-timezone=America/New_York --lang=en-US --user-data-dir=/Users/antonioreid/Library/Application Support/Google/Chrome/Default --remote-debugging-pipe about:blank
+  -   - <launched> pid=72162
+
+INFO survey_agent.browser.cloakbrowser_backend: cloakbrowser worker thread exiting
+INFO survey_agent.browser.cloakbrowser_backend: cloakbrowser worker ready
+Backend started.
+
+[1] Testing Google OAuth login on Branded Surveys...
+Traceback (most recent call last):
+  File "/Users/antonioreid/survey-agent/scripts/cloak_oauth_test.py", line 69, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/lib/python3.14/asyncio/runners.py", line 205, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/lib/python3.14/asyncio/runners.py", line 128, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/lib/python3.14/asyncio/base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/Users/antonioreid/survey-agent/scripts/cloak_oauth_test.py", line 48, in main
+    result = await backend.login(
+             ^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )
+    ^
+  File "/Users/antonioreid/survey-agent/survey_agent/browser/cloakbrowser_backend.py", line 450, in login
+    await self._goto(site_url)
+  File "/Users/antonioreid/survey-agent/survey_agent/browser/cloakbrowser_backend.py", line 200, in _goto
+    await asyncio.get_event_loop().run_in_executor(
+        None, self._dispatch, _go, url, timeout
+    )
+  File "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/Users/antonioreid/survey-agent/survey_agent/browser/cloakbrowser_backend.py", line 189, in _dispatch
+    raise TimeoutError("cloakbrowser worker did not respond within 120s")
+TimeoutError: cloakbrowser worker did not respond within 120s

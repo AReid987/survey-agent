@@ -1,0 +1,44 @@
+08:04:15 [INFO] CUA Survey Agent v3 starting
+08:04:15 [INFO] Dashboard Chrome: pid=55790 wid=39144
+08:04:24 [INFO] Initial balance: 151
+08:04:24 [INFO] 
+=== Cycle 1: 9 surveys ===
+08:04:24 [INFO] 
+--- Survey 1/9 ---
+08:04:36 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124873917/8nybx259?key=c0ea7029&from=d
+08:04:54 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124873917/8nybx259?key=c0ea7029&from=
+08:05:03 [INFO] Consent page detected, clicking agree
+08:05:13 [INFO] [Page 1] Survey Offer | 133 chars | https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+08:05:14 [INFO] Consent page detected, clicking agree
+08:05:32 [INFO] [Page 2] Survey Offer | 133 chars | https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+08:05:33 [INFO] Consent page detected, clicking agree
+08:05:53 [INFO] [Page 3] Survey Offer | 133 chars | https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+08:05:54 [INFO] Consent page detected, clicking agree
+08:06:12 [WARNING] Stuck on same page for 3 iterations
+08:06:12 [INFO] Closing survey window
+08:06:15 [INFO] Survey 1 not completed
+08:06:25 [INFO] Pausing 5 seconds...
+08:06:30 [INFO] 
+--- Survey 2/9 ---
+08:06:42 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124864945/qa1geb2n?key=76f20077&from=d
+08:06:59 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124864945/qa1geb2n?key=76f20077&from=
+08:07:14 [INFO] [Page 1] Branded Surveys | Users | 2542 chars | https://surveys.gobranded.com/members/oq
+08:07:14 [INFO] Never reached survey page
+08:07:14 [INFO] Closing survey window
+08:07:17 [INFO] Survey 2 not completed
+08:07:26 [INFO] Pausing 5 seconds...
+08:07:31 [INFO] 
+--- Survey 3/9 ---
+08:07:43 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124677189/ua28kfg1?key=b163fe23&from=d
+08:08:01 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124677189/ua28kfg1?key=b163fe23&from=
+08:08:10 [INFO] Consent page detected, clicking agree
+08:08:20 [INFO] [Page 1] Survey Offer | 129 chars | https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+08:08:21 [INFO] Consent page detected, clicking agree
+08:08:39 [INFO] [Page 2] Survey Offer | 129 chars | https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+08:08:40 [INFO] Consent page detected, clicking agree
+08:08:58 [INFO] [Page 3] Survey Offer | 129 chars | https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+08:08:59 [INFO] Consent page detected, clicking agree
+08:09:17 [WARNING] Stuck on same page for 3 iterations
+08:09:17 [INFO] Closing survey window
+08:09:20 [INFO] Survey 3 not completed
+08:09:30 [INFO] Pausing 3 seconds...

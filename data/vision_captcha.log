@@ -1,0 +1,177 @@
+Survey Agent
+  Provider: openai-compatible (OpenAI-Compatible (newapi, freellmapi, mimo, 
+etc.))
+  Model: MiniMax-M3
+  Sites: branded-surveys
+  Backend: browser-harness
+  Browser: headed
+
+Using your real Chrome browser. Make sure Chrome is open.
+
+00:03:14 [INFO] survey_agent.orchestrator: Starting agent for Branded Surveys...
+00:03:14 [WARNING] survey_agent.browser.harness_backend: Port 19333 already in use — another agent may be running. Killing stale Chrome.
+00:03:14 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=34800
+00:03:14 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=35115
+00:03:14 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=35444
+00:03:16 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=19333 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent --no-first-run
+00:03:18 [INFO] survey_agent.browser.harness_backend: Chrome window kept visible for screenshot access
+00:03:23 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'about:blank', 'title': '', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw':
+00:03:24 [INFO] survey_agent.orchestrator: [Session 0] Starting on Branded Surveys
+00:03:31 [INFO] survey_agent.orchestrator: [Session 0] Logged in
+00:03:35 [INFO] survey_agent.orchestrator: [Session 0] Initial balance: 136
+00:03:41 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw': 1512, 'ph': 2788}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/123036673/u7x3wgkh?key=52988d23&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124208153/c675h1mz?key=2c95fd8b&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/sur
+00:03:41 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/123036673/u7x3wgkh?key=52988d23&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/
+00:03:41 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+00:04:00 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_URL: https://surveys.gobranded.com/users/dashboard
+NAV_TEXT: Skip to content
+Hi, Antonio Reid
+2
+My Dashboard
+My Points
+136
+My Payouts
+Branded Elite
+Leaderboard
+I
+NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre/123036673/ewr156qh?key=52988d23&from=dashboard.click
+RESULT
+00:04:11 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_take_survey
+
+00:04:17 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_begin_survey
+
+00:04:18 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+00:04:28 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 512 chars (vs 269 DOM chars)
+00:04:28 [INFO] survey_agent.browser.harness_backend: Page 1: 512 chars text, url=https://survey-d.yoursurveynow.com/survey/selfserve/53b/260633#$
+00:04:28 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+00:04:34 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+00:04:34 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): ```json
+[{"selector": "#btn_continue", "value": "", "action": "click"}]
+```
+00:04:34 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [{"selector": "#btn_continue", "value": "", "action": "click"}]
+00:04:35 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:0/1
+RESULT: answers_applied
+
+00:04:35 [INFO] survey_agent.browser.harness_backend: Applied answers on page 1: [{"selector": "#btn_continue", "value": "", "action": "click"}]
+00:04:36 [INFO] survey_agent.browser.harness_backend: Pre-submit: 1
+00:04:38 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:submitted
+RESULT: next_clicked
+
+00:04:53 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 223 chars (vs 21 DOM chars)
+00:04:53 [INFO] survey_agent.browser.harness_backend: Page 2: 223 chars text, url=https://r.mintvine.com/go/124208153-2c95fd8b/?pid=43&uid=124208153-79332169-rhua
+00:04:53 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+00:04:56 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+00:04:56 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): []
+00:04:56 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: []
+00:04:56 [WARNING] survey_agent.browser.harness_backend: LLM empty on page 2 — deterministic fallback
+00:04:57 [INFO] survey_agent.browser.harness_backend: Pre-submit: 0
+00:05:00 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): RESULT: no_next_button
+
+00:05:14 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 403 chars (vs 258 DOM chars)
+00:05:14 [INFO] survey_agent.browser.harness_backend: Domain changed (r.mintvine.com → survey-d.yoursurveynow.com) — survey complete
+00:05:18 [INFO] survey_agent.orchestrator: [Session 0] Survey 1 completed (no balance change detected)
+00:05:18 [INFO] survey_agent.orchestrator: [Session 0] Survey output: RESULT: survey_complete
+00:05:26 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw': 1512, 'ph': 2788}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_fusion_router/124775393/2yx8rmvq?key=5dc2746a&from=dashboard.click&invite_id=381607625"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_fusion_router/124775393/2yx8rmvq?key=5dc2746a&from=dashboard.click&invite_id=3816076
+00:05:26 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_fusion_router/124775393/2yx8rmvq?key=5dc2746a&from=dashboard.click&invite_id=381607625"},{"text":"Take Survey","href":"https://
+00:05:26 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+00:05:43 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_URL: https://surveys.gobranded.com/users/dashboard
+NAV_TEXT: Skip to content
+Hi, Antonio Reid
+2
+My Dashboard
+My Points
+136
+My Payouts
+Branded Elite
+Leaderboard
+I
+NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre/124780025/n72dy3ej?key=bae63df0&from=dashboard.click
+RESULT
+00:05:49 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_take_survey
+
+00:05:50 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+00:06:00 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 412 chars (vs 258 DOM chars)
+00:06:00 [INFO] survey_agent.browser.harness_backend: Page 1: 412 chars text, url=https://www.samplicio.us/s/Screening.aspx?SSID=6a41fd2f-3d3c-edbd-1d06-e44db6be3
+00:06:00 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+00:06:15 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+00:06:15 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector": "#option-0", "value": "", "action": "click"},
+  {"selector": "#ctl00_Content_btnContinue", "value": "", "action": "click"}
+]
+00:06:15 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector": "#option-0", "value": "", "action": "click"},
+  {"selector": "#ctl00_Content_btnContinue", "value": "", "action": "click"}
+]
+00:06:17 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:0/2
+RESULT: answers_applied
+
+00:06:17 [INFO] survey_agent.browser.harness_backend: Applied answers on page 1: [{"selector": "#option-0", "value": "", "action": "click"}, {"selector": "#ctl00_Content_btnContinue", "value": "", "action": "click"}]
+00:06:18 [INFO] survey_agent.browser.harness_backend: Pre-submit: 1
+00:06:19 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:submitted
+RESULT: next_clicked
+
+00:06:32 [INFO] survey_agent.browser.harness_backend: Page 2: 2253 chars text, url=https://surveys.gobranded.com/users/dashboard
+00:06:32 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+00:06:49 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+00:06:49 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+    {"selector": "#76025", "value": "", "action": "click"},
+    {"selector": "input.submit-poll", "value": "", "action": "click"}
+]
+00:06:49 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+    {"selector": "#76025", "value": "", "action": "click"},
+    {"selector": "input.submit-poll", "value": "", "action": "click"}
+]
+00:06:50 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+00:06:50 [INFO] survey_agent.browser.harness_backend: Applied answers on page 2: [{"selector": "#\\37 6025", "value": "", "action": "click"}, {"selector": "input.submit-poll", "value": "", "action": "click"}]
+00:06:51 [INFO] survey_agent.browser.harness_backend: Pre-submit: 0
+00:06:53 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:submitted
+RESULT: next_clicked
+
+00:06:58 [INFO] survey_agent.browser.harness_backend: Form submit fallback: submitted
+00:07:10 [INFO] survey_agent.browser.harness_backend: Content similar (83%) — incrementing stuck counter to 1
+00:07:10 [INFO] survey_agent.browser.harness_backend: Back on dashboard after 2 pages — survey complete
+00:07:14 [INFO] survey_agent.orchestrator: [Session 0] Survey 2 completed (no balance change detected)
+00:07:14 [INFO] survey_agent.orchestrator: [Session 0] Survey output: Survey completed
+00:07:29 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw': 1512, 'ph': 2668}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124780029/6pjrzwh5?key=f298c46c&from=dashboard.click"}]
+RESULT: discover_complete
+
+00:07:29 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124780029/6pjrzwh5?key=f298c46c&from=dashboard.click"}]
+00:07:29 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+00:07:49 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_URL: https://surveys.gobranded.com/users/dashboard
+NAV_TEXT: Skip to content
+Hi, Antonio Reid
+2
+My Dashboard
+My Points
+136
+My Payouts
+Branded Elite
+Leaderboard
+I
+NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/users/dashboard
+RESULT: still_on_dashboard
+
+00:07:49 [WARNING] survey_agent.orchestrator: [Session 0] Survey 3 failed: Survey link redirected to dashboard — survey unavailable
+00:07:59 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw': 1512, 'ph': 2668}
+SURVEYS_RAW: []
+RESULT: discover_complete
+
+00:07:59 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=False, raw_line preview: []
+00:07:59 [INFO] survey_agent.orchestrator: [Session 0] No more surveys
+00:07:59 [INFO] survey_agent.browser.harness_backend: Leaving Chrome running (pid=36425) for session persistence
+Done: 2 surveys, 0 questions, 1 errors

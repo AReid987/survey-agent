@@ -1,0 +1,29 @@
+Survey Agent
+  Provider: openai-compatible (OpenAI-Compatible (newapi, freellmapi, mimo, 
+etc.))
+  Model: MiniMax-M3
+  Sites: branded-surveys
+  Backend: cloakbrowser
+  Browser: headed
+
+Browser window will open. First run: complete Google sign-in if prompted.
+
+06:21:43 [INFO] survey_agent.orchestrator: Starting agent for Branded Surveys...
+06:21:43 [INFO] survey_agent.browser.cloakbrowser_backend: Starting cloakbrowser worker thread...
+06:21:44 [INFO] httpx: HTTP Request: GET https://pypi.org/pypi/cloakbrowser/json "HTTP/1.1 200 OK"
+06:21:46 [INFO] survey_agent.browser.cloakbrowser_backend: cloakbrowser launched (persistent context, profile: /Users/antonioreid/survey-agent/data/cloak_profile)
+06:21:46 [INFO] survey_agent.browser.cloakbrowser_backend: cloakbrowser worker ready
+06:21:46 [INFO] survey_agent.orchestrator: [Session 0] Starting on Branded Surveys
+06:21:52 [INFO] survey_agent.browser.cloakbrowser_backend: Already logged in to Branded Surveys
+06:21:52 [INFO] survey_agent.orchestrator: [Session 0] Logged in
+06:21:57 [INFO] survey_agent.orchestrator: [Session 0] Initial balance: None
+06:22:02 [WARNING] survey_agent.orchestrator: [Session 0] Survey 1 failed: No survey URL found in survey_info
+06:22:11 [WARNING] survey_agent.orchestrator: [Session 0] Survey 2 failed: No survey URL found in survey_info
+06:22:19 [WARNING] survey_agent.orchestrator: [Session 0] Survey 3 failed: No survey URL found in survey_info
+06:22:28 [WARNING] survey_agent.orchestrator: [Session 0] Survey 4 failed: No survey URL found in survey_info
+06:22:36 [WARNING] survey_agent.orchestrator: [Session 0] Survey 5 failed: No survey URL found in survey_info
+06:22:44 [WARNING] survey_agent.orchestrator: [Session 0] Survey 6 failed: No survey URL found in survey_info
+06:22:53 [WARNING] survey_agent.orchestrator: [Session 0] Survey 7 failed: No survey URL found in survey_info
+06:23:01 [WARNING] survey_agent.orchestrator: [Session 0] Survey 8 failed: No survey URL found in survey_info
+06:23:09 [WARNING] survey_agent.orchestrator: [Session 0] Survey 9 failed: No survey URL found in survey_info
+06:23:18 [WARNING] survey_agent.orchestrator: [Session 0] Survey 10 failed: No survey URL found in survey_info

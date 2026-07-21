@@ -1,0 +1,13 @@
+[po] Finding Chrome...
+[po] Chrome found: pid=95764 wid=51105
+[po] Navigating to Prime Opinion...
+Traceback (most recent call last):
+  File "/Users/antonioreid/survey-agent/scripts/po_cua.py", line 228, in <module>
+    main()
+    ~~~~^^
+  File "/Users/antonioreid/survey-agent/scripts/po_cua.py", line 159, in main
+    start_balance = get_balance(pid, wid)
+  File "/Users/antonioreid/survey-agent/scripts/po_cua.py", line 98, in get_balance
+    return float(result) if result and result not in ("null", "") else None
+           ~~~~~^^^^^^^^
+ValueError: could not convert string to float: 'missing value'

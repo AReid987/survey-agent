@@ -1,0 +1,32 @@
+============================================================
+CUA Live Test — Branded Surveys
+============================================================
+
+[1] Navigating to dashboard...
+  Page: new-api: A next-generation gateway and AI asset management system based on LLM technology - AtomGit - Google Chrome
+  Points: ['1', '2', '109', '22', '10']
+
+[2] Finding surveys...
+  No survey links found on dashboard
+  - https://atomgit.com/QuantumNous/new-api/tree/main/router
+  - new-api: A next-generation gateway and AI asset management system based on LLM t
+  - QuantumNous
+  - /
+  - new-api
+  - 🔥
+  - Get GLM-5.2 for free
+  - -
+  - code
+  - Issues
+  - 1
+  - Pull Requests
+  - assembly line
+  - discuss
+  - analyze
+  - 2
+  - Star
+  - 109
+  - Fork
+  - 22
+
+Result: {'status': 'no_surveys'}

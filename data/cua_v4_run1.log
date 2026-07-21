@@ -1,0 +1,386 @@
+08:46:38 [INFO] CUA Survey Agent v4 starting
+08:46:38 [INFO] Dashboard Chrome: pid=55790 wid=39460
+08:46:47 [INFO] Initial balance: 151
+08:46:47 [INFO] 
+=== Cycle 1: 10 surveys ===
+08:46:47 [INFO] 
+--- Survey 1/10 ---
+08:46:59 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124873165/mgy2e458?key=2d1578f2&from=d
+08:47:16 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124873165/mgy2e458?key=2d1578f2&from=
+08:47:32 [INFO] Iframe survey (1 iframes, 128 chars), skipping
+08:47:32 [INFO] Closing survey window
+08:47:35 [INFO] Survey 1 not completed
+08:47:52 [INFO] 
+--- Survey 2/10 ---
+08:48:04 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124876561/c4tbk38q?key=33b8f781&from=d
+08:48:21 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124876561/c4tbk38q?key=33b8f781&from=
+08:48:44 [INFO] [Page 1] Cint Survey | 207 chars | https://survey.cint.com/survey/5c7a74e3-f55e-4b8b-b364-cd297
+08:48:46 [INFO]   Options: 10 visible
+08:49:02 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+08:49:02 [INFO]   LLM: 4 answers
+08:49:07 [INFO]   Submit: clicked:next
+08:49:15 [INFO] [Page 2] Cint Survey | 226 chars | https://survey.cint.com/survey/5c7a74e3-f55e-4b8b-b364-cd297
+08:49:17 [INFO]   Options: 11 visible
+08:49:35 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+08:49:35 [INFO]   LLM: 4 answers
+08:49:41 [INFO]   Submit: clicked:next
+08:49:49 [INFO] [Page 3] Cint Survey | 226 chars | https://survey.cint.com/survey/5c7a74e3-f55e-4b8b-b364-cd297
+08:49:50 [INFO]   Options: 11 visible
+08:50:01 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+08:50:01 [INFO]   LLM: 4 answers
+08:50:07 [INFO]   Submit: clicked:next
+08:50:14 [INFO] [Page 4] Cint Survey | 226 chars | https://survey.cint.com/survey/5c7a74e3-f55e-4b8b-b364-cd297
+08:50:16 [INFO]   Options: 11 visible
+08:50:38 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+08:50:38 [INFO]   LLM: 4 answers
+08:50:44 [INFO]   Submit: clicked:next
+08:50:50 [WARNING] Stuck on same page for 3 iterations
+08:50:50 [INFO] Closing survey window
+08:50:53 [INFO] Survey 2 not completed
+08:51:10 [INFO] 
+--- Survey 3/10 ---
+08:51:22 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124876813/q4k1xybz?key=c08c8bfb&from=d
+08:51:40 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124876813/q4k1xybz?key=c08c8bfb&from=
+08:51:56 [INFO] [Page 1] Branded Surveys | Users | 2527 chars | https://surveys.gobranded.com/members/3348894357
+08:51:56 [INFO] Never reached survey page
+08:51:56 [INFO] Closing survey window
+08:51:59 [INFO] Survey 3 not completed
+08:52:13 [INFO] 
+--- Survey 4/10 ---
+08:52:25 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124876809/rtvwashn?key=e5fef7bd&from=d
+08:52:43 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124876809/rtvwashn?key=e5fef7bd&from=
+08:52:59 [INFO] [Page 1] Branded Surveys | Users | 2556 chars | https://surveys.gobranded.com/members/3348895809
+08:52:59 [INFO] Never reached survey page
+08:52:59 [INFO] Closing survey window
+08:53:02 [INFO] Survey 4 not completed
+08:53:20 [INFO] 
+--- Survey 5/10 ---
+08:53:31 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124877749/5dhs14jg?key=67da681d&from=d
+08:53:53 [INFO] [Page 1] Branded Surveys | Users | 2556 chars | https://surveys.gobranded.com/members/oq
+08:53:53 [INFO] Never reached survey page
+08:53:53 [INFO] Closing survey window
+08:53:56 [INFO] Survey 5 not completed
+08:54:08 [INFO] 
+--- Survey 6/10 ---
+08:54:21 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124876861/5h87g942?key=d5ef1c42&from=d
+08:54:37 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124876861/5h87g942?key=d5ef1c42&from=
+08:54:53 [INFO] [Page 1]  | 342 chars | https://www.samplicio.us/s/Screening.aspx?SSID=6a43caa3-2316
+08:54:55 [INFO]   Options: 14 visible
+08:55:00 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+08:55:00 [INFO]   LLM: 1 answers
+08:55:04 [INFO]   Submit: clicked_last:
+08:55:13 [INFO] [Page 2] Pre Survey | 377 chars | https://api.opnion.io/#/screenersurvey/final?survey=rPMNWB4v
+08:55:13 [INFO] SURVEY COMPLETED!
+08:55:13 [INFO] Closing survey window
+08:55:16 [INFO] Survey 6 completed! (1 total)
+08:55:30 [INFO] 
+--- Survey 7/10 ---
+08:55:42 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124668477/v52e4n9b?key=0cad55e6&from=d
+08:55:58 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124668477/v52e4n9b?key=0cad55e6&from=
+08:56:14 [INFO] Iframe survey (1 iframes, 129 chars), skipping
+08:56:14 [INFO] Closing survey window
+08:56:17 [INFO] Survey 7 not completed
+08:56:33 [INFO] 
+--- Survey 8/10 ---
+08:56:45 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124876881/qa7yb1h4?key=6f2afe0c&from=d
+08:57:02 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124876881/qa7yb1h4?key=6f2afe0c&from=
+08:57:26 [INFO] [Page 1] Branded Surveys | Users | 2641 chars | https://www.samplicio.us/s/RespondentAuthentication.aspx?SID
+08:57:28 [INFO]   Options: 30 visible
+08:58:13 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+08:58:13 [INFO]   LLM: 3 answers
+08:58:20 [INFO]   Submit: clicked_last:×
+08:58:28 [INFO] [Page 2] Branded Surveys | Users | 2277 chars | https://surveys.gobranded.com/members
+08:58:28 [INFO] Back on dashboard
+08:58:28 [INFO] Closing survey window
+08:58:31 [INFO] Survey 8 completed! (2 total)
+08:58:43 [INFO] 
+--- Survey 9/10 ---
+08:58:55 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124878037/7rqhyb3d?key=8e9a0b49&from=d
+08:59:12 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124878037/7rqhyb3d?key=8e9a0b49&from=
+08:59:27 [INFO] [Page 1] Branded Surveys | Users | 2480 chars | https://surveys.gobranded.com/members/oq
+08:59:27 [INFO] Never reached survey page
+08:59:27 [INFO] Closing survey window
+08:59:30 [INFO] Survey 9 not completed
+08:59:46 [INFO] 
+--- Survey 10/10 ---
+08:59:58 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124878013/tg94xhb2?key=c3e4f283&from=d
+09:00:15 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124878013/tg94xhb2?key=c3e4f283&from=
+09:00:31 [INFO] [Page 1] Branded Surveys | Users | 2592 chars | https://surveys.gobranded.com/members/oq
+09:00:31 [INFO] Never reached survey page
+09:00:31 [INFO] Closing survey window
+09:00:34 [INFO] Survey 10 not completed
+09:00:49 [INFO] 
+=== Cycle 1 done: 2/10 completed. Pausing 31 min ===
+09:31:49 [INFO] 
+=== Cycle 2: 12 surveys ===
+09:31:49 [INFO] 
+--- Survey 1/12 ---
+09:32:02 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124719949/p5ey4thc?key=da24eb2d&from=d
+09:32:19 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124719949/p5ey4thc?key=da24eb2d&from=
+09:32:35 [INFO] Iframe survey (1 iframes, 129 chars), skipping
+09:32:35 [INFO] Closing survey window
+09:32:39 [INFO] Survey 1 not completed
+09:32:56 [INFO] 
+--- Survey 2/12 ---
+09:33:08 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124128621/kt7ez4ba?key=301a92d4&from=d
+09:33:25 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124128621/kt7ez4ba?key=301a92d4&from=
+09:33:47 [INFO] [Page 1]  | 2632 chars | https://www.rdsecured.com/landing2?fttsn=c706d0ec-d42d-4677-
+09:33:49 [INFO]   Options: 30 visible
+09:34:32 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+09:34:32 [INFO]   LLM: 3 answers
+09:34:39 [INFO]   Submit: clicked_last:×
+09:34:47 [INFO] [Page 2] Branded Surveys | Users | 2382 chars | https://surveys.gobranded.com/members
+09:34:47 [INFO] Back on dashboard
+09:34:47 [INFO] Closing survey window
+09:34:50 [INFO] Survey 2 completed! (1 total)
+09:35:04 [INFO] 
+--- Survey 3/12 ---
+09:35:16 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124879905/m2zbtcr1?key=37188762&from=d
+09:35:33 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124879905/m2zbtcr1?key=37188762&from=
+09:35:50 [INFO] [Page 1] NEL Surveys | 690 chars | https://www.nelsurveys.online/6a42a5bf40a9fde6ed75f906?sourc
+09:35:52 [INFO]   Options: 10 visible
+09:35:57 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+09:35:57 [INFO]   LLM: 1 answers
+09:35:59 [INFO]   Submit: clicked:continue
+09:36:07 [INFO] [Page 2] NEL Surveys | 578 chars | https://www.nelsurveys.online/6a42a5bf40a9fde6ed75f906?sourc
+09:36:09 [INFO]   Options: 6 visible
+09:36:22 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+09:36:22 [INFO]   LLM: 2 answers
+09:36:26 [INFO]   Submit: clicked:continue
+09:36:34 [INFO] [Page 3] NEL Surveys | 554 chars | https://www.nelsurveys.online/6a42a5bf40a9fde6ed75f906?sourc
+09:36:36 [INFO]   Options: 6 visible
+09:36:42 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+09:36:42 [INFO]   LLM: 2 answers
+09:36:46 [INFO]   Submit: clicked:continue
+09:36:54 [INFO] [Page 4] NEL Surveys | 554 chars | https://www.nelsurveys.online/6a42a5bf40a9fde6ed75f906?sourc
+09:36:56 [INFO]   Options: 6 visible
+09:37:16 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+09:37:16 [INFO]   LLM: 2 answers
+09:37:21 [INFO]   Submit: clicked:continue
+09:37:29 [INFO] [Page 5] NEL Surveys | 554 chars | https://www.nelsurveys.online/6a42a5bf40a9fde6ed75f906?sourc
+09:37:31 [INFO]   Options: 6 visible
+09:37:52 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+09:37:52 [INFO]   LLM: 2 answers
+09:37:56 [INFO]   Submit: clicked:continue
+09:38:03 [WARNING] Stuck on same page for 3 iterations
+09:38:03 [INFO] Closing survey window
+09:38:06 [INFO] Survey 3 not completed
+09:38:21 [INFO] 
+--- Survey 4/12 ---
+09:38:33 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124881117/k7mcesy6?key=dce54cc1&from=d
+09:38:50 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124881117/k7mcesy6?key=dce54cc1&from=
+09:39:07 [INFO] [Page 1] PureSpectrum | 338 chars | https://screener.purespectrum.com/?survey_id=50672934&suppli
+09:39:10 [INFO]   Options: 15 visible
+09:39:54 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+09:39:54 [INFO]   LLM: 3 answers
+09:40:01 [INFO]   Submit: clicked:next
+09:40:09 [INFO] Iframe survey (1 iframes, 63 chars), skipping
+09:40:09 [INFO] Closing survey window
+09:40:12 [INFO] Survey 4 not completed
+09:40:27 [INFO] 
+--- Survey 5/12 ---
+09:40:39 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124824201/29j4fwt1?key=95dac9d0&from=d
+09:40:57 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124824201/29j4fwt1?key=95dac9d0&from=
+09:41:14 [INFO] [Page 1] PureSpectrum | 341 chars | https://screener.purespectrum.com/?survey_id=50795637&suppli
+09:41:16 [INFO]   Options: 15 visible
+09:41:46 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+09:41:46 [INFO]   LLM: 3 answers
+09:41:51 [INFO]   Submit: clicked:next
+09:41:58 [INFO] Iframe survey (1 iframes, 63 chars), skipping
+09:41:58 [INFO] Closing survey window
+09:42:02 [INFO] Survey 5 not completed
+09:42:19 [INFO] 
+--- Survey 6/12 ---
+09:42:31 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124881709/7cs985te?key=01f263e4&from=d
+09:42:48 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124881709/7cs985te?key=01f263e4&from=
+09:43:04 [INFO] [Page 1] PureSpectrum | 320 chars | https://screener.purespectrum.com/?survey_id=50813538&suppli
+09:43:06 [INFO]   Options: 15 visible
+09:43:43 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+09:43:43 [INFO]   LLM: 3 answers
+09:43:48 [INFO]   Submit: clicked:next
+09:43:55 [INFO] Iframe survey (1 iframes, 63 chars), skipping
+09:43:55 [INFO] Closing survey window
+09:43:59 [INFO] Survey 6 not completed
+09:44:12 [INFO] 
+--- Survey 7/12 ---
+09:44:24 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/123165737/bp7jymwv?key=0f3ad1e4&from=d
+09:44:41 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/123165737/bp7jymwv?key=0f3ad1e4&from=
+09:44:57 [INFO] [Page 1] Branded Surveys | Users | 2597 chars | https://surveys.gobranded.com/members/oq
+09:44:57 [INFO] Never reached survey page
+09:44:57 [INFO] Closing survey window
+09:45:00 [INFO] Survey 7 not completed
+09:45:13 [INFO] 
+--- Survey 8/12 ---
+09:45:25 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124881717/4x7bmydw?key=59cedfa4&from=d
+09:45:42 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124881717/4x7bmydw?key=59cedfa4&from=
+09:45:58 [INFO] [Page 1] PureSpectrum | 329 chars | https://screener.purespectrum.com/?survey_id=50813527&suppli
+09:46:00 [INFO]   Options: 15 visible
+09:46:12 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 503 Service Unavailable"
+09:46:12 [WARNING] LLM error: Server error '503 Service Unavailable' for url 'https://opencode.ai/zen/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503
+09:46:12 [INFO]   LLM: 0 answers
+09:46:13 [INFO]   Submit: clicked:next
+09:46:21 [INFO] [Page 2] PureSpectrum | 329 chars | https://screener.purespectrum.com/?survey_id=50813527&suppli
+09:46:23 [INFO]   Options: 15 visible
+09:46:49 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+09:46:49 [INFO]   LLM: 3 answers
+09:46:54 [INFO]   Submit: clicked:next
+09:47:02 [INFO] Iframe survey (1 iframes, 63 chars), skipping
+09:47:02 [INFO] Closing survey window
+09:47:05 [INFO] Survey 8 not completed
+09:47:21 [INFO] 
+--- Survey 9/12 ---
+09:47:33 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124882329/xk4e6pu2?key=2e1a7255&from=d
+09:47:50 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124882329/xk4e6pu2?key=2e1a7255&from=
+09:48:06 [INFO] [Page 1] PureSpectrum | 345 chars | https://screener.purespectrum.com/?survey_id=50813751&suppli
+09:48:08 [INFO]   Options: 15 visible
+09:48:52 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+09:48:52 [INFO]   LLM: 3 answers
+09:48:56 [INFO]   Submit: clicked:next
+09:49:04 [INFO] Iframe survey (1 iframes, 63 chars), skipping
+09:49:04 [INFO] Closing survey window
+09:49:07 [INFO] Survey 9 not completed
+09:49:23 [INFO] 
+--- Survey 10/12 ---
+09:49:35 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124882649/x78ptr2y?key=3cbce96b&from=d
+09:49:57 [INFO] [Page 1] Branded Surveys | Users | 2540 chars | https://surveys.gobranded.com/members/oq
+09:49:57 [INFO] Never reached survey page
+09:49:57 [INFO] Closing survey window
+09:49:59 [INFO] Survey 10 not completed
+09:50:15 [INFO] 
+--- Survey 11/12 ---
+09:50:27 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124880597/5r8dxuzc?key=222c6553&from=d
+09:50:43 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124880597/5r8dxuzc?key=222c6553&from=
+09:50:58 [INFO] [Page 1] poll | 272 chars | https://www.surveymeasure.com/surveys/94980fafd3d1d5d1cc465a
+09:50:58 [INFO] SURVEY COMPLETED!
+09:50:58 [INFO] Closing survey window
+09:51:01 [INFO] Survey 11 completed! (2 total)
+09:51:14 [INFO] 
+--- Survey 12/12 ---
+09:51:26 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124882681/t1fg5zmu?key=fc0ca0e6&from=d
+09:51:43 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124882681/t1fg5zmu?key=fc0ca0e6&from=
+09:51:58 [INFO] Iframe survey (1 iframes, 91 chars), skipping
+09:51:58 [INFO] Closing survey window
+09:52:01 [INFO] Survey 12 not completed
+09:52:15 [INFO] 
+=== Cycle 2 done: 2/12 completed. Pausing 29 min ===
+10:21:15 [INFO] 
+=== Cycle 3: 10 surveys ===
+10:21:15 [INFO] 
+--- Survey 1/10 ---
+10:21:28 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124885553/gkyj3anh?key=037e4f6c&from=d
+10:21:51 [INFO] [Page 1] Branded Surveys | Users | 2557 chars | https://surveys.gobranded.com/members/oq
+10:21:51 [INFO] Never reached survey page
+10:21:51 [INFO] Closing survey window
+10:21:54 [INFO] Survey 1 not completed
+10:22:08 [INFO] 
+--- Survey 2/10 ---
+10:22:21 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124882097/mh3ju2f1?key=b4e01eb2&from=d
+10:22:38 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124882097/mh3ju2f1?key=b4e01eb2&from=
+10:22:54 [INFO] [Page 1] poll | 272 chars | https://www.surveymeasure.com/surveys/54c4ceef0c2c876b98cef5
+10:22:54 [INFO] SURVEY COMPLETED!
+10:22:54 [INFO] Closing survey window
+10:22:57 [INFO] Survey 2 completed! (1 total)
+10:23:14 [INFO] 
+--- Survey 3/10 ---
+10:23:26 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124881905/jdey52gb?key=5fb5046c&from=d
+10:23:42 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124881905/jdey52gb?key=5fb5046c&from=
+10:23:58 [INFO] [Page 1] PureSpectrum | 323 chars | https://screener.purespectrum.com/?survey_id=50813527&suppli
+10:23:59 [INFO]   Options: 15 visible
+10:24:38 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+10:24:38 [INFO]   LLM: 3 answers
+10:24:43 [INFO]   Submit: clicked:next
+10:24:51 [INFO] Iframe survey (1 iframes, 63 chars), skipping
+10:24:51 [INFO] Closing survey window
+10:24:54 [INFO] Survey 3 not completed
+10:25:10 [INFO] 
+--- Survey 4/10 ---
+10:25:22 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124170933/17k9c8w2?key=e352c464&from=d
+10:25:39 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124170933/17k9c8w2?key=e352c464&from=
+10:25:55 [INFO] [Page 1] PureSpectrum | 338 chars | https://screener.purespectrum.com/?survey_id=50530263&suppli
+10:25:57 [INFO]   Options: 15 visible
+10:26:18 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+10:26:18 [INFO]   LLM: 3 answers
+10:26:23 [INFO]   Submit: clicked:next
+10:26:31 [INFO] Iframe survey (1 iframes, 63 chars), skipping
+10:26:31 [INFO] Closing survey window
+10:26:34 [INFO] Survey 4 not completed
+10:26:48 [INFO] 
+--- Survey 5/10 ---
+10:27:00 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124886049/b3nrzpcq?key=580b611a&from=d
+10:27:17 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124886049/b3nrzpcq?key=580b611a&from=
+10:27:33 [INFO] [Page 1] PureSpectrum | 355 chars | https://screener.purespectrum.com/?survey_id=50814663&suppli
+10:27:35 [INFO]   Options: 15 visible
+10:28:18 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+10:28:18 [INFO]   LLM: 2 answers
+10:28:22 [INFO]   Submit: clicked:next
+10:28:29 [INFO] Iframe survey (1 iframes, 63 chars), skipping
+10:28:29 [INFO] Closing survey window
+10:28:32 [INFO] Survey 5 not completed
+10:28:50 [INFO] 
+--- Survey 6/10 ---
+10:29:02 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124886377/wbj7f294?key=fc03ab42&from=d
+10:29:19 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124886377/wbj7f294?key=fc03ab42&from=
+10:29:35 [INFO] [Page 1] Branded Surveys | Users | 2608 chars | https://surveys.gobranded.com/members/oq
+10:29:35 [INFO] Never reached survey page
+10:29:35 [INFO] Closing survey window
+10:29:38 [INFO] Survey 6 not completed
+10:29:51 [INFO] 
+--- Survey 7/10 ---
+10:30:03 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124882033/qj5rg36p?key=6b2ebd4b&from=d
+10:30:20 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124882033/qj5rg36p?key=6b2ebd4b&from=
+10:30:36 [INFO] [Page 1] Branded Surveys | Users | 2598 chars | https://surveys.gobranded.com/members/oq
+10:30:36 [INFO] Never reached survey page
+10:30:36 [INFO] Closing survey window
+10:30:39 [INFO] Survey 7 not completed
+10:30:57 [INFO] 
+--- Survey 8/10 ---
+10:31:09 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124884373/ukp3ga2j?key=ddcfee7c&from=d
+10:31:25 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124884373/ukp3ga2j?key=ddcfee7c&from=
+10:31:43 [INFO] [Page 1] Conjointly | Your preferences in Fully C | 366 chars | https://conjointly.online/study/659037/ppaxu9lt8eit5blnobaq?
+10:31:43 [INFO] SURVEY COMPLETED!
+10:31:43 [INFO] Closing survey window
+10:31:46 [INFO] Survey 8 completed! (2 total)
+10:32:02 [INFO] 
+--- Survey 9/10 ---
+10:32:14 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124885689/7vy4bn9g?key=5fbc12ef&from=d
+10:32:32 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/take/124885689/7vy4bn9g?key=5fbc12ef&from=
+10:32:41 [INFO] Consent page detected, clicking agree
+10:32:52 [INFO] [Page 1] Consent | 597 chars | https://rx.samplicio.us/consent/?SID=14b58980-ec8d-4b16-be0a
+10:32:53 [INFO] Consent page detected, clicking agree
+10:32:58 [INFO]   Options: 16 visible
+10:33:29 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+10:33:29 [INFO]   LLM: 3 answers
+10:33:35 [INFO]   Submit: enter
+10:33:45 [INFO] [Page 2] UserTesting | 185 chars | https://participant.use2.usertesting.com/se/participant-flow
+10:33:46 [INFO] Consent page detected, clicking agree
+10:33:52 [INFO]   Options: 3 visible
+10:33:56 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+10:33:56 [INFO]   LLM: 1 answers
+10:33:58 [INFO]   Submit: clicked:agree and continue
+10:34:06 [INFO] [Page 3] Test Page 1 of 4 - UserTesting | 46 chars | https://participant.use2.usertesting.com/se/participant-flow
+10:34:08 [INFO]   Options: 2 visible
+10:34:42 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+10:34:42 [INFO]   LLM: 1 answers
+10:34:44 [INFO]   Submit: clicked:next
+10:34:53 [INFO] [Page 4] Test Page 1 of 4 - UserTesting | 63 chars | https://participant.use2.usertesting.com/se/participant-flow
+10:34:54 [INFO]   Options: 3 visible
+10:35:38 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+10:35:38 [INFO]   LLM: 3 answers
+10:35:45 [INFO]   Submit: clicked:next
+10:35:53 [INFO] [Page 5] Test Page 1 of 4 - UserTesting | 63 chars | https://participant.use2.usertesting.com/se/participant-flow
+10:35:55 [INFO]   Options: 3 visible
+10:36:21 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+10:36:21 [INFO]   LLM: 3 answers
+10:36:26 [INFO]   Submit: clicked:next
+10:36:34 [INFO] [Page 6] Test Page 1 of 4 - UserTesting | 63 chars | https://participant.use2.usertesting.com/se/participant-flow
+10:36:36 [INFO]   Options: 3 visible
+10:37:22 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+10:37:22 [INFO]   LLM: 0 answers
+10:37:23 [INFO]   Submit: clicked:next
+10:37:30 [WARNING] Stuck on same page for 3 iterations
+10:37:30 [INFO] Closing survey window
+10:37:33 [INFO] Survey 9 not completed
+10:37:48 [INFO] 
+--- Survey 10/10 ---
+10:38:01 [INFO] Opening survey: https://surveys.gobranded.com/surveys/pre/124885709/chguev19?key=9f6b49f9&from=d

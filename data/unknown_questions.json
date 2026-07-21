@@ -1,0 +1,383 @@
+[
+  {
+    "timestamp": "2026-06-30 23:54:14",
+    "question": "Describe a recent incident which made you feel anxious or stressed.",
+    "options": [
+      "Please enter a response that is at least 5 words long for best results."
+    ]
+  },
+  {
+    "timestamp": "2026-06-30 23:55:00",
+    "question": "Describe a recent incident which made you feel anxious or stressed.",
+    "options": []
+  },
+  {
+    "timestamp": "2026-06-30 23:57:50",
+    "question": "Please choose the options that best describe your household:",
+    "options": [
+      "Boy under age 1",
+      "Girl under age 1",
+      "Boy age 1",
+      "Girl age 1",
+      "Boy age 2",
+      "Girl age 2",
+      "Boy age 3",
+      "Girl age 3",
+      "Boy age 4",
+      "Girl age 4",
+      "Boy age 5",
+      "Girl age 5",
+      "Boy age 6",
+      "Girl age 6",
+      "Boy age 7",
+      "Girl age 7",
+      "Boy age 8",
+      "Girl age 8",
+      "Boy age 9",
+      "Girl age 9",
+      "Boy age 10",
+      "Girl age 10",
+      "Boy age 11",
+      "Girl age 11",
+      "Boy age 12",
+      "Girl age 12"
+    ]
+  },
+  {
+    "timestamp": "2026-06-30 23:58:44",
+    "question": "What are the ages and genders of your children?",
+    "options": [
+      "Boy under age 1",
+      "Girl under age 1",
+      "Boy age 1",
+      "Girl age 1",
+      "Boy age 2",
+      "Girl age 2",
+      "Boy age 3",
+      "Girl age 3",
+      "Boy age 4",
+      "Girl age 4",
+      "Boy age 5",
+      "Girl age 5",
+      "Boy age 6",
+      "Girl age 6",
+      "Boy age 7",
+      "Girl age 7",
+      "Boy age 8",
+      "Girl age 8",
+      "Boy age 9",
+      "Girl age 9",
+      "Boy age 10",
+      "Girl age 10",
+      "Boy age 11",
+      "Girl age 11",
+      "Boy age 12",
+      "Girl age 12"
+    ]
+  },
+  {
+    "timestamp": "2026-07-02 06:08:38",
+    "question": "When were you born?",
+    "options": [
+      "Month",
+      "Day",
+      "Year",
+      "Continue"
+    ]
+  },
+  {
+    "timestamp": "2026-07-02 06:09:00",
+    "question": "When were you born?",
+    "options": [
+      "Month",
+      "Day",
+      "Year"
+    ]
+  },
+  {
+    "timestamp": "2026-07-02 06:09:27",
+    "question": "When were you born?",
+    "options": [
+      "Month",
+      "Day",
+      "Year",
+      "Continue"
+    ]
+  },
+  {
+    "timestamp": "2026-07-02 06:27:20",
+    "question": "What are the three things you like in your favorite celebrity?",
+    "options": []
+  },
+  {
+    "timestamp": "2026-07-02 06:28:16",
+    "question": "What are the three things you like in your favorite celebrity?",
+    "options": [
+      "Customise Consent Preferences",
+      "Show more",
+      "Necessary",
+      "Always Active",
+      "Functional",
+      "Advertisement Research",
+      "Performance",
+      "Advertisement",
+      "Uncategorised",
+      "Reject All",
+      "Save My Preferences",
+      "Accept All",
+      "A",
+      "Please enter a response that is at least 5 words long for best results.",
+      "Next"
+    ]
+  },
+  {
+    "timestamp": "2026-07-02 06:33:12",
+    "question": "In a few sentences, describe two disadvantages of social media. Enter the word 'ROBOT' in the field below to confirm you have read the full terms.",
+    "options": []
+  },
+  {
+    "timestamp": "2026-07-02 06:39:48",
+    "question": "Write two sentences about what you think of Artificial Intelligence (AI).",
+    "options": [
+      "Free text field"
+    ]
+  },
+  {
+    "timestamp": "2026-07-02 06:39:48",
+    "question": "Enter the word 'ROBOT' in the field below to confirm you have read the full terms",
+    "options": [
+      "Free text field"
+    ]
+  },
+  {
+    "timestamp": "2026-07-02 06:39:48",
+    "question": "Cookie consent preferences",
+    "options": [
+      "Customise Consent Preferences",
+      "Show more",
+      "Necessary",
+      "Always Active",
+      "Functional",
+      "Advertisement Research",
+      "Performance",
+      "Advertisement",
+      "Uncategorised",
+      "Reject All",
+      "Save My Preferences",
+      "Accept All"
+    ]
+  },
+  {
+    "timestamp": "2026-07-02 07:46:19",
+    "question": "What are two things that can make the world a better place?",
+    "options": []
+  },
+  {
+    "timestamp": "2026-07-02 07:52:56",
+    "question": "In two sentences, describe your favorite outdoor activity. Enter the word 'ROBOT' in the field below to confirm you have read the full terms",
+    "options": []
+  },
+  {
+    "timestamp": "2026-07-02 07:56:17",
+    "question": "What are two things that can make the world a better place?",
+    "options": []
+  },
+  {
+    "timestamp": "2026-07-02 08:00:03",
+    "question": "Please specify a whole number.",
+    "options": [
+      "0%",
+      "9 - 4 =",
+      "Accessibility Statement",
+      "Help"
+    ]
+  },
+  {
+    "timestamp": "2026-07-02 08:00:59",
+    "question": "Please enter a whole number.",
+    "options": [
+      "0%",
+      "9 - 4 =",
+      "Accessibility Statement",
+      "Help"
+    ]
+  },
+  {
+    "timestamp": "2026-07-02 08:01:45",
+    "question": "Please specify a whole number.",
+    "options": [
+      "0%",
+      "9 - 4 =",
+      "Accessibility Statement",
+      "Help"
+    ]
+  },
+  {
+    "timestamp": "2026-07-02 08:04:18",
+    "question": "In two sentences, describe your favorite game or sport.",
+    "options": []
+  },
+  {
+    "timestamp": "2026-07-02 08:06:18",
+    "question": "In two sentences, describe your favorite game or sport. Enter the word 'ROBOT' in the field below to confirm you have read the full terms.",
+    "options": [
+      "Next"
+    ]
+  },
+  {
+    "timestamp": "2026-07-02 08:44:48",
+    "question": "What was the worst shopping (online or in-store) experience you've ever had?",
+    "options": []
+  },
+  {
+    "timestamp": "2026-07-02 08:49:33",
+    "question": "Describe your dream holiday in at least 2 sentences. Enter the word 'ROBOT' in the field below to confirm you have read the full terms.",
+    "options": []
+  },
+  {
+    "timestamp": "2026-07-02 09:00:33",
+    "question": "In your opinion, what two actions can reduce wars and conflicts?",
+    "options": [
+      "Customise Consent Preferences",
+      "Show more",
+      "Necessary",
+      "Always Active",
+      "Functional",
+      "Advertisement Research",
+      "Performance",
+      "Advertisement",
+      "Uncategorised",
+      "Reject All",
+      "Save My Preferences",
+      "Accept All",
+      "A",
+      "Please enter a response that is at least 5 words long for best results.",
+      "Next"
+    ]
+  },
+  {
+    "timestamp": "2026-07-02 09:02:12",
+    "question": "In your opinion, what two actions can reduce wars and conflicts?",
+    "options": [
+      "Customise Consent Preferences",
+      "Show more",
+      "Necessary",
+      "Always Active",
+      "Functional",
+      "Advertisement Research",
+      "Performance",
+      "Advertisement",
+      "Uncategorised",
+      "Reject All",
+      "Save My Preferences",
+      "Accept All",
+      "A",
+      "Please enter a response that is at least 5 words long for best results.",
+      "Next"
+    ]
+  },
+  {
+    "timestamp": "2026-07-02 09:03:02",
+    "question": "In your opinion, what two actions can reduce wars and conflicts?",
+    "options": [
+      "Customise Consent Preferences",
+      "Show more",
+      "Necessary",
+      "Always Active",
+      "Functional",
+      "Advertisement Research",
+      "Performance",
+      "Advertisement",
+      "Uncategorised",
+      "Reject All",
+      "Save My Preferences",
+      "Accept All",
+      "A",
+      "Please enter a response that is at least 5 words long for best results.",
+      "Next"
+    ]
+  },
+  {
+    "timestamp": "2026-07-02 09:15:33",
+    "question": "What is your favorite food and why? Enter the word 'ROBOT' in the field below to confirm you have read the full terms \u8bf7\u5728\u4e0b\u9762\u7684\u5b57\u6bb5\u4e2d\u8f93\u5165\u201cROBOT\u201d\u4ee5\u786e\u8ba4\u60a8\u5df2\u9605\u8bfb\u5b8c\u6574\u6761\u6b3e\u3002 Please enter a response that is at least 5 words long for best results. Please enter a response that is at least 5 words long for best results.",
+    "options": [
+      "Accept All",
+      "A",
+      "Please enter a response that is at least 5 words long for best results.",
+      "Next"
+    ]
+  },
+  {
+    "timestamp": "2026-07-02 09:16:26",
+    "question": "What is your favorite food and why? Enter the word 'ROBOT' in the field below to confirm you have read the full terms",
+    "options": [
+      "Accept All",
+      "A",
+      "Please enter a response that is at least 5 words long for best results.",
+      "Next"
+    ]
+  },
+  {
+    "timestamp": "2026-07-02 09:17:07",
+    "question": "What is your favorite food and why? Enter the word 'ROBOT' in the field below to confirm you have read the full terms.",
+    "options": [
+      "Accept All",
+      "A",
+      "Please enter a response that is at least 5 words long for best results.",
+      "Next"
+    ]
+  },
+  {
+    "timestamp": "2026-07-02 09:20:34",
+    "question": "In your opinion, tell us two ways in which survey participation can be improved?",
+    "options": [
+      "Accept All",
+      "A",
+      "Please enter a response that is at least 5 words long for best results.",
+      "Next"
+    ]
+  },
+  {
+    "timestamp": "2026-07-02 09:23:11",
+    "question": "In your opinion, tell us two ways in which survey participation can be improved? Enter the word 'ROBOT' in the field below to confirm you have read the full terms",
+    "options": [
+      "Accept All",
+      "A",
+      "Please enter a response that is at least 5 words long for best results.",
+      "Next"
+    ]
+  },
+  {
+    "timestamp": "2026-07-02 09:28:56",
+    "question": "What is your favorite color?",
+    "options": [
+      "Red",
+      "Blue",
+      "Green"
+    ]
+  },
+  {
+    "timestamp": "2026-07-02 09:39:12",
+    "question": "Describe a happy memory from your childhood.",
+    "options": []
+  },
+  {
+    "timestamp": "2026-07-02 09:39:59",
+    "question": "Describe a happy memory from your childhood.",
+    "options": [
+      "Accept All",
+      "A",
+      "Please enter a response that is at least 5 words long for best results.",
+      "Next"
+    ]
+  },
+  {
+    "timestamp": "2026-07-02 09:56:35",
+    "question": "What is your favorite color?",
+    "options": [
+      "Red",
+      "Blue",
+      "Green"
+    ]
+  }
+]

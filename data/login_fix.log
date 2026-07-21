@@ -1,0 +1,36 @@
+Survey Agent
+  Provider: openai-compatible (OpenAI-Compatible (newapi, freellmapi, mimo, 
+etc.))
+  Model: MiniMax-M3
+  Sites: branded-surveys
+  Backend: browser-harness
+  Browser: headed
+
+Using your real Chrome browser. Make sure Chrome is open.
+
+02:45:54 [INFO] survey_agent.orchestrator: Starting agent for Branded Surveys...
+02:45:54 [WARNING] survey_agent.browser.harness_backend: Port 19333 already in use — another agent may be running. Killing stale Chrome.
+02:45:54 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=23116
+02:45:54 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=23135
+02:45:54 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=23159
+02:45:54 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=23690
+02:45:54 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=24017
+02:45:56 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=19333 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent --no-first-run
+02:45:57 [INFO] survey_agent.browser.harness_backend: Chrome window kept visible for screenshot access
+02:45:59 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'about:blank', 'title': '', 'w': 1200, 'h': 783, 'sx': 0, 'sy': 0, 'pw':
+02:45:59 [INFO] survey_agent.orchestrator: [Session 0] Starting on Branded Surveys
+02:46:04 [INFO] survey_agent.orchestrator: [Session 0] Logged in
+02:46:09 [INFO] survey_agent.orchestrator: [Session 0] Initial balance: 136
+02:46:11 [INFO] survey_agent.browser.harness_backend: Discover output (rc=1):
+Traceback (most recent call last):
+  File "/Users/antonioreid/.local/bin/browser-harness", line 10, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/Users/antonioreid/.local/share/uv/tools/browser-harness/lib/python3.12/site-packages/browser_harness/run.py", line 180, in main
+    exec(code, globals())
+  File "<string>", line 5, in <module>
+  File "/Users/antonioreid/.local/share/uv/tools/browser-harness/lib/python3.12/site-packages/browser_harness/helpers.py", line 131, in goto_url
+
+02:46:11 [INFO] survey_agent.orchestrator: [Session 0] No more surveys
+02:46:11 [INFO] survey_agent.browser.harness_backend: Leaving Chrome running (pid=24073) for session persistence
+Done: 0 surveys, 0 questions, 0 errors

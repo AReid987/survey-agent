@@ -1,0 +1,19 @@
+Starting cloakbrowser backend...
+INFO survey_agent.browser.cloakbrowser_backend: Starting cloakbrowser worker thread...
+INFO httpx: HTTP Request: GET https://pypi.org/pypi/cloakbrowser/json "HTTP/1.1 200 OK"
+INFO survey_agent.browser.cloakbrowser_backend: cloakbrowser launched (worker thread ready)
+INFO survey_agent.browser.cloakbrowser_backend: cloakbrowser worker ready
+Backend started.
+
+[1] Testing Google OAuth login on Branded Surveys...
+INFO survey_agent.browser.cloakbrowser_backend: Using Google OAuth login for Branded Surveys (GSI iframes: 1)
+INFO survey_agent.browser.cloakbrowser_backend: Found 1 GSI iframe(s) on page
+INFO survey_agent.browser.cloakbrowser_backend: Frame: <Frame name= url='https://accounts.google.com/gsi/button?type=standard&shape=pill&theme=outline&text=signin_with&size=large&logo_alignment=left&width=280&is_fedcm_supported=true&client_id=32881259601-mm9rs85hnv68gk0o0mm7tgv3oq5ol4th.apps.googleusercontent.com&iframe_id=gsi_320176_987902&cas=GMdl1r%2BwmVeybF2HSLYhtNO10i4FCd8JTWeIY5utj7o'>
+INFO survey_agent.browser.cloakbrowser_backend: JS click in iframe: True
+  Login result: success=False error="OAuth didn't reach Google. URL: https://surveys.gobranded.com/users/login/"
+  URL: https://surveys.gobranded.com/users/login/
+  Output: ''
+
+[3] Stopping backend...
+INFO survey_agent.browser.cloakbrowser_backend: cloakbrowser worker thread exiting
+Done.

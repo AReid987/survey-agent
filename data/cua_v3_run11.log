@@ -1,0 +1,46 @@
+08:10:25 [INFO] CUA Survey Agent v3 starting
+08:10:25 [INFO] Dashboard Chrome: pid=55790 wid=39144
+08:10:35 [INFO] Initial balance: 151
+08:10:35 [INFO] 
+=== Cycle 1: 10 surveys ===
+08:10:35 [INFO] 
+--- Survey 1/10 ---
+08:10:47 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124857509/kyhs1wv7?key=9baf1943&from=d
+08:11:04 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124857509/kyhs1wv7?key=9baf1943&from=
+08:11:19 [INFO] [Page 1] Branded Surveys | Users | 2517 chars | https://surveys.gobranded.com/members/oq
+08:11:19 [INFO] Never reached survey page
+08:11:19 [INFO] Closing survey window
+08:11:22 [INFO] Survey 1 not completed
+08:11:31 [INFO] Pausing 5 seconds...
+08:11:36 [INFO] 
+--- Survey 2/10 ---
+08:11:48 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124866941/jab9ydek?key=dc6060fc&from=d
+08:12:05 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124866941/jab9ydek?key=dc6060fc&from=
+08:12:20 [INFO] [Page 1] Branded Surveys | Users | 2578 chars | https://surveys.gobranded.com/members/oq
+08:12:20 [INFO] Never reached survey page
+08:12:20 [INFO] Closing survey window
+08:12:24 [INFO] Survey 2 not completed
+08:12:33 [INFO] Pausing 8 seconds...
+08:12:41 [INFO] 
+--- Survey 3/10 ---
+08:12:52 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124842897/a81nhg9b?key=77c157fd&from=d
+08:13:10 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124842897/a81nhg9b?key=77c157fd&from=
+08:13:20 [INFO] Consent page detected, clicking agree via OS click
+08:13:29 [INFO] [Page 1] Survey Offer | 129 chars | https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+08:13:30 [INFO] Consent page detected, clicking agree via OS click
+08:13:48 [INFO] [Page 2] Survey Offer | 129 chars | https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+08:13:49 [INFO] Consent page detected, clicking agree via OS click
+08:14:07 [INFO] [Page 3] Survey Offer | 129 chars | https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+08:14:08 [INFO] Consent page detected, clicking agree via OS click
+08:14:26 [WARNING] Stuck on same page for 3 iterations
+08:14:26 [INFO] Closing survey window
+08:14:29 [INFO] Survey 3 not completed
+08:14:38 [INFO] Pausing 3 seconds...
+08:14:41 [INFO] 
+--- Survey 4/10 ---
+08:14:53 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124874001/n2s3hq41?key=b009fc03&from=d
+08:15:16 [INFO] [Page 1] Branded Surveys | Users | 2526 chars | https://surveys.gobranded.com/members/oq
+08:15:16 [INFO] Never reached survey page
+08:15:16 [INFO] Closing survey window
+08:15:19 [INFO] Survey 4 not completed
+08:15:28 [INFO] Pausing 8 seconds...

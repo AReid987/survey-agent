@@ -1,0 +1,72 @@
+Survey Agent
+  Provider: openai-compatible (OpenAI-Compatible (newapi, freellmapi, mimo, 
+etc.))
+  Model: MiniMax-M3
+  Sites: branded-surveys
+  Backend: browser-harness
+  Browser: headed
+
+Using your real Chrome browser. Make sure Chrome is open.
+
+04:51:59 [INFO] survey_agent.orchestrator: Starting agent for Branded Surveys...
+04:51:59 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=9333 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent --no-first-run
+04:52:00 [INFO] survey_agent.browser.harness_backend: Chrome window minimized
+04:52:03 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'about:blank', 'title': '', 'w': 800, 'h': 513, 'sx': 0, 'sy': 0, 'pw': 
+04:52:04 [INFO] survey_agent.browser.harness_backend: Tab cleanup: CLEANED: 1 tabs
+04:52:05 [INFO] survey_agent.orchestrator: [Session 0] Starting on Branded Surveys
+04:52:10 [INFO] survey_agent.orchestrator: [Session 0] Logged in
+04:52:14 [INFO] survey_agent.orchestrator: [Session 0] Initial balance: 15
+04:52:21 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 800, 'h': 513, 'sx': 0, 'sy': 0, 'pw': 800, 'ph': 3115}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124714301/73hs5u4x?key=08c510b0&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124683369/djqaf43k?key=0364dcb9&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surve
+04:52:21 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124714301/73hs5u4x?key=08c510b0&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/
+04:52:21 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+04:52:35 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre/124714301/cfb3a1zv?key=08c510b0&from=dashboard.click
+RESULT: navigated
+
+04:52:40 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_take_survey
+
+04:52:41 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+04:53:03 [WARNING] survey_agent.orchestrator: [Session 0] Survey 1 failed: Page read failed 3 times
+04:53:11 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 800, 'h': 513, 'sx': 0, 'sy': 0, 'pw': 800, 'ph': 3115}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124712237/5ct6hgpu?key=4ecdda61&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124714161/xmjz5d68?key=0b4d4fef&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surve
+04:53:11 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124712237/5ct6hgpu?key=4ecdda61&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/
+04:53:11 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+04:53:24 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre/124712237/brnkgxwe?key=4ecdda61&from=dashboard.click
+RESULT: navigated
+
+04:53:30 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_take_survey
+
+04:53:31 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+04:53:53 [WARNING] survey_agent.orchestrator: [Session 0] Survey 2 failed: Page read failed 3 times
+04:54:01 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 800, 'h': 513, 'sx': 0, 'sy': 0, 'pw': 800, 'ph': 3091}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124714161/vdy2m79z?key=0b4d4fef&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124714057/avtbcy2d?key=9729c293&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surve
+04:54:01 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124714161/vdy2m79z?key=0b4d4fef&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/
+04:54:01 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+04:54:14 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre/124714161/7q9krwdn?key=0b4d4fef&from=dashboard.click
+RESULT: navigated
+
+04:54:20 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_take_survey
+
+04:54:21 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+04:54:44 [WARNING] survey_agent.orchestrator: [Session 0] Survey 3 failed: Page read failed 3 times
+04:54:52 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 800, 'h': 513, 'sx': 0, 'sy': 0, 'pw': 800, 'ph': 3115}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124714057/hsgmq4rc?key=9729c293&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124683369/q8sknwua?key=0364dcb9&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surve
+04:54:52 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124714057/hsgmq4rc?key=9729c293&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/
+04:54:52 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+04:55:05 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre/124714057/h1pnjbsu?key=9729c293&from=dashboard.click
+RESULT: navigated
+

@@ -1,0 +1,125 @@
+22:21:48 [INFO] CUA Survey Agent starting
+22:21:49 [INFO] Found Chrome: pid=55790 wid=28374
+22:21:56 [INFO] Initial balance: 150
+22:21:56 [INFO] 
+=== Survey 1 ===
+22:22:12 [INFO] Clicking survey at (499, 601)
+22:22:22 [INFO] Switched to survey window: pid=26215 wid=28985
+22:22:44 [INFO] [Page 1] 🐴 Branded Surveys | Surveys | 3030 chars | 
+22:23:21 [INFO]   Page empty, waiting... (1/5)
+22:23:39 [INFO]   Page empty, waiting... (2/5)
+22:23:55 [INFO]   Page empty, waiting... (3/5)
+22:24:13 [INFO]   Page empty, waiting... (4/5)
+22:24:31 [WARNING] Page empty 5 times — giving up
+22:24:31 [INFO] Survey 1 not completed
+22:24:38 [INFO] Pausing 5 seconds...
+22:24:43 [INFO] 
+=== Survey 2 ===
+22:25:01 [INFO] Clicking survey at (499, 601)
+22:25:22 [INFO] [Page 1] Branded Surveys | Users | 1185 chars | about:blank
+22:25:45 [INFO] [Page 2] Branded Surveys | Users | 1185 chars | about:blank
+22:26:07 [INFO] [Page 3] Branded Surveys | Users | 1185 chars | about:blank
+22:26:34 [INFO] [Page 4] 🐴 Branded Surveys | Users | 925 chars | https://surveys.gobranded.com/users/dashboard
+22:26:34 [INFO] Redirected to dashboard — survey done
+22:26:34 [INFO] Survey 2 completed! (points pending)
+22:26:42 [INFO] Pausing 5 seconds...
+22:26:47 [INFO] 
+=== Survey 3 ===
+22:27:08 [INFO] Clicking survey at (499, 601)
+22:27:19 [INFO] Switched to survey window: pid=40112 wid=29100
+22:27:40 [INFO] [Page 1] 🐴 PureSpectrum | 3030 chars | 
+22:28:25 [INFO] [Page 2]  | 1210 chars | 
+22:29:03 [INFO]   Page empty, waiting... (1/5)
+22:29:21 [INFO]   Page empty, waiting... (2/5)
+22:29:38 [INFO]   Page empty, waiting... (3/5)
+22:29:56 [INFO]   Page empty, waiting... (4/5)
+22:30:12 [WARNING] Page empty 5 times — giving up
+22:30:12 [INFO] Survey 3 not completed
+22:30:20 [INFO] Pausing 5 seconds...
+22:30:25 [INFO] 
+=== Survey 4 ===
+22:30:41 [INFO] Clicking survey at (499, 601)
+22:30:51 [INFO] Switched to survey window: pid=48349 wid=29150
+22:31:12 [INFO] [Page 1] 🐴 Branded Surveys | Users | 1175 chars | 
+22:31:47 [INFO] [Page 2] 🐴 Branded Surveys | Users | 2861 chars | 
+22:32:24 [INFO]   Page empty, waiting... (1/5)
+22:32:38 [INFO]   Page empty, waiting... (2/5)
+22:32:57 [INFO]   Page empty, waiting... (3/5)
+22:33:10 [INFO]   Page empty, waiting... (4/5)
+22:33:23 [WARNING] Page empty 5 times — giving up
+22:33:23 [INFO] Survey 4 not completed
+22:33:31 [INFO] Pausing 5 seconds...
+22:33:36 [INFO] 
+=== Survey 5 ===
+22:33:56 [INFO] Clicking survey at (499, 601)
+22:34:06 [INFO] Switched to survey window: pid=63105 wid=29276
+22:34:29 [INFO] [Page 1]  | 3030 chars | 
+22:35:07 [INFO]   Page empty, waiting... (1/5)
+22:35:23 [INFO]   Page empty, waiting... (2/5)
+22:35:40 [INFO]   Page empty, waiting... (3/5)
+22:35:55 [INFO]   Page empty, waiting... (4/5)
+22:36:08 [WARNING] Page empty 5 times — giving up
+22:36:08 [INFO] Survey 5 not completed
+22:36:15 [INFO] Pausing 5 seconds...
+22:36:20 [INFO] 
+=== Survey 6 ===
+22:36:36 [INFO] Clicking survey at (499, 782)
+22:36:46 [INFO] Switched to survey window: pid=66942 wid=29339
+22:37:04 [INFO] [Page 1] 🐴 Branded Surveys | Users | 1261 chars | 
+22:37:35 [INFO] [Page 2] 🐴 Branded Surveys | Users | 1247 chars | 
+22:38:06 [INFO] [Page 3] 🐴 Branded Surveys | Users | 1247 chars | 
+22:38:39 [INFO] [Page 4] 🐴 FusionScreener | 2961 chars | 
+22:39:08 [INFO] [Page 5] 🐴 PureSpectrum | 3042 chars | 
+22:39:37 [INFO] [Page 6] 🐴 PureSpectrum | 3047 chars | 
+22:40:06 [INFO] [Page 7] 🐴 PureSpectrum | 3047 chars | 
+22:40:34 [INFO] [Page 8] 🐴 PureSpectrum | 2913 chars | 
+22:40:40 [INFO] Text CAPTCHA detected
+22:40:53 [WARNING] Could not read CAPTCHA
+22:41:28 [INFO]   Page empty, waiting... (1/5)
+22:41:42 [INFO]   Page empty, waiting... (2/5)
+22:42:00 [INFO]   Page empty, waiting... (3/5)
+22:42:13 [INFO]   Page empty, waiting... (4/5)
+22:42:31 [WARNING] Page empty 5 times — giving up
+22:42:31 [INFO] Survey 6 not completed
+22:42:38 [INFO] Pausing 5 seconds...
+22:42:43 [INFO] 
+=== Survey 7 ===
+22:42:59 [INFO] Clicking survey at (499, 601)
+22:43:15 [INFO] [Page 1] 🐴 Branded Surveys | Errors | 1207 chars | https://surveys.gobranded.com/users/sign_in
+22:43:30 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+22:43:30 [INFO]   LLM: 0 answers for 3 inputs
+22:43:47 [INFO] [Page 2] 🐴 Branded Surveys | Errors | 1207 chars | about:blank
+22:44:03 [INFO] [Page 3] 🐴 Branded Surveys | Users | 2124 chars | https://surveys.gobranded.com/users/dashboard
+22:44:03 [INFO] Redirected to dashboard — survey done
+22:44:03 [INFO] Survey 7 completed! (points pending)
+22:44:10 [INFO] Pausing 5 seconds...
+22:44:15 [INFO] 
+=== Survey 8 ===
+22:44:33 [INFO] Clicking survey at (499, 601)
+22:44:43 [INFO] Switched to survey window: pid=2287 wid=29631
+22:45:07 [INFO]   Page empty, waiting... (1/5)
+22:45:20 [INFO]   Page empty, waiting... (2/5)
+22:45:33 [INFO]   Page empty, waiting... (3/5)
+22:45:50 [INFO]   Page empty, waiting... (4/5)
+22:46:05 [WARNING] Page empty 5 times — giving up
+22:46:05 [INFO] Survey 8 not completed
+22:46:12 [INFO] Pausing 5 seconds...
+22:46:17 [INFO] 
+=== Survey 9 ===
+22:46:34 [INFO] Clicking survey at (499, 782)
+22:46:54 [INFO] [Page 1] 🐴 Branded Surveys | Users | 892 chars | https://surveys.gobranded.com/users/sign_in
+22:47:12 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+22:47:12 [INFO]   LLM: 0 answers for 3 inputs
+22:47:28 [INFO] [Page 2] Branded Surveys | Users | 2235 chars | https://surveys.gobranded.com/users/dashboard
+22:47:28 [INFO] Redirected to dashboard — survey done
+22:47:28 [INFO] Survey 9 completed! (points pending)
+22:47:37 [INFO] Pausing 5 seconds...
+22:47:42 [INFO] 
+=== Survey 10 ===
+22:48:02 [INFO] Clicking survey at (499, 782)
+22:48:13 [INFO] Switched to survey window: pid=11027 wid=29754
+22:48:37 [INFO] [Page 1] 🐴 FusionScreener | 3052 chars | 
+22:49:19 [INFO] [Page 2] 🐴 PureSpectrum | 3100 chars | 
+22:50:05 [INFO] [Page 3] 🐴 PureSpectrum | 2833 chars | 
+22:50:51 [INFO] [Page 4] 🐴 Branded Surveys | Users | 1138 chars | 
+22:51:37 [INFO]   Page empty, waiting... (1/5)

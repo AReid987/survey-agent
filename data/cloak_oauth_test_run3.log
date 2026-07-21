@@ -1,0 +1,54 @@
+Starting cloakbrowser backend...
+Exception in thread cloakbrowser-worker:
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/antonioreid/survey-agent/survey_agent/browser/cloakbrowser_backend.py", line 108, in _worker_main
+    self._worker_loop.run_until_complete(self._init_browser())
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/lib/python3.14/asyncio/base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/Users/antonioreid/survey-agent/survey_agent/browser/cloakbrowser_backend.py", line 119, in _init_browser
+    self._browser = launch(
+                    ~~~~~~^
+        headless=self._headless,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        locale=self._locale,
+        ^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/antonioreid/survey-agent/.venv/lib/python3.14/site-packages/cloakbrowser/browser.py", line 221, in launch
+    pw = sync_playwright().start()
+  File "/Users/antonioreid/survey-agent/.venv/lib/python3.14/site-packages/playwright/sync_api/_context_manager.py", line 84, in start
+    return self.__enter__()
+           ~~~~~~~~~~~~~~^^
+  File "/Users/antonioreid/survey-agent/.venv/lib/python3.14/site-packages/playwright/sync_api/_context_manager.py", line 47, in __enter__
+                raise Error(
+    ...<2 lines>...
+                )
+playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+Please use the Async API instead.
+Traceback (most recent call last):
+  File "/Users/antonioreid/survey-agent/scripts/cloak_oauth_test.py", line 60, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/lib/python3.14/asyncio/runners.py", line 205, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/lib/python3.14/asyncio/runners.py", line 128, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/lib/python3.14/asyncio/base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/Users/antonioreid/survey-agent/scripts/cloak_oauth_test.py", line 34, in main
+    await backend.start()
+  File "/Users/antonioreid/survey-agent/survey_agent/browser/cloakbrowser_backend.py", line 85, in start
+    raise RuntimeError("cloakbrowser worker thread failed to start within 60s")
+RuntimeError: cloakbrowser worker thread failed to start within 60s

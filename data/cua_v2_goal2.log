@@ -1,0 +1,104 @@
+03:42:11 [INFO] CUA Survey Agent v2 starting
+03:42:12 [INFO] Found Chrome: pid=55790 wid=37341
+03:42:21 [INFO] Initial balance: 150
+03:42:21 [INFO] 
+=== Cycle 1: 11 surveys ===
+03:42:21 [INFO] 
+--- Survey 1/11 ---
+03:42:36 [INFO] Clicking survey at (499, 601)
+03:42:48 [INFO] Survey loaded in same tab (wid=37341)
+03:42:58 [INFO] [Page 1] Branded Surveys | Users | 2155 chars | https://surveys.gobranded.com/users/dashboard
+03:43:15 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:43:15 [INFO]   LLM: 1 answers for 3 inputs
+03:43:31 [INFO] [Page 2] Branded Surveys | Users | 2155 chars | https://surveys.gobranded.com/users/dashboard
+03:43:31 [INFO] Redirected to dashboard — survey done
+03:43:31 [INFO] Survey 1 completed! (1 total this cycle)
+03:43:41 [INFO] Pausing 4 seconds...
+03:43:45 [INFO] 
+--- Survey 2/11 ---
+03:44:02 [INFO] Clicking survey at (499, 601)
+03:44:15 [INFO] Survey loaded in same tab (wid=37341)
+03:44:26 [INFO] [Page 1] Branded Surveys | Users | 2163 chars | https://surveys.gobranded.com/users/dashboard
+03:44:43 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:44:43 [INFO]   LLM: 1 answers for 3 inputs
+03:45:03 [INFO] [Page 2] Branded Surveys | Users | 2163 chars | https://surveys.gobranded.com/users/dashboard
+03:45:03 [INFO] Redirected to dashboard — survey done
+03:45:03 [INFO] Survey 2 completed! (2 total this cycle)
+03:45:14 [INFO] Pausing 8 seconds...
+03:45:22 [INFO] 
+--- Survey 3/11 ---
+03:45:39 [INFO] Clicking survey at (499, 601)
+03:45:58 [INFO] Survey loaded in same tab (wid=37341)
+03:46:09 [INFO] [Page 1] Branded Surveys | Users | 2220 chars | https://surveys.gobranded.com/members
+03:46:26 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:46:26 [INFO]   LLM: 1 answers for 3 inputs
+03:46:38 [INFO] [Page 2] Branded Surveys | Users | 2220 chars | https://surveys.gobranded.com/members
+03:46:58 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:46:58 [INFO]   LLM: 1 answers for 3 inputs
+03:47:11 [INFO] [Page 3] Branded Surveys | Users | 2220 chars | https://surveys.gobranded.com/members
+03:47:32 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:47:32 [INFO]   LLM: 1 answers for 3 inputs
+03:47:46 [INFO] [Page 4] Branded Surveys | Users | 2220 chars | https://surveys.gobranded.com/members
+03:48:11 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:48:11 [INFO]   LLM: 1 answers for 3 inputs
+03:48:24 [INFO] [Page 5] Branded Surveys | Users | 2220 chars | https://surveys.gobranded.com/members
+03:48:45 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:48:45 [INFO]   LLM: 1 answers for 3 inputs
+03:48:57 [INFO] [Page 6] Branded Surveys | Users | 2220 chars | https://surveys.gobranded.com/members
+03:49:10 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:49:10 [INFO]   LLM: 1 answers for 3 inputs
+03:49:23 [INFO] [Page 7] Branded Surveys | Users | 2220 chars | https://surveys.gobranded.com/members
+03:49:42 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:49:42 [INFO]   LLM: 1 answers for 3 inputs
+03:49:54 [INFO] [Page 8] Branded Surveys | Users | 2220 chars | https://surveys.gobranded.com/members
+03:50:07 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:50:07 [INFO]   LLM: 1 answers for 3 inputs
+03:50:22 [INFO] [Page 9] Branded Surveys | Users | 2219 chars | https://surveys.gobranded.com/members
+03:50:54 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:50:54 [INFO]   LLM: 1 answers for 3 inputs
+03:51:07 [INFO] [Page 10] Branded Surveys | Users | 2219 chars | https://surveys.gobranded.com/members
+03:51:24 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:51:24 [INFO]   LLM: 1 answers for 3 inputs
+03:51:37 [INFO] [Page 11] Branded Surveys | Users | 2219 chars | https://surveys.gobranded.com/members
+03:51:57 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:51:57 [INFO]   LLM: 1 answers for 3 inputs
+03:52:10 [INFO] [Page 12] Branded Surveys | Users | 2219 chars | https://surveys.gobranded.com/members
+03:52:34 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:52:34 [INFO]   LLM: 1 answers for 3 inputs
+03:52:47 [INFO] [Page 13] Branded Surveys | Users | 2219 chars | https://surveys.gobranded.com/members
+03:53:07 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:53:07 [INFO]   LLM: 1 answers for 3 inputs
+03:53:21 [INFO] [Page 14] Branded Surveys | Users | 2219 chars | https://surveys.gobranded.com/members
+03:53:55 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:53:55 [INFO]   LLM: 1 answers for 3 inputs
+03:54:08 [INFO] [Page 15] Branded Surveys | Users | 2219 chars | https://surveys.gobranded.com/members
+03:54:35 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:54:35 [INFO]   LLM: 1 answers for 3 inputs
+03:54:48 [INFO] [Page 16] Branded Surveys | Users | 2219 chars | https://surveys.gobranded.com/members
+03:55:05 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:55:05 [INFO]   LLM: 1 answers for 3 inputs
+03:55:17 [INFO] [Page 17] Branded Surveys | Users | 2219 chars | https://surveys.gobranded.com/members
+03:55:36 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:55:36 [INFO]   LLM: 1 answers for 3 inputs
+03:55:49 [INFO] [Page 18] Branded Surveys | Users | 2219 chars | https://surveys.gobranded.com/members
+03:56:08 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:56:08 [INFO]   LLM: 1 answers for 3 inputs
+03:56:21 [INFO] [Page 19] Branded Surveys | Users | 2219 chars | https://surveys.gobranded.com/members
+03:56:48 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:56:48 [INFO]   LLM: 1 answers for 3 inputs
+03:57:00 [INFO] [Page 20] Branded Surveys | Users | 2219 chars | https://surveys.gobranded.com/members
+03:57:18 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:57:18 [INFO]   LLM: 1 answers for 3 inputs
+03:57:31 [INFO] [Page 21] Branded Surveys | Users | 2219 chars | https://surveys.gobranded.com/members
+03:57:50 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:57:50 [INFO]   LLM: 1 answers for 3 inputs
+03:58:02 [INFO] [Page 22] Branded Surveys | Users | 2219 chars | https://surveys.gobranded.com/members
+03:58:22 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:58:22 [INFO]   LLM: 1 answers for 3 inputs
+03:58:34 [INFO] [Page 23] Branded Surveys | Users | 2219 chars | https://surveys.gobranded.com/members
+03:58:54 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:58:54 [INFO]   LLM: 1 answers for 3 inputs
+03:59:06 [INFO] [Page 24] Branded Surveys | Users | 2219 chars | https://surveys.gobranded.com/members
+03:59:27 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+03:59:27 [INFO]   LLM: 1 answers for 3 inputs
+03:59:39 [INFO] [Page 25] Branded Surveys | Users | 2219 chars | https://surveys.gobranded.com/members

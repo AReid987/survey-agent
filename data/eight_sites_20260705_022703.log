@@ -1,0 +1,570 @@
+Survey Agent
+  Provider: openai-compatible (OpenAI-Compatible (newapi, freellmapi, mimo, 
+etc.))
+  Model: MiniMax-M3
+  Sites: branded-surveys, prime-opinion, surveypop, qmee, eurekasurveys, 
+surveyspin, yougov, attapoll
+  Backend: browser-harness
+  Browser: headed
+
+Using your real Chrome browser. Make sure Chrome is open.
+
+02:27:05 [INFO] survey_agent.orchestrator: Starting agent for Branded Surveys...
+02:27:05 [WARNING] survey_agent.browser.harness_backend: Port 19333 already in use — another agent may be running. Killing stale Chrome.
+02:27:05 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=11096
+02:27:06 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=19985
+02:27:06 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=21664
+02:27:06 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=21800
+02:27:06 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=22900
+02:27:06 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=23075
+02:27:06 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=23834
+02:27:06 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=25836
+02:27:06 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=26859
+02:27:06 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=26872
+02:27:08 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=19333 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent --no-first-run
+02:27:09 [INFO] survey_agent.browser.harness_backend: Chrome window kept visible for screenshot access
+02:27:11 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'about:blank', 'title': '', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw':
+02:27:12 [INFO] survey_agent.orchestrator: [Session 0] Starting on Branded Surveys
+02:27:25 [INFO] survey_agent.orchestrator: [Session 0] Logged in
+02:27:29 [INFO] survey_agent.orchestrator: [Session 0] Initial balance: 209
+02:27:35 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw': 1512, 'ph': 2788}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/125190321/ts5j7rnb?key=4354f011&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/125185941/na5jdbg1?key=16454d15&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/sur
+02:27:35 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/125190321/ts5j7rnb?key=4354f011&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/
+02:27:35 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+02:27:52 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_URL: https://surveys.gobranded.com/users/dashboard
+NAV_TEXT: Skip to content
+Hi, Antonio Reid
+My Dashboard
+My Points
+209
+My Payouts
+Branded Elite
+Leaderboard
+Inv
+NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre/125190321/ye8vx3d2?key=4354f011&from=dashboard.click
+RESULT
+02:28:01 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_take_survey
+
+02:28:06 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+02:28:12 [INFO] survey_agent.browser.harness_backend: Page 1: 327 chars text, url=https://screener.purespectrum.com/?survey_id=50903048&supplier_id=8&surveySig=ff
+02:28:13 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+02:29:05 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+02:29:05 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+    {"selector": "button.cky-btn-accept", "action": "click", "value": ""},
+    {"selector": "input[placeholder*='Please enter a response']:nth-of-type(1)", "action": "fill", "value": "I take surveys to influence future product designs."},
+    {"selector": "input[placeholder*='Please enter a response']:nth-of-type(2)", "action": "fill", "value": "Also, I appreciate the incentives and rewards."},
+    {"selector": "button:contains('Next')", "action": "click", "value": ""}
+]
+02:29:05 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+    {"selector": "button.cky-btn-accept", "action": "click", "value": ""},
+    {"selector": "input[placeholder*='Please enter a response']:nth-of-type(1)", "action": "fill", "value": "I take surveys to influence future product designs."},
+    {"selector": "input[placeholder*='Please enter a response']:nth-of-type(2)", "action": "fill", "value": "Also, I appreciate the incentives and rewards."},
+    {"selector": "button:contains('Next')", "action": "click", "value": ""}
+]
+02:29:06 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:1/4
+RESULT: answers_applied
+
+02:29:06 [INFO] survey_agent.browser.harness_backend: Applied answers on page 1: [{"selector": "button.cky-btn-accept", "action": "click", "value": ""}, {"selector": "input[placeholder*='Please enter a response']:nth-of-type(1)", "
+02:29:06 [INFO] survey_agent.browser.harness_backend: Pre-submit: 0
+02:29:08 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:29:12 [INFO] survey_agent.browser.harness_backend: Form submit fallback: no_form
+02:29:23 [INFO] survey_agent.browser.harness_backend: Page 2: 327 chars text, url=https://screener.purespectrum.com/?survey_id=50903048&supplier_id=8&surveySig=ff
+02:29:23 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+02:30:22 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+02:30:22 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "button.cky-btn-reject",
+    "value": "",
+    "action": "click"
+  },
+  {
+    "selector": "textarea:first-of-type",
+    "value": "I take surveys to share my opinions and help improve products. I also enjoy earning rewards like gift cards.",
+    "action": "fill"
+  },
+  {
+    "selector": "button[type='submit']:not(.cky-btn)",
+    "value": "",
+    "action": "click"
+  }
+]
+02:30:22 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "button.cky-btn-reject",
+    "value": "",
+    "action": "click"
+  },
+  {
+    "selector": "textarea:first-of-type",
+    "value": "I take surveys to share my opinions and help improve products. I also enjoy earning rewards like gift cards.",
+    "action": "fill"
+  },
+  {
+    "selector": "button[type='submit']:not(.cky-btn)",
+    "value": "",
+    "action": "click"
+  }
+]
+02:30:23 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/3
+RESULT: answers_applied
+
+02:30:23 [INFO] survey_agent.browser.harness_backend: Applied answers on page 2: [{"selector": "button.cky-btn-reject", "value": "", "action": "click"}, {"selector": "textarea:first-of-type", "value": "I take surveys to share my op
+02:30:24 [INFO] survey_agent.browser.harness_backend: Pre-submit: 0
+02:30:25 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:30:29 [INFO] survey_agent.browser.harness_backend: Form submit fallback: no_form
+02:30:42 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 260 chars (vs 63 DOM chars)
+02:30:42 [INFO] survey_agent.browser.harness_backend: Page 3: 260 chars text, url=https://screener.purespectrum.com/?survey_id=50903048&supplier_id=8&surveySig=ff
+02:30:42 [INFO] survey_agent.browser.harness_backend: CAPTCHA detected: text_challenge — Text image CAPTCHA — needs OCR/vision to read
+02:30:42 [INFO] survey_agent.browser.harness_backend: CAPTCHA on page 3: text_challenge: Text image CAPTCHA — needs OCR/vision to read
+02:30:43 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot window: wid=54048 area=1433376
+02:30:43 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot: pid=35764 wid=54048
+02:30:45 [INFO] survey_agent.browser.harness_backend: Screenshot saved via cua-driver (234452 chars b64, pid=35764, wid=54048)
+02:30:45 [INFO] survey_agent.browser.harness_backend: No CAPTCHA image found — cropping center area (584,252,400,150)
+02:30:49 [INFO] survey_agent.browser.harness_backend: Vision model CAPTCHA: 'PfjvR5'
+02:30:53 [INFO] survey_agent.browser.harness_backend: CAPTCHA solved on page 3
+02:30:55 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:31:05 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 253 chars (vs 71 DOM chars)
+02:31:05 [INFO] survey_agent.browser.harness_backend: Page 4: 253 chars text, url=https://screener.purespectrum.com/?survey_id=50903048&supplier_id=8&surveySig=ff
+02:31:05 [INFO] survey_agent.browser.harness_backend: CAPTCHA detected: drag_drop — Drag-and-drop CAPTCHA
+02:31:05 [INFO] survey_agent.browser.harness_backend: CAPTCHA on page 4: drag_drop: Drag-and-drop CAPTCHA
+02:31:07 [INFO] survey_agent.browser.harness_backend: Drag CAPTCHA: DRAG_RESULT: dragged:332,198->756,198
+RESULT: drag_solved
+
+02:31:07 [INFO] survey_agent.browser.harness_backend: CAPTCHA solved on page 4
+02:31:09 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:31:18 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 253 chars (vs 71 DOM chars)
+02:31:18 [INFO] survey_agent.browser.harness_backend: Page 5: 253 chars text, url=https://screener.purespectrum.com/?survey_id=50903048&supplier_id=8&surveySig=ff
+02:31:18 [INFO] survey_agent.browser.harness_backend: CAPTCHA detected: drag_drop — Drag-and-drop CAPTCHA
+02:31:18 [INFO] survey_agent.browser.harness_backend: CAPTCHA on page 5: drag_drop: Drag-and-drop CAPTCHA
+02:31:21 [INFO] survey_agent.browser.harness_backend: Drag CAPTCHA: DRAG_RESULT: dragged:332,198->756,198
+RESULT: drag_solved
+
+02:31:21 [INFO] survey_agent.browser.harness_backend: CAPTCHA solved on page 5
+02:31:22 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:31:35 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 253 chars (vs 71 DOM chars)
+02:31:35 [INFO] survey_agent.browser.harness_backend: Page 6: 253 chars text, url=https://screener.purespectrum.com/?survey_id=50903048&supplier_id=8&surveySig=ff
+02:31:35 [INFO] survey_agent.browser.harness_backend: CAPTCHA detected: drag_drop — Drag-and-drop CAPTCHA
+02:31:35 [INFO] survey_agent.browser.harness_backend: CAPTCHA on page 6: drag_drop: Drag-and-drop CAPTCHA
+02:31:38 [INFO] survey_agent.browser.harness_backend: Drag CAPTCHA: DRAG_RESULT: dragged:332,198->756,198
+RESULT: drag_solved
+
+02:31:38 [INFO] survey_agent.browser.harness_backend: CAPTCHA solved on page 6
+02:31:39 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:31:49 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 253 chars (vs 71 DOM chars)
+02:31:49 [INFO] survey_agent.browser.harness_backend: Page stuck — refreshing page
+02:32:00 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 253 chars (vs 71 DOM chars)
+02:32:00 [WARNING] survey_agent.browser.harness_backend: Stuck on same page after refresh — skipping survey
+02:32:00 [WARNING] survey_agent.orchestrator: [Session 0] Survey 1 failed: Stuck on same page, skipping
+02:32:07 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw': 1512, 'ph': 2768}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/125185941/5fd74rwa?key=16454d15&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/125189413/dbhtg97j?key=6056d8b8&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/sur
+02:32:07 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/125185941/5fd74rwa?key=16454d15&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/
+02:32:07 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+02:32:24 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_URL: https://surveys.gobranded.com/users/dashboard
+NAV_TEXT: Skip to content
+Hi, Antonio Reid
+My Dashboard
+My Points
+209
+My Payouts
+Branded Elite
+Leaderboard
+Inv
+NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre/125185941/a8djyx3s?key=16454d15&from=dashboard.click
+RESULT
+02:32:33 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_take_survey
+
+02:32:37 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+02:32:43 [INFO] survey_agent.browser.harness_backend: Page 1: 355 chars text, url=https://screener.purespectrum.com/?survey_id=50901355&supplier_id=8&surveySig=9d
+02:32:43 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+02:33:29 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+02:33:29 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "input[type='text']:first-of-type",
+    "value": "Offer better rewards and make it quicker.",
+    "action": "fill"
+  },
+  {
+    "selector": "button[type='submit']",
+    "value": "",
+    "action": "click"
+  }
+]
+02:33:29 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "input[type='text']:first-of-type",
+    "value": "Offer better rewards and make it quicker.",
+    "action": "fill"
+  },
+  {
+    "selector": "button[type='submit']",
+    "value": "",
+    "action": "click"
+  }
+]
+02:33:30 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:0/2
+RESULT: answers_applied
+
+02:33:30 [INFO] survey_agent.browser.harness_backend: Applied answers on page 1: [{"selector": "input[type='text']:first-of-type", "value": "Offer better rewards and make it quicker.", "action": "fill"}, {"selector": "button[type='
+02:33:30 [INFO] survey_agent.browser.harness_backend: Pre-submit: 0
+02:33:32 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:33:36 [INFO] survey_agent.browser.harness_backend: Form submit fallback: no_form
+02:33:47 [INFO] survey_agent.browser.harness_backend: Page 2: 355 chars text, url=https://screener.purespectrum.com/?survey_id=50901355&supplier_id=8&surveySig=9d
+02:33:47 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+02:34:44 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+02:34:44 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): ```json
+[
+  {
+    "selector": "button.cky-btn-reject",
+    "value": "",
+    "action": "click"
+  },
+  {
+    "selector": "textarea",
+    "value": "Provide compensation for time, and keep surveys brief and engaging.",
+    "action": "fill"
+  },
+  {
+    "selector": "button[type='submit']:not([class*='cky'])",
+    "value": "",
+    "action": "click"
+  }
+]
+```
+02:34:44 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "button.cky-btn-reject",
+    "value": "",
+    "action": "click"
+  },
+  {
+    "selector": "textarea",
+    "value": "Provide compensation for time, and keep surveys brief and engaging.",
+    "action": "fill"
+  },
+  {
+    "selector": "button[type='submit']:not([class*='cky'])",
+    "value": "",
+    "action": "click"
+  }
+]
+02:34:45 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/3
+RESULT: answers_applied
+
+02:34:45 [INFO] survey_agent.browser.harness_backend: Applied answers on page 2: [{"selector": "button.cky-btn-reject", "value": "", "action": "click"}, {"selector": "textarea", "value": "Provide compensation for time, and keep sur
+02:34:45 [INFO] survey_agent.browser.harness_backend: Pre-submit: 0
+02:34:47 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:34:51 [INFO] survey_agent.browser.harness_backend: Form submit fallback: no_form
+02:35:04 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 248 chars (vs 63 DOM chars)
+02:35:04 [INFO] survey_agent.browser.harness_backend: Page 3: 248 chars text, url=https://screener.purespectrum.com/?survey_id=50901355&supplier_id=8&surveySig=9d
+02:35:04 [INFO] survey_agent.browser.harness_backend: CAPTCHA detected: text_challenge — Text image CAPTCHA — needs OCR/vision to read
+02:35:04 [INFO] survey_agent.browser.harness_backend: CAPTCHA on page 3: text_challenge: Text image CAPTCHA — needs OCR/vision to read
+02:35:04 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot window: wid=54048 area=1433376
+02:35:04 [INFO] survey_agent.browser.harness_backend: CAPTCHA screenshot: pid=35764 wid=54048
+02:35:04 [INFO] survey_agent.browser.harness_backend: Screenshot saved via cua-driver (232640 chars b64, pid=35764, wid=54048)
+02:35:04 [INFO] survey_agent.browser.harness_backend: Found CAPTCHA image by label: {'x': 667.0, 'y': 303.0, 'w': 150.0, 'h': 50.0}
+02:35:04 [INFO] survey_agent.browser.harness_backend: Cropped CAPTCHA: (681,293,175,70) scale=1.04
+02:35:08 [INFO] survey_agent.browser.harness_backend: Vision model CAPTCHA: 'hAqWCh'
+02:35:12 [INFO] survey_agent.browser.harness_backend: CAPTCHA solved on page 3
+02:35:13 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:35:23 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 256 chars (vs 71 DOM chars)
+02:35:23 [INFO] survey_agent.browser.harness_backend: Page 4: 256 chars text, url=https://screener.purespectrum.com/?survey_id=50901355&supplier_id=8&surveySig=9d
+02:35:23 [INFO] survey_agent.browser.harness_backend: CAPTCHA detected: drag_drop — Drag-and-drop CAPTCHA
+02:35:23 [INFO] survey_agent.browser.harness_backend: CAPTCHA on page 4: drag_drop: Drag-and-drop CAPTCHA
+02:35:25 [INFO] survey_agent.browser.harness_backend: Drag CAPTCHA: DRAG_RESULT: dragged:332,198->756,198
+RESULT: drag_solved
+
+02:35:25 [INFO] survey_agent.browser.harness_backend: CAPTCHA solved on page 4
+02:35:27 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:35:36 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 256 chars (vs 71 DOM chars)
+02:35:36 [INFO] survey_agent.browser.harness_backend: Page 5: 256 chars text, url=https://screener.purespectrum.com/?survey_id=50901355&supplier_id=8&surveySig=9d
+02:35:36 [INFO] survey_agent.browser.harness_backend: CAPTCHA detected: drag_drop — Drag-and-drop CAPTCHA
+02:35:36 [INFO] survey_agent.browser.harness_backend: CAPTCHA on page 5: drag_drop: Drag-and-drop CAPTCHA
+02:35:39 [INFO] survey_agent.browser.harness_backend: Drag CAPTCHA: DRAG_RESULT: dragged:332,198->756,198
+RESULT: drag_solved
+
+02:35:39 [INFO] survey_agent.browser.harness_backend: CAPTCHA solved on page 5
+02:35:40 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:35:50 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 256 chars (vs 71 DOM chars)
+02:35:50 [INFO] survey_agent.browser.harness_backend: Page 6: 256 chars text, url=https://screener.purespectrum.com/?survey_id=50901355&supplier_id=8&surveySig=9d
+02:35:50 [INFO] survey_agent.browser.harness_backend: CAPTCHA detected: drag_drop — Drag-and-drop CAPTCHA
+02:35:50 [INFO] survey_agent.browser.harness_backend: CAPTCHA on page 6: drag_drop: Drag-and-drop CAPTCHA
+02:35:52 [INFO] survey_agent.browser.harness_backend: Drag CAPTCHA: DRAG_RESULT: dragged:332,198->756,198
+RESULT: drag_solved
+
+02:35:52 [INFO] survey_agent.browser.harness_backend: CAPTCHA solved on page 6
+02:35:54 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:next
+RESULT: next_clicked
+
+02:36:04 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 256 chars (vs 71 DOM chars)
+02:36:04 [INFO] survey_agent.browser.harness_backend: Page stuck — refreshing page
+02:36:14 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 256 chars (vs 71 DOM chars)
+02:36:14 [WARNING] survey_agent.browser.harness_backend: Stuck on same page after refresh — skipping survey
+02:36:14 [WARNING] survey_agent.orchestrator: [Session 0] Survey 2 failed: Stuck on same page, skipping
+02:36:22 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw': 1512, 'ph': 2768}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/125189413/r4z6ukwa?key=6056d8b8&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/125140261/8p4rzh5w?key=e5cbd36c&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/sur
+02:36:22 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/125189413/r4z6ukwa?key=6056d8b8&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/
+02:36:22 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+02:36:39 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_URL: https://surveys.gobranded.com/users/dashboard
+NAV_TEXT: Skip to content
+Hi, Antonio Reid
+My Dashboard
+My Points
+209
+My Payouts
+Branded Elite
+Leaderboard
+Inv
+NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre/125189413/nercsh6v?key=6056d8b8&from=dashboard.click
+RESULT
+02:36:49 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_take_survey
+
+02:36:52 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+02:37:04 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 324 chars (vs 239 DOM chars)
+02:37:04 [INFO] survey_agent.browser.harness_backend: Page 1: 324 chars text, url=https://www.samplicio.us/s/Screening.aspx?SSID=6a4a0992-3348-4374-73dc-21ba39f54
+02:37:04 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+02:37:17 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+02:37:17 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [{"selector": "#option-1", "value": "", "action": "click"}]
+02:37:17 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [{"selector": "#option-1", "value": "", "action": "click"}]
+02:37:18 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:1/1
+RESULT: answers_applied
+
+02:37:18 [INFO] survey_agent.browser.harness_backend: Applied answers on page 1: [{"selector": "#option-1", "value": "", "action": "click"}]
+02:37:18 [INFO] survey_agent.browser.harness_backend: Pre-submit: 0
+02:37:20 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+02:37:24 [INFO] survey_agent.browser.harness_backend: Form submit fallback: submitted
+02:37:35 [INFO] survey_agent.browser.harness_backend: Page 2: 338 chars text, url=https://www.samplicio.us/s/Screening.aspx?SSID=6a4a0992-3348-4374-73dc-21ba39f54
+02:37:35 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+02:37:52 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+02:37:52 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector": "#option-1", "value": "", "action": "click"},
+  {"selector": "#option-8", "value": "", "action": "click"},
+  {"selector": "#option-11", "value": "", "action": "click"},
+  {"selector": "#option-3", "value": "", "action": "click"},
+  {"selector": "#ctl00_Content_btnContinue", "value": "", "action": "click"}
+]
+02:37:52 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector": "#option-1", "value": "", "action": "click"},
+  {"selector": "#option-8", "value": "", "action": "click"},
+  {"selector": "#option-11", "value": "", "action": "click"},
+  {"selector": "#option-3", "value": "", "action": "click"},
+  {"selector": "#ctl00_Content_btnContinue", "value": "", "action": "click"}
+]
+02:37:52 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:5/5
+RESULT: answers_applied
+
+02:37:52 [INFO] survey_agent.browser.harness_backend: Applied answers on page 2: [{"selector": "#option-1", "value": "", "action": "click"}, {"selector": "#option-8", "value": "", "action": "click"}, {"selector": "#option-11", "val
+02:37:53 [INFO] survey_agent.browser.harness_backend: Pre-submit: 1
+02:37:55 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+02:38:09 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 376 chars (vs 200 DOM chars)
+02:38:09 [INFO] survey_agent.browser.harness_backend: Domain changed (www.samplicio.us → survey.cint.com) — survey complete
+02:38:13 [INFO] survey_agent.orchestrator: [Session 0] Survey 3 completed (no balance change detected)
+02:38:13 [INFO] survey_agent.orchestrator: [Session 0] Survey output: RESULT: survey_complete
+02:38:16 [INFO] survey_agent.browser.harness_backend: Leaving Chrome running (pid=35764) for session persistence
+02:38:16 [INFO] survey_agent.orchestrator: Starting agent for Prime Opinion...
+02:38:16 [WARNING] survey_agent.orchestrator: No stored credentials for prime-opinion. Run: survey-agent account
+02:38:16 [WARNING] survey_agent.browser.harness_backend: Port 19333 already in use — another agent may be running. Killing stale Chrome.
+02:38:16 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=35764
+02:38:16 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=35816
+02:38:16 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=35817
+02:38:16 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=35953
+02:38:16 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=47200
+02:38:16 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=48932
+02:38:18 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=19333 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent --no-first-run
+02:38:19 [INFO] survey_agent.browser.harness_backend: Chrome window kept visible for screenshot access
+02:38:21 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'about:blank', 'title': '', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw':
+02:38:21 [INFO] survey_agent.orchestrator: [Session 0] Starting on Prime Opinion
+02:38:29 [INFO] survey_agent.browser.harness_backend: Using Google OAuth login for Prime Opinion
+02:38:37 [INFO] survey_agent.browser.harness_backend: Google OAuth login output: FINAL_URL: https://app.primeopinion.com/
+RESULT: login_unknown
+
+02:38:37 [INFO] survey_agent.browser.harness_backend: Leaving Chrome running (pid=49063) for session persistence
+02:38:37 [INFO] survey_agent.orchestrator: Starting agent for SurveyPop...
+02:38:37 [WARNING] survey_agent.orchestrator: No stored credentials for surveypop. Run: survey-agent account
+02:38:37 [WARNING] survey_agent.browser.harness_backend: Port 19333 already in use — another agent may be running. Killing stale Chrome.
+02:38:37 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=49063
+02:38:37 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=49084
+02:38:37 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=49619
+02:38:39 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=19333 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent --no-first-run
+02:38:40 [INFO] survey_agent.browser.harness_backend: Chrome window kept visible for screenshot access
+02:38:42 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'about:blank', 'title': '', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw':
+02:38:42 [INFO] survey_agent.orchestrator: [Session 0] Starting on SurveyPop
+02:38:52 [INFO] survey_agent.browser.harness_backend: Using Google OAuth login for SurveyPop
+02:39:00 [INFO] survey_agent.browser.harness_backend: Google OAuth login output: FINAL_URL: https://surveypop.com/
+RESULT: login_success
+
+02:39:00 [INFO] survey_agent.orchestrator: [Session 0] Logged in
+02:39:03 [INFO] survey_agent.orchestrator: [Session 0] Initial balance: 404
+02:39:06 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveypop.com/dashboard', 'title': '🐴 Survey Pop: Make Money Fast With Paid Surveys', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw': 1512, 'ph': 827}
+SURVEYS_RAW: []
+RESULT: discover_complete
+
+02:39:06 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=False, raw_line preview: []
+02:39:06 [INFO] survey_agent.orchestrator: [Session 0] No more surveys
+02:39:06 [INFO] survey_agent.browser.harness_backend: Leaving Chrome running (pid=49713) for session persistence
+02:39:06 [INFO] survey_agent.orchestrator: Starting agent for Qmee...
+02:39:06 [WARNING] survey_agent.orchestrator: No stored credentials for qmee. Run: survey-agent account
+02:39:06 [WARNING] survey_agent.browser.harness_backend: Port 19333 already in use — another agent may be running. Killing stale Chrome.
+02:39:06 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=49713
+02:39:06 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=49734
+02:39:06 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=49735
+02:39:06 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=49837
+02:39:08 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=19333 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent --no-first-run
+02:39:09 [INFO] survey_agent.browser.harness_backend: Chrome window kept visible for screenshot access
+02:39:11 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'about:blank', 'title': '', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw':
+02:39:12 [INFO] survey_agent.orchestrator: [Session 0] Starting on Qmee
+02:39:20 [INFO] survey_agent.browser.harness_backend: Using Google OAuth login for Qmee
+02:39:28 [INFO] survey_agent.browser.harness_backend: Google OAuth login output: FINAL_URL: https://www.qmee.com/en-us/dashboard
+RESULT: login_success
+
+02:39:28 [INFO] survey_agent.orchestrator: [Session 0] Logged in
+02:39:31 [INFO] survey_agent.orchestrator: [Session 0] Initial balance: 0
+02:39:35 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://www.qmee.com/en-us/surveys', 'title': 'Earn | Qmee', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw': 1512, 'ph': 827}
+SURVEYS_RAW: []
+RESULT: discover_complete
+
+02:39:35 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=False, raw_line preview: []
+02:39:35 [INFO] survey_agent.orchestrator: [Session 0] No more surveys
+02:39:35 [INFO] survey_agent.browser.harness_backend: Leaving Chrome running (pid=50372) for session persistence
+02:39:35 [INFO] survey_agent.orchestrator: Starting agent for EurekaSurveys...
+02:39:35 [WARNING] survey_agent.orchestrator: No stored credentials for eurekasurveys. Run: survey-agent account
+02:39:35 [WARNING] survey_agent.browser.harness_backend: Port 19333 already in use — another agent may be running. Killing stale Chrome.
+02:39:35 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=50372
+02:39:35 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=50392
+02:39:35 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=50416
+02:39:35 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=50495
+02:39:37 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=19333 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent --no-first-run
+02:39:38 [INFO] survey_agent.browser.harness_backend: Chrome window kept visible for screenshot access
+02:39:40 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'about:blank', 'title': '', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw':
+02:39:40 [INFO] survey_agent.orchestrator: [Session 0] Starting on EurekaSurveys
+02:39:49 [INFO] survey_agent.browser.harness_backend: Using Google OAuth login for EurekaSurveys
+02:39:57 [INFO] survey_agent.browser.harness_backend: Google OAuth login output: FINAL_URL: https://eurekasurveys.com/surveys
+RESULT: login_success
+
+02:39:57 [INFO] survey_agent.orchestrator: [Session 0] Logged in
+02:40:00 [INFO] survey_agent.orchestrator: [Session 0] Initial balance: 0
+02:40:04 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://eurekasurveys.com/surveys', 'title': 'Eureka Surveys: Make Money Taking Surveys & Cash Out to PayPal', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw': 1512, 'ph': 827}
+SURVEYS_RAW: []
+RESULT: discover_complete
+
+02:40:04 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=False, raw_line preview: []
+02:40:04 [INFO] survey_agent.orchestrator: [Session 0] No more surveys
+02:40:04 [INFO] survey_agent.browser.harness_backend: Leaving Chrome running (pid=51069) for session persistence
+02:40:04 [INFO] survey_agent.orchestrator: Starting agent for SurveySpin...
+02:40:04 [WARNING] survey_agent.orchestrator: No stored credentials for surveyspin. Run: survey-agent account
+02:40:04 [WARNING] survey_agent.browser.harness_backend: Port 19333 already in use — another agent may be running. Killing stale Chrome.
+02:40:04 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=51069
+02:40:04 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=51087
+02:40:04 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=51088
+02:40:04 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=51225
+02:40:06 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=19333 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent --no-first-run
+02:40:07 [INFO] survey_agent.browser.harness_backend: Chrome window kept visible for screenshot access
+02:40:09 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'about:blank', 'title': '', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw':
+02:40:09 [INFO] survey_agent.orchestrator: [Session 0] Starting on SurveySpin
+02:40:17 [INFO] survey_agent.browser.harness_backend: Using Google OAuth login for SurveySpin
+02:40:25 [INFO] survey_agent.browser.harness_backend: Google OAuth login output: FINAL_URL: https://surveyspin.com/
+RESULT: login_success
+
+02:40:25 [INFO] survey_agent.orchestrator: [Session 0] Logged in
+02:40:28 [INFO] survey_agent.orchestrator: [Session 0] Initial balance: 0
+02:40:32 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveyspin.com/surveys', 'title': 'Survey Spin: Get Paid Cash With Easy Surveys', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw': 1512, 'ph': 827}
+SURVEYS_RAW: []
+RESULT: discover_complete
+
+02:40:32 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=False, raw_line preview: []
+02:40:32 [INFO] survey_agent.orchestrator: [Session 0] No more surveys
+02:40:32 [INFO] survey_agent.browser.harness_backend: Leaving Chrome running (pid=51756) for session persistence
+02:40:32 [INFO] survey_agent.orchestrator: Starting agent for YouGov...
+02:40:32 [WARNING] survey_agent.orchestrator: No stored credentials for yougov. Run: survey-agent account
+02:40:32 [WARNING] survey_agent.browser.harness_backend: Port 19333 already in use — another agent may be running. Killing stale Chrome.
+02:40:32 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=51756
+02:40:32 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=51776
+02:40:32 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=51777
+02:40:32 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=51803
+02:40:32 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=51820
+02:40:32 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=51880
+02:40:34 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=19333 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent --no-first-run
+02:40:35 [INFO] survey_agent.browser.harness_backend: Chrome window kept visible for screenshot access
+02:40:37 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'about:blank', 'title': '', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw':
+02:40:38 [INFO] survey_agent.orchestrator: [Session 0] Starting on YouGov
+02:40:48 [INFO] survey_agent.browser.harness_backend: Using Google OAuth login for YouGov
+02:40:57 [INFO] survey_agent.browser.harness_backend: Google OAuth login output: FINAL_URL: https://account.yougov.com/region
+RESULT: login_unknown
+
+02:40:57 [INFO] survey_agent.browser.harness_backend: Leaving Chrome running (pid=52397) for session persistence
+02:40:57 [INFO] survey_agent.orchestrator: Starting agent for Attapoll...
+02:40:57 [WARNING] survey_agent.orchestrator: No stored credentials for attapoll. Run: survey-agent account
+02:40:57 [WARNING] survey_agent.browser.harness_backend: Port 19333 already in use — another agent may be running. Killing stale Chrome.
+02:40:57 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=52397
+02:40:57 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=52449
+02:40:57 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=52450
+02:40:57 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=52458
+02:40:57 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=52472
+02:40:57 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=52819
+02:40:59 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=19333 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent --no-first-run
+02:41:00 [INFO] survey_agent.browser.harness_backend: Chrome window kept visible for screenshot access
+02:41:02 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'about:blank', 'title': '', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw':
+02:41:03 [INFO] survey_agent.orchestrator: [Session 0] Starting on Attapoll
+02:41:10 [INFO] survey_agent.browser.harness_backend: Using Google OAuth login for Attapoll
+02:41:18 [INFO] survey_agent.browser.harness_backend: Google OAuth login output: FINAL_URL: https://earn.attapoll.app/#projects
+RESULT: login_unknown
+
+02:41:18 [INFO] survey_agent.browser.harness_backend: Leaving Chrome running (pid=53225) for session persistence
+Done: 1 surveys, 0 questions, 2 errors
+Error: Login failed: Google OAuth login unclear: FINAL_URL: 
+https://app.primeopinion.com/
+RESULT: login_unknown
+
+Done: 0 surveys, 0 questions, 0 errors
+Done: 0 surveys, 0 questions, 0 errors
+Done: 0 surveys, 0 questions, 0 errors
+Done: 0 surveys, 0 questions, 0 errors
+Error: Login failed: Google OAuth login unclear: FINAL_URL: 
+https://account.yougov.com/region
+RESULT: login_unknown
+
+Error: Login failed: Google OAuth login unclear: FINAL_URL: 
+https://earn.attapoll.app/#projects
+RESULT: login_unknown
+

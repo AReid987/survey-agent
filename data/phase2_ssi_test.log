@@ -1,0 +1,129 @@
+Survey Agent
+  Provider: openai-compatible (OpenAI-Compatible (newapi, freellmapi, mimo, 
+etc.))
+  Model: MiniMax-M3
+  Sites: branded-surveys
+  Backend: browser-harness
+  Browser: headed
+
+Using your real Chrome browser. Make sure Chrome is open.
+
+12:36:15 [INFO] survey_agent.orchestrator: Starting agent for Branded Surveys...
+12:36:15 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=19333 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent --no-first-run
+12:36:16 [INFO] survey_agent.browser.harness_backend: Chrome window kept visible for screenshot access
+12:36:18 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'about:blank', 'title': '', 'w': 1200, 'h': 783, 'sx': 0, 'sy': 0, 'pw':
+12:36:18 [INFO] survey_agent.orchestrator: [Session 0] Starting on Branded Surveys
+12:36:23 [INFO] survey_agent.orchestrator: [Session 0] Logged in
+12:36:27 [INFO] survey_agent.orchestrator: [Session 0] Initial balance: 158
+12:36:33 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 1200, 'h': 783, 'sx': 0, 'sy': 0, 'pw': 1200, 'ph': 2972}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/125044533/uznyxagm?key=8974fa5c&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/125046113/fy25tz7g?key=44b7e40a&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/sur
+12:36:33 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/125044533/uznyxagm?key=8974fa5c&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/
+12:36:33 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+12:36:51 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_URL: https://surveys.gobranded.com/users/dashboard
+NAV_TEXT: Skip to content
+Hi, Antonio Reid
+1
+My Dashboard
+My Points
+158
+My Payouts
+Branded Elite
+Leaderboard
+I
+NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre/124953865/524px6hm?key=3681aecc&from=dashboard.click
+RESULT
+12:37:03 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_take_survey
+
+12:37:11 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_begin_survey
+
+12:37:17 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: accepted_cookies
+
+12:37:23 [INFO] survey_agent.browser.harness_backend: Page 1: 362 chars text, url=https://survey.viewpointforum.com/survey/260170/qre.cgi
+12:37:24 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+12:37:35 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+12:37:35 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): ```json
+[
+  {"selector": "#cn-ok", "value": "", "action": "click"},
+  {"selector": "#cont-btn", "value": "", "action": "click"}
+]
+```
+12:37:35 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector": "#cn-ok", "value": "", "action": "click"},
+  {"selector": "#cont-btn", "value": "", "action": "click"}
+]
+12:37:35 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+12:37:35 [INFO] survey_agent.browser.harness_backend: Applied answers on page 1: [{"selector": "#cn-ok", "value": "", "action": "click"}, {"selector": "#cont-btn", "value": "", "action": "click"}]
+12:37:36 [INFO] survey_agent.browser.harness_backend: Pre-submit: 1
+12:37:38 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+12:37:51 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 466 chars (vs 220 DOM chars)
+12:37:51 [INFO] survey_agent.browser.harness_backend: Page 2: 466 chars text, url=https://survey.viewpointforum.com/survey/260170/qre00.cgi
+12:37:51 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+12:38:50 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+12:38:50 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector": "#i0-25", "action": "click", "value": ""},
+  {"selector": "#cont-btn", "action": "click", "value": ""}
+]
+12:38:50 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector": "#i0-25", "action": "click", "value": ""},
+  {"selector": "#cont-btn", "action": "click", "value": ""}
+]
+12:38:51 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+12:38:51 [INFO] survey_agent.browser.harness_backend: Applied answers on page 2: [{"selector": "#i0-25", "action": "click", "value": ""}, {"selector": "#cont-btn", "action": "click", "value": ""}]
+12:38:52 [INFO] survey_agent.browser.harness_backend: Pre-submit: 0
+12:38:54 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): RESULT: no_next_button
+
+12:39:07 [INFO] survey_agent.browser.harness_backend: Domain changed (survey.viewpointforum.com → surveys.gobranded.com) — survey complete
+12:39:11 [INFO] survey_agent.orchestrator: [Session 0] Survey 1 completed (no balance change detected)
+12:39:11 [INFO] survey_agent.orchestrator: [Session 0] Survey output: RESULT: survey_complete
+12:39:18 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 1200, 'h': 783, 'sx': 0, 'sy': 0, 'pw': 1200, 'ph': 2972}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/125036601/7hyumj9x?key=e713c774&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/125047949/h56jskra?key=7da947ba&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/sur
+12:39:18 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/125036601/7hyumj9x?key=e713c774&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/
+12:39:18 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+12:39:36 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_URL: https://surveys.gobranded.com/users/dashboard
+NAV_TEXT: Skip to content
+Hi, Antonio Reid
+1
+My Dashboard
+My Points
+158
+My Payouts
+Branded Elite
+Leaderboard
+I
+NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/members/oq
+RESULT: still_on_dashboard
+
+12:39:36 [WARNING] survey_agent.orchestrator: [Session 0] Survey 2 failed: Survey link redirected to dashboard — survey unavailable
+12:39:44 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 1200, 'h': 783, 'sx': 0, 'sy': 0, 'pw': 1200, 'ph': 2972}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/121919593?key=a2eb4d21&from=dashboard.tile"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/121919593?key=a2eb4d21&from=dashboard.tile"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_fusion_rout
+12:39:44 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/121919593?key=a2eb4d21&from=dashboard.tile"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/121919593?
+12:39:44 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+12:40:01 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_URL: https://surveys.gobranded.com/users/dashboard
+NAV_TEXT: Skip to content
+Hi, Antonio Reid
+1
+My Dashboard
+My Points
+158
+My Payouts
+Branded Elite
+Leaderboard
+I
+NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/members/oq
+RESULT: still_on_dashboard
+
+12:40:01 [WARNING] survey_agent.orchestrator: [Session 0] Survey 3 failed: Survey link redirected to dashboard — survey unavailable
+12:40:04 [INFO] survey_agent.browser.harness_backend: Leaving Chrome running (pid=78184) for session persistence
+Done: 1 surveys, 0 questions, 2 errors

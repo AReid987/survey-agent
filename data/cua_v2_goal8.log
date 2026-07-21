@@ -1,0 +1,153 @@
+05:07:51 [INFO] CUA Survey Agent v2 starting
+05:07:51 [INFO] Found Chrome: pid=55790 wid=37341
+05:08:00 [INFO] Initial balance: 150
+05:08:00 [INFO] 
+=== Cycle 1: 12 surveys ===
+05:08:00 [INFO] 
+--- Survey 1/12 ---
+05:08:14 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/pre/124864885/523g8str?key=031a2433&from=d
+05:08:23 [INFO] Pre-survey page loaded, finding survey URL
+05:08:24 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124864885/523g8str?key=031a2433&from=
+05:08:38 [INFO] [Page 1] Consent | 597 chars | https://rx.samplicio.us/consent/?SID=f8a7ebad-7c22-42c3-8446
+05:08:59 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:08:59 [INFO]   LLM: 1 answers for 2 inputs
+05:09:11 [INFO] [Page 2] Consent | 597 chars | https://rx.samplicio.us/consent/?SID=f8a7ebad-7c22-42c3-8446
+05:09:31 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:09:31 [INFO]   LLM: 1 answers for 2 inputs
+05:09:44 [INFO] [Page 3] Consent | 597 chars | https://rx.samplicio.us/consent/?SID=f8a7ebad-7c22-42c3-8446
+05:10:05 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:10:05 [INFO]   LLM: 1 answers for 2 inputs
+05:10:17 [WARNING] Stuck on same page for 3 iterations — giving up
+05:10:17 [INFO] Survey 1 not completed
+05:10:27 [INFO] Pausing 4 seconds...
+05:10:31 [INFO] 
+--- Survey 2/12 ---
+05:10:45 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/pre/124864965/n6z9yqu7?key=6fedcbc4&from=d
+05:10:54 [INFO] Pre-survey page loaded, finding survey URL
+05:10:55 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124864965/n6z9yqu7?key=6fedcbc4&from=
+05:11:10 [INFO] [Page 1] PureSpectrum | 337 chars | https://screener.purespectrum.com/?survey_id=50807378&suppli
+05:11:38 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:11:38 [INFO]   LLM: 1 answers for 2 inputs
+05:11:50 [INFO] [Page 2] PureSpectrum | 264 chars | https://screener.purespectrum.com/?survey_id=50807378&suppli
+05:12:04 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:12:04 [INFO]   LLM: 1 answers for 2 inputs
+05:12:16 [INFO] [Page 3] PureSpectrum | 264 chars | https://screener.purespectrum.com/?survey_id=50807378&suppli
+05:12:46 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:12:46 [INFO]   LLM: 1 answers for 2 inputs
+05:12:58 [INFO] [Page 4] PureSpectrum | 264 chars | https://screener.purespectrum.com/?survey_id=50807378&suppli
+05:13:18 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:13:18 [INFO]   LLM: 1 answers for 2 inputs
+05:13:30 [WARNING] Stuck on same page for 3 iterations — giving up
+05:13:30 [INFO] Survey 2 not completed
+05:13:39 [INFO] Pausing 3 seconds...
+05:13:42 [INFO] 
+--- Survey 3/12 ---
+05:13:56 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/pre/124865033/3et7pnaw?key=e2efce0f&from=d
+05:14:05 [INFO] Pre-survey page loaded, finding survey URL
+05:14:06 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124865033/3et7pnaw?key=e2efce0f&from=
+05:14:20 [INFO] [Page 1] PureSpectrum | 327 chars | https://screener.purespectrum.com/?survey_id=50764026&suppli
+05:14:44 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:14:44 [INFO]   LLM: 1 answers for 2 inputs
+05:14:56 [INFO] [Page 2] PureSpectrum | 254 chars | https://screener.purespectrum.com/?survey_id=50764026&suppli
+05:15:29 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:15:29 [INFO]   LLM: 2 answers for 2 inputs
+05:15:43 [INFO] [Page 3] PureSpectrum | 327 chars | https://screener.purespectrum.com/?survey_id=50764026&suppli
+05:16:05 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:16:05 [INFO]   LLM: 1 answers for 2 inputs
+05:16:17 [INFO] [Page 4] PureSpectrum | 254 chars | https://screener.purespectrum.com/?survey_id=50764026&suppli
+05:16:52 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:16:52 [INFO]   LLM: 1 answers for 2 inputs
+05:17:04 [INFO] [Page 5] PureSpectrum | 254 chars | https://screener.purespectrum.com/?survey_id=50764026&suppli
+05:17:39 [WARNING] LLM error: The read operation timed out
+05:17:39 [INFO]   LLM: 0 answers for 2 inputs
+05:17:52 [INFO] [Page 6] PureSpectrum | 254 chars | https://screener.purespectrum.com/?survey_id=50764026&suppli
+05:18:27 [WARNING] LLM error: The read operation timed out
+05:18:27 [INFO]   LLM: 0 answers for 2 inputs
+05:18:41 [WARNING] Stuck on same page for 3 iterations — giving up
+05:18:41 [INFO] Survey 3 not completed
+05:18:52 [INFO] Pausing 7 seconds...
+05:18:59 [INFO] 
+--- Survey 4/12 ---
+05:19:13 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/pre/124863997/ecb37m2j?key=59dbfc50&from=d
+05:19:22 [INFO] Pre-survey page loaded, finding survey URL
+05:19:23 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124863997/ecb37m2j?key=59dbfc50&from=
+05:19:38 [INFO] [Page 1] Consent | 597 chars | https://rx.samplicio.us/consent/?SID=bd26591f-b609-4061-a440
+05:19:50 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:19:50 [INFO]   LLM: 1 answers for 2 inputs
+05:20:02 [INFO] [Page 2] Consent | 597 chars | https://rx.samplicio.us/consent/?SID=bd26591f-b609-4061-a440
+05:20:14 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:20:14 [INFO]   LLM: 1 answers for 2 inputs
+05:20:25 [INFO] [Page 3] Consent | 597 chars | https://rx.samplicio.us/consent/?SID=bd26591f-b609-4061-a440
+05:20:39 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:20:39 [INFO]   LLM: 1 answers for 2 inputs
+05:20:51 [WARNING] Stuck on same page for 3 iterations — giving up
+05:20:51 [INFO] Survey 4 not completed
+05:21:01 [INFO] Pausing 6 seconds...
+05:21:07 [INFO] 
+--- Survey 5/12 ---
+05:21:21 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/pre/124865333/6bevhgkr?key=b6fcd8de&from=d
+05:21:31 [INFO] Pre-survey page loaded, finding survey URL
+05:21:32 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124865333/6bevhgkr?key=b6fcd8de&from=
+05:21:47 [INFO] [Page 1] Surveys - Begin | 27 chars | https://surveys.insights-today.com/v1/survey/entry?bid_id=5d
+05:22:00 [INFO] [Page 2] Surveys - Qualify | 130 chars | https://surveys.insights-today.com/v1/survey/prescreener
+05:22:10 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:22:10 [INFO]   LLM: 1 answers for 6 inputs
+05:22:22 [INFO] [Page 3] Surveys - Qualify | 164 chars | https://surveys.insights-today.com/v1/survey/prescreener
+05:22:46 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:22:46 [INFO]   LLM: 2 answers for 6 inputs
+05:22:59 [INFO] [Page 4] Surveys - Qualify | 197 chars | https://surveys.insights-today.com/v1/survey/prescreener
+05:23:35 [WARNING] LLM error: The read operation timed out
+05:23:35 [INFO]   LLM: 0 answers for 6 inputs
+05:23:48 [INFO] [Page 5] Surveys - Qualify | 197 chars | https://surveys.insights-today.com/v1/survey/prescreener
+05:24:22 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:24:22 [INFO]   LLM: 3 answers for 6 inputs
+05:24:35 [INFO] [Page 6] Surveys - Qualify | 197 chars | https://surveys.insights-today.com/v1/survey/prescreener
+05:25:10 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:25:10 [INFO]   LLM: 3 answers for 6 inputs
+05:25:24 [INFO] [Page 7] Surveys - Qualify | 497 chars | https://surveys.insights-today.com/v1/survey/prescreener
+05:25:59 [WARNING] LLM error: The read operation timed out
+05:25:59 [INFO]   LLM: 0 answers for 6 inputs
+05:26:11 [INFO] [Page 8] Surveys - Qualify | 497 chars | https://surveys.insights-today.com/v1/survey/prescreener
+05:26:31 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:26:31 [INFO]   LLM: 4 answers for 6 inputs
+05:26:45 [INFO] [Page 9] Surveys - Qualify | 497 chars | https://surveys.insights-today.com/v1/survey/prescreener
+05:27:05 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:27:05 [INFO]   LLM: 4 answers for 6 inputs
+05:27:19 [WARNING] Stuck on same page for 3 iterations — giving up
+05:27:19 [INFO] Survey 5 not completed
+05:27:29 [INFO] Pausing 7 seconds...
+05:27:36 [INFO] 
+--- Survey 6/12 ---
+05:27:50 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/pre/124867897/rnd1f93q?key=f8a24729&from=d
+05:27:59 [INFO] Pre-survey page loaded, finding survey URL
+05:27:59 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124867897/rnd1f93q?key=f8a24729&from=
+05:28:14 [INFO] [Page 1] Branded Surveys | Users | 2567 chars | https://surveys.gobranded.com/members/3348704369
+05:28:27 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:28:27 [INFO]   LLM: 1 answers for 3 inputs
+05:28:39 [INFO] [Page 2] Branded Surveys | Users | 2567 chars | https://surveys.gobranded.com/members/3348704369
+05:28:39 [INFO] Redirected to dashboard — survey done
+05:28:39 [INFO] Survey 6 completed! (1 total this cycle)
+05:28:48 [INFO] Pausing 7 seconds...
+05:28:55 [INFO] 
+--- Survey 7/12 ---
+05:29:09 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/pre/124867933/ck2nx4t5?key=a53f2e7b&from=d
+05:29:18 [INFO] Pre-survey page loaded, finding survey URL
+05:29:19 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124867933/ck2nx4t5?key=a53f2e7b&from=
+05:29:33 [INFO] [Page 1] Branded Surveys | Users | 2487 chars | https://surveys.gobranded.com/members/oq
+05:30:09 [WARNING] LLM error: The read operation timed out
+05:30:09 [INFO]   LLM: 0 answers for 3 inputs
+05:30:20 [INFO] [Page 2] Branded Surveys | Users | 2487 chars | https://surveys.gobranded.com/members/oq
+05:30:20 [INFO] Redirected to dashboard — survey done
+05:30:20 [INFO] Survey 7 completed! (2 total this cycle)
+05:30:29 [INFO] Pausing 3 seconds...
+05:30:32 [INFO] 
+--- Survey 8/12 ---
+05:30:46 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/pre/124868009/e1gwdum9?key=abeb39af&from=d
+05:30:56 [INFO] Pre-survey page loaded, finding survey URL
+05:30:56 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124868009/e1gwdum9?key=abeb39af&from=
+05:31:12 [INFO] [Page 1] Consent | 597 chars | https://rx.samplicio.us/consent/?SID=a35949a7-3846-4b5b-8283
+05:31:26 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:31:26 [INFO]   LLM: 1 answers for 2 inputs
+05:31:37 [INFO] [Page 2] Consent | 597 chars | https://rx.samplicio.us/consent/?SID=a35949a7-3846-4b5b-8283
+05:31:48 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:31:48 [INFO]   LLM: 1 answers for 2 inputs

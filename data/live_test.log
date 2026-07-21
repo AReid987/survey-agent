@@ -1,0 +1,527 @@
+Survey Agent
+  Provider: openai-compatible (OpenAI-Compatible (newapi, freellmapi, mimo, 
+etc.))
+  Model: MiniMax-M3
+  Sites: branded-surveys
+  Backend: browser-harness
+  Browser: headed
+
+Using your real Chrome browser. Make sure Chrome is open.
+
+01:01:37 [INFO] survey_agent.orchestrator: Starting agent for Branded Surveys...
+01:01:37 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=9333 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent --no-first-run
+01:01:38 [INFO] survey_agent.browser.harness_backend: Chrome window minimized
+01:01:45 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'about:blank', 'title': '', 'w': 800, 'h': 513, 'sx': 0, 'sy': 0, 'pw': 
+01:01:52 [INFO] survey_agent.browser.harness_backend: Tab cleanup: CLEANED: 1 tabs
+01:01:58 [INFO] survey_agent.orchestrator: [Session 0] Starting on Branded Surveys
+01:02:16 [INFO] survey_agent.orchestrator: [Session 0] Logged in
+01:02:26 [INFO] survey_agent.orchestrator: [Session 0] Initial balance: 15
+01:02:41 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 800, 'h': 513, 'sx': 0, 'sy': 0, 'pw': 800, 'ph': 3091}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124689153/91czhrmt?key=768f48b7&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124587665/veqj6rs1?key=ed2a47ff&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surve
+01:02:41 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/124689153/91czhrmt?key=768f48b7&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre/
+01:02:41 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+01:03:00 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre/124689153/emh7spbx?key=768f48b7&from=dashboard.click
+RESULT: navigated
+
+01:03:13 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_take_survey
+
+01:03:20 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+01:03:37 [INFO] survey_agent.browser.harness_backend: Page 1: 690 chars text, url=https://www.nelsurveys.online/6a3eab41312615c34718c630?source=lucid&age=39&gende
+01:03:37 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:03:38 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:03:38 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [{"selector":"button","value":"","action":"click"}]
+01:03:38 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [{"selector":"button","value":"","action":"click"}]
+01:03:45 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:1/1
+RESULT: answers_applied
+
+01:03:45 [INFO] survey_agent.browser.harness_backend: Applied answers on page 1: [{"selector": "button", "value": "", "action": "click"}]
+01:03:53 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:continue
+RESULT: next_clicked
+
+01:04:22 [INFO] survey_agent.browser.harness_backend: Page 2: 561 chars text, url=https://www.nelsurveys.online/6a3eab41312615c34718c630?source=lucid&age=39&gende
+01:04:22 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:04:23 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:04:23 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "input[type='radio'][text='male']",
+    "action": "click",
+    "value": ""
+  },
+  {
+    "selector": "select",
+    "action": "select",
+    "value": " "
+  }
+]
+01:04:23 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "input[type='radio'][text='male']",
+    "action": "click",
+    "value": ""
+  },
+  {
+    "selector": "select",
+    "action": "select",
+    "value": " "
+  }
+]
+01:04:29 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:1/2
+RESULT: answers_applied
+
+01:04:29 [INFO] survey_agent.browser.harness_backend: Applied answers on page 2: [{"selector": "input[type='radio'][text='male']", "action": "click", "value": ""}, {"selector": "select", "action": "select", "value": " "}]
+01:04:37 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:continue
+RESULT: next_clicked
+
+01:05:00 [INFO] survey_agent.browser.harness_backend: Page 3: 585 chars text, url=https://www.nelsurveys.online/6a3eab41312615c34718c630?source=lucid&age=39&gende
+01:05:00 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:05:01 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:05:01 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "input[type=radio]:nth-of-type(2)",
+    "action": "click",
+    "value": ""
+  },
+  {
+    "selector": "select",
+    "action": "select",
+    "value": " "
+  },
+  {
+    "selector": ".bg-azure-70",
+    "action": "click",
+    "value": ""
+  }
+]
+01:05:01 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "input[type=radio]:nth-of-type(2)",
+    "action": "click",
+    "value": ""
+  },
+  {
+    "selector": "select",
+    "action": "select",
+    "value": " "
+  },
+  {
+    "selector": ".bg-azure-70",
+    "action": "click",
+    "value": ""
+  }
+]
+01:05:02 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/3
+RESULT: answers_applied
+
+01:05:02 [INFO] survey_agent.browser.harness_backend: Applied answers on page 3: [{"selector": "input[type=radio]:nth-of-type(2)", "action": "click", "value": ""}, {"selector": "select", "action": "select", "value": " "}, {"selecto
+01:05:03 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:continue
+RESULT: next_clicked
+
+01:05:14 [INFO] survey_agent.browser.harness_backend: Page 4: 585 chars text, url=https://www.nelsurveys.online/6a3eab41312615c34718c630?source=lucid&age=39&gende
+01:05:14 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:05:15 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:05:15 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "input[type=radio][text='male']",
+    "value": "",
+    "action": "click"
+  },
+  {
+    "selector": "select",
+    "value": "1995",
+    "action": "select"
+  },
+  {
+    "selector": "button.bg-azure-70",
+    "value": "",
+    "action": "click"
+  }
+]
+01:05:15 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "input[type=radio][text='male']",
+    "value": "",
+    "action": "click"
+  },
+  {
+    "selector": "select",
+    "value": "1995",
+    "action": "select"
+  },
+  {
+    "selector": "button.bg-azure-70",
+    "value": "",
+    "action": "click"
+  }
+]
+01:05:16 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/3
+RESULT: answers_applied
+
+01:05:16 [INFO] survey_agent.browser.harness_backend: Applied answers on page 4: [{"selector": "input[type=radio][text='male']", "value": "", "action": "click"}, {"selector": "select", "value": "1995", "action": "select"}, {"select
+01:05:18 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:continue
+RESULT: next_clicked
+
+01:05:21 [INFO] survey_agent.browser.harness_backend: Page didn't advance — trying brute-force radio selection
+01:05:32 [INFO] survey_agent.browser.harness_backend: Page 5: 585 chars text, url=https://www.nelsurveys.online/6a3eab41312615c34718c630?source=lucid&age=39&gende
+01:05:32 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:05:33 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:05:33 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "input[type=radio][text='male']",
+    "value": "",
+    "action": "click"
+  },
+  {
+    "selector": "select",
+    "value": "1995",
+    "action": "select"
+  },
+  {
+    "selector": "button[text='Continue']",
+    "value": "",
+    "action": "click"
+  }
+]
+01:05:33 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "input[type=radio][text='male']",
+    "value": "",
+    "action": "click"
+  },
+  {
+    "selector": "select",
+    "value": "1995",
+    "action": "select"
+  },
+  {
+    "selector": "button[text='Continue']",
+    "value": "",
+    "action": "click"
+  }
+]
+01:05:34 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:1/3
+RESULT: answers_applied
+
+01:05:34 [INFO] survey_agent.browser.harness_backend: Applied answers on page 5: [{"selector": "input[type=radio][text='male']", "value": "", "action": "click"}, {"selector": "select", "value": "1995", "action": "select"}, {"select
+01:05:35 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:continue
+RESULT: next_clicked
+
+01:05:39 [INFO] survey_agent.browser.harness_backend: Page didn't advance — trying brute-force radio selection
+01:05:50 [INFO] survey_agent.browser.harness_backend: Page 6: 585 chars text, url=https://www.nelsurveys.online/6a3eab41312615c34718c630?source=lucid&age=39&gende
+01:05:50 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:05:51 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:05:51 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "input[text='male']",
+    "value": "",
+    "action": "click"
+  },
+  {
+    "selector": "select",
+    "value": "1987",
+    "action": "select"
+  },
+  {
+    "selector": "button.bg-azure-70",
+    "value": "",
+    "action": "click"
+  }
+]
+01:05:51 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "input[text='male']",
+    "value": "",
+    "action": "click"
+  },
+  {
+    "selector": "select",
+    "value": "1987",
+    "action": "select"
+  },
+  {
+    "selector": "button.bg-azure-70",
+    "value": "",
+    "action": "click"
+  }
+]
+01:05:51 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/3
+RESULT: answers_applied
+
+01:05:51 [INFO] survey_agent.browser.harness_backend: Applied answers on page 6: [{"selector": "input[text='male']", "value": "", "action": "click"}, {"selector": "select", "value": "1987", "action": "select"}, {"selector": "button
+01:05:53 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:continue
+RESULT: next_clicked
+
+01:05:57 [INFO] survey_agent.browser.harness_backend: Page didn't advance — trying brute-force radio selection
+01:06:07 [INFO] survey_agent.browser.harness_backend: Page 7: 585 chars text, url=https://www.nelsurveys.online/6a3eab41312615c34718c630?source=lucid&age=39&gende
+01:06:07 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:06:08 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:06:08 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector":"input[type=radio][text='male']","value":"","action":"click"},
+  {"selector":"select","value":"1995","action":"select"},
+  {"selector":"button","value":"","action":"click"}
+]
+01:06:08 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector":"input[type=radio][text='male']","value":"","action":"click"},
+  {"selector":"select","value":"1995","action":"select"},
+  {"selector":"button","value":"","action":"click"}
+]
+01:06:09 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/3
+RESULT: answers_applied
+
+01:06:09 [INFO] survey_agent.browser.harness_backend: Applied answers on page 7: [{"selector": "input[type=radio][text='male']", "value": "", "action": "click"}, {"selector": "select", "value": "1995", "action": "select"}, {"select
+01:06:11 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:continue
+RESULT: next_clicked
+
+01:06:14 [INFO] survey_agent.browser.harness_backend: Page didn't advance — trying brute-force radio selection
+01:06:25 [INFO] survey_agent.browser.harness_backend: Page 8: 585 chars text, url=https://www.nelsurveys.online/6a3eab41312615c34718c630?source=lucid&age=39&gende
+01:06:25 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:06:26 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:06:26 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "input[type='radio'][value='Male']",
+    "action": "click",
+    "value": ""
+  },
+  {
+    "selector": "select",
+    "action": "select",
+    "value": "1995"
+  }
+]
+01:06:26 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "input[type='radio'][value='Male']",
+    "action": "click",
+    "value": ""
+  },
+  {
+    "selector": "select",
+    "action": "select",
+    "value": "1995"
+  }
+]
+01:06:27 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:2/2
+RESULT: answers_applied
+
+01:06:27 [INFO] survey_agent.browser.harness_backend: Applied answers on page 8: [{"selector": "input[type='radio'][value='Male']", "action": "click", "value": ""}, {"selector": "select", "action": "select", "value": "1995"}]
+01:06:28 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:continue
+RESULT: next_clicked
+
+01:06:39 [INFO] survey_agent.browser.harness_backend: Page 9: 250 chars text, url=https://www.nelsurveys.online/6a3eab41312615c34718c630?source=lucid&age=39&gende
+01:06:39 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:06:40 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:06:40 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "input[type='text']",
+    "value": "78736",
+    "action": "fill"
+  },
+  {
+    "selector": "div.enabled",
+    "action": "click"
+  },
+  {
+    "selector": "button:nth-of-type(2)",
+    "action": "click"
+  }
+]
+01:06:40 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "input[type='text']",
+    "value": "78736",
+    "action": "fill"
+  },
+  {
+    "selector": "div.enabled",
+    "action": "click"
+  },
+  {
+    "selector": "button:nth-of-type(2)",
+    "action": "click"
+  }
+]
+01:06:41 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:3/3
+RESULT: answers_applied
+
+01:06:41 [INFO] survey_agent.browser.harness_backend: Applied answers on page 9: [{"selector": "input[type='text']", "value": "78736", "action": "fill"}, {"selector": "div.enabled", "action": "click"}, {"selector": "button:nth-of-t
+01:06:42 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:continue
+RESULT: next_clicked
+
+01:06:53 [INFO] survey_agent.browser.harness_backend: Page 10: 341 chars text, url=https://www.nelsurveys.online/6a3eab41312615c34718c630?source=lucid&age=39&gende
+01:06:53 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:06:54 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:06:54 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "input[type=radio][text='black']",
+    "value": "",
+    "action": "click"
+  },
+  {
+    "selector": "input[type=radio][text='some-college']",
+    "value": "",
+    "action": "click"
+  }
+]
+01:06:54 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "input[type=radio][text='black']",
+    "value": "",
+    "action": "click"
+  },
+  {
+    "selector": "input[type=radio][text='some-college']",
+    "value": "",
+    "action": "click"
+  }
+]
+01:06:55 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:0/2
+RESULT: answers_applied
+
+01:06:55 [INFO] survey_agent.browser.harness_backend: Applied answers on page 10: [{"selector": "input[type=radio][text='black']", "value": "", "action": "click"}, {"selector": "input[type=radio][text='some-college']", "value": "", 
+01:06:56 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:continue
+RESULT: next_clicked
+
+01:07:00 [INFO] survey_agent.browser.harness_backend: Page didn't advance — trying brute-force radio selection
+01:07:11 [INFO] survey_agent.browser.harness_backend: Page 11: 341 chars text, url=https://www.nelsurveys.online/6a3eab41312615c34718c630?source=lucid&age=39&gende
+01:07:11 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:07:12 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:07:12 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "input[type='radio'][text='black']",
+    "value": "",
+    "action": "click"
+  },
+  {
+    "selector": "input[type='radio'][text='some-college']",
+    "value": "",
+    "action": "click"
+  }
+]
+01:07:12 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "input[type='radio'][text='black']",
+    "value": "",
+    "action": "click"
+  },
+  {
+    "selector": "input[type='radio'][text='some-college']",
+    "value": "",
+    "action": "click"
+  }
+]
+01:07:13 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:0/2
+RESULT: answers_applied
+
+01:07:13 [INFO] survey_agent.browser.harness_backend: Applied answers on page 11: [{"selector": "input[type='radio'][text='black']", "value": "", "action": "click"}, {"selector": "input[type='radio'][text='some-college']", "value": 
+01:07:14 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:continue
+RESULT: next_clicked
+
+01:07:18 [INFO] survey_agent.browser.harness_backend: Page didn't advance — trying brute-force radio selection
+01:07:29 [INFO] survey_agent.browser.harness_backend: Page 12: 341 chars text, url=https://www.nelsurveys.online/6a3eab41312615c34718c630?source=lucid&age=39&gende
+01:07:29 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:07:30 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:07:30 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "input[text='black']",
+    "action": "click",
+    "value": ""
+  },
+  {
+    "selector": "input[text='some-college']",
+    "action": "click",
+    "value": ""
+  }
+]
+01:07:30 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "input[text='black']",
+    "action": "click",
+    "value": ""
+  },
+  {
+    "selector": "input[text='some-college']",
+    "action": "click",
+    "value": ""
+  }
+]
+01:07:30 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:0/2
+RESULT: answers_applied
+
+01:07:30 [INFO] survey_agent.browser.harness_backend: Applied answers on page 12: [{"selector": "input[text='black']", "action": "click", "value": ""}, {"selector": "input[text='some-college']", "action": "click", "value": ""}]
+01:07:32 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:continue
+RESULT: next_clicked
+
+01:07:36 [INFO] survey_agent.browser.harness_backend: Page didn't advance — trying brute-force radio selection
+01:07:46 [INFO] survey_agent.browser.harness_backend: Page 13: 341 chars text, url=https://www.nelsurveys.online/6a3eab41312615c34718c630?source=lucid&age=39&gende
+01:07:46 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:07:47 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:07:47 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "input[type=radio][value='black']",
+    "action": "click",
+    "value": ""
+  },
+  {
+    "selector": "input[type=radio][value='some-college']",
+    "action": "click",
+    "value": ""
+  }
+]
+01:07:47 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "input[type=radio][value='black']",
+    "action": "click",
+    "value": ""
+  },
+  {
+    "selector": "input[type=radio][value='some-college']",
+    "action": "click",
+    "value": ""
+  }
+]
+01:07:48 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:1/2
+RESULT: answers_applied
+
+01:07:48 [INFO] survey_agent.browser.harness_backend: Applied answers on page 13: [{"selector": "input[type=radio][value='black']", "action": "click", "value": ""}, {"selector": "input[type=radio][value='some-college']", "action": "
+01:07:50 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:continue
+RESULT: next_clicked
+
+01:07:53 [INFO] survey_agent.browser.harness_backend: Page didn't advance — trying brute-force radio selection
+01:08:04 [INFO] survey_agent.browser.harness_backend: Page 14: 317 chars text, url=https://www.nelsurveys.online/6a3eab41312615c34718c630?source=lucid&age=39&gende
+01:08:04 [INFO] survey_agent.llm_provider: Wrapped cerebras LLM with thinking-tag stripper
+01:08:05 [INFO] httpx: HTTP Request: POST https://api.cerebras.ai/v1/chat/completions "HTTP/1.1 200 OK"
+01:08:05 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {
+    "selector": "input[type=radio][value='black']",
+    "value": "",
+    "action": "click"
+  },
+  {
+    "selector": "input[type=radio][value='some-college']",
+    "value": "",
+    "action": "click"
+  }
+]
+01:08:05 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {
+    "selector": "input[type=radio][value='black']",
+    "value": "",
+    "action": "click"
+  },
+  {
+    "selector": "input[type=radio][value='some-college']",
+    "value": "",
+    "action": "click"
+  }
+]
+01:08:05 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:1/2
+RESULT: answers_applied
+
+01:08:05 [INFO] survey_agent.browser.harness_backend: Applied answers on page 14: [{"selector": "input[type=radio][value='black']", "value": "", "action": "click"}, {"selector": "input[type=radio][value='some-college']", "value": ""
+01:08:07 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: text:continue
+RESULT: next_clicked
+
+01:08:11 [INFO] survey_agent.browser.harness_backend: Page didn't advance — trying brute-force radio selection

@@ -1,0 +1,30 @@
+Survey Agent
+  Provider: openai-compatible (OpenAI-Compatible (newapi, freellmapi, mimo, 
+etc.))
+  Model: MiniMax-M3
+  Sites: yougov
+  Backend: browser-harness
+  Browser: headed
+
+Using your real Chrome browser. Make sure Chrome is open.
+
+03:53:22 [INFO] survey_agent.orchestrator: Starting agent for YouGov...
+03:53:23 [WARNING] survey_agent.orchestrator: No stored credentials for yougov. Run: survey-agent account
+03:53:23 [WARNING] survey_agent.browser.harness_backend: Port 19333 already in use — another agent may be running. Killing stale Chrome.
+03:53:23 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=10463
+03:53:23 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=10514
+03:53:23 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=10539
+03:53:23 [INFO] survey_agent.browser.harness_backend: Killed stale Chrome pid=10677
+03:53:25 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=19333 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent --no-first-run
+03:53:27 [INFO] survey_agent.browser.harness_backend: Chrome window kept visible for screenshot access
+03:53:29 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'about:blank', 'title': '', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw':
+03:53:30 [INFO] survey_agent.orchestrator: [Session 0] Starting on YouGov
+03:53:41 [INFO] survey_agent.browser.harness_backend: Using Google OAuth login for YouGov
+03:53:50 [INFO] survey_agent.browser.harness_backend: Google OAuth login output: FINAL_URL: https://account.yougov.com/region
+RESULT: login_unknown
+
+03:53:50 [INFO] survey_agent.browser.harness_backend: Leaving Chrome running (pid=16380) for session persistence
+Error: Login failed: Google OAuth login unclear: FINAL_URL: 
+https://account.yougov.com/region
+RESULT: login_unknown
+

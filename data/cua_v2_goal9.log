@@ -1,0 +1,154 @@
+05:32:13 [INFO] CUA Survey Agent v2 starting
+05:32:14 [INFO] Found Chrome: pid=55790 wid=37341
+05:32:23 [INFO] Initial balance: 150
+05:32:23 [INFO] 
+=== Cycle 1: 9 surveys ===
+05:32:23 [INFO] 
+--- Survey 1/9 ---
+05:32:37 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/pre/124867633/g5eszn9v?key=8c46e748&from=d
+05:32:46 [INFO] Pre-survey page loaded, finding survey URL
+05:32:47 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124867633/g5eszn9v?key=8c46e748&from=
+05:33:01 [INFO] [Page 1] Consent | 597 chars | https://rx.samplicio.us/consent/?SID=4d8bd3ca-8891-47cb-9482
+05:33:15 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:33:15 [INFO]   LLM: 1 answers for 2 inputs
+05:33:25 [INFO] [Page 2] Consent | 597 chars | https://rx.samplicio.us/consent/?SID=4d8bd3ca-8891-47cb-9482
+05:33:37 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:33:37 [INFO]   LLM: 1 answers for 2 inputs
+05:33:48 [INFO] [Page 3] Consent | 597 chars | https://rx.samplicio.us/consent/?SID=4d8bd3ca-8891-47cb-9482
+05:34:01 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:34:01 [INFO]   LLM: 1 answers for 2 inputs
+05:34:12 [WARNING] Stuck on same page for 3 iterations — giving up
+05:34:12 [INFO] Survey 1 not completed
+05:34:21 [INFO] Pausing 7 seconds...
+05:34:28 [INFO] 
+--- Survey 2/9 ---
+05:34:42 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/pre/123536893/tk91vr6x?key=6c651fac&from=d
+05:34:51 [INFO] Pre-survey page loaded, finding survey URL
+05:34:52 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/123536893/tk91vr6x?key=6c651fac&from=
+05:35:06 [INFO] [Page 1] Survey Offer | 129 chars | https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+05:35:19 [INFO] [Page 2] Survey Offer | 129 chars | https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+05:35:31 [INFO] [Page 3] Survey Offer | 129 chars | https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+05:35:44 [WARNING] Stuck on same page for 3 iterations — giving up
+05:35:44 [INFO] Survey 2 not completed
+05:35:53 [INFO] Pausing 6 seconds...
+05:35:59 [INFO] 
+--- Survey 3/9 ---
+05:36:13 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/pre/124868061/xueg9jrh?key=34fddbbf&from=d
+05:36:22 [INFO] Pre-survey page loaded, finding survey URL
+05:36:23 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/122821325/gestyanb?key=4fc9da26&from=
+05:36:38 [INFO] [Page 1] Survey Offer | 129 chars | https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+05:36:52 [INFO] [Page 2] Survey Offer | 129 chars | https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+05:37:05 [INFO] [Page 3] Survey Offer | 129 chars | https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+05:37:18 [INFO] [Page 4] Branded Surveys | Transactions | 1790 chars | https://surveys.gobranded.com/my-points
+05:37:18 [INFO] Disqualified from survey
+05:37:18 [INFO] Survey 3 not completed
+05:37:28 [INFO] Pausing 3 seconds...
+05:37:31 [INFO] 
+--- Survey 4/9 ---
+05:37:45 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/pre_fusion_router/124850361/r837z2nv?key=6
+05:37:54 [INFO] No pre-survey page, survey may have started directly
+05:37:58 [INFO]   Page empty, waiting... (1/5)
+05:38:07 [INFO] [Page 2] PureSpectrum | 337 chars | https://screener.purespectrum.com/?survey_id=50807853&suppli
+05:38:30 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:38:30 [INFO]   LLM: 1 answers for 2 inputs
+05:38:42 [INFO] [Page 3] PureSpectrum | 264 chars | https://screener.purespectrum.com/?survey_id=50807853&suppli
+05:38:57 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:38:57 [INFO]   LLM: 1 answers for 2 inputs
+05:39:09 [INFO] [Page 4] PureSpectrum | 1906 chars | https://screener.purespectrum.com/?survey_id=50807853&suppli
+05:39:35 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:39:35 [INFO]   LLM: 2 answers for 2 inputs
+05:39:48 [INFO] [Page 5] PureSpectrum | 1906 chars | https://screener.purespectrum.com/?survey_id=50807853&suppli
+05:40:14 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:40:14 [INFO]   LLM: 2 answers for 2 inputs
+05:40:28 [INFO] [Page 6] PureSpectrum | 1906 chars | https://screener.purespectrum.com/?survey_id=50807853&suppli
+05:41:07 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:41:07 [INFO]   LLM: 2 answers for 1 inputs
+05:41:29 [INFO] [Page 7] Log In | 206 chars | https://console.neon.tech/realms/prod-realm/protocol/openid-
+05:41:55 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:41:55 [INFO]   LLM: 2 answers for 1 inputs
+05:42:10 [INFO] [Page 8] Log In | 206 chars | https://console.neon.tech/realms/prod-realm/protocol/openid-
+05:42:31 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:42:31 [INFO]   LLM: 2 answers for 1 inputs
+05:42:43 [INFO] [Page 9] Log In | 206 chars | https://console.neon.tech/realms/prod-realm/protocol/openid-
+05:42:59 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:42:59 [INFO]   LLM: 2 answers for 1 inputs
+05:43:11 [WARNING] Stuck on same page for 3 iterations — giving up
+05:43:11 [INFO] Survey 4 not completed
+05:43:21 [INFO] Pausing 8 seconds...
+05:43:29 [INFO] 
+--- Survey 5/9 ---
+05:43:43 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/pre_fusion_router/124850361/m254fwb3?key=6
+05:43:52 [INFO] No pre-survey page, survey may have started directly
+05:43:56 [INFO]   Page empty, waiting... (1/5)
+05:44:05 [INFO] [Page 2] FusionScreener | 209 chars | https://fusion.spectrumsurveys.com/partialScreener?localizat
+05:44:23 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:44:23 [INFO]   LLM: 2 answers for 9 inputs
+05:44:34 [INFO] [Page 3] Branded Surveys | Users | 2306 chars | https://surveys.gobranded.com/users/dashboard
+05:44:34 [INFO] Redirected to dashboard — survey done
+05:44:34 [INFO] Survey 5 completed! (1 total this cycle)
+05:44:44 [INFO] Pausing 3 seconds...
+05:44:47 [INFO] 
+--- Survey 6/9 ---
+05:45:00 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/pre_fusion_router/124850361/m254fwb3?key=6
+05:45:10 [INFO] No pre-survey page, survey may have started directly
+05:45:14 [INFO] [Page 1] PureSpectrum | 248 chars | https://screener.purespectrum.com/?survey_id=50807531&suppli
+05:45:29 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:45:29 [INFO]   LLM: 1 answers for 2 inputs
+05:45:42 [INFO] [Page 2] Branded Surveys | Transactions | 1757 chars | https://surveys.gobranded.com/my-points?type=all
+05:45:42 [INFO] Disqualified from survey
+05:45:42 [INFO] Survey 6 not completed
+05:45:51 [INFO] Pausing 8 seconds...
+05:45:59 [INFO] 
+--- Survey 7/9 ---
+05:46:13 [INFO]   Attempt 1: no survey URLs, waiting...
+05:46:20 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/pre/124867301/4ztg518j?key=c6b2870e&from=d
+05:46:29 [INFO] Pre-survey page loaded, finding survey URL
+05:46:30 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124867301/4ztg518j?key=c6b2870e&from=
+05:46:46 [INFO] [Page 1] Kantar Survey | 2984 chars | https://nfieldeu-interviewing-webapp.nfieldmr.com/Interview/
+05:47:02 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:47:02 [INFO]   LLM: 1 answers for 2 inputs
+05:47:13 [INFO] [Page 2] Kantar Survey | 2984 chars | https://nfieldeu-interviewing-webapp.nfieldmr.com/Interview/
+05:47:25 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:47:25 [INFO]   LLM: 1 answers for 2 inputs
+05:47:36 [INFO] [Page 3] Kantar Survey | 133 chars | https://nfieldeu-interviewing-webapp.nfieldmr.com/Interview/
+05:47:44 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:47:44 [INFO]   LLM: 1 answers for 2 inputs
+05:47:55 [INFO] [Page 4] Kantar Survey | 133 chars | https://nfieldeu-interviewing-webapp.nfieldmr.com/Interview/
+05:48:09 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:48:09 [INFO]   LLM: 1 answers for 2 inputs
+05:48:21 [INFO] [Page 5] Kantar Survey | 133 chars | https://nfieldeu-interviewing-webapp.nfieldmr.com/Interview/
+05:48:39 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:48:39 [INFO]   LLM: 1 answers for 2 inputs
+05:48:50 [INFO] [Page 6] Branded Surveys | Transactions | 1790 chars | https://surveys.gobranded.com/my-points
+05:48:50 [INFO] Disqualified from survey
+05:48:50 [INFO] Survey 7 not completed
+05:48:59 [INFO] Pausing 6 seconds...
+05:49:05 [INFO] 
+--- Survey 8/9 ---
+05:49:19 [INFO]   Attempt 1: no survey URLs, waiting...
+05:49:25 [INFO] Navigating to survey: https://surveys.gobranded.com/surveys/pre/124864337/xp3wv5bf?key=56d63dd5&from=d
+05:49:34 [INFO] Pre-survey page loaded, finding survey URL
+05:49:35 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124864337/xp3wv5bf?key=56d63dd5&from=
+05:49:50 [INFO] [Page 1] Consent | 597 chars | https://rx.samplicio.us/consent/?SID=605febb5-df9d-4cde-8c56
+05:50:02 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:50:02 [INFO]   LLM: 1 answers for 2 inputs
+05:50:14 [INFO] [Page 2] Error | 169 chars | https://rx.samplicio.us/error/?SID=605febb5-df9d-4cde-8c56-2
+05:50:28 [INFO] [Page 3] Error | 176 chars | https://rx.samplicio.us/error/?SID=605febb5-df9d-4cde-8c56-2
+05:50:42 [INFO] [Page 4] Error | 176 chars | https://rx.samplicio.us/error/?SID=605febb5-df9d-4cde-8c56-2
+05:50:55 [INFO] [Page 5] Error | 176 chars | https://rx.samplicio.us/error/?SID=605febb5-df9d-4cde-8c56-2
+05:51:08 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+05:51:08 [INFO]   LLM: 0 answers for 2 inputs
+05:51:21 [INFO] [Page 6] Branded Surveys | Users | 2242 chars | https://surveys.gobranded.com/users/dashboard
+05:51:21 [INFO] Redirected to dashboard — survey done
+05:51:21 [INFO] Survey 8 completed! (2 total this cycle)
+05:51:30 [INFO] Pausing 6 seconds...
+05:51:36 [INFO] 
+--- Survey 9/9 ---
+05:51:49 [INFO]   Attempt 1: no survey URLs, waiting...
+05:51:56 [INFO]   Attempt 2: no survey URLs, waiting...
+05:52:03 [INFO]   Attempt 3: no survey URLs, waiting...
+05:52:08 [WARNING] No survey URLs found on dashboard
+05:52:08 [INFO] Survey 9 not completed
+05:52:17 [INFO] Pausing 4 seconds...
+05:52:21 [INFO] 
+=== Cycle 1 done: 2/9 completed. Pausing 40 minutes... ===

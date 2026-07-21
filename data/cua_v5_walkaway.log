@@ -1,0 +1,122 @@
+11:15:30 [INFO] CUA Survey Agent v5 starting
+11:15:30 [INFO] Profile: /Users/antonioreid/survey-agent/data/profile.json (0% complete)
+11:15:30 [INFO] Profile loaded: 100.0
+11:15:30 [INFO] 
+## Demographics
+  Age: 39
+  Gender: Male
+  Ethnicity: Black/African American
+  Marital Status: Domestic partnership
+  ZIP Code: 78736
+  State: TX
+  City: Austin
+  Country: US
+
+## Employment
+  Employment Status: Self-employed
+  Industry: Technology
+  Job Title: Founder/CTO
+  Company Size: 1-10
+  Years of Experience: 8
+  Remote Work: Fully remote
+
+## Income & Finance
+  Household Income Range: $50,000-$74,999
+  Personal Income Range: $50,000-$74,999
+  Credit Score Range: Poor
+  Housing: Rent
+
+## E
+11:15:30 [INFO] Answer history: 46 previous answers
+11:15:30 [INFO] Dashboard Chrome: pid=95764 wid=51105
+11:15:40 [INFO] Initial balance: 153
+11:15:40 [INFO] 
+=== Cycle 1: 8 surveys ===
+11:15:40 [INFO] 
+--- Survey 1/8 ---
+11:15:51 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/120634389/863fszvg?key=adb6e2da&from=d
+11:16:00 [INFO] Extracted take URL: https://surveys.gobranded.com/surveys/take/120634389/863fszvg?key=adb6e2da&from=
+11:16:17 [INFO] Iframe survey (1 iframes, 129 chars), skipping
+11:16:17 [INFO] Navigating back to dashboard
+11:16:20 [INFO] Survey 1 not completed
+11:16:37 [INFO] 
+--- Survey 2/8 ---
+11:16:49 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/124946009/cysqx8j1?key=0f98f708&from=d
+11:16:58 [INFO] Extracted take URL: https://surveys.gobranded.com/surveys/take/124946009/cysqx8j1?key=0f98f708&from=
+11:17:15 [INFO] Iframe survey (1 iframes, 126 chars), skipping
+11:17:15 [INFO] Navigating back to dashboard
+11:17:18 [INFO] Survey 2 not completed
+11:17:34 [INFO] 
+--- Survey 3/8 ---
+11:17:46 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/125034077/rk41feva?key=76d25ff0&from=d
+11:17:55 [INFO] Extracted take URL: https://surveys.gobranded.com/surveys/take/125034077/rk41feva?key=76d25ff0&from=
+11:18:12 [INFO] [Page 1] PureSpectrum | 327 chars | https://screener.purespectrum.com/?survey_id=50859417&suppli
+11:18:13 [INFO]   Cleaned text: 313 chars (from 327)
+11:18:13 [INFO]   Persona-fill: 'I had a wonderful experience with my family and fr' (fill, no LLM)
+11:18:15 [INFO]   Submit: clicked:next
+11:18:22 [INFO] Iframe survey (1 iframes, 63 chars), skipping
+11:18:22 [INFO] Navigating back to dashboard
+11:18:25 [INFO] Survey 3 not completed
+11:18:41 [INFO] 
+--- Survey 4/8 ---
+11:18:53 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/125036825/bqt69jwd?key=f5c32f3c&from=d
+11:19:02 [INFO] Extracted take URL: https://surveys.gobranded.com/surveys/take/125036825/bqt69jwd?key=f5c32f3c&from=
+11:19:19 [INFO] Iframe survey (1 iframes, 131 chars), skipping
+11:19:19 [INFO] Navigating back to dashboard
+11:19:22 [INFO] Survey 4 not completed
+11:19:36 [INFO] 
+--- Survey 5/8 ---
+11:19:47 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/125039293/5wgzu7pa?key=be5d9f0e&from=d
+11:19:57 [INFO] Extracted take URL: https://surveys.gobranded.com/surveys/take/125039293/5wgzu7pa?key=be5d9f0e&from=
+11:20:13 [INFO] [Page 1]  | 262 chars | https://www.samplicio.us/s/Screening.aspx?SSID=6a468fb4-8da4
+11:20:15 [INFO]   Cleaned text: 192 chars (from 262)
+11:20:24 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+11:20:24 [INFO]   LLM: 0 answers, 1 unknowns
+11:20:24 [INFO]   Unknown: Would you say that in your household you speak…? (auto-pick middle)
+11:20:24 [INFO]   Auto-pick: 'Spanish and English equally' (index 2)
+11:20:27 [INFO]   Submit: clicked_last
+11:20:34 [INFO] [Page 2] Online Survey Software | Qualtrics Surve | 515 chars | https://lucid.qualtrics.com/jfe/form/SV_3K7xeCuU0reSxSK?rid=
+11:20:35 [INFO]   Cleaned text: 423 chars (from 515)
+11:20:47 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+11:20:47 [INFO]   LLM: 1 answers, 0 unknowns
+11:20:50 [INFO]   Submit: enter
+11:20:56 [INFO] [Page 3] Online Survey Software | Qualtrics Surve | 515 chars | https://lucid.qualtrics.com/jfe/form/SV_3K7xeCuU0reSxSK?rid=
+11:20:58 [INFO]   Cleaned text: 423 chars (from 515)
+11:21:09 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+11:21:09 [INFO]   LLM: 1 answers, 0 unknowns
+11:21:12 [INFO]   Submit: enter
+11:21:19 [INFO] [Page 4] Online Survey Software | Qualtrics Surve | 515 chars | https://lucid.qualtrics.com/jfe/form/SV_3K7xeCuU0reSxSK?rid=
+11:21:20 [INFO]   Cleaned text: 423 chars (from 515)
+11:21:28 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+11:21:28 [INFO]   LLM: 1 answers, 0 unknowns
+11:21:31 [INFO]   Submit: enter
+11:21:37 [INFO] [Page 5] Online Survey Software | Qualtrics Surve | 515 chars | https://lucid.qualtrics.com/jfe/form/SV_3K7xeCuU0reSxSK?rid=
+11:21:39 [INFO]   Cleaned text: 423 chars (from 515)
+11:21:47 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+11:21:47 [INFO]   LLM: 1 answers, 0 unknowns
+11:21:50 [INFO]   Submit: enter
+11:21:56 [INFO] [Page 6] Online Survey Software | Qualtrics Surve | 515 chars | https://lucid.qualtrics.com/jfe/form/SV_3K7xeCuU0reSxSK?rid=
+11:21:58 [INFO]   Cleaned text: 423 chars (from 515)
+11:22:05 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+11:22:05 [INFO]   LLM: 1 answers, 0 unknowns
+11:22:08 [INFO]   Submit: enter
+11:22:14 [WARNING] Stuck on same page for 5 iterations
+11:22:14 [INFO] Navigating back to dashboard
+11:22:17 [INFO] Survey 5 not completed
+11:22:33 [INFO] 
+--- Survey 6/8 ---
+11:22:45 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/125025001/br8kzu54?key=3782a686&from=d
+11:22:54 [INFO] Extracted take URL: https://surveys.gobranded.com/surveys/take/125025001/br8kzu54?key=3782a686&from=
+11:23:11 [INFO] [Page 1] PureSpectrum | 351 chars | https://screener.purespectrum.com/?survey_id=50856744&suppli
+11:23:13 [INFO]   Cleaned text: 337 chars (from 351)
+11:23:35 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+11:23:35 [INFO]   LLM: 1 answers, 0 unknowns
+11:23:39 [INFO]   Submit: enter
+11:23:50 [WARNING] Page empty
+11:23:50 [INFO] Navigating back to dashboard
+11:23:53 [INFO] Survey 6 not completed
+11:23:54 [INFO] No Chrome window found, opening dashboard...
+11:24:16 [INFO] 
+--- Survey 7/8 ---
+11:24:28 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/125042669/jg4p6m7b?key=38825344&from=d
+11:24:37 [INFO] Extracted take URL: https://surveys.gobranded.com/surveys/take/125042669/jg4p6m7b?key=38825344&from=

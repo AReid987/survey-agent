@@ -1,0 +1,168 @@
+Survey Agent
+  Provider: openai-compatible (OpenAI-Compatible (newapi, freellmapi, mimo, 
+etc.))
+  Model: MiniMax-M3
+  Sites: branded-surveys
+  Backend: browser-harness
+  Browser: headed
+
+Using your real Chrome browser. Make sure Chrome is open.
+
+06:14:27 [INFO] survey_agent.orchestrator: Starting agent for Branded Surveys...
+06:14:28 [INFO] survey_agent.browser.harness_backend: Launching dedicated Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --remote-debugging-port=19333 --user-data-dir=/Users/antonioreid/survey-agent/data/chrome_agent --no-first-run
+06:14:29 [INFO] survey_agent.browser.harness_backend: Chrome window kept visible for screenshot access
+06:14:30 [INFO] survey_agent.browser.harness_backend: Agent Chrome connected: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Sur
+06:14:32 [INFO] survey_agent.browser.harness_backend: Tab cleanup: CLEANED: 9 tabs
+06:14:32 [INFO] survey_agent.orchestrator: [Session 0] Starting on Branded Surveys
+06:14:37 [INFO] survey_agent.orchestrator: [Session 0] Logged in
+06:14:42 [INFO] survey_agent.orchestrator: [Session 0] Initial balance: 29
+06:14:46 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 1512, 'h': 827, 'sx': 0, 'sy': 0, 'pw': 1512, 'ph': 2912}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_router/124740833?key=4d74f1f4&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_router/124740833?key=4d74f1f4&from=dashboard.click"}]
+RESULT: discover_complete
+
+06:14:46 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_router/124740833?key=4d74f1f4&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_ro
+06:14:46 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+06:15:03 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_URL: https://surveys.gobranded.com/users/dashboard
+NAV_TEXT: Skip to content
+Hi, Antonio Reid
+My Dashboard
+My Points
+29
+My Payouts
+Branded Elite
+Leaderboard
+Invi
+NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre_router/124740833?key=4d74f1f4&from=dashboard.click
+RESULT: 
+06:15:09 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_take_survey
+
+06:15:15 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_begin_survey
+
+06:15:16 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+06:15:25 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 215 chars (vs 20 DOM chars)
+06:15:25 [INFO] survey_agent.browser.harness_backend: Page 1: 215 chars text, url=https://survey-d.yoursurveynow.com/survey/selfserve/53b/2606782#$
+06:15:26 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+06:15:38 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:15:38 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [{"selector": "#29", "value": "", "action": "click"}]
+06:15:38 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [{"selector": "#29", "value": "", "action": "click"}]
+06:15:39 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:0/1
+RESULT: answers_applied
+
+06:15:39 [INFO] survey_agent.browser.harness_backend: Applied answers on page 1: [{"selector": "#\\32 9", "value": "", "action": "click"}]
+06:15:39 [INFO] survey_agent.browser.harness_backend: Pre-submit: 0
+06:15:41 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+06:15:56 [INFO] survey_agent.browser.harness_backend: Page 2: 225 chars text, url=https://survey-d.yoursurveynow.com/survey/selfserve/53b/2606782#&
+06:15:56 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+06:16:31 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:16:31 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [{"selector": "input[name='age']", "value": "39", "action": "fill"}]
+06:16:31 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [{"selector": "input[name='age']", "value": "39", "action": "fill"}]
+06:16:31 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:0/1
+RESULT: answers_applied
+
+06:16:31 [INFO] survey_agent.browser.harness_backend: Applied answers on page 2: [{"selector": "input[name='age']", "value": "39", "action": "fill"}]
+06:16:32 [INFO] survey_agent.browser.harness_backend: Pre-submit: 0
+06:16:34 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+06:16:47 [INFO] survey_agent.browser.harness_backend: Page 3: 225 chars text, url=https://survey-d.yoursurveynow.com/survey/selfserve/53b/2606782#'
+06:16:47 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+06:17:57 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:17:57 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [{"selector": "input[name='age']", "value": "39", "action": "fill"}]
+06:17:57 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [{"selector": "input[name='age']", "value": "39", "action": "fill"}]
+06:17:57 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:0/1
+RESULT: answers_applied
+
+06:17:57 [INFO] survey_agent.browser.harness_backend: Applied answers on page 3: [{"selector": "input[name='age']", "value": "39", "action": "fill"}]
+06:17:58 [INFO] survey_agent.browser.harness_backend: Pre-submit: 0
+06:18:00 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+06:18:14 [INFO] survey_agent.browser.harness_backend: Page 4: 225 chars text, url=https://survey-d.yoursurveynow.com/survey/selfserve/53b/2606782#)
+06:18:14 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+06:18:54 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:18:54 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector": "input[name='age']", "value": "39", "action": "fill"}
+]
+06:18:54 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector": "input[name='age']", "value": "39", "action": "fill"}
+]
+06:18:55 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:0/1
+RESULT: answers_applied
+
+06:18:55 [INFO] survey_agent.browser.harness_backend: Applied answers on page 4: [{"selector": "input[name='age']", "value": "39", "action": "fill"}]
+06:18:55 [INFO] survey_agent.browser.harness_backend: Pre-submit: 0
+06:18:57 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+06:19:11 [INFO] survey_agent.browser.harness_backend: Page 5: 225 chars text, url=https://survey-d.yoursurveynow.com/survey/selfserve/53b/2606782#*
+06:19:11 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+06:19:56 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:19:56 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector": "input[name='age']", "value": "39", "action": "fill"},
+  {"selector": "button#2", "action": "click"}
+]
+06:19:56 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector": "input[name='age']", "value": "39", "action": "fill"},
+  {"selector": "button#2", "action": "click"}
+]
+06:19:57 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:0/2
+RESULT: answers_applied
+
+06:19:57 [INFO] survey_agent.browser.harness_backend: Applied answers on page 5: [{"selector": "input[name='age']", "value": "39", "action": "fill"}, {"selector": "button#2", "action": "click"}]
+06:19:58 [INFO] survey_agent.browser.harness_backend: Pre-submit: 0
+06:19:59 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): CLICKED: selector:input[type=submit]
+RESULT: next_clicked
+
+06:20:13 [INFO] survey_agent.browser.harness_backend: Page 6: 225 chars text, url=https://survey-d.yoursurveynow.com/survey/selfserve/53b/2606782#,
+06:20:13 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper
+06:20:55 [INFO] httpx: HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:20:55 [INFO] survey_agent.browser.harness_backend: LLM raw response (first 500): [
+  {"selector": "input[id*='age']", "value": "39", "action": "fill"},
+  {"selector": "#2", "value": "", "action": "click"}
+]
+06:20:55 [INFO] survey_agent.browser.harness_backend: LLM extracted JSON: [
+  {"selector": "input[id*='age']", "value": "39", "action": "fill"},
+  {"selector": "#2", "value": "", "action": "click"}
+]
+06:20:57 [INFO] survey_agent.browser.harness_backend: Apply answers (rc=0): APPLIED:0/2
+RESULT: answers_applied
+
+06:20:57 [INFO] survey_agent.browser.harness_backend: Applied answers on page 6: [{"selector": "input[id*='age']", "value": "39", "action": "fill"}, {"selector": "#\\32 ", "value": "", "action": "click"}]
+06:20:57 [INFO] survey_agent.browser.harness_backend: Pre-submit: 0
+06:20:58 [INFO] survey_agent.browser.harness_backend: Click next (rc=0): RESULT: no_next_button
+
+06:21:11 [INFO] survey_agent.browser.harness_backend: CUA OCR fallback: 40 chars (vs 0 DOM chars)
+06:21:11 [INFO] survey_agent.browser.harness_backend: Page 7: 40 chars text, url=about:blank
+06:21:11 [INFO] survey_agent.browser.harness_backend: Redirected to non-survey URL: about:blank — survey complete
+06:21:17 [INFO] survey_agent.orchestrator: [Session 0] Survey 1 completed (no balance change detected)
+06:21:17 [INFO] survey_agent.orchestrator: [Session 0] Survey output: RESULT: survey_complete
+06:21:25 [INFO] survey_agent.browser.harness_backend: Discover output (rc=0):
+PAGE_INFO: {'url': 'https://surveys.gobranded.com/users/dashboard', 'title': '🐴 Branded Surveys | Users', 'w': 800, 'h': 513, 'sx': 0, 'sy': 0, 'pw': 800, 'ph': 3091}
+SURVEYS_RAW: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_router/124740833?key=4d74f1f4&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_router/124740833?key=4d74f1f4&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/p
+06:21:25 [INFO] survey_agent.browser.harness_backend: Discover has_surveys=True, raw_line preview: [{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_router/124740833?key=4d74f1f4&from=dashboard.click"},{"text":"Take Survey","href":"https://surveys.gobranded.com/surveys/pre_ro
+06:21:25 [INFO] survey_agent.browser.harness_backend: Starting survey from dashboard
+06:21:42 [INFO] survey_agent.browser.harness_backend: Navigation output: NAV_URL: https://surveys.gobranded.com/users/dashboard
+NAV_TEXT: Skip to content
+Menu
+
+⚽ Predict Games. Earn Rewards. ⚾
+
+Join Novig, make a $10+ deposit, and earn $4
+NAV_RESULT: navigating:0pts
+URL: https://surveys.gobranded.com/surveys/pre_router/124740833?key=4d74f1f4&from=dashboard.click
+RESULT: 
+06:21:48 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_take_survey
+
+06:21:53 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: clicked_begin_survey
+
+06:21:54 [INFO] survey_agent.browser.harness_backend: Pre-survey: ACTION: ready
+RESULT: pre_survey_done
+
+06:22:00 [INFO] survey_agent.browser.harness_backend: Page 1: 3964 chars text, url=https://deloittesurvey.deloitte.com/Community/se/3FC11B2620B13F3E?ds=nexus&k2=25
+06:22:00 [INFO] survey_agent.llm_provider: Wrapped opencode LLM with thinking-tag stripper

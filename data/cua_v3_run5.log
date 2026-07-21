@@ -1,0 +1,54 @@
+06:44:08 [INFO] CUA Survey Agent v3 starting
+06:44:08 [INFO] Dashboard Chrome: pid=55790 wid=38916
+06:44:17 [INFO] Initial balance: 150
+06:44:17 [INFO] 
+=== Cycle 1: 8 surveys ===
+06:44:17 [INFO] 
+--- Survey 1/8 ---
+06:44:29 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124868797/eqhznu5y?key=11b1d161&from=d
+06:44:46 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124868797/eqhznu5y?key=11b1d161&from=
+06:45:00 [INFO] [Page 1] Survey | 107 chars | https://dvj.decipherinc.com/survey/selfserve/2144/2606233?li
+06:45:11 [INFO] [Page 2] Survey | 64 chars | https://dvj.decipherinc.com/survey/selfserve/2144/2606233#$
+06:45:22 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:45:22 [INFO]   LLM: 1 answers for 3 inputs
+06:45:30 [INFO] [Page 3] Survey | 40 chars | https://dvj.decipherinc.com/survey/selfserve/2144/2606233#&
+06:45:47 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:45:47 [INFO]   LLM: 1 answers for 1 inputs
+06:45:55 [INFO] [Page 4] Survey | 255 chars | https://dvj.decipherinc.com/survey/selfserve/2144/2606233#'
+06:46:44 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:46:44 [INFO]   LLM: 1 answers for 8 inputs
+06:46:51 [INFO] [Page 5] Survey | 251 chars | https://dvj.decipherinc.com/survey/selfserve/2144/2606233#)
+06:47:02 [INFO] [Page 6] Survey | 21 chars | https://dvj.decipherinc.com/survey/selfserve/2144/2606233#*
+06:47:14 [INFO] [Page 7] Survey | 96 chars | https://dvj.decipherinc.com/survey/selfserve/2144/2606233#,
+06:47:42 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:47:42 [INFO]   LLM: 1 answers for 4 inputs
+06:47:50 [INFO] [Page 8] Branded Surveys | Users | 2571 chars | https://surveys.gobranded.com/members/3348757533
+06:47:50 [INFO] Disqualified
+06:47:50 [INFO] Closing survey window
+06:47:53 [INFO] Survey 1 not completed
+06:48:02 [INFO] Pausing 4 seconds...
+06:48:06 [INFO] 
+--- Survey 2/8 ---
+06:48:19 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124870741/d2pbmsxr?key=a1c01639&from=d
+06:48:38 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124870741/d2pbmsxr?key=a1c01639&from=
+06:48:54 [INFO] [Page 1] PureSpectrum | 333 chars | https://screener.purespectrum.com/?survey_id=50800686&suppli
+06:49:26 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:49:26 [INFO]   LLM: 1 answers for 2 inputs
+06:49:35 [INFO] [Page 2] PureSpectrum | 260 chars | https://screener.purespectrum.com/?survey_id=50800686&suppli
+06:49:52 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:49:52 [INFO]   LLM: 1 answers for 2 inputs
+06:50:01 [INFO] [Page 3] PureSpectrum | 260 chars | https://screener.purespectrum.com/?survey_id=50800686&suppli
+06:50:58 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:50:58 [INFO]   LLM: 0 answers for 2 inputs
+06:51:08 [INFO] [Page 4] PureSpectrum | 260 chars | https://screener.purespectrum.com/?survey_id=50800686&suppli
+06:51:43 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:51:43 [INFO]   LLM: 2 answers for 2 inputs
+06:51:53 [WARNING] Stuck on same page for 3 iterations
+06:51:53 [INFO] Closing survey window
+06:51:57 [INFO] Survey 2 not completed
+06:52:06 [INFO] Pausing 8 seconds...
+06:52:14 [INFO] 
+--- Survey 3/8 ---
+06:52:26 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124870761/1a9dmy36?key=3bc14d45&from=d
+06:52:45 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124870761/1a9dmy36?key=3bc14d45&from=
+06:53:02 [INFO] [Page 1] Shopping Trends | 3233 chars | https://vxonline.luceresearch.com/SE/?st=S8UXPjU6Uxdv2s6Sj3A

@@ -1,0 +1,10 @@
+Starting cloakbrowser backend...
+Backend started.
+
+[1] Testing Google OAuth login on Branded Surveys...
+  Login result: success=False error='No login credentials. Run: survey-agent credentials'
+  URL: 
+  Output: ''
+
+[3] Stopping backend...
+Done.

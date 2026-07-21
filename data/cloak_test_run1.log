@@ -1,0 +1,35 @@
+[cloak] Launching stealth browser...
+
+  CloakBrowser — stealth Chromium for automation
+  https://github.com/CloakHQ/CloakBrowser
+
+  Running free tier (v146). Pro = latest binary (v148) + newest anti-bot patches.
+  Stay ahead of detection → https://cloakbrowser.dev
+  Star us if CloakBrowser helps your project!
+
+Traceback (most recent call last):
+  File "/Users/antonioreid/survey-agent/scripts/cloak_test.py", line 123, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/lib/python3.14/asyncio/runners.py", line 205, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/lib/python3.14/asyncio/runners.py", line 128, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.6/Frameworks/Python.framework/Versions/3.14/lib/python3.14/asyncio/base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/Users/antonioreid/survey-agent/scripts/cloak_test.py", line 22, in main
+    browser = launch(stealth=True, humanize=True, headless=False)
+  File "/Users/antonioreid/survey-agent/.venv/lib/python3.14/site-packages/cloakbrowser/browser.py", line 221, in launch
+    pw = sync_playwright().start()
+  File "/Users/antonioreid/survey-agent/.venv/lib/python3.14/site-packages/playwright/sync_api/_context_manager.py", line 84, in start
+    return self.__enter__()
+           ~~~~~~~~~~~~~~^^
+  File "/Users/antonioreid/survey-agent/.venv/lib/python3.14/site-packages/playwright/sync_api/_context_manager.py", line 47, in __enter__
+                raise Error(
+    ...<2 lines>...
+                )
+playwright._impl._errors.Error: It looks like you are using Playwright Sync API inside the asyncio loop.
+Please use the Async API instead.

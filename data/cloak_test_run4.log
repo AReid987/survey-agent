@@ -1,0 +1,62 @@
+[cloak] Launching stealth browser...
+[cloak] Browser launched: Browser
+
+[test 0] Logging in to Branded Surveys (Google OAuth)...
+  After email submit URL: https://surveys.gobranded.com/users/login/
+
+[test 1] Navigating to Branded Surveys dashboard...
+  URL: https://surveys.gobranded.com/users/login/
+  Title: Log In | Branded Surveys
+  Body preview: "HOW IT WORKS LOG IN SIGN UP\nOR\nSign in with email\nDon't have an account? Create one today\nForgot something? Reset Password\nBranded Surveys\nAbout Us\nTestimonials\nBlog\nAffiliates\nPaid Online Surveys\nEar"
+  Screenshot: data/smoke/cloak_test_branded.png
+
+[test 2] Clicking first survey tile...
+  Found 0 tiles
+
+[test 3] Checking for CAPTCHAs...
+  CAPTCHA indicators: {
+  "has_captcha_text": false,
+  "iframe_count": 1,
+  "has_turnstile": false,
+  "has_recaptcha": false,
+  "url": "https://surveys.gobranded.com/users/login/"
+}
+
+[test 4] Checking bot detection (browserleaks.com)...
+  Detection results: {
+  "webdriver": false,
+  "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.",
+  "plugins_count": 5,
+  "languages": [
+    "en-US"
+  ],
+  "platform": "MacIntel",
+  "hardwareConcurrency": 8,
+  "deviceMemory": 8
+}
+
+[test 5] Checking sannysoft bot detection...
+  Sannysoft results: {
+  "PHANTOM_UA": "ok",
+  "PHANTOM_PROPERTIES": "ok",
+  "PHANTOM_ETSL": "ok",
+  "PHANTOM_LANGUAGE": "ok",
+  "PHANTOM_WEBSOCKET": "ok",
+  "MQ_SCREEN": "ok",
+  "PHANTOM_OVERFLOW": "ok",
+  "PHANTOM_WINDOW_HEIGHT": "ok",
+  "HEADCHR_UA": "ok",
+  "HEADCHR_CHROME_OBJ": "ok",
+  "HEADCHR_PERMISSIONS": "ok",
+  "HEADCHR_PLUGINS": "ok",
+  "HEADCHR_IFRAME": "ok",
+  "CHR_DEBUG_TOOLS": "ok",
+  "SELENIUM_DRIVER": "ok",
+  "CHR_BATTERY": "ok",
+  "CHR_MEMORY": "ok",
+  "TRANSPARENT_PIXEL": "ok",
+  "SEQUENTUM": "ok",
+  "VIDEO_CODECS": "ok"
+}
+
+[done] Test complete. Check screenshots in data/smoke/

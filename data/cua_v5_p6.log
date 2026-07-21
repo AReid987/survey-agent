@@ -1,0 +1,31 @@
+10:03:36 [INFO] CUA Survey Agent v5 starting
+10:03:36 [INFO] Profile: /Users/antonioreid/survey-agent/data/profile.json (0% complete)
+10:03:36 [INFO] Profile loaded: 100.0
+10:03:36 [INFO] 
+## Demographics
+  Age: 39
+  Gender: Male
+  Ethnicity: Black/African American
+  Marital Status: Domestic partnership
+  ZIP Code: 78736
+  State: TX
+  City: Austin
+  Country: US
+
+## Employment
+  Employment Status: Self-employed
+  Industry: Technology
+  Job Title: Founder/CTO
+  Company Size: 1-10
+  Years of Experience: 8
+  Remote Work: Fully remote
+
+## Income & Finance
+  Household Income Range: $50,000-$74,999
+  Personal Income Range: $50,000-$74,999
+  Credit Score Range: Poor
+  Housing: Rent
+
+## E
+10:03:36 [INFO] Answer history: 44 previous answers
+10:03:36 [ERROR] No Chrome window found

@@ -1,0 +1,110 @@
+08:58:04 [INFO] CUA Survey Agent v5 starting
+08:58:04 [INFO] Profile: /Users/antonioreid/survey-agent/data/profile.json (0% complete)
+08:58:04 [INFO] Profile loaded: 100.0
+08:58:04 [INFO] 
+## Demographics
+  Age: 39
+  Gender: Male
+  Ethnicity: Black/African American
+  Marital Status: Domestic partnership
+  ZIP Code: 78736
+  State: TX
+  City: Austin
+  Country: US
+
+## Employment
+  Employment Status: Self-employed
+  Industry: Technology
+  Job Title: Founder/CTO
+  Company Size: 1-10
+  Years of Experience: 8
+  Remote Work: Fully remote
+
+## Income & Finance
+  Household Income Range: $50,000-$74,999
+  Personal Income Range: $50,000-$74,999
+  Credit Score Range: Poor
+  Housing: Rent
+
+## E
+08:58:04 [INFO] Answer history: 25 previous answers
+08:58:05 [INFO] Dashboard Chrome: pid=41852 wid=44549
+08:58:15 [INFO] Initial balance: 153
+08:58:15 [INFO] 
+=== Cycle 1: 12 surveys ===
+08:58:15 [INFO] 
+--- Survey 1/12 ---
+08:58:27 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/124850381/bdy5rpmz?key=0a7d0b09&from=d
+08:58:37 [INFO] Extracted take URL: https://surveys.gobranded.com/surveys/take/124850381/bdy5rpmz?key=0a7d0b09&from=
+08:58:55 [INFO] [Page 1] PureSpectrum | 339 chars | https://screener.purespectrum.com/?survey_id=50801875&suppli
+08:58:57 [INFO]   Cleaned text: 325 chars (from 339)
+08:59:40 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+08:59:40 [INFO]   LLM: 0 answers, 0 unknowns
+08:59:41 [INFO]   Submit: clicked:next
+08:59:49 [INFO] [Page 2] PureSpectrum | 339 chars | https://screener.purespectrum.com/?survey_id=50801875&suppli
+08:59:51 [INFO]   Cleaned text: 325 chars (from 339)
+09:00:33 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+09:00:33 [INFO]   LLM: 1 answers, 1 unknowns
+09:00:33 [INFO]   Unknown: In your opinion, what two actions can reduce wars and conflicts?
+09:00:33 [WARNING] UNKNOWN QUESTION: In your opinion, what two actions can reduce wars and conflicts?
+Options: Customise Consent Preferences, Show more, Necessary, Always Active, Functional, Advertisement Research, Performance, Advertisement, Uncategorised, Reject All
+09:00:35 [INFO]   Submit: clicked:next
+09:00:43 [INFO] [Page 3] PureSpectrum | 339 chars | https://screener.purespectrum.com/?survey_id=50801875&suppli
+09:00:45 [INFO]   Cleaned text: 325 chars (from 339)
+09:01:28 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+09:01:28 [INFO]   LLM: 0 answers, 0 unknowns
+09:01:30 [INFO]   Submit: clicked:next
+09:01:38 [INFO] [Page 4] PureSpectrum | 339 chars | https://screener.purespectrum.com/?survey_id=50801875&suppli
+09:01:40 [INFO]   Cleaned text: 325 chars (from 339)
+09:02:12 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+09:02:12 [INFO]   LLM: 0 answers, 1 unknowns
+09:02:12 [INFO]   Unknown: In your opinion, what two actions can reduce wars and conflicts?
+09:02:12 [WARNING] UNKNOWN QUESTION: In your opinion, what two actions can reduce wars and conflicts?
+Options: Customise Consent Preferences, Show more, Necessary, Always Active, Functional, Advertisement Research, Performance, Advertisement, Uncategorised, Reject All
+09:02:13 [INFO]   Submit: clicked:next
+09:02:21 [INFO] [Page 5] PureSpectrum | 339 chars | https://screener.purespectrum.com/?survey_id=50801875&suppli
+09:02:25 [INFO]   Cleaned text: 325 chars (from 339)
+09:03:02 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+09:03:02 [INFO]   LLM: 0 answers, 1 unknowns
+09:03:02 [INFO]   Unknown: In your opinion, what two actions can reduce wars and conflicts?
+09:03:02 [WARNING] UNKNOWN QUESTION: In your opinion, what two actions can reduce wars and conflicts?
+Options: Customise Consent Preferences, Show more, Necessary, Always Active, Functional, Advertisement Research, Performance, Advertisement, Uncategorised, Reject All
+09:03:04 [INFO]   Submit: clicked:next
+09:03:13 [WARNING] Stuck on same page for 5 iterations
+09:03:13 [INFO] Navigating back to dashboard
+09:03:17 [INFO] Survey 1 not completed
+09:03:29 [INFO] 
+--- Survey 2/12 ---
+09:03:42 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/124963229/n8v5r6dj?key=e2dffcb1&from=d
+09:03:51 [INFO] Extracted take URL: https://surveys.gobranded.com/surveys/take/124963229/n8v5r6dj?key=e2dffcb1&from=
+09:04:12 [INFO] [Page 1] Branded Surveys | Users | 2587 chars | https://surveys.gobranded.com/members/oq
+09:04:12 [INFO] Never reached survey page
+09:04:12 [INFO] Navigating back to dashboard
+09:04:16 [INFO] Survey 2 not completed
+09:04:30 [INFO] 
+--- Survey 3/12 ---
+09:04:42 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/125026273/ab71xgyz?key=57dbd73c&from=d
+09:04:52 [INFO] Extracted take URL: https://surveys.gobranded.com/surveys/take/125026273/ab71xgyz?key=57dbd73c&from=
+09:05:10 [INFO] [Page 1] PureSpectrum | 338 chars | https://screener.purespectrum.com/?survey_id=50856738&suppli
+09:05:12 [INFO]   Cleaned text: 324 chars (from 338)
+09:05:31 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+09:05:31 [INFO]   LLM: 1 answers, 0 unknowns
+09:05:34 [INFO]   Submit: clicked:next
+09:05:41 [INFO] [Page 2] PureSpectrum | 338 chars | https://screener.purespectrum.com/?survey_id=50856738&suppli
+09:05:43 [INFO]   Cleaned text: 324 chars (from 338)
+09:06:19 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+09:06:19 [INFO]   LLM: 2 answers, 0 unknowns
+09:06:23 [INFO]   Submit: clicked:next
+09:06:32 [INFO] Iframe survey (1 iframes, 63 chars), skipping
+09:06:32 [INFO] Navigating back to dashboard
+09:06:35 [INFO] Survey 3 not completed
+09:06:51 [INFO] 
+--- Survey 4/12 ---
+09:07:04 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/125027177/e5qpnbjz?key=b0f4f00c&from=d
+09:07:13 [INFO] Extracted take URL: https://surveys.gobranded.com/surveys/take/125027177/e5qpnbjz?key=b0f4f00c&from=
+09:07:34 [INFO] Iframe survey (1 iframes, 129 chars), skipping
+09:07:34 [INFO] Navigating back to dashboard
+09:07:37 [INFO] Survey 4 not completed
+09:07:55 [INFO] 
+--- Survey 5/12 ---
+09:08:08 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/124924105/skw2mjbq?key=922c77a5&from=d

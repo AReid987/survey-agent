@@ -1,0 +1,37 @@
+20:41:38 [INFO] CUA Survey Agent starting
+20:41:38 [INFO] Found Chrome: pid=55790 wid=25253
+20:41:45 [INFO] Initial balance: 149
+20:41:45 [INFO] 
+=== Survey 1 ===
+20:41:56 [INFO] Clicking survey at (499, 782)
+20:42:05 [INFO] Switched to survey window: pid=94122 wid=26034
+20:42:13 [INFO] [Page 1] 🐴 PureSpectrum | 2833 chars | 
+20:42:38 [INFO] [Page 2] 🐴 PureSpectrum | 3134 chars | 
+20:43:05 [INFO] [Page 3] 🐴 PureSpectrum | 3134 chars | 
+20:43:31 [INFO] [Page 4] 🐴 PureSpectrum | 3134 chars | 
+20:43:57 [INFO] [Page 5] 🐴 PureSpectrum | 3134 chars | 
+20:44:25 [INFO] [Page 6] 🐴 PureSpectrum | 3206 chars | 
+20:44:29 [INFO] Text CAPTCHA detected
+20:44:46 [INFO] CAPTCHA read: 'yJcdiaC'
+20:45:02 [INFO] [Page 7] 🐴 PureSpectrum | 2932 chars | 
+20:45:05 [INFO] Text CAPTCHA detected
+20:45:10 [WARNING] Could not read CAPTCHA
+20:46:00 [WARNING] Page empty 3 times — giving up
+20:46:00 [INFO] Survey 1 not completed
+20:46:06 [INFO] Pausing 5 seconds...
+20:46:11 [INFO] 
+=== Survey 2 ===
+20:46:21 [ERROR] Not logged in
+20:46:21 [INFO] Survey 2 not completed
+20:46:27 [INFO] Pausing 5 seconds...
+20:46:32 [INFO] 
+=== Survey 3 ===
+20:46:43 [INFO] Clicking survey at (499, 601)
+20:46:52 [INFO] Switched to survey window: pid=18612 wid=26184
+20:47:02 [INFO] [Page 1] 🐴 PureSpectrum | 3058 chars | 
+20:47:40 [INFO] [Page 2] New Tab | 1022 chars | 
+20:48:23 [INFO] [Page 3] Telegram | 2843 chars | 
+20:49:00 [INFO] [Page 4] Telegram | 2834 chars | 
+20:49:34 [INFO] [Page 5] Telegram | 2834 chars | 
+20:50:15 [INFO] [Page 6] Kenny | 1560 chars | 
+20:50:49 [INFO] [Page 7]  | 1594 chars | 

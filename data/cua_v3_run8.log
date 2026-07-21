@@ -1,0 +1,180 @@
+07:24:06 [INFO] CUA Survey Agent v3 starting
+07:24:06 [INFO] Dashboard Chrome: pid=55790 wid=39089
+07:24:16 [INFO] Initial balance: 151
+07:24:16 [INFO] 
+=== Cycle 1: 9 surveys ===
+07:24:16 [INFO] 
+--- Survey 1/9 ---
+07:24:27 [INFO]   Attempt 1: no survey URLs, waiting...
+07:24:34 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124871541/a1m3ktn2?key=912d1834&from=d
+07:24:54 [INFO] [Page 1] Branded Surveys | Users | 2522 chars | https://surveys.gobranded.com/members/oq
+07:24:54 [INFO] Never reached survey page
+07:24:54 [INFO] Closing survey window
+07:24:56 [INFO] Survey 1 not completed
+07:25:06 [INFO] Pausing 6 seconds...
+07:25:12 [INFO] 
+--- Survey 2/9 ---
+07:25:23 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124867309/vysjmgxf?key=d2ff24d8&from=d
+07:25:41 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124867309/vysjmgxf?key=d2ff24d8&from=
+07:25:55 [INFO] [Page 1] Branded Surveys | Users | 2569 chars | https://surveys.gobranded.com/members/3348793733
+07:25:55 [INFO] Never reached survey page
+07:25:55 [INFO] Closing survey window
+07:25:58 [INFO] Survey 2 not completed
+07:26:07 [INFO] Pausing 8 seconds...
+07:26:15 [INFO] 
+--- Survey 3/9 ---
+07:26:27 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124862897/tga847rd?key=4d4a41d0&from=d
+07:26:44 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124862897/tga847rd?key=4d4a41d0&from=
+07:26:58 [INFO] [Page 1] PureSpectrum | 355 chars | https://screener.purespectrum.com/?survey_id=50806397&suppli
+07:27:04 [INFO]   Groups: 2 questions from 2 raw inputs
+07:27:04 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"on"}]
+07:27:04 [INFO]     TEXT index=0 label='Type your answer here...'
+07:27:20 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:27:20 [INFO]   LLM: 2 answers for 2 questions
+07:27:29 [INFO] [Page 2] PureSpectrum | 282 chars | https://screener.purespectrum.com/?survey_id=50806397&suppli
+07:27:36 [INFO]   Groups: 2 questions from 2 raw inputs
+07:27:36 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"on"}]
+07:27:36 [INFO]     TEXT index=0 label='Type your answer here...'
+07:27:52 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:27:52 [INFO]   LLM: 2 answers for 2 questions
+07:28:02 [INFO] [Page 3] PureSpectrum | 282 chars | https://screener.purespectrum.com/?survey_id=50806397&suppli
+07:28:08 [INFO]   Groups: 2 questions from 2 raw inputs
+07:28:08 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"on"}]
+07:28:08 [INFO]     TEXT index=0 label='Type your answer here...'
+07:28:49 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:28:49 [INFO]   LLM: 0 answers for 2 questions
+07:28:58 [INFO] [Page 4] PureSpectrum | 282 chars | https://screener.purespectrum.com/?survey_id=50806397&suppli
+07:29:04 [INFO]   Groups: 2 questions from 2 raw inputs
+07:29:04 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"on"}]
+07:29:04 [INFO]     TEXT index=0 label='Type your answer here...'
+07:29:45 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:29:45 [INFO]   LLM: 0 answers for 2 questions
+07:29:54 [WARNING] Stuck on same page for 3 iterations
+07:29:54 [INFO] Closing survey window
+07:29:57 [INFO] Survey 3 not completed
+07:30:07 [INFO] Pausing 8 seconds...
+07:30:15 [INFO] 
+--- Survey 4/9 ---
+07:30:26 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124871641/n4aezx6v?key=7f98c7a8&from=d
+07:30:44 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124871641/n4aezx6v?key=7f98c7a8&from=
+07:30:59 [INFO] [Page 1] Conclave - Insights Sample Counts | 310 chars | https://insights.samplecounts.com/Screener/Index?sid=c7aSurN
+07:31:05 [INFO]   Groups: 1 questions from 2 raw inputs
+07:31:05 [INFO]     RADIO_GROUP start_index=0 options=[{"i":0,"label":"Yes, I agree"},{"i":1,"label":"No"}]
+07:31:27 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:31:27 [INFO]   LLM: 1 answers for 1 questions
+07:31:35 [INFO] [Page 2] PageTitle | 66 chars | https://ups.surveyrouter.com/TrafficUI/MSCUI/Page.aspx?pgtid
+07:31:43 [INFO]   Groups: 4 questions from 4 raw inputs
+07:31:43 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"I agree to take part in the survey"}]
+07:31:43 [INFO]     TEXT index=0 label='text_0'
+07:31:43 [INFO]     TEXT index=1 label='text_1'
+07:31:43 [INFO]     TEXT index=2 label='text_2'
+07:32:01 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:32:01 [INFO]   LLM: 4 answers for 4 questions
+07:32:13 [INFO] [Page 3] PageTitle | 66 chars | https://ups.surveyrouter.com/TrafficUI/MSCUI/Page.aspx?pgtid
+07:32:20 [INFO]   Groups: 4 questions from 4 raw inputs
+07:32:20 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"I agree to take part in the survey"}]
+07:32:20 [INFO]     TEXT index=0 label='text_0'
+07:32:20 [INFO]     TEXT index=1 label='text_1'
+07:32:20 [INFO]     TEXT index=2 label='text_2'
+07:33:02 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:33:02 [INFO]   LLM: 0 answers for 4 questions
+07:33:12 [INFO] [Page 4] PageTitle | 66 chars | https://ups.surveyrouter.com/TrafficUI/MSCUI/Page.aspx?pgtid
+07:33:18 [INFO]   Groups: 4 questions from 4 raw inputs
+07:33:18 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"I agree to take part in the survey"}]
+07:33:18 [INFO]     TEXT index=0 label='text_0'
+07:33:18 [INFO]     TEXT index=1 label='text_1'
+07:33:18 [INFO]     TEXT index=2 label='text_2'
+07:33:51 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:33:51 [INFO]   LLM: 4 answers for 4 questions
+07:34:03 [WARNING] Stuck on same page for 3 iterations
+07:34:03 [INFO] Closing survey window
+07:34:06 [INFO] Survey 4 not completed
+07:34:15 [INFO] Pausing 5 seconds...
+07:34:20 [INFO] 
+--- Survey 5/9 ---
+07:34:32 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124872057/etbg25jx?key=3a496844&from=d
+07:34:52 [INFO] [Page 1] Branded Surveys | Users | 2532 chars | https://surveys.gobranded.com/members/oq
+07:34:52 [INFO] Never reached survey page
+07:34:52 [INFO] Closing survey window
+07:34:54 [INFO] Survey 5 not completed
+07:35:04 [INFO] Pausing 5 seconds...
+07:35:09 [INFO] 
+--- Survey 6/9 ---
+07:35:21 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124872081/kh7v8rgu?key=99789862&from=d
+07:35:38 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124872081/kh7v8rgu?key=99789862&from=
+07:35:52 [INFO] [Page 1] PureSpectrum | 328 chars | https://screener.purespectrum.com/?survey_id=50810746&suppli
+07:35:58 [INFO]   Groups: 2 questions from 2 raw inputs
+07:35:58 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"on"}]
+07:35:58 [INFO]     TEXT index=0 label='Type your answer here...'
+07:36:22 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:36:22 [INFO]   LLM: 2 answers for 2 questions
+07:36:32 [INFO] [Page 2] PureSpectrum | 255 chars | https://screener.purespectrum.com/?survey_id=50810746&suppli
+07:36:38 [INFO]   Groups: 2 questions from 2 raw inputs
+07:36:38 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"on"}]
+07:36:38 [INFO]     TEXT index=0 label='Type your answer here...'
+07:36:54 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:36:54 [INFO]   LLM: 2 answers for 2 questions
+07:37:04 [INFO] [Page 3] PureSpectrum | 255 chars | https://screener.purespectrum.com/?survey_id=50810746&suppli
+07:37:11 [INFO]   Groups: 2 questions from 2 raw inputs
+07:37:11 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"on"}]
+07:37:11 [INFO]     TEXT index=0 label='Type your answer here...'
+07:37:51 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:37:51 [INFO]   LLM: 0 answers for 2 questions
+07:38:00 [INFO] [Page 4] PureSpectrum | 255 chars | https://screener.purespectrum.com/?survey_id=50810746&suppli
+07:38:07 [INFO]   Groups: 2 questions from 2 raw inputs
+07:38:07 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"on"}]
+07:38:07 [INFO]     TEXT index=0 label='Type your answer here...'
+07:38:23 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:38:23 [INFO]   LLM: 2 answers for 2 questions
+07:38:33 [WARNING] Stuck on same page for 3 iterations
+07:38:33 [INFO] Closing survey window
+07:38:36 [INFO] Survey 6 not completed
+07:38:45 [INFO] Pausing 6 seconds...
+07:38:51 [INFO] 
+--- Survey 7/9 ---
+07:39:03 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124872321/p49n1seh?key=2fda701a&from=d
+07:39:20 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124872321/p49n1seh?key=2fda701a&from=
+07:39:34 [INFO] [Page 1] PureSpectrum | 341 chars | https://screener.purespectrum.com/?survey_id=50810858&suppli
+07:39:40 [INFO]   Groups: 2 questions from 2 raw inputs
+07:39:40 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"on"}]
+07:39:40 [INFO]     TEXT index=0 label='Type your answer here...'
+07:40:07 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:40:07 [INFO]   LLM: 2 answers for 2 questions
+07:40:17 [INFO] [Page 2] PureSpectrum | 268 chars | https://screener.purespectrum.com/?survey_id=50810858&suppli
+07:40:23 [INFO]   Groups: 2 questions from 2 raw inputs
+07:40:23 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"on"}]
+07:40:23 [INFO]     TEXT index=0 label='Type your answer here...'
+07:40:47 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:40:47 [INFO]   LLM: 2 answers for 2 questions
+07:40:56 [INFO] [Page 3] PureSpectrum | 268 chars | https://screener.purespectrum.com/?survey_id=50810858&suppli
+07:41:01 [INFO]   Groups: 2 questions from 2 raw inputs
+07:41:01 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"on"}]
+07:41:01 [INFO]     TEXT index=0 label='Type your answer here...'
+07:41:36 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:41:36 [INFO]   LLM: 2 answers for 2 questions
+07:41:45 [INFO] [Page 4] PureSpectrum | 268 chars | https://screener.purespectrum.com/?survey_id=50810858&suppli
+07:41:51 [INFO]   Groups: 2 questions from 2 raw inputs
+07:41:51 [INFO]     CHECKBOX_GROUP start_index=0 options=[{"i":0,"label":"on"}]
+07:41:51 [INFO]     TEXT index=0 label='Type your answer here...'
+07:42:36 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+07:42:36 [INFO]   LLM: 0 answers for 2 questions
+07:42:45 [WARNING] Stuck on same page for 3 iterations
+07:42:45 [INFO] Closing survey window
+07:42:48 [INFO] Survey 7 not completed
+07:42:58 [INFO] Pausing 3 seconds...
+07:43:01 [INFO] 
+--- Survey 8/9 ---
+07:43:13 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124871949/nfbe7qzy?key=275404e1&from=d
+07:43:30 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124871949/nfbe7qzy?key=275404e1&from=
+07:43:47 [INFO] [Page 1] samplicio.us/s/RespondentAu…264-40a7-84b | 61 chars | https://rx.samplicio.us/?SID=52e2c492-eede-43dc-a9cb-9a9d824
+07:44:06 [INFO] [Page 2] Appinio Survey | 2915 chars | https://web.appin.io/#/survey/1Jn5EM6JV?c=6a43ba01-890d-51af
+07:44:25 [INFO] [Page 3] Appinio Survey | 2915 chars | https://web.appin.io/#/survey/1Jn5EM6JV?c=6a43ba01-890d-51af
+07:44:46 [INFO] [Page 4] Appinio Survey | 2915 chars | https://web.appin.io/#/survey/1Jn5EM6JV?c=6a43ba01-890d-51af
+07:45:05 [WARNING] Stuck on same page for 3 iterations
+07:45:05 [INFO] Closing survey window
+07:45:09 [INFO] Survey 8 not completed
+07:45:18 [INFO] Pausing 8 seconds...
+07:45:26 [INFO] 
+--- Survey 9/9 ---
+07:45:38 [INFO] Opening survey in new window: https://surveys.gobranded.com/surveys/pre/124872073/gtum31a6?key=86f4a3b2&from=d
+07:45:56 [INFO] Navigating to actual survey: https://surveys.gobranded.com/surveys/take/124872073/gtum31a6?key=86f4a3b2&from=

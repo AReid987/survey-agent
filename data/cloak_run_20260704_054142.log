@@ -1,0 +1,44 @@
+Survey Agent
+  Provider: openai-compatible (OpenAI-Compatible (newapi, freellmapi, mimo, 
+etc.))
+  Model: MiniMax-M3
+  Sites: branded-surveys
+  Backend: cloakbrowser
+  Browser: headed
+
+Browser window will open. First run: complete Google sign-in if prompted.
+
+05:41:44 [INFO] survey_agent.orchestrator: Starting agent for Branded Surveys...
+05:41:44 [INFO] survey_agent.browser.cloakbrowser_backend: Starting cloakbrowser worker thread...
+05:41:44 [INFO] httpx: HTTP Request: GET https://pypi.org/pypi/cloakbrowser/json "HTTP/1.1 200 OK"
+05:41:47 [INFO] survey_agent.browser.cloakbrowser_backend: cloakbrowser launched (worker thread ready)
+05:41:47 [INFO] survey_agent.browser.cloakbrowser_backend: cloakbrowser worker ready
+05:41:47 [INFO] survey_agent.orchestrator: [Session 0] Starting on Branded Surveys
+05:41:54 [INFO] survey_agent.browser.cloakbrowser_backend: Using Google OAuth login for Branded Surveys (GSI iframes: 1)
+05:41:58 [INFO] survey_agent.browser.cloakbrowser_backend: Found 3 GSI iframe(s) on page
+05:41:58 [INFO] survey_agent.browser.cloakbrowser_backend: Frame: <Frame name= url='https://accounts.google.com/gsi/button?type=standard&shape=pill&theme=outline&text=signin_with&size=large&logo_alignment=left&width=1120&is_fedcm_supported=true&client_id=32881259601-mm9rs85hnv68gk0o0mm7tgv3oq5ol4th.apps.googleusercontent.com&iframe_id=gsi_714720_988778&cas=aPWI8rBYXetBMH9mKrwwQUdoP21sonWt8Ez%2BIVHm6jg'>
+05:42:01 [INFO] survey_agent.browser.cloakbrowser_backend: Button coords in iframe: {'x': 0, 'y': 0, 'w': 0, 'h': 0}
+05:42:01 [WARNING] survey_agent.browser.cloakbrowser_backend: No iframe bounding box
+05:42:01 [INFO] survey_agent.browser.cloakbrowser_backend: Frame: <Frame name= url='https://accounts.google.com/gsi/button?type=standard&shape=pill&theme=outline&text=signup_with&size=large&logo_alignment=left&width=1120&is_fedcm_supported=true&client_id=32881259601-mm9rs85hnv68gk0o0mm7tgv3oq5ol4th.apps.googleusercontent.com&iframe_id=gsi_714722_865197&cas=aPWI8rBYXetBMH9mKrwwQUdoP21sonWt8Ez%2BIVHm6jg'>
+05:42:04 [INFO] survey_agent.browser.cloakbrowser_backend: Button coords in iframe: {'x': 0, 'y': 0, 'w': 0, 'h': 0}
+05:42:04 [WARNING] survey_agent.browser.cloakbrowser_backend: No iframe bounding box
+05:42:04 [INFO] survey_agent.browser.cloakbrowser_backend: Frame: <Frame name= url='https://accounts.google.com/gsi/button?type=standard&shape=pill&theme=outline&text=signup_with&size=large&logo_alignment=left&width=400&is_fedcm_supported=true&client_id=32881259601-mm9rs85hnv68gk0o0mm7tgv3oq5ol4th.apps.googleusercontent.com&iframe_id=gsi_714723_885962&cas=aPWI8rBYXetBMH9mKrwwQUdoP21sonWt8Ez%2BIVHm6jg'>
+05:42:07 [INFO] survey_agent.browser.cloakbrowser_backend: Button coords in iframe: {'x': 209.99989128112793, 'y': 21.999566555023193, 'w': 400, 'h': 40}
+05:42:07 [INFO] survey_agent.browser.cloakbrowser_backend: Clicking at page coords (904.9998912811279, 608.9995665550232)
+05:42:19 [INFO] survey_agent.browser.cloakbrowser_backend: After GSI click: URL=https://surveys.gobranded.com/ title=Branded Surveys - Get Paid For Sharing Your Opinion text_preview=log in sign up
+the free, fun way to get paid for your opinion
+$
+8
+8
+,
+8
+6
+0
+,
+9
+9
+7
+paid to our comm
+05:42:19 [INFO] survey_agent.browser.cloakbrowser_backend: cloakbrowser worker thread exiting
+Error: Login failed: OAuth didn't reach Google. URL: 
+https://surveys.gobranded.com/

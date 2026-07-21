@@ -1,0 +1,192 @@
+06:20:49 [INFO] CUA Survey Agent v5 starting
+06:20:49 [INFO] Profile: /Users/antonioreid/survey-agent/data/profile.json (0% complete)
+06:20:49 [INFO] Profile loaded: 100.0
+06:20:49 [INFO] 
+## Demographics
+  Age: 39
+  Gender: Male
+  Ethnicity: Black/African American
+  Marital Status: Domestic partnership
+  ZIP Code: 78736
+  State: TX
+  City: Austin
+  Country: US
+
+## Employment
+  Employment Status: Self-employed
+  Industry: Technology
+  Job Title: Founder/CTO
+  Company Size: 1-10
+  Years of Experience: 8
+  Remote Work: Fully remote
+
+## Income & Finance
+  Household Income Range: $50,000-$74,999
+  Personal Income Range: $50,000-$74,999
+  Credit Score Range: Poor
+  Housing: Rent
+
+## E
+06:20:49 [INFO] Answer history: 12 previous answers
+06:20:49 [INFO] Dashboard Chrome: pid=41852 wid=44549
+06:20:59 [INFO] Initial balance: None
+06:20:59 [INFO] 
+=== Cycle 1: 12 surveys ===
+06:20:59 [INFO] 
+--- Survey 1/12 ---
+06:21:12 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/125009549/sq1mcxgd?key=b392b5c1&from=d
+06:21:21 [INFO] No take URL found, clicking btn-continue
+06:21:39 [INFO] [Page 1] WebDriver BiDi | 5000 chars | https://github.com/mozilla/pilo
+06:21:41 [INFO]   Cleaned text: 4768 chars (from 5000)
+06:22:29 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:22:29 [INFO]   LLM: 0 answers, 0 unknowns
+06:22:31 [INFO]   Submit: clicked:7.5.5.3 the network.continuerequest command
+06:22:39 [INFO] [Page 2] WebDriver BiDi | 5000 chars | https://w3c.github.io/webdriver-bidi/#command-network-contin
+06:22:41 [INFO]   Cleaned text: 4419 chars (from 5000)
+06:23:34 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:23:34 [INFO]   LLM: 0 answers, 0 unknowns
+06:23:36 [INFO]   Submit: clicked:7.5.5.3 the network.continuerequest command
+06:23:44 [INFO] [Page 3] WebDriver BiDi | 5000 chars | https://w3c.github.io/webdriver-bidi/#command-network-contin
+06:23:46 [INFO]   Cleaned text: 4419 chars (from 5000)
+06:24:38 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:24:38 [INFO]   LLM: 0 answers, 0 unknowns
+06:24:39 [INFO]   Submit: clicked:7.5.5.3 the network.continuerequest command
+06:24:46 [WARNING] Stuck on same page for 3 iterations
+06:24:46 [INFO] Navigating back to dashboard
+06:24:50 [INFO] Survey 1 not completed
+06:25:03 [INFO] 
+--- Survey 2/12 ---
+06:25:16 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/125009549/n1et2amc?key=b392b5c1&from=d
+06:25:26 [INFO] Extracted take URL: https://surveys.gobranded.com/surveys/take/125009549/sq1mcxgd?key=b392b5c1&from=
+06:25:46 [INFO] [Page 1] PureSpectrum | 337 chars | https://screener.purespectrum.com/?survey_id=50849333&suppli
+06:25:48 [INFO]   Cleaned text: 323 chars (from 337)
+06:26:37 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:26:37 [INFO]   LLM: 0 answers, 0 unknowns
+06:26:38 [INFO]   Submit: clicked:next
+06:26:46 [INFO] [Page 2] PureSpectrum | 337 chars | https://screener.purespectrum.com/?survey_id=50849333&suppli
+06:26:48 [INFO]   Cleaned text: 323 chars (from 337)
+06:27:20 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:27:20 [INFO]   LLM: 1 answers, 1 unknowns
+06:27:20 [INFO]   Unknown: What are the three things you like in your favorite celebrity?
+06:27:20 [WARNING] UNKNOWN QUESTION: What are the three things you like in your favorite celebrity?
+Options: (free text)
+06:27:22 [INFO]   Submit: clicked:next
+06:27:30 [INFO] [Page 3] PureSpectrum | 337 chars | https://screener.purespectrum.com/?survey_id=50849333&suppli
+06:27:32 [INFO]   Cleaned text: 323 chars (from 337)
+06:28:16 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:28:16 [INFO]   LLM: 1 answers, 1 unknowns
+06:28:16 [INFO]   Unknown: What are the three things you like in your favorite celebrity?
+06:28:16 [WARNING] UNKNOWN QUESTION: What are the three things you like in your favorite celebrity?
+Options: Customise Consent Preferences, Show more, Necessary, Always Active, Functional, Advertisement Research, Performance, Advertisement, Uncategorised, Reject All
+06:28:18 [INFO]   Submit: clicked:next
+06:28:25 [WARNING] Stuck on same page for 3 iterations
+06:28:25 [INFO] Navigating back to dashboard
+06:28:29 [INFO] Survey 2 not completed
+06:28:46 [INFO] 
+--- Survey 3/12 ---
+06:28:59 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/125021497/9xzpcemh?key=7de58899&from=d
+06:29:08 [INFO] Extracted take URL: https://surveys.gobranded.com/surveys/take/125021497/9xzpcemh?key=7de58899&from=
+06:29:27 [INFO] [Page 1] PureSpectrum | 321 chars | https://screener.purespectrum.com/?survey_id=50854848&suppli
+06:29:30 [INFO]   Cleaned text: 307 chars (from 321)
+06:30:21 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:30:21 [INFO]   LLM: 2 answers, 0 unknowns
+06:30:27 [INFO]   Submit: clicked:next
+06:30:38 [INFO] Iframe survey (1 iframes, 63 chars), skipping
+06:30:38 [INFO] Navigating back to dashboard
+06:30:41 [INFO] Survey 3 not completed
+06:30:59 [INFO] 
+--- Survey 4/12 ---
+06:31:11 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/124940413/rp5zjdyu?key=9789d7c2&from=d
+06:31:21 [INFO] Extracted take URL: https://surveys.gobranded.com/surveys/take/124940413/rp5zjdyu?key=9789d7c2&from=
+06:31:39 [INFO] [Page 1] Branded Surveys | Users | 2832 chars | https://surveys.gobranded.com/members/3351445949
+06:31:39 [INFO] Never reached survey page
+06:31:39 [INFO] Navigating back to dashboard
+06:31:42 [INFO] Survey 4 not completed
+06:32:00 [INFO] 
+--- Survey 5/12 ---
+06:32:13 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/125021181/yadpmtwz?key=d5b0ecd5&from=d
+06:32:22 [INFO] Extracted take URL: https://surveys.gobranded.com/surveys/take/125021181/yadpmtwz?key=d5b0ecd5&from=
+06:32:40 [INFO] [Page 1] PureSpectrum | 338 chars | https://screener.purespectrum.com/?survey_id=50854731&suppli
+06:32:42 [INFO]   Cleaned text: 324 chars (from 338)
+06:33:12 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:33:12 [INFO]   LLM: 1 answers, 1 unknowns
+06:33:12 [INFO]   Unknown: In a few sentences, describe two disadvantages of social media. Enter the word '
+06:33:12 [WARNING] UNKNOWN QUESTION: In a few sentences, describe two disadvantages of social media. Enter the word 'ROBOT' in the field below to confirm you have read the full terms.
+Options: (free text)
+06:33:16 [INFO]   Submit: clicked:next
+06:33:23 [INFO] [Page 2] PureSpectrum | 338 chars | https://screener.purespectrum.com/?survey_id=50854731&suppli
+06:33:25 [INFO]   Cleaned text: 324 chars (from 338)
+06:34:08 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:34:08 [INFO]   LLM: 0 answers, 0 unknowns
+06:34:09 [INFO]   Submit: clicked:next
+06:34:17 [INFO] [Page 3] PureSpectrum | 338 chars | https://screener.purespectrum.com/?survey_id=50854731&suppli
+06:34:19 [INFO]   Cleaned text: 324 chars (from 338)
+06:35:06 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:35:06 [INFO]   LLM: 0 answers, 0 unknowns
+06:35:08 [INFO]   Submit: clicked:next
+06:35:15 [WARNING] Stuck on same page for 3 iterations
+06:35:15 [INFO] Navigating back to dashboard
+06:35:18 [INFO] Survey 5 not completed
+06:35:31 [INFO] 
+--- Survey 6/12 ---
+06:35:44 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/124997613/2ec3ws78?key=4461abdc&from=d
+06:35:53 [INFO] Extracted take URL: https://surveys.gobranded.com/surveys/take/124997613/2ec3ws78?key=4461abdc&from=
+06:36:12 [INFO] Iframe survey (1 iframes, 129 chars), skipping
+06:36:12 [INFO] Navigating back to dashboard
+06:36:15 [INFO] Survey 6 not completed
+06:36:31 [INFO] 
+--- Survey 7/12 ---
+06:36:44 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/124970381/zcu2bsyw?key=54d3e43e&from=d
+06:36:53 [INFO] Extracted take URL: https://surveys.gobranded.com/surveys/take/124970381/zcu2bsyw?key=54d3e43e&from=
+06:37:15 [INFO] [Page 1] PureSpectrum | 348 chars | https://screener.purespectrum.com/?survey_id=50839905&suppli
+06:37:17 [INFO]   Cleaned text: 334 chars (from 348)
+06:37:59 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:37:59 [INFO]   LLM: 0 answers, 0 unknowns
+06:38:00 [INFO]   Submit: clicked:next
+06:38:08 [INFO] [Page 2] PureSpectrum | 348 chars | https://screener.purespectrum.com/?survey_id=50839905&suppli
+06:38:10 [INFO]   Cleaned text: 334 chars (from 348)
+06:38:53 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:38:53 [INFO]   LLM: 0 answers, 0 unknowns
+06:38:54 [INFO]   Submit: clicked:next
+06:39:03 [INFO] [Page 3] PureSpectrum | 348 chars | https://screener.purespectrum.com/?survey_id=50839905&suppli
+06:39:05 [INFO]   Cleaned text: 334 chars (from 348)
+06:39:48 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:39:48 [INFO]   LLM: 1 answers, 3 unknowns
+06:39:48 [INFO]   Unknown: Write two sentences about what you think of Artificial Intelligence (AI).
+06:39:48 [WARNING] UNKNOWN QUESTION: Write two sentences about what you think of Artificial Intelligence (AI).
+Options: Free text field
+06:39:48 [INFO]   Unknown: Enter the word 'ROBOT' in the field below to confirm you have read the full term
+06:39:48 [WARNING] UNKNOWN QUESTION: Enter the word 'ROBOT' in the field below to confirm you have read the full terms
+Options: Free text field
+06:39:48 [INFO]   Unknown: Cookie consent preferences
+06:39:48 [WARNING] UNKNOWN QUESTION: Cookie consent preferences
+Options: Customise Consent Preferences, Show more, Necessary, Always Active, Functional, Advertisement Research, Performance, Advertisement, Uncategorised, Reject All
+06:39:51 [INFO]   Submit: clicked:next
+06:39:59 [WARNING] Stuck on same page for 3 iterations
+06:39:59 [INFO] Navigating back to dashboard
+06:40:03 [INFO] Survey 7 not completed
+06:40:18 [INFO] 
+--- Survey 8/12 ---
+06:40:31 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/124986069/ep5mfarn?key=f5dc9616&from=d
+06:40:41 [INFO] Extracted take URL: https://surveys.gobranded.com/surveys/take/124986069/ep5mfarn?key=f5dc9616&from=
+06:41:01 [INFO] Iframe survey (1 iframes, 51 chars), skipping
+06:41:01 [INFO] Navigating back to dashboard
+06:41:04 [INFO] Survey 8 not completed
+06:41:21 [INFO] 
+--- Survey 9/12 ---
+06:41:34 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/124978329/yps73kqm?key=e5fc2306&from=d
+06:41:43 [INFO] Extracted take URL: https://surveys.gobranded.com/surveys/take/124978329/yps73kqm?key=e5fc2306&from=
+06:42:03 [INFO] Iframe survey (1 iframes, 40 chars), skipping
+06:42:03 [INFO] Navigating back to dashboard
+06:42:06 [INFO] Survey 9 not completed
+06:42:21 [INFO] 
+--- Survey 10/12 ---
+06:42:34 [INFO] Opening pre-page: https://surveys.gobranded.com/surveys/pre/124978389/r2wbu9km?key=ea7d2f6f&from=d
+06:42:43 [INFO] Extracted take URL: https://surveys.gobranded.com/surveys/take/124978389/r2wbu9km?key=ea7d2f6f&from=
+06:43:03 [INFO] [Page 1] PureSpectrum | 333 chars | https://screener.purespectrum.com/?survey_id=50841332&suppli
+06:43:05 [INFO]   Cleaned text: 319 chars (from 333)
+06:43:45 [INFO] HTTP Request: POST https://opencode.ai/zen/v1/chat/completions "HTTP/1.1 200 OK"
+06:43:45 [INFO]   LLM: 0 answers, 0 unknowns
+06:43:46 [INFO]   Submit: clicked:next
+06:43:55 [INFO] [Page 2] PureSpectrum | 333 chars | https://screener.purespectrum.com/?survey_id=50841332&suppli
+06:43:57 [INFO]   Cleaned text: 319 chars (from 333)

@@ -1,0 +1,30 @@
+Starting cloakbrowser backend...
+INFO survey_agent.browser.cloakbrowser_backend: Starting cloakbrowser worker thread...
+INFO httpx: HTTP Request: GET https://pypi.org/pypi/cloakbrowser/json "HTTP/1.1 200 OK"
+INFO httpx: HTTP Request: GET https://api.github.com/repos/CloakHQ/cloakbrowser/releases?per_page=10 "HTTP/1.1 200 OK"
+INFO survey_agent.browser.cloakbrowser_backend: cloakbrowser launched (worker thread ready)
+INFO survey_agent.browser.cloakbrowser_backend: cloakbrowser worker ready
+Backend started.
+
+[1] Testing Google OAuth login on Branded Surveys...
+INFO survey_agent.browser.cloakbrowser_backend: Using Google OAuth login for Branded Surveys (GSI iframes: 1)
+INFO survey_agent.browser.cloakbrowser_backend: Found 1 GSI iframe(s) on page
+INFO survey_agent.browser.cloakbrowser_backend: Frame: <Frame name= url='https://accounts.google.com/gsi/button?type=standard&shape=pill&theme=outline&text=signin_with&size=large&logo_alignment=left&width=280&is_fedcm_supported=true&client_id=32881259601-mm9rs85hnv68gk0o0mm7tgv3oq5ol4th.apps.googleusercontent.com&iframe_id=gsi_658543_179650&cas=zpQEI9nuxuwQHEP%2BOp9zQ0ojUs36olfgOlorPME9RFI'>
+INFO survey_agent.browser.cloakbrowser_backend: Button coords in iframe: {'x': 149.9996919631958, 'y': 22.000672817230225, 'w': 280, 'h': 40}
+INFO survey_agent.browser.cloakbrowser_backend: Clicking at page coords (599.9996919631958, 131.00067281723022)
+INFO survey_agent.browser.cloakbrowser_backend: After GSI click: URL=https://surveys.gobranded.com/users/login/ title=Log In | Branded Surveys text_preview=how it works log in sign up
+or
+sign in with email
+don't have an account? create one today
+forgot som
+INFO survey_agent.browser.cloakbrowser_backend: New page detected (Google OAuth popup): https://accounts.google.com/v3/signin/identifier?opparams=%253Fgis_params%253DGAcqK2pMclJlclVRWE54cXYybU1HMG5WWDY1eXpfSWlXbnJhMFZ6ZUNZaVctd0E4AUJANjdlZDU4YjZkMjc3ZGUzMmQxYTNiNDcwMzQ1NjM1ZDM0YmE1ZjY0NTVhNzE0NDNiYjQ5MDJhMDI5YmRhNWJjZQ%2526response_mode%253Dform_post&dsh=jLrRerUQXNxqv2mMG0nVX65yz_IiWnra0VzeCYiW-wA&as=jLrRerUQXNxqv2mMG0nVX65yz_IiWnra0VzeCYiW-wA&client_id=32881259601-mm9rs85hnv68gk0o0mm7tgv3oq5ol4th.apps.googleusercontent.com&display=popup&gsiwebsdk=gis_attributes&o2v=1&origin=https%3A%2F%2Fsurveys.gobranded.com&prompt=select_account&redirect_uri=gis_transform&response_type=id_token&scope=openid+email+profile&service=lso&flowName=GeneralOAuthFlow&continue=https%3A%2F%2Faccounts.google.com%2Fsignin%2Foauth%2Fconsent%3Fauthuser%3Dunknown%26part%3DAJi8hAO4oFLOw6zNxhYmpSjdQUpHliMSaPav3zFgViY6SfYU5DdRF-0K9F20gmwXPxnfADaRL-ZK_teupX0tW8XkKz6aIip1ukKbb5Cx66Gtb4mn5CVuPXIggE9nTTShhqrbMueQGqVwXwCkJ9F0flFgnchc8GQroIygPn8-EKeAyRIVUoSxLhSxWnnx6ouQBvxvZYsV86_2VjRXom9R43XaoSeNIb-249OLaOyF-JBkUDcym3T8SH8h2SM1HYDb6GR8lvB9yEzKMB2H5t0s8OM7qM0Yk8NYiK1MJ3GbX1VYNGXWCnbXjZ1SRt1abi4Om9h6AoEi7N8U6Wp0lSbR9G9O3iYA_5M8Y8zxJy6OtbGKWzRUekJsn2uVDvAOOnam0WHDQI7iaQi6oW4IzUL1xury7LvP736tBbuPrECrOzu_LPsm5om7WJoJ4wgpE7FBptMVK18hNWxeT74V4dobemRDgmN6flERNWNYkJmnWHg3eHDtwwjBslbsf_aQXGxOFNipeN52-suP%26flowName%3DGeneralOAuthFlow%26as%3DjLrRerUQXNxqv2mMG0nVX65yz_IiWnra0VzeCYiW-wA%26client_id%3D32881259601-mm9rs85hnv68gk0o0mm7tgv3oq5ol4th.apps.googleusercontent.com%26requestPath%3D%252Fsignin%252Foauth%252Fconsent%23&app_domain=https%3A%2F%2Fsurveys.gobranded.com&rart=ANgoxccSKDvBXzYAeA3G9uQd7ty5QKEYotQyOw1nATWQYOKVxZIDB884HUzV6FfAsiAJDfIXoMfEbRjv5zjjEs58LMjBnEopUo-82BXo7Qn740JlSgE0cYU
+  Login result: success=True error=''
+  URL: https://surveys.gobranded.com/users/login/
+  Output: 'oauth_account_click'
+
+[2] Discovering surveys...
+  Discovery: '{"url": "https://surveys.gobranded.com/users/login/", "title": "Log In | Branded Surveys", "surveys": [{"text": "How it Works", "href": "https://surveys.gobranded.com/take-surveys-online"}, {"text": "How it Works", "href": "https://surveys.gobranded.com/take-surveys-online"}, {"text": "How it Works", "href": "https://surveys.gobranded.com/take-surveys-online"}, {"text": "Blog", "href": "https://surveys.gobranded.com/blog/"}, {"text": "Paid Online Surveys", "href": "https://surveys.gobranded.com/'
+
+[3] Stopping backend...
+INFO survey_agent.browser.cloakbrowser_backend: cloakbrowser worker thread exiting
+Done.
