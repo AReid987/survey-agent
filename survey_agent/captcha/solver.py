@@ -373,7 +373,7 @@ def create_vision_llm_fn(provider: str = "groq", model: str = "", api_key: str =
 
     # Model mapping for vision-capable models
     vision_models = {
-        "groq": "llama-3.3-70b-versatile",  # Groq supports vision on this model
+        "groq": "llama-4-scout-17b-16e-instruct",  # Llama 4 Scout with vision
         "openai": "gpt-4o",
         "freemodel": "claude-haiku-4-5-20251001",
     }

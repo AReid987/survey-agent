@@ -280,10 +280,24 @@ class PlaywrightBackend(SurveyAgentBackend):
             if "dashboard" in url.lower() and "survey" not in url.lower():
                 return AgentResult(success=False, error="Redirected to dashboard (likely disqualified or full)")
 
-            # Detect CAPTCHA/verification codes — skip immediately
+            # Detect CAPTCHA/verification codes — solve via Groq vision
             if any(kw in body_lower for kw in ["type the following code", "enter the code", "captcha", "verification code", "prove you are human"]):
-                logger.info(f"Q{i+1}: CAPTCHA detected, skipping survey")
-                return AgentResult(success=False, error="CAPTCHA/verification code required (cannot read images)")
+                logger.info(f"Q{i+1}: CAPTCHA detected, attempting vision solve")
+                solved = await self._solve_captcha_vision()
+                if solved:
+                    # Click Next/Submit after solving
+                    await self._page.evaluate("""() => {
+                        const btns = document.querySelectorAll('button, input[type="submit"]');
+                        for (const b of btns) {
+                            const t = (b.textContent || b.value || '').trim().toUpperCase();
+                            if (t.includes('NEXT') || t.includes('SUBMIT') || t.includes('CONTINUE')) { b.click(); return; }
+                        }
+                    }""")
+                    await asyncio.sleep(3)
+                    continue
+                else:
+                    logger.info(f"Q{i+1}: CAPTCHA solve failed, skipping survey")
+                    return AgentResult(success=False, error="CAPTCHA/verification code — vision solve failed")
 
             # Detect timer-based questions ("click NEXT after N seconds")
             import re as _re
@@ -463,6 +477,107 @@ For text inputs, reply with "TEXT: your answer here"."""
             await asyncio.sleep(3)
 
         return AgentResult(success=True, output=f"Answered {max_questions} questions (loop limit)")
+
+    async def _solve_captcha_vision(self) -> bool:
+        """Screenshot CAPTCHA image and solve via Groq vision model."""
+        try:
+            from ..captcha.solver import create_vision_llm_fn  # noqa: PLC0415
+
+            # Find the CAPTCHA image element
+            img_bytes = await self._page.evaluate("""() => {
+                // Look for images near CAPTCHA text
+                const imgs = document.querySelectorAll('img');
+                for (const img of imgs) {
+                    if (img.offsetParent === null) continue;
+                    const near = img.closest('div, section, form');
+                    if (near) {
+                        const text = near.innerText.toLowerCase();
+                        if (text.includes('code') || text.includes('captcha') || text.includes('verification') || text.includes('type the')) {
+                            // Found CAPTCHA image — return its src
+                            return img.src;
+                        }
+                    }
+                }
+                // Fallback: look for canvas elements (CAPTCHAs rendered in canvas)
+                const canvas = document.querySelector('canvas');
+                if (canvas) return 'canvas';
+                return '';
+            }""")
+
+            if not img_bytes:
+                logger.warning("CAPTCHA: No image/canvas element found")
+                return False
+
+            # Get screenshot bytes
+            if img_bytes == 'canvas':
+                # Screenshot the canvas
+                canvas = await self._page.query_selector('canvas')
+                if canvas:
+                    screenshot = await canvas.screenshot()
+                else:
+                    return False
+            elif img_bytes.startswith('data:'):
+                # Data URL — decode directly
+                import base64  # noqa: PLC0415
+                _, data = img_bytes.split(',', 1)
+                screenshot = base64.b64decode(data)
+            elif img_bytes.startswith('http'):
+                # External URL — screenshot the element
+                img_el = await self._page.query_selector(f'img[src="{img_bytes[:100]}"]')
+                if img_el:
+                    screenshot = await img_el.screenshot()
+                else:
+                    # Screenshot the whole page area around the CAPTCHA
+                    screenshot = await self._page.screenshot()
+            else:
+                screenshot = await self._page.screenshot()
+
+            if not screenshot:
+                logger.warning("CAPTCHA: Could not get screenshot")
+                return False
+
+            # Send to Groq vision
+            vision_fn = create_vision_llm_fn(provider="groq")
+            if not vision_fn:
+                logger.warning("CAPTCHA: No vision function available (missing API key?)")
+                return False
+
+            prompt = "This image contains a CAPTCHA verification code. Read the exact text/characters shown in the image. Reply with ONLY the code characters, nothing else."
+            answer = await asyncio.to_thread(vision_fn, prompt, screenshot)
+
+            if not answer:
+                logger.warning("CAPTCHA: Vision model returned empty response")
+                return False
+
+            # Clean up the answer (remove quotes, spaces, etc.)
+            answer = answer.strip().strip('"').strip("'").strip()
+            logger.info(f"CAPTCHA: Vision model answered: '{answer}'")
+
+            # Fill the answer into the text input
+            safe_answer = answer.replace("'", "\\'")
+            filled = await self._page.evaluate(f"""() => {{
+                const inputs = document.querySelectorAll('input[type="text"], textarea');
+                for (const inp of inputs) {{
+                    if (inp.offsetParent !== null && !inp.disabled) {{
+                        inp.value = '{safe_answer}';
+                        inp.dispatchEvent(new Event('input', {{bubbles: true}}));
+                        inp.dispatchEvent(new Event('change', {{bubbles: true}}));
+                        return true;
+                    }}
+                }}
+                return false;
+            }}""")
+
+            if filled:
+                logger.info(f"CAPTCHA: Filled '{answer}' into input")
+                return True
+            else:
+                logger.warning("CAPTCHA: Could not find text input to fill")
+                return False
+
+        except Exception as e:
+            logger.warning(f"CAPTCHA vision solve error: {e}")
+            return False
 
     async def _handle_consent(self) -> None:
         """Handle consent/agreement pages and cookie banners."""
