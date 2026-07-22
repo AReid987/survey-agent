@@ -1,0 +1,170 @@
+[00:29:31] ============================================================
+[00:29:31] CONTINUOUS SURVEY AGENT
+[00:29:31] ego-lite CDP + ensemble CAPTCHA + CDP mouse drag
+[00:29:31] ============================================================
+[00:29:31] Connected to ego-lite via CDP
+[00:29:31] Page: https://surveys.gobranded.com/users/dashboard
+[00:29:31] 
+--- Poll 1/60 ---
+[00:29:42] Points: 16
+[00:29:43] TAKE SURVEY buttons: 5
+[00:29:52] 
+  Survey #1 (button 1/5)
+[00:29:53]   Survey full/expired
+[00:29:53]   No survey loaded, continuing
+[00:30:02] 
+  Survey #2 (button 2/5)
+[00:30:03]   Survey full/expired
+[00:30:03]   No survey loaded, continuing
+[00:30:12] 
+  Survey #3 (button 3/5)
+[00:30:16]   Survey full/expired
+[00:30:16]   No survey loaded, continuing
+[00:30:25] 
+  Survey #4 (button 4/5)
+[00:30:45]   No survey loaded, continuing
+[00:30:54] 
+  Survey #5 (button 5/5)
+[00:31:04]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282582037" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[00:31:04] All 5 surveys full, waiting 90s for new ones...
+[00:32:34] 
+--- Poll 2/60 ---
+[00:32:45] Points: 16
+[00:32:45] TAKE SURVEY buttons: 5
+[00:32:54] 
+  Survey #6 (button 1/5)
+[00:32:56]   Survey full/expired
+[00:32:56]   No survey loaded, continuing
+[00:33:04] 
+  Survey #7 (button 2/5)
+[00:33:06]   Survey full/expired
+[00:33:06]   No survey loaded, continuing
+[00:33:15] 
+  Survey #8 (button 3/5)
+[00:33:16]   Survey full/expired
+[00:33:16]   No survey loaded, continuing
+[00:33:25] 
+  Survey #9 (button 4/5)
+[00:33:45]   No survey loaded, continuing
+[00:33:54] 
+  Survey #10 (button 5/5)
+[00:34:04]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282582037" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[00:34:04] All 5 surveys full, waiting 90s for new ones...
+[00:35:34] 
+--- Poll 3/60 ---
+[00:35:45] Points: 16
+[00:35:45] TAKE SURVEY buttons: 5
+[00:35:54] 
+  Survey #11 (button 1/5)
+[00:35:55]   Survey full/expired
+[00:35:55]   No survey loaded, continuing
+[00:36:03] 
+  Survey #12 (button 2/5)
+[00:36:05]   Survey full/expired
+[00:36:05]   No survey loaded, continuing
+[00:36:14] 
+  Survey #13 (button 3/5)
+[00:36:15]   Survey full/expired
+[00:36:15]   No survey loaded, continuing
+[00:36:24] 
+  Survey #14 (button 4/5)
+[00:36:44]   No survey loaded, continuing
+[00:36:53] 
+  Survey #15 (button 5/5)
+[00:37:03]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282582037" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[00:37:03] All 5 surveys full, waiting 90s for new ones...
+[00:38:33] 
+--- Poll 4/60 ---
+[00:38:44] Points: 16
+[00:38:44] TAKE SURVEY buttons: 5
+[00:38:53] 
+  Survey #16 (button 1/5)
+[00:38:54]   Survey full/expired
+[00:38:54]   No survey loaded, continuing
+[00:39:03] 
+  Survey #17 (button 2/5)
+[00:39:04]   Survey full/expired
+[00:39:04]   No survey loaded, continuing
+[00:39:13] 
+  Survey #18 (button 3/5)
+[00:39:17]   Survey full/expired
+[00:39:17]   No survey loaded, continuing
+[00:39:26] 
+  Survey #19 (button 4/5)
+[00:39:46]   No survey loaded, continuing
+[00:39:55] 
+  Survey #20 (button 5/5)
+[00:40:05]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282582037" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     18 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[00:40:05] All 5 surveys full, waiting 90s for new ones...
+[00:41:35] 
+--- Poll 5/60 ---
+[00:41:45] Points: 16
+[00:41:45] TAKE SURVEY buttons: 5
