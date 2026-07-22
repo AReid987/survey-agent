@@ -168,3 +168,2265 @@ Call log:
 --- Poll 5/60 ---
 [00:41:45] Points: 16
 [00:41:45] TAKE SURVEY buttons: 5
+[00:41:54] 
+  Survey #21 (button 1/5)
+[00:41:55]   Survey full/expired
+[00:41:55]   No survey loaded, continuing
+[00:42:04] 
+  Survey #22 (button 2/5)
+[00:42:09]   Survey full/expired
+[00:42:09]   No survey loaded, continuing
+[00:42:19] 
+  Survey #23 (button 3/5)
+[00:42:24]   Survey full/expired
+[00:42:24]   No survey loaded, continuing
+[00:42:33] 
+  Survey #24 (button 4/5)
+[00:42:53]   No survey loaded, continuing
+[00:43:01] 
+  Survey #25 (button 5/5)
+[00:43:11]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282582037" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[00:43:11] All 5 surveys full, waiting 90s for new ones...
+[00:44:41] 
+--- Poll 6/60 ---
+[00:44:52] Points: 16
+[00:44:52] TAKE SURVEY buttons: 5
+[00:45:01] 
+  Survey #26 (button 1/5)
+[00:45:02]   Survey full/expired
+[00:45:02]   No survey loaded, continuing
+[00:45:11] 
+  Survey #27 (button 2/5)
+[00:45:16]   Survey full/expired
+[00:45:16]   No survey loaded, continuing
+[00:45:25] 
+  Survey #28 (button 3/5)
+[00:45:39]   Survey full/expired
+[00:45:39]   No survey loaded, continuing
+[00:45:48] 
+  Survey #29 (button 4/5)
+[00:46:09]   No survey loaded, continuing
+[00:46:17] 
+  Survey #30 (button 5/5)
+[00:46:27]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282582037" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[00:46:27] All 5 surveys full, waiting 90s for new ones...
+[00:47:57] 
+--- Poll 7/60 ---
+[00:48:08] Points: 16
+[00:48:08] TAKE SURVEY buttons: 5
+[00:48:17] 
+  Survey #31 (button 1/5)
+[00:48:18]   Survey full/expired
+[00:48:18]   No survey loaded, continuing
+[00:48:27] 
+  Survey #32 (button 2/5)
+[00:48:32]   Survey full/expired
+[00:48:32]   No survey loaded, continuing
+[00:48:41] 
+  Survey #33 (button 3/5)
+[00:48:44]   Survey full/expired
+[00:48:44]   No survey loaded, continuing
+[00:48:53] 
+  Survey #34 (button 4/5)
+[00:49:13]   No survey loaded, continuing
+[00:49:22] 
+  Survey #35 (button 5/5)
+[00:49:32]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282582037" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     18 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[00:49:32] All 5 surveys full, waiting 90s for new ones...
+[00:51:02] 
+--- Poll 8/60 ---
+[00:51:13] Points: 16
+[00:51:13] TAKE SURVEY buttons: 5
+[00:51:21] 
+  Survey #36 (button 1/5)
+[00:51:22]   Survey full/expired
+[00:51:22]   No survey loaded, continuing
+[00:51:31] 
+  Survey #37 (button 2/5)
+[00:51:33]   Survey full/expired
+[00:51:33]   No survey loaded, continuing
+[00:51:42] 
+  Survey #38 (button 3/5)
+[00:51:44]   Survey full/expired
+[00:51:44]   No survey loaded, continuing
+[00:51:52] 
+  Survey #39 (button 4/5)
+[00:52:13]   No survey loaded, continuing
+[00:52:21] 
+  Survey #40 (button 5/5)
+[00:52:31]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282582037" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[00:52:31] All 5 surveys full, waiting 90s for new ones...
+[00:54:01] 
+--- Poll 9/60 ---
+[00:54:12] Points: 16
+[00:54:12] TAKE SURVEY buttons: 5
+[00:54:21] 
+  Survey #41 (button 1/5)
+[00:54:22]   Survey full/expired
+[00:54:22]   No survey loaded, continuing
+[00:54:31] 
+  Survey #42 (button 2/5)
+[00:54:36]   Survey full/expired
+[00:54:36]   No survey loaded, continuing
+[00:54:46] 
+  Survey #43 (button 3/5)
+[00:54:50]   Survey full/expired
+[00:54:50]   No survey loaded, continuing
+[00:54:59] 
+  Survey #44 (button 4/5)
+[00:55:19]   No survey loaded, continuing
+[00:55:28] 
+  Survey #45 (button 5/5)
+[00:55:38]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282582037" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[00:55:38] All 5 surveys full, waiting 90s for new ones...
+[00:57:08] 
+--- Poll 10/60 ---
+[00:57:19] Points: 16
+[00:57:19] TAKE SURVEY buttons: 5
+[00:57:28] 
+  Survey #46 (button 1/5)
+[00:57:29]   Survey full/expired
+[00:57:29]   No survey loaded, continuing
+[00:57:38] 
+  Survey #47 (button 2/5)
+[00:57:43]   Survey full/expired
+[00:57:43]   No survey loaded, continuing
+[00:57:52] 
+  Survey #48 (button 3/5)
+[00:57:55]   Survey full/expired
+[00:57:55]   No survey loaded, continuing
+[00:58:03] 
+  Survey #49 (button 4/5)
+[00:58:24]   No survey loaded, continuing
+[00:58:32] 
+  Survey #50 (button 5/5)
+[00:58:42]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[00:58:42] All 5 surveys full, waiting 90s for new ones...
+[01:00:12] 
+--- Poll 11/60 ---
+[01:00:24] Points: 16
+[01:00:24] TAKE SURVEY buttons: 5
+[01:00:33] 
+  Survey #51 (button 1/5)
+[01:00:34]   Survey full/expired
+[01:00:34]   No survey loaded, continuing
+[01:00:43] 
+  Survey #52 (button 2/5)
+[01:00:51]   Survey full/expired
+[01:00:51]   No survey loaded, continuing
+[01:01:00] 
+  Survey #53 (button 3/5)
+[01:01:08]   Survey full/expired
+[01:01:08]   No survey loaded, continuing
+[01:01:17] 
+  Survey #54 (button 4/5)
+[01:01:37]   No survey loaded, continuing
+[01:01:46] 
+  Survey #55 (button 5/5)
+[01:01:56]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[01:01:56] All 5 surveys full, waiting 90s for new ones...
+[01:03:26] 
+--- Poll 12/60 ---
+[01:03:36] Points: 16
+[01:03:37] TAKE SURVEY buttons: 5
+[01:03:45] 
+  Survey #56 (button 1/5)
+[01:03:46]   Survey full/expired
+[01:03:46]   No survey loaded, continuing
+[01:03:55] 
+  Survey #57 (button 2/5)
+[01:03:56]   Survey full/expired
+[01:03:57]   No survey loaded, continuing
+[01:04:05] 
+  Survey #58 (button 3/5)
+[01:04:13]   Survey full/expired
+[01:04:13]   No survey loaded, continuing
+[01:04:21] 
+  Survey #59 (button 4/5)
+[01:04:42]   No survey loaded, continuing
+[01:04:50] 
+  Survey #60 (button 5/5)
+[01:05:00]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     18 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[01:05:00] All 5 surveys full, waiting 90s for new ones...
+[01:06:30] 
+--- Poll 13/60 ---
+[01:06:41] Points: 16
+[01:06:41] TAKE SURVEY buttons: 5
+[01:06:51] 
+  Survey #61 (button 1/5)
+[01:06:52]   Survey full/expired
+[01:06:52]   No survey loaded, continuing
+[01:07:01] 
+  Survey #62 (button 2/5)
+[01:07:02]   Survey full/expired
+[01:07:02]   No survey loaded, continuing
+[01:07:11] 
+  Survey #63 (button 3/5)
+[01:07:12]   Survey full/expired
+[01:07:12]   No survey loaded, continuing
+[01:07:21] 
+  Survey #64 (button 4/5)
+[01:07:42]   No survey loaded, continuing
+[01:07:50] 
+  Survey #65 (button 5/5)
+[01:08:00]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[01:08:00] All 5 surveys full, waiting 90s for new ones...
+[01:09:30] 
+--- Poll 14/60 ---
+[01:09:41] Points: 16
+[01:09:41] TAKE SURVEY buttons: 5
+[01:09:50] 
+  Survey #66 (button 1/5)
+[01:09:52]   Survey full/expired
+[01:09:52]   No survey loaded, continuing
+[01:10:01] 
+  Survey #67 (button 2/5)
+[01:10:03]   Survey full/expired
+[01:10:03]   No survey loaded, continuing
+[01:10:11] 
+  Survey #68 (button 3/5)
+[01:10:12]   Survey full/expired
+[01:10:12]   No survey loaded, continuing
+[01:10:21] 
+  Survey #69 (button 4/5)
+[01:10:41]   No survey loaded, continuing
+[01:10:50] 
+  Survey #70 (button 5/5)
+[01:11:00]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     18 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[01:11:00] All 5 surveys full, waiting 90s for new ones...
+[01:12:30] 
+--- Poll 15/60 ---
+[01:12:41] Points: 16
+[01:12:41] TAKE SURVEY buttons: 5
+[01:12:49] 
+  Survey #71 (button 1/5)
+[01:12:51]   Survey full/expired
+[01:12:51]   No survey loaded, continuing
+[01:13:00] 
+  Survey #72 (button 2/5)
+[01:13:01]   Survey full/expired
+[01:13:01]   No survey loaded, continuing
+[01:13:10] 
+  Survey #73 (button 3/5)
+[01:13:11]   Survey full/expired
+[01:13:11]   No survey loaded, continuing
+[01:13:20] 
+  Survey #74 (button 4/5)
+[01:13:40]   No survey loaded, continuing
+[01:13:49] 
+  Survey #75 (button 5/5)
+[01:13:59]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[01:13:59] All 5 surveys full, waiting 90s for new ones...
+[01:15:29] 
+--- Poll 16/60 ---
+[01:15:40] Points: 16
+[01:15:40] TAKE SURVEY buttons: 5
+[01:15:48] 
+  Survey #76 (button 1/5)
+[01:15:50]   Survey full/expired
+[01:15:50]   No survey loaded, continuing
+[01:15:58] 
+  Survey #77 (button 2/5)
+[01:15:59]   Survey full/expired
+[01:15:59]   No survey loaded, continuing
+[01:16:08] 
+  Survey #78 (button 3/5)
+[01:16:09]   Survey full/expired
+[01:16:09]   No survey loaded, continuing
+[01:16:18] 
+  Survey #79 (button 4/5)
+[01:16:38]   No survey loaded, continuing
+[01:16:47] 
+  Survey #80 (button 5/5)
+[01:16:57]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[01:16:57] All 5 surveys full, waiting 90s for new ones...
+[01:18:27] 
+--- Poll 17/60 ---
+[01:18:38] Points: 16
+[01:18:38] TAKE SURVEY buttons: 5
+[01:18:47] 
+  Survey #81 (button 1/5)
+[01:18:48]   Survey full/expired
+[01:18:48]   No survey loaded, continuing
+[01:18:57] 
+  Survey #82 (button 2/5)
+[01:18:59]   Survey full/expired
+[01:18:59]   No survey loaded, continuing
+[01:19:08] 
+  Survey #83 (button 3/5)
+[01:19:11]   Survey full/expired
+[01:19:11]   No survey loaded, continuing
+[01:19:20] 
+  Survey #84 (button 4/5)
+[01:19:40]   No survey loaded, continuing
+[01:19:49] 
+  Survey #85 (button 5/5)
+[01:19:59]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[01:19:59] All 5 surveys full, waiting 90s for new ones...
+[01:21:29] 
+--- Poll 18/60 ---
+[01:21:40] Points: 16
+[01:21:40] TAKE SURVEY buttons: 5
+[01:21:49] 
+  Survey #86 (button 1/5)
+[01:21:50]   Survey full/expired
+[01:21:50]   No survey loaded, continuing
+[01:21:59] 
+  Survey #87 (button 2/5)
+[01:22:00]   Survey full/expired
+[01:22:00]   No survey loaded, continuing
+[01:22:08] 
+  Survey #88 (button 3/5)
+[01:22:13]   Survey full/expired
+[01:22:13]   No survey loaded, continuing
+[01:22:22] 
+  Survey #89 (button 4/5)
+[01:22:42]   No survey loaded, continuing
+[01:22:51] 
+  Survey #90 (button 5/5)
+[01:23:01]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[01:23:01] All 5 surveys full, waiting 90s for new ones...
+[01:24:31] 
+--- Poll 19/60 ---
+[01:24:41] Points: 16
+[01:24:42] TAKE SURVEY buttons: 5
+[01:24:50] 
+  Survey #91 (button 1/5)
+[01:24:59]   Survey full/expired
+[01:24:59]   No survey loaded, continuing
+[01:25:08] 
+  Survey #92 (button 2/5)
+[01:25:13]   Survey full/expired
+[01:25:13]   No survey loaded, continuing
+[01:25:22] 
+  Survey #93 (button 3/5)
+[01:25:26]   Survey full/expired
+[01:25:26]   No survey loaded, continuing
+[01:25:35] 
+  Survey #94 (button 4/5)
+[01:25:55]   No survey loaded, continuing
+[01:26:04] 
+  Survey #95 (button 5/5)
+[01:26:14]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[01:26:14] All 5 surveys full, waiting 90s for new ones...
+[01:27:44] 
+--- Poll 20/60 ---
+[01:27:55] Points: 16
+[01:27:55] TAKE SURVEY buttons: 5
+[01:28:04] 
+  Survey #96 (button 1/5)
+[01:28:09]   Survey full/expired
+[01:28:09]   No survey loaded, continuing
+[01:28:18] 
+  Survey #97 (button 2/5)
+[01:28:19]   Survey full/expired
+[01:28:19]   No survey loaded, continuing
+[01:28:28] 
+  Survey #98 (button 3/5)
+[01:28:40]   Survey full/expired
+[01:28:40]   No survey loaded, continuing
+[01:28:49] 
+  Survey #99 (button 4/5)
+[01:29:09]   No survey loaded, continuing
+[01:29:18] 
+  Survey #100 (button 5/5)
+[01:29:28]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[01:29:28] All 5 surveys full, waiting 90s for new ones...
+[01:30:58] 
+--- Poll 21/60 ---
+[01:31:08] Points: 16
+[01:31:08] TAKE SURVEY buttons: 5
+[01:31:17] 
+  Survey #101 (button 1/5)
+[01:31:19]   Survey full/expired
+[01:31:19]   No survey loaded, continuing
+[01:31:27] 
+  Survey #102 (button 2/5)
+[01:31:28]   Survey full/expired
+[01:31:28]   No survey loaded, continuing
+[01:31:37] 
+  Survey #103 (button 3/5)
+[01:31:41]   Survey full/expired
+[01:31:42]   No survey loaded, continuing
+[01:31:52] 
+  Survey #104 (button 4/5)
+[01:32:12]   No survey loaded, continuing
+[01:32:21] 
+  Survey #105 (button 5/5)
+[01:32:31]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[01:32:31] All 5 surveys full, waiting 90s for new ones...
+[01:34:01] 
+--- Poll 22/60 ---
+[01:34:12] Points: 16
+[01:34:12] TAKE SURVEY buttons: 5
+[01:34:22] 
+  Survey #106 (button 1/5)
+[01:34:23]   Survey full/expired
+[01:34:23]   No survey loaded, continuing
+[01:34:32] 
+  Survey #107 (button 2/5)
+[01:34:36]   Survey full/expired
+[01:34:36]   No survey loaded, continuing
+[01:34:45] 
+  Survey #108 (button 3/5)
+[01:34:48]   Survey full/expired
+[01:34:48]   No survey loaded, continuing
+[01:34:57] 
+  Survey #109 (button 4/5)
+[01:35:17]   No survey loaded, continuing
+[01:35:26] 
+  Survey #110 (button 5/5)
+[01:35:36]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[01:35:36] All 5 surveys full, waiting 90s for new ones...
+[01:37:06] 
+--- Poll 23/60 ---
+[01:37:17] Points: 16
+[01:37:17] TAKE SURVEY buttons: 5
+[01:37:26] 
+  Survey #111 (button 1/5)
+[01:37:27]   Survey full/expired
+[01:37:27]   No survey loaded, continuing
+[01:37:36] 
+  Survey #112 (button 2/5)
+[01:37:37]   Survey full/expired
+[01:37:37]   No survey loaded, continuing
+[01:37:46] 
+  Survey #113 (button 3/5)
+[01:37:49]   Survey full/expired
+[01:37:49]   No survey loaded, continuing
+[01:37:58] 
+  Survey #114 (button 4/5)
+[01:38:18]   No survey loaded, continuing
+[01:38:27] 
+  Survey #115 (button 5/5)
+[01:38:37]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[01:38:37] All 5 surveys full, waiting 90s for new ones...
+[01:40:07] 
+--- Poll 24/60 ---
+[01:40:18] Points: 16
+[01:40:18] TAKE SURVEY buttons: 5
+[01:40:27] 
+  Survey #116 (button 1/5)
+[01:40:28]   Survey full/expired
+[01:40:28]   No survey loaded, continuing
+[01:40:37] 
+  Survey #117 (button 2/5)
+[01:40:38]   Survey full/expired
+[01:40:38]   No survey loaded, continuing
+[01:40:47] 
+  Survey #118 (button 3/5)
+[01:40:48]   Survey full/expired
+[01:40:48]   No survey loaded, continuing
+[01:40:57] 
+  Survey #119 (button 4/5)
+[01:41:17]   No survey loaded, continuing
+[01:41:26] 
+  Survey #120 (button 5/5)
+[01:41:36]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[01:41:36] All 5 surveys full, waiting 90s for new ones...
+[01:43:06] 
+--- Poll 25/60 ---
+[01:43:17] Points: 16
+[01:43:17] TAKE SURVEY buttons: 5
+[01:43:25] 
+  Survey #121 (button 1/5)
+[01:43:30]   Survey full/expired
+[01:43:30]   No survey loaded, continuing
+[01:43:38] 
+  Survey #122 (button 2/5)
+[01:43:40]   Survey full/expired
+[01:43:40]   No survey loaded, continuing
+[01:43:49] 
+  Survey #123 (button 3/5)
+[01:43:50]   Survey full/expired
+[01:43:50]   No survey loaded, continuing
+[01:43:59] 
+  Survey #124 (button 4/5)
+[01:44:19]   No survey loaded, continuing
+[01:44:28] 
+  Survey #125 (button 5/5)
+[01:44:38]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[01:44:38] All 5 surveys full, waiting 90s for new ones...
+[01:46:08] 
+--- Poll 26/60 ---
+[01:46:19] Points: 16
+[01:46:19] TAKE SURVEY buttons: 5
+[01:46:28] 
+  Survey #126 (button 1/5)
+[01:46:29]   Survey full/expired
+[01:46:29]   No survey loaded, continuing
+[01:46:38] 
+  Survey #127 (button 2/5)
+[01:46:39]   Survey full/expired
+[01:46:39]   No survey loaded, continuing
+[01:46:48] 
+  Survey #128 (button 3/5)
+[01:46:49]   Survey full/expired
+[01:46:49]   No survey loaded, continuing
+[01:46:58] 
+  Survey #129 (button 4/5)
+[01:47:18]   No survey loaded, continuing
+[01:47:27] 
+  Survey #130 (button 5/5)
+[01:47:37]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[01:47:37] All 5 surveys full, waiting 90s for new ones...
+[01:49:07] 
+--- Poll 27/60 ---
+[01:49:18] Points: 16
+[01:49:18] TAKE SURVEY buttons: 5
+[01:49:27] 
+  Survey #131 (button 1/5)
+[01:49:29]   Survey full/expired
+[01:49:29]   No survey loaded, continuing
+[01:49:39] 
+  Survey #132 (button 2/5)
+[01:49:40]   Survey full/expired
+[01:49:40]   No survey loaded, continuing
+[01:49:50] 
+  Survey #133 (button 3/5)
+[01:49:55]   Survey full/expired
+[01:49:55]   No survey loaded, continuing
+[01:50:04] 
+  Survey #134 (button 4/5)
+[01:50:24]   No survey loaded, continuing
+[01:50:34] 
+  Survey #135 (button 5/5)
+[01:50:44]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[01:50:44] All 5 surveys full, waiting 90s for new ones...
+[01:52:14] 
+--- Poll 28/60 ---
+[01:52:26] Points: 16
+[01:52:26] TAKE SURVEY buttons: 5
+[01:52:35] 
+  Survey #136 (button 1/5)
+[01:52:36]   Survey full/expired
+[01:52:36]   No survey loaded, continuing
+[01:52:45] 
+  Survey #137 (button 2/5)
+[01:52:46]   Survey full/expired
+[01:52:46]   No survey loaded, continuing
+[01:52:56] 
+  Survey #138 (button 3/5)
+[01:52:57]   Survey full/expired
+[01:52:57]   No survey loaded, continuing
+[01:53:06] 
+  Survey #139 (button 4/5)
+[01:53:26]   No survey loaded, continuing
+[01:53:35] 
+  Survey #140 (button 5/5)
+[01:53:45]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     18 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[01:53:45] All 5 surveys full, waiting 90s for new ones...
+[01:55:15] 
+--- Poll 29/60 ---
+[01:55:27] Points: 16
+[01:55:27] TAKE SURVEY buttons: 5
+[01:55:37] 
+  Survey #141 (button 1/5)
+[01:55:38]   Survey full/expired
+[01:55:38]   No survey loaded, continuing
+[01:55:48] 
+  Survey #142 (button 2/5)
+[01:55:49]   Survey full/expired
+[01:55:49]   No survey loaded, continuing
+[01:55:59] 
+  Survey #143 (button 3/5)
+[01:56:00]   Survey full/expired
+[01:56:00]   No survey loaded, continuing
+[01:56:09] 
+  Survey #144 (button 4/5)
+[01:56:29]   No survey loaded, continuing
+[01:56:39] 
+  Survey #145 (button 5/5)
+[01:56:49]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     18 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[01:56:49] All 5 surveys full, waiting 90s for new ones...
+[01:58:19] 
+--- Poll 30/60 ---
+[01:58:30] Points: 16
+[01:58:30] TAKE SURVEY buttons: 5
+[01:58:39] 
+  Survey #146 (button 1/5)
+[01:58:40]   Survey full/expired
+[01:58:40]   No survey loaded, continuing
+[01:58:50] 
+  Survey #147 (button 2/5)
+[01:58:51]   Survey full/expired
+[01:58:51]   No survey loaded, continuing
+[01:59:00] 
+  Survey #148 (button 3/5)
+[01:59:10]   Survey full/expired
+[01:59:10]   No survey loaded, continuing
+[01:59:19] 
+  Survey #149 (button 4/5)
+[01:59:39]   No survey loaded, continuing
+[01:59:48] 
+  Survey #150 (button 5/5)
+[01:59:58]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[01:59:58] All 5 surveys full, waiting 90s for new ones...
+[02:01:28] 
+--- Poll 31/60 ---
+[02:01:39] Points: 16
+[02:01:39] TAKE SURVEY buttons: 5
+[02:01:48] 
+  Survey #151 (button 1/5)
+[02:01:49]   Survey full/expired
+[02:01:50]   No survey loaded, continuing
+[02:01:59] 
+  Survey #152 (button 2/5)
+[02:02:01]   Survey full/expired
+[02:02:01]   No survey loaded, continuing
+[02:02:11] 
+  Survey #153 (button 3/5)
+[02:02:15]   Survey full/expired
+[02:02:15]   No survey loaded, continuing
+[02:02:24] 
+  Survey #154 (button 4/5)
+[02:02:44]   No survey loaded, continuing
+[02:02:53] 
+  Survey #155 (button 5/5)
+[02:03:03]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[02:03:03] All 5 surveys full, waiting 90s for new ones...
+[02:04:33] 
+--- Poll 32/60 ---
+[02:04:45] Points: 16
+[02:04:45] TAKE SURVEY buttons: 5
+[02:04:55] 
+  Survey #156 (button 1/5)
+[02:04:56]   Survey full/expired
+[02:04:56]   No survey loaded, continuing
+[02:05:05] 
+  Survey #157 (button 2/5)
+[02:05:06]   Survey full/expired
+[02:05:06]   No survey loaded, continuing
+[02:05:15] 
+  Survey #158 (button 3/5)
+[02:05:24]   Survey full/expired
+[02:05:24]   No survey loaded, continuing
+[02:05:33] 
+  Survey #159 (button 4/5)
+[02:05:53]   No survey loaded, continuing
+[02:06:02] 
+  Survey #160 (button 5/5)
+[02:06:12]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[02:06:12] All 5 surveys full, waiting 90s for new ones...
+[02:07:42] 
+--- Poll 33/60 ---
+[02:07:53] Points: 16
+[02:07:53] TAKE SURVEY buttons: 5
+[02:08:02] 
+  Survey #161 (button 1/5)
+[02:08:03]   Survey full/expired
+[02:08:03]   No survey loaded, continuing
+[02:08:12] 
+  Survey #162 (button 2/5)
+[02:08:13]   Survey full/expired
+[02:08:13]   No survey loaded, continuing
+[02:08:22] 
+  Survey #163 (button 3/5)
+[02:08:23]   Survey full/expired
+[02:08:23]   No survey loaded, continuing
+[02:08:32] 
+  Survey #164 (button 4/5)
+[02:08:52]   No survey loaded, continuing
+[02:09:00] 
+  Survey #165 (button 5/5)
+[02:09:10]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[02:09:10] All 5 surveys full, waiting 90s for new ones...
+[02:10:40] 
+--- Poll 34/60 ---
+[02:10:51] Points: 16
+[02:10:51] TAKE SURVEY buttons: 5
+[02:11:01] 
+  Survey #166 (button 1/5)
+[02:11:02]   Survey full/expired
+[02:11:02]   No survey loaded, continuing
+[02:11:11] 
+  Survey #167 (button 2/5)
+[02:11:12]   Survey full/expired
+[02:11:12]   No survey loaded, continuing
+[02:11:20] 
+  Survey #168 (button 3/5)
+[02:11:26]   Survey full/expired
+[02:11:26]   No survey loaded, continuing
+[02:11:35] 
+  Survey #169 (button 4/5)
+[02:11:55]   No survey loaded, continuing
+[02:12:04] 
+  Survey #170 (button 5/5)
+[02:12:14]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     18 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[02:12:14] All 5 surveys full, waiting 90s for new ones...
+[02:13:44] 
+--- Poll 35/60 ---
+[02:13:55] Points: 16
+[02:13:55] TAKE SURVEY buttons: 5
+[02:14:03] 
+  Survey #171 (button 1/5)
+[02:14:05]   Survey full/expired
+[02:14:05]   No survey loaded, continuing
+[02:14:14] 
+  Survey #172 (button 2/5)
+[02:14:15]   Survey full/expired
+[02:14:15]   No survey loaded, continuing
+[02:14:24] 
+  Survey #173 (button 3/5)
+[02:14:26]   Survey full/expired
+[02:14:26]   No survey loaded, continuing
+[02:14:35] 
+  Survey #174 (button 4/5)
+[02:14:55]   No survey loaded, continuing
+[02:15:04] 
+  Survey #175 (button 5/5)
+[02:15:14]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[02:15:14] All 5 surveys full, waiting 90s for new ones...
+[02:16:44] 
+--- Poll 36/60 ---
+[02:16:55] Points: 16
+[02:16:55] TAKE SURVEY buttons: 5
+[02:17:03] 
+  Survey #176 (button 1/5)
+[02:17:04]   Survey full/expired
+[02:17:04]   No survey loaded, continuing
+[02:17:13] 
+  Survey #177 (button 2/5)
+[02:17:15]   Survey full/expired
+[02:17:15]   No survey loaded, continuing
+[02:17:23] 
+  Survey #178 (button 3/5)
+[02:17:24]   Survey full/expired
+[02:17:25]   No survey loaded, continuing
+[02:17:33] 
+  Survey #179 (button 4/5)
+[02:17:53]   No survey loaded, continuing
+[02:18:02] 
+  Survey #180 (button 5/5)
+[02:18:12]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[02:18:12] All 5 surveys full, waiting 90s for new ones...
+[02:19:42] 
+--- Poll 37/60 ---
+[02:19:53] Points: 16
+[02:19:53] TAKE SURVEY buttons: 5
+[02:20:02] 
+  Survey #181 (button 1/5)
+[02:20:04]   Survey full/expired
+[02:20:04]   No survey loaded, continuing
+[02:20:13] 
+  Survey #182 (button 2/5)
+[02:20:14]   Survey full/expired
+[02:20:14]   No survey loaded, continuing
+[02:20:23] 
+  Survey #183 (button 3/5)
+[02:20:24]   Survey full/expired
+[02:20:24]   No survey loaded, continuing
+[02:20:33] 
+  Survey #184 (button 4/5)
+[02:20:53]   No survey loaded, continuing
+[02:21:02] 
+  Survey #185 (button 5/5)
+[02:21:12]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[02:21:12] All 5 surveys full, waiting 90s for new ones...
+[02:22:42] 
+--- Poll 38/60 ---
+[02:22:53] Points: 16
+[02:22:53] TAKE SURVEY buttons: 5
+[02:23:02] 
+  Survey #186 (button 1/5)
+[02:23:03]   Survey full/expired
+[02:23:03]   No survey loaded, continuing
+[02:23:12] 
+  Survey #187 (button 2/5)
+[02:23:14]   Survey full/expired
+[02:23:15]   No survey loaded, continuing
+[02:23:24] 
+  Survey #188 (button 3/5)
+[02:23:27]   Survey full/expired
+[02:23:27]   No survey loaded, continuing
+[02:23:36] 
+  Survey #189 (button 4/5)
+[02:23:56]   No survey loaded, continuing
+[02:24:04] 
+  Survey #190 (button 5/5)
+[02:24:14]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[02:24:14] All 5 surveys full, waiting 90s for new ones...
+[02:25:44] 
+--- Poll 39/60 ---
+[02:25:55] Points: 16
+[02:25:55] TAKE SURVEY buttons: 5
+[02:26:04] 
+  Survey #191 (button 1/5)
+[02:26:05]   Survey full/expired
+[02:26:06]   No survey loaded, continuing
+[02:26:15] 
+  Survey #192 (button 2/5)
+[02:26:16]   Survey full/expired
+[02:26:16]   No survey loaded, continuing
+[02:26:25] 
+  Survey #193 (button 3/5)
+[02:26:29]   Survey full/expired
+[02:26:29]   No survey loaded, continuing
+[02:26:38] 
+  Survey #194 (button 4/5)
+[02:26:58]   No survey loaded, continuing
+[02:27:07] 
+  Survey #195 (button 5/5)
+[02:27:17]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[02:27:17] All 5 surveys full, waiting 90s for new ones...
+[02:28:47] 
+--- Poll 40/60 ---
+[02:28:58] Points: 16
+[02:28:58] TAKE SURVEY buttons: 5
+[02:29:07] 
+  Survey #196 (button 1/5)
+[02:29:08]   Survey full/expired
+[02:29:08]   No survey loaded, continuing
+[02:29:17] 
+  Survey #197 (button 2/5)
+[02:29:18]   Survey full/expired
+[02:29:18]   No survey loaded, continuing
+[02:29:27] 
+  Survey #198 (button 3/5)
+[02:29:30]   Survey full/expired
+[02:29:30]   No survey loaded, continuing
+[02:29:39] 
+  Survey #199 (button 4/5)
+[02:29:59]   No survey loaded, continuing
+[02:30:08] 
+  Survey #200 (button 5/5)
+[02:30:18]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[02:30:18] All 5 surveys full, waiting 90s for new ones...
+[02:31:48] 
+--- Poll 41/60 ---
+[02:31:59] Points: 16
+[02:31:59] TAKE SURVEY buttons: 5
+[02:32:08] 
+  Survey #201 (button 1/5)
+[02:32:09]   Survey full/expired
+[02:32:09]   No survey loaded, continuing
+[02:32:18] 
+  Survey #202 (button 2/5)
+[02:32:19]   Survey full/expired
+[02:32:19]   No survey loaded, continuing
+[02:32:28] 
+  Survey #203 (button 3/5)
+[02:32:29]   Survey full/expired
+[02:32:29]   No survey loaded, continuing
+[02:32:38] 
+  Survey #204 (button 4/5)
+[02:32:59]   No survey loaded, continuing
+[02:33:07] 
+  Survey #205 (button 5/5)
+[02:33:17]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[02:33:17] All 5 surveys full, waiting 90s for new ones...
+[02:34:47] 
+--- Poll 42/60 ---
+[02:34:58] Points: 16
+[02:34:58] TAKE SURVEY buttons: 5
+[02:35:07] 
+  Survey #206 (button 1/5)
+[02:35:14]   Survey full/expired
+[02:35:14]   No survey loaded, continuing
+[02:35:22] 
+  Survey #207 (button 2/5)
+[02:35:23]   Survey full/expired
+[02:35:23]   No survey loaded, continuing
+[02:35:32] 
+  Survey #208 (button 3/5)
+[02:35:39]   Survey full/expired
+[02:35:39]   No survey loaded, continuing
+[02:35:48] 
+  Survey #209 (button 4/5)
+[02:36:08]   No survey loaded, continuing
+[02:36:17] 
+  Survey #210 (button 5/5)
+[02:36:27]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[02:36:27] All 5 surveys full, waiting 90s for new ones...
+[02:37:57] 
+--- Poll 43/60 ---
+[02:38:08] Points: 16
+[02:38:08] TAKE SURVEY buttons: 5
+[02:38:17] 
+  Survey #211 (button 1/5)
+[02:38:18]   Survey full/expired
+[02:38:18]   No survey loaded, continuing
+[02:38:28] 
+  Survey #212 (button 2/5)
+[02:38:29]   Survey full/expired
+[02:38:29]   No survey loaded, continuing
+[02:38:38] 
+  Survey #213 (button 3/5)
+[02:38:41]   Survey full/expired
+[02:38:41]   No survey loaded, continuing
+[02:38:50] 
+  Survey #214 (button 4/5)
+[02:39:10]   No survey loaded, continuing
+[02:39:19] 
+  Survey #215 (button 5/5)
+[02:39:29]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[02:39:29] All 5 surveys full, waiting 90s for new ones...
+[02:40:59] 
+--- Poll 44/60 ---
+[02:41:10] Points: 16
+[02:41:10] TAKE SURVEY buttons: 5
+[02:41:19] 
+  Survey #216 (button 1/5)
+[02:41:20]   Survey full/expired
+[02:41:20]   No survey loaded, continuing
+[02:41:29] 
+  Survey #217 (button 2/5)
+[02:41:30]   Survey full/expired
+[02:41:30]   No survey loaded, continuing
+[02:41:39] 
+  Survey #218 (button 3/5)
+[02:41:44]   Survey full/expired
+[02:41:44]   No survey loaded, continuing
+[02:41:53] 
+  Survey #219 (button 4/5)
+[02:42:13]   No survey loaded, continuing
+[02:42:22] 
+  Survey #220 (button 5/5)
+[02:42:32]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[02:42:32] All 5 surveys full, waiting 90s for new ones...
+[02:44:02] 
+--- Poll 45/60 ---
+[02:44:13] Points: 16
+[02:44:13] TAKE SURVEY buttons: 5
+[02:44:22] 
+  Survey #221 (button 1/5)
+[02:44:23]   Survey full/expired
+[02:44:23]   No survey loaded, continuing
+[02:44:32] 
+  Survey #222 (button 2/5)
+[02:44:33]   Survey full/expired
+[02:44:33]   No survey loaded, continuing
+[02:44:42] 
+  Survey #223 (button 3/5)
+[02:44:43]   Survey full/expired
+[02:44:43]   No survey loaded, continuing
+[02:44:52] 
+  Survey #224 (button 4/5)
+[02:45:12]   No survey loaded, continuing
+[02:45:21] 
+  Survey #225 (button 5/5)
+[02:45:31]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     18 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[02:45:31] All 5 surveys full, waiting 90s for new ones...
+[02:47:01] 
+--- Poll 46/60 ---
+[02:47:12] Points: 16
+[02:47:12] TAKE SURVEY buttons: 5
+[02:47:21] 
+  Survey #226 (button 1/5)
+[02:47:22]   Survey full/expired
+[02:47:22]   No survey loaded, continuing
+[02:47:31] 
+  Survey #227 (button 2/5)
+[02:47:32]   Survey full/expired
+[02:47:32]   No survey loaded, continuing
+[02:47:41] 
+  Survey #228 (button 3/5)
+[02:47:50]   Survey full/expired
+[02:47:50]   No survey loaded, continuing
+[02:47:59] 
+  Survey #229 (button 4/5)
+[02:48:19]   No survey loaded, continuing
+[02:48:28] 
+  Survey #230 (button 5/5)
+[02:48:38]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     18 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[02:48:38] All 5 surveys full, waiting 90s for new ones...
+[02:50:08] 
+--- Poll 47/60 ---
+[02:50:19] Points: 16
+[02:50:19] TAKE SURVEY buttons: 5
+[02:50:28] 
+  Survey #231 (button 1/5)
+[02:50:29]   Survey full/expired
+[02:50:29]   No survey loaded, continuing
+[02:50:38] 
+  Survey #232 (button 2/5)
+[02:50:39]   Survey full/expired
+[02:50:39]   No survey loaded, continuing
+[02:50:48] 
+  Survey #233 (button 3/5)
+[02:50:49]   Survey full/expired
+[02:50:49]   No survey loaded, continuing
+[02:50:58] 
+  Survey #234 (button 4/5)
+[02:51:18]   No survey loaded, continuing
+[02:51:27] 
+  Survey #235 (button 5/5)
+[02:51:37]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[02:51:37] All 5 surveys full, waiting 90s for new ones...
+[02:53:07] 
+--- Poll 48/60 ---
+[02:53:18] Points: 16
+[02:53:18] TAKE SURVEY buttons: 5
+[02:53:27] 
+  Survey #236 (button 1/5)
+[02:53:28]   Survey full/expired
+[02:53:28]   No survey loaded, continuing
+[02:53:37] 
+  Survey #237 (button 2/5)
+[02:53:38]   Survey full/expired
+[02:53:38]   No survey loaded, continuing
+[02:53:47] 
+  Survey #238 (button 3/5)
+[02:53:48]   Survey full/expired
+[02:53:49]   No survey loaded, continuing
+[02:53:57] 
+  Survey #239 (button 4/5)
+[02:54:17]   No survey loaded, continuing
+[02:54:26] 
+  Survey #240 (button 5/5)
+[02:54:36]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[02:54:36] All 5 surveys full, waiting 90s for new ones...
+[02:56:06] 
+--- Poll 49/60 ---
+[02:56:17] Points: 16
+[02:56:17] TAKE SURVEY buttons: 5
+[02:56:26] 
+  Survey #241 (button 1/5)
+[02:56:27]   Survey full/expired
+[02:56:27]   No survey loaded, continuing
+[02:56:36] 
+  Survey #242 (button 2/5)
+[02:56:37]   Survey full/expired
+[02:56:37]   No survey loaded, continuing
+[02:56:46] 
+  Survey #243 (button 3/5)
+[02:56:48]   Survey full/expired
+[02:56:48]   No survey loaded, continuing
+[02:56:56] 
+  Survey #244 (button 4/5)
+[02:57:16]   No survey loaded, continuing
+[02:57:26] 
+  Survey #245 (button 5/5)
+[02:57:36]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[02:57:36] All 5 surveys full, waiting 90s for new ones...
+[02:59:06] 
+--- Poll 50/60 ---
+[02:59:16] Points: 16
+[02:59:16] TAKE SURVEY buttons: 5
+[02:59:25] 
+  Survey #246 (button 1/5)
+[02:59:27]   Survey full/expired
+[02:59:27]   No survey loaded, continuing
+[02:59:36] 
+  Survey #247 (button 2/5)
+[02:59:37]   Survey full/expired
+[02:59:37]   No survey loaded, continuing
+[02:59:46] 
+  Survey #248 (button 3/5)
+[02:59:50]   Survey full/expired
+[02:59:50]   No survey loaded, continuing
+[02:59:59] 
+  Survey #249 (button 4/5)
+[03:00:19]   No survey loaded, continuing
+[03:00:28] 
+  Survey #250 (button 5/5)
+[03:00:38]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     18 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[03:00:38] All 5 surveys full, waiting 90s for new ones...
+[03:02:08] 
+--- Poll 51/60 ---
+[03:02:19] Points: 16
+[03:02:19] TAKE SURVEY buttons: 5
+[03:02:28] 
+  Survey #251 (button 1/5)
+[03:02:29]   Survey full/expired
+[03:02:29]   No survey loaded, continuing
+[03:02:38] 
+  Survey #252 (button 2/5)
+[03:02:39]   Survey full/expired
+[03:02:39]   No survey loaded, continuing
+[03:02:48] 
+  Survey #253 (button 3/5)
+[03:02:49]   Survey full/expired
+[03:02:49]   No survey loaded, continuing
+[03:02:58] 
+  Survey #254 (button 4/5)
+[03:03:18]   No survey loaded, continuing
+[03:03:27] 
+  Survey #255 (button 5/5)
+[03:03:37]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     18 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[03:03:37] All 5 surveys full, waiting 90s for new ones...
+[03:05:07] 
+--- Poll 52/60 ---
+[03:05:18] Points: 16
+[03:05:18] TAKE SURVEY buttons: 5
+[03:05:26] 
+  Survey #256 (button 1/5)
+[03:05:27]   Survey full/expired
+[03:05:28]   No survey loaded, continuing
+[03:05:36] 
+  Survey #257 (button 2/5)
+[03:05:39]   Survey full/expired
+[03:05:40]   No survey loaded, continuing
+[03:05:48] 
+  Survey #258 (button 3/5)
+[03:05:49]   Survey full/expired
+[03:05:49]   No survey loaded, continuing
+[03:05:58] 
+  Survey #259 (button 4/5)
+[03:06:19]   No survey loaded, continuing
+[03:06:27] 
+  Survey #260 (button 5/5)
+[03:06:37]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[03:06:37] All 5 surveys full, waiting 90s for new ones...
+[03:08:07] 
+--- Poll 53/60 ---
+[03:08:18] Points: 16
+[03:08:18] TAKE SURVEY buttons: 5
+[03:08:27] 
+  Survey #261 (button 1/5)
+[03:08:28]   Survey full/expired
+[03:08:28]   No survey loaded, continuing
+[03:08:37] 
+  Survey #262 (button 2/5)
+[03:08:40]   Survey full/expired
+[03:08:40]   No survey loaded, continuing
+[03:08:49] 
+  Survey #263 (button 3/5)
+[03:08:51]   Survey full/expired
+[03:08:51]   No survey loaded, continuing
+[03:09:00] 
+  Survey #264 (button 4/5)
+[03:09:20]   No survey loaded, continuing
+[03:09:29] 
+  Survey #265 (button 5/5)
+[03:09:39]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[03:09:39] All 5 surveys full, waiting 90s for new ones...
+[03:11:09] 
+--- Poll 54/60 ---
+[03:11:19] Points: 16
+[03:11:19] TAKE SURVEY buttons: 5
+[03:11:28] 
+  Survey #266 (button 1/5)
+[03:11:30]   Survey full/expired
+[03:11:30]   No survey loaded, continuing
+[03:11:39] 
+  Survey #267 (button 2/5)
+[03:11:40]   Survey full/expired
+[03:11:40]   No survey loaded, continuing
+[03:11:48] 
+  Survey #268 (button 3/5)
+[03:11:50]   Survey full/expired
+[03:11:50]   No survey loaded, continuing
+[03:11:59] 
+  Survey #269 (button 4/5)
+[03:12:19]   No survey loaded, continuing
+[03:12:28] 
+  Survey #270 (button 5/5)
+[03:12:38]   Click failed: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator("a:has-text(\"TAKE SURVEY\")").nth(4)
+  -     - locator resolved to <a target="_blank" href="/qualifications/core?qlog_id=282708937" class="btn btn-outline-primary btn-xs-block btn-dynamic-profile">Take Survey</a>
+  -   - attempting click action
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -     - waiting 20ms
+  -     2 × waiting for element to be visible, enabled and stable
+  -       - element is not visible
+  -     - retrying click action
+  -       - waiting 100ms
+  -     19 × waiting for element to be visible, enabled and stable
+  -        - element is not visible
+  -      - retrying click action
+  -        - waiting 500ms
+
+[03:12:38] All 5 surveys full, waiting 90s for new ones...
+[03:14:08] 
+--- Poll 55/60 ---
+[03:14:19] Points: 16
+[03:14:19] TAKE SURVEY buttons: 5
+[03:14:28] 
+  Survey #271 (button 1/5)
+[03:14:30]   Survey full/expired
+[03:14:31]   No survey loaded, continuing
+[03:14:39] 
+  Survey #272 (button 2/5)
+[03:14:59]   No survey loaded, continuing
+[03:16:47] ============================================================
+[03:16:47] CONTINUOUS SURVEY AGENT v2
+[03:16:47] ego-lite CDP + ensemble CAPTCHA + CDP mouse drag
+[03:16:47] ============================================================
+[03:16:48] Connected to ego-lite CDP
+[03:16:48] 
+--- Poll 1 ---
+[03:16:58] Points: 16
+[03:16:58] Surveys: 5
+[03:17:07] 
+  Survey #1 (1/5)
+[03:17:08]   Full/expired
+[03:17:08]   No survey
+[03:17:17] 
+  Survey #2 (2/5)
+[03:17:18]   Full/expired
+[03:17:18]   No survey
+[03:17:27] 
+  Survey #3 (3/5)
+[03:17:28]   Full/expired
+[03:17:28]   No survey
+[03:17:37] 
+  Survey #4 (4/5)
+[03:17:57]   No survey
+[03:18:05] 
+  Survey #5 (5/5)
+[03:18:15]   Click err: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiti
+[03:18:15] All full, waiting 90s...
+[03:19:45] 
+--- Poll 2 ---
+[03:19:56] Points: 16
+[03:19:56] Surveys: 5
+[03:20:05] 
+  Survey #6 (1/5)
+[03:20:06]   Full/expired
+[03:20:06]   No survey
+[03:20:14] 
+  Survey #7 (2/5)
+[03:20:16]   Full/expired
+[03:20:16]   No survey
+[03:20:24] 
+  Survey #8 (3/5)
+[03:20:25]   Full/expired
+[03:20:25]   No survey
+[03:20:34] 
+  Survey #9 (4/5)
+[03:20:54]   No survey
+[03:21:04] 
+  Survey #10 (5/5)
+[03:21:14]   Click err: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiti
+[03:21:14] All full, waiting 90s...
+[03:22:44] 
+--- Poll 3 ---
+[03:22:54] Points: 16
+[03:22:54] Surveys: 5
+[03:23:03] 
+  Survey #11 (1/5)
+[03:23:04]   Full/expired
+[03:23:04]   No survey
+[03:23:13] 
+  Survey #12 (2/5)
+[03:23:14]   Full/expired
+[03:23:14]   No survey
+[03:23:23] 
+  Survey #13 (3/5)
+[03:23:28]   Full/expired
+[03:23:28]   No survey
+[03:23:37] 
+  Survey #14 (4/5)
+[03:23:57]   No survey
+[03:24:06] 
+  Survey #15 (5/5)
+[03:24:16]   Click err: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiti
+[03:24:16] All full, waiting 90s...
+[03:25:46] 
+--- Poll 4 ---
+[03:25:57] Points: 16
+[03:25:57] Surveys: 5
+[03:26:06] 
+  Survey #16 (1/5)
+[03:26:07]   Full/expired
+[03:26:07]   No survey
+[03:26:15] 
+  Survey #17 (2/5)
+[03:26:16]   Full/expired
+[03:26:16]   No survey
+[03:26:25] 
+  Survey #18 (3/5)
+[03:26:29]   Full/expired
+[03:26:29]   No survey
+[03:26:38] 
+  Survey #19 (4/5)
+[03:26:48]   Loaded: https://fusion.spectrumsurveys.com/screener?211=111&212=39&2
+[03:26:56]   Q1: Text
+[03:26:58]     CAPTCHA: ['Fpkmdr', 'Fpkmdr', 'Fpkmdr'] -> Fpkmdr
+[03:26:58]   Q2: CAPTCHA attempt 1: Fpkmdr
+[03:27:02]     Solved!
+[03:27:02]   Q3: DRAG #74
+[03:27:09]     Drag OK!
+[03:27:09]   Q4: Disqualified
+[03:27:09]   Result: disqualified
+[03:27:28] 
+  Survey #20 (5/5)
+[03:27:38]   Click err: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiti
+[03:27:38] All full, waiting 90s...
+[03:29:08] 
+--- Poll 5 ---
+[03:29:19] Points: 16
+[03:29:19] Surveys: 7
+[03:29:28] 
+  Survey #21 (1/7)
+[03:29:29]   Full/expired
+[03:29:29]   No survey
+[03:29:37] 
+  Survey #22 (2/7)
+[03:29:38]   Full/expired
+[03:29:38]   No survey
+[03:29:47] 
+  Survey #23 (3/7)
+[03:29:51]   Full/expired
+[03:29:51]   No survey
+[03:30:00] 
+  Survey #24 (4/7)
+[03:30:08]   Full/expired
+[03:30:08]   No survey
+[03:30:17] 
+  Survey #25 (5/7)
+[03:30:27]   Click err: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiti
+[03:30:36] 
+  Survey #26 (6/7)
+[03:30:56]   No survey
+[03:31:05] 
+  Survey #27 (7/7)
+[03:31:15]   Click err: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiti
+[03:31:15] All full, waiting 90s...
+[03:32:45] 
+--- Poll 6 ---
+[03:32:56] Points: 16
+[03:32:56] Surveys: 5
+[03:33:04] 
+  Survey #28 (1/5)
+[03:33:05]   Full/expired
+[03:33:05]   No survey
+[03:33:15] 
+  Survey #29 (2/5)
+[03:33:16]   Full/expired
+[03:33:16]   No survey
+[03:33:25] 
+  Survey #30 (3/5)
+[03:33:31]   Full/expired
+[03:33:31]   No survey
+[03:33:40] 
+  Survey #31 (4/5)
+[03:34:00]   No survey
+[03:34:08] 
+  Survey #32 (5/5)
+[03:34:18]   Click err: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiti
+[03:34:18] All full, waiting 90s...
+[03:35:48] 
+--- Poll 7 ---
+[03:35:59] Points: 16
+[03:35:59] Surveys: 5
+[03:36:08] 
+  Survey #33 (1/5)
+[03:36:09]   Full/expired
+[03:36:09]   No survey
+[03:36:18] 
+  Survey #34 (2/5)
+[03:36:19]   Full/expired
+[03:36:19]   No survey
+[03:36:28] 
+  Survey #35 (3/5)
+[03:36:29]   Full/expired
+[03:36:29]   No survey
+[03:36:38] 
+  Survey #36 (4/5)
+[03:36:58]   No survey
+[03:37:07] 
+  Survey #37 (5/5)
+[03:37:17]   Click err: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiti
+[03:37:17] All full, waiting 90s...
+[03:38:47] 
+--- Poll 8 ---
+[03:38:58] Points: 16
+[03:38:58] Surveys: 5
+[03:39:06] 
+  Survey #38 (1/5)
+[03:39:08]   Full/expired
+[03:39:08]   No survey
+[03:39:17] 
+  Survey #39 (2/5)
+[03:39:18]   Full/expired
+[03:39:18]   No survey
+[03:39:27] 
+  Survey #40 (3/5)
+[03:39:28]   Full/expired
+[03:39:28]   No survey
+[03:39:37] 
+  Survey #41 (4/5)
+[03:39:57]   No survey
+[03:40:06] 
+  Survey #42 (5/5)
+[03:40:16]   Click err: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiti
+[03:40:16] All full, waiting 90s...
+[03:41:46] 
+--- Poll 9 ---
+[03:41:56] Points: 16
+[03:41:56] Surveys: 5
+[03:42:05] 
+  Survey #43 (1/5)
+[03:42:06]   Full/expired
+[03:42:06]   No survey
+[03:42:15] 
+  Survey #44 (2/5)
+[03:42:16]   Full/expired
+[03:42:16]   No survey
+[03:42:25] 
+  Survey #45 (3/5)
+[03:42:26]   Full/expired
+[03:42:26]   No survey
+[03:42:35] 
+  Survey #46 (4/5)
+[03:42:55]   No survey
+[03:43:04] 
+  Survey #47 (5/5)
+[03:43:14]   Click err: Locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiti
+[03:43:14] All full, waiting 90s...
+[03:44:44] 
+--- Poll 10 ---
+[03:44:55] Points: 16
+[03:44:55] Surveys: 5
+[03:45:04] 
+  Survey #48 (1/5)
+[03:45:05]   Full/expired
+[03:45:05]   No survey

@@ -3,7 +3,7 @@
 
 Connects to ego-lite via CDP. Polls dashboard for surveys.
 Handles text, CAPTCHA (ensemble), radio (force click), drag-and-drop (CDP mouse).
-Logs everything to data/survey_run.log.
+Auto-reconnects on CDP connection loss. Logs to data/survey_run.log.
 """
 import asyncio
 import base64
@@ -22,7 +22,6 @@ CEREBRAS_ENDPOINT = "https://api.cerebras.ai/v1/chat/completions"
 CEREBRAS_MODEL = "gemma-4-31b"
 CAPTCHA_PROMPT = "Read the distorted text in this image. The characters may include letters and numbers. Return only the characters, nothing else."
 LOG_PATH = os.path.expanduser("~/survey-agent/data/survey_run.log")
-
 os.makedirs(os.path.dirname(LOG_PATH), exist_ok=True)
 
 
@@ -57,18 +56,15 @@ def read_captcha_once(image_b64):
 
 def solve_captcha_ensemble(image_bytes, num_reads=3):
     b64 = base64.b64encode(image_bytes).decode()
-    reads = []
-    for i in range(num_reads):
-        code = read_captcha_once(b64)
-        reads.append(code)
-    max_len = max(len(r) for r in reads) if reads else 0
+    reads = [read_captcha_once(b64) for _ in range(num_reads)]
+    max_len = max((len(r) for r in reads), default=0)
     result = []
     for pos in range(max_len):
         chars = [r[pos] for r in reads if pos < len(r)]
         if chars:
             result.append(Counter(chars).most_common(1)[0][0])
     solved = ''.join(result)
-    log(f"    CAPTCHA reads: {reads} -> ensemble: {solved}")
+    log(f"    CAPTCHA: {reads} -> {solved}")
     return solved
 
 
@@ -91,7 +87,7 @@ async def cdk_drag_drop(page, source_num):
     await page.mouse.down()
     await page.wait_for_timeout(300)
     for i in range(1, 31):
-        await page.mouse.move(sx + (tx-sx)*i/30, sy + (ty-sy)*i/30)
+        await page.mouse.move(sx + (tx - sx) * i / 30, sy + (ty - sy) * i / 30)
         await page.wait_for_timeout(20)
     await page.wait_for_timeout(300)
     await page.mouse.up()
@@ -103,16 +99,15 @@ async def wait_for_question(page, max_wait=20):
     for _ in range(max_wait):
         try:
             content = await page.content()
-            has_q = ('textarea' in content or 'input[type="radio"]' in content or
-                     'cdk-drag' in content or 'PS Captcha' in content or '<h1' in content)
-            if has_q:
+            if any(k in content for k in ['textarea', 'input[type="radio"]', 'cdk-drag', 'PS Captcha', '<h1']):
                 return content
             text = await page.evaluate('document.body ? document.body.innerText : ""')
-            if "thank you" in text.lower() or "earned" in text.lower():
+            tl = text.lower()
+            if "thank you" in tl or "earned" in tl:
                 return "completed"
-            if "not a match" in text.lower() or "disqualified" in text.lower():
+            if "not a match" in tl or "disqualified" in tl:
                 return "disqualified"
-            if "survey full" in text.lower() or "fill up" in text.lower():
+            if "survey full" in tl or "fill up" in tl:
                 return "full"
         except:
             pass
@@ -120,9 +115,9 @@ async def wait_for_question(page, max_wait=20):
     return None
 
 
-async def try_click(page, selector, timeout=5000, force=False):
+async def try_click(page, sel, timeout=5000, force=False):
     try:
-        await page.locator(selector).click(timeout=timeout, force=force)
+        await page.locator(sel).click(timeout=timeout, force=force)
         return True
     except:
         return False
@@ -133,29 +128,27 @@ async def try_click_next(page, timeout=5000):
 
 
 async def run_survey_questions(page):
-    """Run through all questions in a survey. Returns result."""
     for q in range(200):
         content = await wait_for_question(page)
         if content == "completed":
-            log(f"  Q{q+1}: SURVEY COMPLETED!")
+            log(f"  Q{q+1}: COMPLETED!")
             return "completed"
         if content == "disqualified":
             log(f"  Q{q+1}: Disqualified")
             return "disqualified"
         if content == "full":
-            log(f"  Q{q+1}: Survey full")
+            log(f"  Q{q+1}: Full")
             return "full"
         if content is None:
-            log(f"  Q{q+1}: Timeout waiting for question")
+            log(f"  Q{q+1}: Timeout")
             return "timeout"
 
         text = await page.evaluate('document.body.innerText.substring(0, 2000)')
 
-        # CAPTCHA
         if "PS Captcha" in content:
             for attempt in range(5):
                 img_bytes = await page.screenshot()
-                code = solve_captcha_ensemble(img_bytes, num_reads=3)
+                code = solve_captcha_ensemble(img_bytes)
                 log(f"  Q{q+1}: CAPTCHA attempt {attempt+1}: {code}")
                 inp = page.locator('input[type="text"]')
                 if await inp.count() > 0:
@@ -163,38 +156,30 @@ async def run_survey_questions(page):
                     await page.wait_for_timeout(500)
                 if await try_click_next(page):
                     await page.wait_for_timeout(3000)
-                    # Check if still on CAPTCHA (wrong code)
-                    new_content = await page.content()
-                    if "PS Captcha" not in new_content:
+                    if "PS Captcha" not in await page.content():
                         log(f"    Solved!")
                         break
-                    log(f"    Wrong code, refreshing...")
+                    log(f"    Wrong, refreshing...")
                 await try_click(page, 'button:has-text("Refresh")')
                 await page.wait_for_timeout(2000)
             else:
-                log(f"    CAPTCHA failed after 5 attempts")
                 return "captcha_failed"
             continue
 
-        # Drag-and-drop
         if 'cdk-drag' in content:
             match = re.search(r'number (\d+)', text)
             target_num = match.group(1) if match else "62"
             log(f"  Q{q+1}: DRAG #{target_num}")
-            success = await cdk_drag_drop(page, target_num)
-            if success:
+            if await cdk_drag_drop(page, target_num):
                 if await try_click_next(page):
                     await page.wait_for_timeout(3000)
                     log(f"    Drag OK!")
                 else:
-                    log(f"    Drag done but Next disabled")
                     return "drag_failed"
             else:
-                log(f"    Drag elements not found")
                 return "drag_failed"
             continue
 
-        # Text input
         textarea = page.locator('textarea')
         if await textarea.count() > 0:
             if "ABRACADABRA" in text:
@@ -202,212 +187,186 @@ async def run_survey_questions(page):
             else:
                 await textarea.first.fill(
                     "My family and children bring me the most happiness. "
-                    "I enjoy creating music and exploring new technology in Austin Texas."
-                )
+                    "I enjoy creating music and exploring new technology in Austin Texas.")
             if await try_click_next(page):
                 await page.wait_for_timeout(3000)
-                log(f"  Q{q+1}: Text answered")
+                log(f"  Q{q+1}: Text")
             continue
 
-        # Radio buttons
         radios = page.locator('input[type="radio"]')
         if await radios.count() > 0:
             await radios.first.click(force=True)
             if await try_click_next(page):
                 await page.wait_for_timeout(3000)
-                log(f"  Q{q+1}: Radio selected")
+                log(f"  Q{q+1}: Radio")
             continue
 
-        # Continue button (for consent/offer pages)
         if await try_click(page, 'button:has-text("Continue")'):
             await page.wait_for_timeout(3000)
-            log(f"  Q{q+1}: Continue clicked")
+            log(f"  Q{q+1}: Continue")
             continue
 
-        # Unknown
-        log(f"  Q{q+1}: Unknown question type")
-        await page.screenshot(path=f"/tmp/unknown_q{q+1}.png")
-        # Try clicking Next as fallback
+        log(f"  Q{q+1}: Unknown")
         if await try_click_next(page):
             await page.wait_for_timeout(3000)
             continue
         return "unknown"
-
     return "max_questions"
+
+
+async def run_one_session(p):
+    """Connect to ego-lite, poll and complete surveys. Returns completed count."""
+    completed = 0
+    attempts = 0
+
+    browser = await p.chromium.connect_over_cdp(CDP_URL)
+    log("Connected to ego-lite CDP")
+    ctx = browser.contexts[0]
+
+    while len(ctx.pages) > 1:
+        try: await ctx.pages[-1].close()
+        except: break
+    page = ctx.pages[0]
+
+    for poll in range(60):
+        log(f"\n--- Poll {poll+1} ---")
+
+        try:
+            await page.goto("https://surveys.gobranded.com/users/dashboard",
+                           wait_until="domcontentloaded", timeout=20000)
+            await page.wait_for_timeout(10000)
+        except Exception as e:
+            log(f"Dashboard error: {e}")
+            raise
+
+        try:
+            pts = await page.evaluate('document.body.innerText.match(/MY POINTS\\s*(\\d+)/)?.[1] || "?"')
+            log(f"Points: {pts}")
+        except: pass
+
+        take_btns = page.locator('a:has-text("TAKE SURVEY")')
+        btn_count = await take_btns.count()
+        log(f"Surveys: {btn_count}")
+
+        if btn_count == 0:
+            log("No surveys, waiting 60s...")
+            await asyncio.sleep(60)
+            continue
+
+        survey_done = False
+        for i in range(btn_count):
+            attempts += 1
+
+            try:
+                await page.goto("https://surveys.gobranded.com/users/dashboard",
+                               wait_until="domcontentloaded", timeout=20000)
+                await page.wait_for_timeout(8000)
+            except: break
+
+            take_btns = page.locator('a:has-text("TAKE SURVEY")')
+            if i >= await take_btns.count():
+                break
+
+            log(f"\n  Survey #{attempts} ({i+1}/{btn_count})")
+            n_pages = len(ctx.pages)
+
+            try:
+                await take_btns.nth(i).click(timeout=10000)
+            except Exception as e:
+                log(f"  Click err: {str(e)[:60]}")
+                continue
+
+            settled = False
+            for w in range(20):
+                await asyncio.sleep(1)
+                if len(ctx.pages) > n_pages:
+                    np = ctx.pages[-1]
+                    url = np.url
+                    if any(s in url for s in ['screener', 'focusvision', 'samplicio', 'yoursurveynow', 'confirmit']):
+                        log(f"  Loaded: {url[:60]}")
+                        page = np
+                        settled = True
+                        break
+                    if 'dashboard' in url or 'members' in url:
+                        log(f"  Full/expired")
+                        try: await np.close()
+                        except: pass
+                        break
+
+            if not settled:
+                log(f"  No survey")
+                continue
+
+            try:
+                c = await page.content()
+                if "Agree and Continue" in c:
+                    await try_click(page, 'button:has-text("Agree and Continue")')
+                    await page.wait_for_timeout(5000)
+                    log(f"  Consent OK")
+            except: pass
+
+            try:
+                if await try_click(page, 'a:has-text("BEGIN SURVEY")'):
+                    await page.wait_for_timeout(5000)
+                    log(f"  BEGIN OK")
+            except: pass
+
+            result = await run_survey_questions(page)
+            log(f"  Result: {result}")
+
+            if result == "completed":
+                completed += 1
+                log(f"\n*** SURVEY COMPLETED! Total: {completed} ***")
+                survey_done = True
+                try: await page.close()
+                except: pass
+                page = ctx.pages[0]
+                break
+
+            try: await page.close()
+            except: pass
+            page = ctx.pages[0]
+            await asyncio.sleep(10)
+
+        if completed >= 1:
+            return completed
+
+        if not survey_done:
+            log(f"All full, waiting 90s...")
+            await asyncio.sleep(90)
+
+    return completed
 
 
 async def main():
     from playwright.async_api import async_playwright
 
     log("=" * 60)
-    log("CONTINUOUS SURVEY AGENT")
+    log("CONTINUOUS SURVEY AGENT v2")
     log("ego-lite CDP + ensemble CAPTCHA + CDP mouse drag")
     log("=" * 60)
 
-    completed_surveys = 0
-    total_attempts = 0
-    max_poll_attempts = 60  # Poll for up to 60 minutes
+    for retry in range(10):
+        try:
+            async with async_playwright() as p:
+                completed = await run_one_session(p)
+                if completed >= 1:
+                    log(f"\nSESSION DONE: {completed} surveys completed!")
+                    return
+        except Exception as e:
+            log(f"Error: {e}")
 
-    async with async_playwright() as p:
-        browser = await p.chromium.connect_over_cdp(CDP_URL)
-        log(f"Connected to ego-lite via CDP")
+        log(f"Reconnecting in 15s (retry {retry+1}/10)...")
+        await asyncio.sleep(15)
 
-        ctx = browser.contexts[0]
+        if retry >= 2:
+            log("Restarting ego-lite...")
+            subprocess.run(["osascript", "-e", 'quit app "ego lite"'], capture_output=True)
+            await asyncio.sleep(3)
+            subprocess.run(["open", "-a", "ego lite", "--args", "--remote-debugging-port=9222"], capture_output=True)
+            await asyncio.sleep(8)
 
-        # Close extra tabs
-        while len(ctx.pages) > 1:
-            try:
-                await ctx.pages[-1].close()
-            except:
-                break
-        page = ctx.pages[0]
-        log(f"Page: {page.url[:60]}")
-
-        for poll in range(max_poll_attempts):
-            log(f"\n--- Poll {poll+1}/{max_poll_attempts} ---")
-
-            # Navigate to dashboard
-            try:
-                await page.goto("https://surveys.gobranded.com/users/dashboard",
-                               wait_until="domcontentloaded", timeout=20000)
-                await page.wait_for_timeout(10000)
-            except Exception as e:
-                log(f"Dashboard error: {e}")
-                await asyncio.sleep(30)
-                continue
-
-            # Get points
-            try:
-                points_text = await page.evaluate('''
-                    () => {
-                        const els = document.querySelectorAll('.points-value, [class*="point"]');
-                        for (const el of els) {
-                            const t = el.textContent.trim();
-                            if (/^\\d+$/.test(t)) return t;
-                        }
-                        return "unknown";
-                    }
-                ''')
-                log(f"Points: {points_text}")
-            except:
-                pass
-
-            # Find TAKE SURVEY buttons
-            take_btns = page.locator('a:has-text("TAKE SURVEY")')
-            btn_count = await take_btns.count()
-            log(f"TAKE SURVEY buttons: {btn_count}")
-
-            if btn_count == 0:
-                log("No surveys available, waiting 60s...")
-                await asyncio.sleep(60)
-                continue
-
-            # Try each survey
-            survey_taken = False
-            for i in range(btn_count):
-                total_attempts += 1
-
-                # Refresh dashboard
-                await page.goto("https://surveys.gobranded.com/users/dashboard",
-                               wait_until="domcontentloaded", timeout=20000)
-                await page.wait_for_timeout(8000)
-
-                take_btns = page.locator('a:has-text("TAKE SURVEY")')
-                if i >= await take_btns.count():
-                    break
-
-                log(f"\n  Survey #{total_attempts} (button {i+1}/{btn_count})")
-
-                initial_pages = len(ctx.pages)
-                try:
-                    await take_btns.nth(i).click(timeout=10000)
-                except Exception as e:
-                    log(f"  Click failed: {e}")
-                    continue
-
-                # Wait for redirect chain
-                settled = False
-                for w in range(20):
-                    await asyncio.sleep(1)
-                    if len(ctx.pages) > initial_pages:
-                        np = ctx.pages[-1]
-                        url = np.url
-
-                        # Check for survey platform URLs
-                        if any(s in url for s in ['screener', 'focusvision', 'samplicio', 'yoursurveynow', 'confirmit']):
-                            log(f"  Survey loaded: {url[:80]}")
-                            page = np
-                            settled = True
-                            break
-
-                        # Redirected to dashboard = full
-                        if 'dashboard' in url or 'members' in url:
-                            log(f"  Survey full/expired")
-                            try: await np.close()
-                            except: pass
-                            break
-
-                if not settled:
-                    log(f"  No survey loaded, continuing")
-                    continue
-
-                # Handle consent page
-                try:
-                    content = await page.content()
-                    if "Agree and Continue" in content:
-                        await try_click(page, 'button:has-text("Agree and Continue")')
-                        await page.wait_for_timeout(5000)
-                        log(f"  Consent accepted")
-                except:
-                    pass
-
-                # Click BEGIN SURVEY if present
-                try:
-                    if await try_click(page, 'a:has-text("BEGIN SURVEY")'):
-                        await page.wait_for_timeout(5000)
-                        log(f"  BEGIN SURVEY clicked")
-                except:
-                    pass
-
-                # Run the survey
-                result = await run_survey_questions(page)
-                log(f"  Result: {result}")
-
-                if result == "completed":
-                    completed_surveys += 1
-                    log(f"\n*** SURVEY COMPLETED! Total: {completed_surveys} ***")
-                    survey_taken = True
-
-                    # Close survey tab, go back to dashboard
-                    try:
-                        await page.close()
-                    except:
-                        pass
-                    page = ctx.pages[0]
-                    break
-
-                # Close survey tab
-                try:
-                    await page.close()
-                except:
-                    pass
-                page = ctx.pages[0]
-
-                # Small delay between surveys
-                await asyncio.sleep(10)
-
-            if completed_surveys >= 1:
-                log(f"\n{'='*60}")
-                log(f"SESSION COMPLETE: {completed_surveys} surveys completed")
-                log(f"Total attempts: {total_attempts}")
-                log(f"{'='*60}")
-                break
-
-            if not survey_taken:
-                log(f"All {btn_count} surveys full, waiting 90s for new ones...")
-                await asyncio.sleep(90)
-
-    log("Agent finished.")
+    log("Max retries reached.")
 
 
 if __name__ == "__main__":
