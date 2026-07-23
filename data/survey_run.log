@@ -29356,3 +29356,191 @@ Trying #73805878 ($1.58, 27min)
 Trying #73805878 ($1.58, 27min)
 [10:35:48]   Qualified!
 [10:36:12]   Survey: https://enter.ipsosinteractive.com/question/?p=T%2BRP8CT5pnR
+[10:36:27]     Select answered
+[10:36:27]   Q1 (?%): answered
+[10:36:38]     Select answered
+[10:36:38]   Q2 (%): answered
+[10:36:41]   Q3 (%): stuck
+[10:36:41]   Ended: stuck
+[10:36:43] 
+Trying #73845544 ($0.52, 5min)
+[10:36:44] Error: Page.goto: Target page, context or browser has been closed
+[10:36:44] Reconnect in 15s (4/10)...
+[10:37:03] Error: BrowserType.connect_over_cdp: Protocol error (Browser.setDownloadBehavior): Browser context management is not supported.
+Call log:
+  - <ws preparing> retrieving websocket url from http://localhost:9222
+  -   - <ws connecting> ws://localhost:9222/devtools/browser/43366ff4-418a-4f88-87e9-817409fb94c4
+  -   - <ws connected> ws://localhost:9222/devtools/browser/43366ff4-418a-4f88-87e9-817409fb94c4
+
+[10:37:03] Reconnect in 15s (5/10)...
+[10:38:14] ============================================================
+[10:38:14] SURVEY AGENT v13 — CUA + Playwright hybrid
+[10:38:14] ============================================================
+[10:38:17] Error: BrowserType.connect_over_cdp: Protocol error (Browser.setDownloadBehavior): Browser context management is not supported.
+Call log:
+  - <ws preparing> retrieving websocket url from http://localhost:9222
+  -   - <ws connecting> ws://localhost:9222/devtools/browser/43366ff4-418a-4f88-87e9-817409fb94c4
+  -   - <ws connected> ws://localhost:9222/devtools/browser/43366ff4-418a-4f88-87e9-817409fb94c4
+
+[10:38:17] Reconnect in 15s (1/10)...
+[10:38:36] Error: BrowserType.connect_over_cdp: Protocol error (Browser.setDownloadBehavior): Browser context management is not supported.
+Call log:
+  - <ws preparing> retrieving websocket url from http://localhost:9222
+  -   - <ws connecting> ws://localhost:9222/devtools/browser/43366ff4-418a-4f88-87e9-817409fb94c4
+  -   - <ws connected> ws://localhost:9222/devtools/browser/43366ff4-418a-4f88-87e9-817409fb94c4
+
+[10:38:36] Reconnect in 15s (2/10)...
+[10:38:54] Error: BrowserType.connect_over_cdp: Protocol error (Browser.setDownloadBehavior): Browser context management is not supported.
+Call log:
+  - <ws preparing> retrieving websocket url from http://localhost:9222
+  -   - <ws connecting> ws://localhost:9222/devtools/browser/43366ff4-418a-4f88-87e9-817409fb94c4
+  -   - <ws connected> ws://localhost:9222/devtools/browser/43366ff4-418a-4f88-87e9-817409fb94c4
+
+[10:38:54] Reconnect in 15s (3/10)...
+[10:39:12] Error: BrowserType.connect_over_cdp: Protocol error (Browser.setDownloadBehavior): Browser context management is not supported.
+Call log:
+  - <ws preparing> retrieving websocket url from http://localhost:9222
+  -   - <ws connecting> ws://localhost:9222/devtools/browser/43366ff4-418a-4f88-87e9-817409fb94c4
+  -   - <ws connected> ws://localhost:9222/devtools/browser/43366ff4-418a-4f88-87e9-817409fb94c4
+
+[10:39:12] Reconnect in 15s (4/10)...
+[10:43:01] ============================================================
+[10:43:01] SURVEY AGENT v13 — CUA + Playwright hybrid
+[10:43:01] ============================================================
+[10:43:05] Connected (retry 0)
+[10:43:15] Surveys: 2
+[10:43:15] 
+Trying #73805878 ($1.58, 27min)
+[10:43:33]   Not qualified (screening)
+[10:43:38] 
+Trying #72715134 ($1.57, 5min)
+[10:43:57]   Not qualified (screening)
+[10:44:01] Reconnect in 15s (1/10)...
+[10:44:10] ============================================================
+[10:44:10] SURVEY AGENT v13 — CUA + Playwright hybrid
+[10:44:10] ============================================================
+[10:44:12] Connected (retry 0)
+[10:44:18] Connected (retry 1)
+[10:44:21] Surveys: 5
+[10:44:21] 
+Trying #73805878 ($1.58, 27min)
+[10:44:27] Surveys: 5
+[10:44:27] 
+Trying #73805878 ($1.58, 27min)
+[10:44:37]   Not qualified (screening)
+[10:44:41] 
+Trying #72715134 ($1.57, 5min)
+[10:44:44]     Screen Q0: waiting...
+[10:44:47]     Screen Q1: waiting...
+[10:44:50]   Not qualified (screening)
+[10:44:53] 
+Trying #72715134 ($1.57, 5min)
+[10:44:58]     Screen Q0: waiting...
+[10:45:01]   Not qualified (screening)
+[10:45:04] 
+Trying #73073771 ($1.18, 4min)
+[10:45:10]     Screen Q0: waiting...
+[10:45:10]   clickSurvey error
+[10:45:10] 
+Trying #73892925 ($0.23, 12min)
+[10:45:13]     Screen Q1: waiting...
+[10:45:16]     Screen Q2: waiting...
+[10:45:19]     Screen Q3: waiting...
+[10:45:23]     Screen: 13 checkboxes
+[10:45:26]   Not qualified (screening)
+[10:45:27]   Not qualified (screening)
+[10:45:30] 
+Trying #73073771 ($1.18, 4min)
+[10:45:30] 
+Trying #73892853 ($0.04, 3min)
+[10:45:30] Error: Page.goto: net::ERR_ABORTED at https://www.surveystreak.com/?page=dashboard
+Call log:
+  - navigating to "https://www.surveystreak.com/?page=dashboard", waiting until "domcontentloaded"
+
+[10:45:30] Reconnect in 15s (2/10)...
+[10:45:47] Connected (retry 2)
+[10:45:49]     Screen Q0: waiting...
+[10:45:52]     Screen Q1: waiting...
+[10:45:55]     Screen Q2: waiting...
+[10:45:56] Surveys: 3
+[10:45:56] 
+Trying #73805878 ($1.58, 27min)
+[10:45:58]     Screen Q3: waiting...
+[10:46:01]     Screen Q4: waiting...
+[10:46:04]   Not qualified (screening)
+[10:46:09] Reconnect in 15s (1/10)...
+[10:46:13]   Not qualified (screening)
+[10:46:17] 
+Trying #72715134 ($1.57, 5min)
+[10:46:26] Connected (retry 1)
+[10:46:34] Surveys: 4
+[10:46:34] 
+Trying #73805878 ($1.58, 27min)
+[10:46:35]     Screen Q0: waiting...
+[10:46:39]     Screen Q1: waiting...
+[10:46:42]   Qualified!
+[10:46:51]   Qualified!
+[10:47:03]   Survey: https://enter.ipsosinteractive.com/question/?p=T%2BRP8CT5pnR
+[10:47:14]   Survey: https://enter.ipsosinteractive.com/question/?p=T%2BRP8CT5pnR
+[10:47:18]     Select answered
+[10:47:18]   Q1 (?%): answered
+[10:47:28]     Select answered
+[10:47:28]   Q1 (?%): answered
+[10:47:33]     Select answered
+[10:47:33]   Q2 (?%): answered
+[10:47:43]     Select answered
+[10:47:43]   Q2 (?%): answered
+[10:47:48]     Select answered
+[10:47:48]   Q3 (?%): answered
+[10:47:57]     Select answered
+[10:47:57]   Q3 (?%): answered
+[10:48:01]     Select answered
+[10:48:01]   Q4 (?%): answered
+[10:48:11]     Select answered
+[10:48:11]   Q4 (?%): answered
+[10:48:16]     Select answered
+[10:48:16]   Q5 (?%): answered
+[10:48:26]     Select answered
+[10:48:26]   Q5 (?%): answered
+[10:48:31]     Select answered
+[10:48:31]   Q6 (?%): answered
+[10:48:31]   Bot trap: same answer 5x, ending
+[10:48:31]   Ended: stuck
+[10:48:33]     Select answered
+[10:48:33]   Q6 (%): answered
+[10:48:33]   Bot trap: same answer 5x, ending
+[10:48:33]   Ended: stuck
+[10:48:36] 
+Trying #73892853 ($0.04, 3min)
+[10:48:36] 
+Trying #73790965 ($1.58, 9min)
+[10:48:45]   clickSurvey error
+[10:48:45] 
+Trying #72715134 ($1.57, 5min)
+[10:48:55]   Not qualified (screening)
+[10:48:58] Reconnect in 15s (3/10)...
+[10:49:02]   Not qualified (screening)
+[10:49:06] 
+Trying #73892853 ($0.04, 3min)
+[10:49:16] Connected (retry 3)
+[10:49:23]     Screen Q0: waiting...
+[10:49:25] Surveys: 5
+[10:49:25] 
+Trying #73805878 ($1.58, 27min)
+[10:49:26]     Screen Q1: waiting...
+[10:49:30]     Screen Q2: waiting...
+[10:49:33]   Not qualified (screening)
+[10:49:35] Reconnect in 15s (2/10)...
+[10:49:42]   Not qualified (screening)
+[10:49:45] 
+Trying #72715134 ($1.57, 5min)
+[10:49:53] Connected (retry 2)
+[10:50:02] Surveys: 5
+[10:50:02] 
+Trying #73805878 ($1.58, 27min)
+[10:50:02] Error: Page.evaluate: Execution context was destroyed, most likely because of a navigation
+[10:50:02] Reconnect in 15s (4/10)...
+[10:50:19]   Not qualified (screening)
+[10:50:20] Connected (retry 4)
+[10:50:21] 
+Trying #72715134 ($1.57, 5min)
