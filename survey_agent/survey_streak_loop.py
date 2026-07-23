@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Survey loop v10 — JS clicks for hidden radios, force clicks via dispatchEvent."""
-import asyncio, random, re, base64, json, os, subprocess, time
+"""Survey loop v12 — clickSurvey -> answer screening -> Start Survey -> answer questions."""
+import asyncio, random, re, base64, json, os, subprocess
 from collections import Counter
 from datetime import datetime
 
@@ -10,11 +10,15 @@ CEREBRAS_ENDPOINT = "https://api.cerebras.ai/v1/chat/completions"
 LOG = os.path.expanduser("~/survey-agent/data/survey_run.log")
 os.makedirs(os.path.dirname(LOG), exist_ok=True)
 
-ANSWERS = [
-    "I carefully weigh the pros and cons, consult with trusted family members, and consider long-term goals.",
-    "I research all available options, seek advice from people I trust, and follow my instincts.",
-    "I gather information, discuss with close friends, sleep on it, then make a confident decision.",
-]
+PROFILE = {
+    'employment': ['self-employed', 'self employed'], 'income': ['50', '60', '75', '74,999'],
+    'gender': ['male'], 'age': ['35', '39'], 'hispanic': ['no'], 'race': ['black', 'african'],
+    'state': ['texas', 'tx'], 'education': ['bachelor', 'college'], 'children': ['yes'],
+    'marital': ['single', 'never'], 'smoke': ['former'], 'drink': ['never'], 'home': ['rent'],
+    'country': ['united states', 'usa'], 'grocery': ['yes'], 'shop': ['yes'],
+    'device': ['smartphone', 'laptop', 'desktop'], 'online': ['daily', 'weekly', 'yes'],
+    'owner': ['rent'], 'live': ['texas'], 'how many': ['3'],
+}
 
 def log(m):
     ts = datetime.now().strftime("%H:%M:%S")
@@ -28,274 +32,127 @@ async def se(p, s, a=None, t=8000):
         return await asyncio.wait_for(p.evaluate(s), timeout=t/1000)
     except: return ""
 
-async def sc(p, t=5000):
-    try: return await asyncio.wait_for(p.content(), timeout=t/1000)
-    except: return ""
+def match_answer(q, opts):
+    q = q.lower()
+    for opt in opts:
+        ot = opt.get('text', '').lower().strip()
+        if not ot or ot in ['select one', 'please select', '---select---']:
+            continue
+        if ot in ['3rd grade or less', 'less than $5,000']:
+            continue
+        for cat, kw in PROFILE.items():
+            if cat in q or any(k in q for k in kw):
+                if any(k in ot for k in kw):
+                    return opt['index']
+    valid = [o for o in opts if o.get('text', '').strip()]
+    return valid[len(valid)//3]['index'] if len(valid) > 2 else 0
 
-async def js_click_radio(page, index):
-    """Click radio by index using JS dispatchEvent — bypasses visibility."""
-    return await se(page, f'''(idx) => {{
-        const radios = document.querySelectorAll('input[type="radio"]');
-        if (idx < radios.length) {{
-            radios[idx].click();
-            return true;
-        }}
-        return false;
-    }}''', index)
-
-async def js_click_by_text(page, tag, text_pattern):
-    """Click element by text using JS."""
-    return await se(page, f'''(pattern) => {{
-        const els = document.querySelectorAll('{tag}');
-        for (const el of els) {{
-            if (el.textContent.toLowerCase().includes(pattern.toLowerCase())) {{
-                el.click();
-                return true;
-            }}
-        }}
-        return false;
-    }}''', text_pattern)
-
-async def tc(p, s, t=5000):
-    try: await p.locator(s).click(timeout=t, force=True); return True
-    except: return False
-
-async def answer_page(page):
-    """Answer current survey page. Returns 'answered', 'completed', 'disq', 'stuck'."""
-    try: await page.wait_for_load_state('domcontentloaded', timeout=8000)
-    except: pass
-    await asyncio.sleep(2)
-    
-    text = await se(page, 'document.body?.innerText?.substring(0,1500)||""')
-    tl = (text or "").lower()
-    
-    if "you have earned" in tl or "congratulations" in tl or "successfully completed" in tl:
-        return "completed"
-    if "not a match" in tl or "disqualified" in tl or "did not qualify" in tl or "terminated" in tl:
-        return "disq"
-    if "survey full" in tl or "survey has ended" in tl or "survey is now closed" in tl:
-        return "disq"
-    
-    # CAPTCHA
-    content = await sc(page, 3000)
-    if "ps captcha" in content.lower():
-        b64 = base64.b64encode(await page.screenshot()).decode()
-        reads = []
-        for _ in range(3):
-            try:
-                r = subprocess.run(["curl","-s","-X","POST",CEREBRAS_ENDPOINT,
-                    "-H",f"Authorization: Bearer {CEREBRAS_API_KEY}","-H","Content-Type: application/json",
-                    "-d",json.dumps({"model":"gemma-4-31b","messages":[{"role":"user","content":[
-                        {"type":"text","text":"Read the distorted text. Reply only characters."},
-                        {"type":"image_url","image_url":{"url":f"data:image/png;base64,{b64}"}}]}],
-                        "max_tokens":30,"temperature":0.1})],
-                    capture_output=True,text=True,timeout=30)
-                reads.append(re.sub(r'[^A-Za-z0-9]','',json.loads(r.stdout)["choices"][0]["message"]["content"].strip()))
-            except: pass
-        if reads:
-            ml = max(len(r) for r in reads)
-            code = ''.join(Counter(r[i] for r in reads if i<len(r)).most_common(1)[0][0] for i in range(ml))
-            log("    CAPTCHA: " + str(reads) + " -> " + code)
-            inp = page.locator('input[type="text"]:visible:not([tabindex="-1"]):not([disabled])')
-            if await inp.count() > 0:
-                await inp.first.fill(code)
-                if await tc(page, 'button:has-text("Next")'):
-                    await asyncio.sleep(3)
-                    return "answered"
-        return "captcha_fail"
-    
-    # Radio buttons — use JS click to bypass visibility
-    rds_count = await se(page, 'document.querySelectorAll(\'input[type="radio"]\').length')
-    if rds_count and int(rds_count) > 0:
-        rdc = int(rds_count)
+async def answer_screening(page, max_q=20):
+    """Answer screening questions in SurveyStreak modal. Returns True if qualified."""
+    for sq in range(max_q):
+        await asyncio.sleep(3)
         
-        # Get options for smart selection
-        opts = await se(page, r'''() => {
-            return [...document.querySelectorAll('input[type="radio"]')].map((r, i) => {
-                const label = document.querySelector('label[for="' + r.id + '"]');
-                const parent = r.closest('div, li, label');
-                return {index: i, text: (label?.textContent?.trim() || parent?.textContent?.trim()?.replace(/\s+/g,' ') || '').substring(0, 60)};
+        # Check if Start Survey is visible (qualified)
+        start_vis = await se(page, '''() => {
+            const b = document.querySelector('#start-survey-button');
+            return b && getComputedStyle(b).display !== 'none' && getComputedStyle(b).visibility !== 'hidden';
+        }''')
+        if start_vis:
+            return True
+        
+        # Check for not-qualified
+        modal_text = await se(page, 'document.querySelector("#survey-modal")?.innerText?.substring(0,300) || ""')
+        if modal_text and ('not a match' in modal_text.lower() or 'not qualified' in modal_text.lower() or 'unfortunately' in modal_text.lower()):
+            return False
+        
+        # Check for radio buttons in survey modal
+        rds_info = await se(page, r'''() => {
+            const m = document.querySelector('#survey-modal');
+            if (!m || getComputedStyle(m).display === 'none') return null;
+            const radios = m.querySelectorAll('input[type="radio"]');
+            if (radios.length === 0) return null;
+            return {
+                q: m.innerText?.substring(0, 200) || '',
+                opts: [...radios].map((r, i) => {
+                    const label = m.querySelector('label[for="' + r.id + '"]');
+                    return {index: i, text: (label?.textContent?.trim() || r.closest('div')?.textContent?.trim()?.replace(/\s+/g,' ') || '').substring(0, 80)};
+                })
+            };
+        }''')
+        
+        if rds_info:
+            target = match_answer(rds_info.get('q', ''), rds_info.get('opts', []))
+            await se(page, f'''(idx) => {{
+                const m = document.querySelector('#survey-modal');
+                const r = m?.querySelectorAll('input[type="radio"]');
+                if (r && idx < r.length) r[idx].click();
+            }}''', target)
+            # Click Submit
+            await se(page, '''() => {
+                const b = document.querySelector('#submit-button-cpx');
+                if (b && getComputedStyle(b).display !== 'none') { b.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true})); return true; }
+                const btns = document.querySelectorAll('#survey-modal button');
+                for (const x of btns) { if (getComputedStyle(x).display !== 'none') { x.click(); return true; } }
+                return false;
+            }''')
+            opts = rds_info.get('opts', [])
+            sel = opts[target]['text'][:25] if target < len(opts) else "?"
+            log(f"    Screen Q{sq+1}: radio -> {sel}")
+            continue
+        
+        # Check for checkboxes in modal — select only 2-3 relevant ones
+        cb_count = await se(page, r'''() => {
+            const m = document.querySelector('#survey-modal');
+            if (!m || getComputedStyle(m).display === 'none') return 0;
+            const cbs = m.querySelectorAll('input[type="checkbox"]');
+            if (cbs.length === 0) return 0;
+            // Check for "None of these" first — skip it
+            const labels = [...cbs].map(cb => {
+                const label = m.querySelector('label[for="' + cb.id + '"]');
+                return {cb, text: (label?.textContent?.trim() || cb.closest('div')?.textContent?.trim() || '').toLowerCase()};
             });
-        }''')
-        
-        # Better answer matching using question text from page headings
-        target_idx = 0
-        # Extract actual question text from headings
-        q_text = await se(page, '''() => {
-            const h = document.querySelector('h1,h2,h3,h4,.question-text,[class*="question"]');
-            return h ? h.textContent.trim().toLowerCase().substring(0,200) : '';
-        }''')
-        q_all = (q_text or "") + " " + tl
-        
-        if opts:
-            # Match profile answers - self-employed is key for Antonio
-            for opt in (opts or []):
-                ot = opt.get('text', '').lower().strip()
-                # Skip obviously wrong first-option defaults
-                if ot in ['3rd grade or less', 'less than $5,000', 'select one', 'please select', '---select---']:
-                    continue
-                if ('employment' in q_all or 'work' in q_all or 'job' in q_all or 'occupation' in q_all):
-                    if 'self' in ot: target_idx = opt['index']; break
-                elif ('income' in q_all or 'earn' in q_all or 'household' in q_all or 'salary' in q_all or 'revenue' in q_all):
-                    if '50' in ot or '60' in ot or '75' in ot: target_idx = opt['index']; break
-                elif ('gender' in q_all or 'sex' in q_all):
-                    if ot == 'male' or ot == 'm': target_idx = opt['index']; break
-                elif 'age' in q_all:
-                    if '35' in ot or '39' in ot: target_idx = opt['index']; break
-                elif 'hispanic' in q_all or 'latino' in q_all:
-                    if 'no' in ot: target_idx = opt['index']; break
-                elif ('race' in q_all or 'ethnic' in q_all):
-                    if 'black' in ot or 'african' in ot: target_idx = opt['index']; break
-                elif ('state' in q_all or 'live' in q_all or 'reside' in q_all):
-                    if 'texas' in ot or 'tx' in ot: target_idx = opt['index']; break
-                elif ('education' in q_all or 'degree' in q_all or 'school' in q_all):
-                    if 'bachelor' in ot or 'college' in ot or 'associate' in ot: target_idx = opt['index']; break
-                elif ('children' in q_all or 'kids' in q_all):
-                    if 'yes' in ot or '3' in ot: target_idx = opt['index']; break
-                elif ('marital' in q_all or 'relationship' in q_all or 'married' in q_all):
-                    if 'single' in ot or 'never' in ot: target_idx = opt['index']; break
-                elif ('smok' in q_all):
-                    if 'former' in ot: target_idx = opt['index']; break
-                elif ('drink' in q_all or 'alcohol' in q_all):
-                    if 'never' in ot: target_idx = opt['index']; break
-                elif ('home' in q_all and ('own' in q_all or 'rent' in q_all or 'live' in q_all)):
-                    if 'rent' in ot: target_idx = opt['index']; break
-                elif ('country' in q_all or 'zip' in q_all or 'postal' in q_all):
-                    if 'united states' in ot or 'us' == ot or 'usa' in ot: target_idx = opt['index']; break
-            else:
-                # No match found - pick middle option instead of first (avoids traps)
-                target_idx = len(opts) // 3 if len(opts) > 2 else 0
-        
-        await js_click_radio(page, target_idx)
-        
-        # Click Next/Continue via JS
-        await se(page, '''() => {
-            const btns = document.querySelectorAll('button, input[type="submit"], a');
-            for (const b of btns) {
-                const t = b.textContent.trim().toLowerCase();
-                if (t.includes('next') || t.includes('continue') || t.includes('submit')) {
-                    b.click();
-                    return true;
+            // Select relevant items (2-3 max)
+            const keywords = ['savings', 'checking', 'retirement', '401k', 'ira', 'credit card', 'investment', 'stock', 'bond', 'mortgage', 'none of these'];
+            let selected = 0;
+            for (const item of labels) {
+                if (selected >= 3) break;
+                if (item.text.includes('none of')) { item.cb.click(); selected++; break; }
+                for (const kw of keywords) {
+                    if (item.text.includes(kw)) { item.cb.click(); selected++; break; }
                 }
             }
-            return false;
-        }''')
-        
-        sel_text = opts[target_idx]['text'][:30] if opts and target_idx < len(opts) else "?"
-        log(f"  Radio {rdc} opts -> {sel_text}")
-        return "answered"
-    
-    # Textarea (visible, not disabled/recaptcha)
-    ta_info = await se(page, r'''() => {
-        const tas = document.querySelectorAll('textarea');
-        for (const ta of tas) {
-            const rect = ta.getBoundingClientRect();
-            if (rect.width > 10 && rect.height > 10 && !ta.disabled && !ta.name.includes('recaptcha') && !ta.className.includes('recaptcha') && !ta.className.includes('poll-reason')) {
-                return {found: true};
-            }
-        }
-        return {found: false};
-    }''')
-    
-    if ta_info and ta_info.get('found'):
-        # Use JS to fill textarea
-        answer = random.choice(ANSWERS)
-        await se(page, f'''() => {{
-            const tas = document.querySelectorAll('textarea');
-            for (const ta of tas) {{
-                const rect = ta.getBoundingClientRect();
-                if (rect.width > 10 && rect.height > 10 && !ta.disabled && !ta.name.includes('recaptcha')) {{
-                    ta.value = "{answer.replace('"', '\\"')}";
-                    ta.dispatchEvent(new Event('input', {{bubbles: true}}));
-                    ta.dispatchEvent(new Event('change', {{bubbles: true}}));
-                    return true;
-                }}
-            }}
-            return false;
-        }}''')
-        
-        await se(page, '''() => {
-            const btns = document.querySelectorAll('button, input[type="submit"], a');
-            for (const b of btns) {
-                const t = b.textContent.trim().toLowerCase();
-                if (t.includes('next') || t.includes('continue') || t.includes('submit')) {
-                    b.click(); return true;
+            // If nothing matched, select first 2
+            if (selected === 0) {
+                for (let i = 0; i < Math.min(2, cbs.length); i++) {
+                    if (!cbs[i].checked) { cbs[i].click(); selected++; }
                 }
             }
-            return false;
+            return cbs.length;
         }''')
-        log(f"  Text answered")
-        return "answered"
+        
+        if cb_count and int(cb_count) > 0:
+            await se(page, '''() => {
+                const b = document.querySelector('#submit-button-cpx');
+                if (b && getComputedStyle(b).display !== 'none') {
+                    b.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
+                    return true;
+                }
+                return false;
+            }''')
+            log(f"    Screen Q{sq+1}: {cb_count} checkboxes")
+            continue
+        
+        # No question found
+        log(f"    Screen Q{sq+1}: waiting...")
     
-    # Select dropdowns via JS
-    sel_count = await se(page, 'document.querySelectorAll("select").length')
-    if sel_count and int(sel_count) > 0:
-        await se(page, '''() => {
-            const sels = document.querySelectorAll('select');
-            for (const s of sels) {
-                if (s.options.length > 1) { s.selectedIndex = 1; s.dispatchEvent(new Event('change', {bubbles: true})); }
-            }
-        }''')
-        await se(page, '''() => {
-            const btns = document.querySelectorAll('button, input[type="submit"], a');
-            for (const b of btns) { const t = b.textContent.trim().toLowerCase(); if (t.includes('next')||t.includes('continue')) { b.click(); return true; } }
-            return false;
-        }''')
-        log(f"  Select answered")
-        return "answered"
-    
-    # Checkboxes via JS
-    cb_count = await se(page, 'document.querySelectorAll(\'input[type="checkbox"]\').length')
-    if cb_count and int(cb_count) > 0:
-        await se(page, '''() => {
-            const cbs = document.querySelectorAll('input[type="checkbox"]');
-            if (cbs.length > 0) cbs[0].click();
-        }''')
-        await se(page, '''() => {
-            const btns = document.querySelectorAll('button, input[type="submit"], a');
-            for (const b of btns) { const t = b.textContent.trim().toLowerCase(); if (t.includes('next')||t.includes('continue')||t.includes('submit')) { b.click(); return true; } }
-            return false;
-        }''')
-        log(f"  Checkbox answered")
-        return "answered"
-    
-    # Drag-and-drop
-    if 'cdk-drag' in (content or ""):
-        m = re.search(r'number (\d+)', text or "")
-        n = m.group(1) if m else "62"
-        coords = await se(page, f'''(n) => {{
-            const i=document.querySelector('img[alt="'+n+'"]');
-            const d=i?.closest('.cdk-drag');
-            const t=document.querySelectorAll('.cdk-drop-list');
-            const tgt=t.length>1?t[1]:t[0];
-            if(!d||!tgt)return null;
-            const s=d.getBoundingClientRect(),r=tgt.getBoundingClientRect();
-            return{{sx:s.x+s.width/2,sy:s.y+s.height/2,tx:r.x+r.width/2,ty:r.y+r.height/2}};
-        }}''', n)
-        if coords:
-            sx,sy,tx,ty = coords['sx'],coords['sy'],coords['tx'],coords['ty']
-            await page.mouse.move(sx,sy); await page.wait_for_timeout(100)
-            await page.mouse.down(); await page.wait_for_timeout(300)
-            for i in range(1,31): await page.mouse.move(sx+(tx-sx)*i/30,sy+(ty-sy)*i/30); await page.wait_for_timeout(20)
-            await page.wait_for_timeout(300); await page.mouse.up(); await page.wait_for_timeout(2000)
-            await se(page, '''() => { const b=document.querySelectorAll('button'); for(const x of b){if(x.textContent.includes('Next')){x.click();break;}} }''')
-            log(f"  Drag #{n}")
-            return "answered"
-    
-    # Fallback: click any Next/Continue
-    clicked = await se(page, '''() => {
-        const btns = document.querySelectorAll('button, input[type="submit"], a');
-        for (const b of btns) { const t = b.textContent.trim().toLowerCase(); if (t.includes('next')||t.includes('continue')||t.includes('submit')) { b.click(); return true; } }
-        return false;
-    }''')
-    if clicked:
-        log(f"  Next clicked")
-        return "answered"
-    
-    return "stuck"
+    # Final check
+    return bool(await se(page, '''() => {
+        const b = document.querySelector('#start-survey-button');
+        return b && getComputedStyle(b).display !== 'none';
+    }'''))
 
-async def get_survey_from_streak(ctx, page):
-    """Get survey from SurveyStreak via CPX API + handle screening questions."""
+async def get_survey(ctx, page):
+    """Get survey via clickSurvey -> screening -> Start Survey."""
     await page.bring_to_front()
     try: await page.wait_for_load_state('domcontentloaded', timeout=10000)
     except: pass
@@ -304,7 +161,6 @@ async def get_survey_from_streak(ctx, page):
     if 'surveystreak' not in page.url:
         return None
     
-    # Refresh survey list
     surveys = await se(page, '()=>Array.isArray(acctualSurveyList)?acctualSurveyList.map(s=>({id:s.id,payout:s.payout,loi:s.loi})):[]')
     if not surveys:
         log("  No surveys")
@@ -312,100 +168,194 @@ async def get_survey_from_streak(ctx, page):
     
     sorted_s = sorted(surveys, key=lambda x: float(x.get('payout', 0)), reverse=True)
     
-    for s in sorted_s[:10]:
+    for s in sorted_s[:8]:
         sid, payout, loi = s['id'], s['payout'], s['loi']
+        log(f"  Trying #{sid} (${payout}, {loi}min)")
         
-        # Get survey URL via API
-        result = await se(page, f'async()=>{{const r=await fetch(details_url+"&survey_id={sid}");return await r.json()}}')
+        initial = len(ctx.pages)
         
-        if not result:
+        try:
+            await page.evaluate(f'clickSurvey("{sid}")')
+        except:
+            log(f"  clickSurvey error")
             continue
+        await asyncio.sleep(8)
         
-        if result.get('type') == 'okay' and result.get('href'):
-            log(f"  Survey ${payout} ({loi}min) -> CPX URL")
-            np = await ctx.new_page()
-            try:
-                await np.goto(result['href'], wait_until='domcontentloaded', timeout=30000)
-                await np.wait_for_timeout(8000)
-                return np
-            except:
-                try: await np.close()
+        # Answer screening questions
+        qualified = await answer_screening(page)
+        
+        if qualified:
+            log(f"  Qualified!")
+            # Click Start Survey
+            await se(page, '''() => {
+                const b = document.querySelector('#start-survey-button');
+                if (b) b.click();
+            }''')
+            await asyncio.sleep(10)
+            
+            if len(ctx.pages) > initial:
+                np = ctx.pages[-1]
+                try: await np.wait_for_load_state('domcontentloaded', timeout=15000)
                 except: pass
+                await np.wait_for_timeout(3000)
+                url = np.url
+                log(f"  Survey: {url[:60]}")
+                
+                if 'researchnow' in url or 'surveymyopinion' in url:
+                    log(f"  Skipping researchnow")
+                    try: await np.close()
+                    except: pass
+                    continue
+                
+                return np
+        else:
+            log(f"  Not qualified")
         
-        elif result.get('type') == 'question':
-            # Answer screening question on SurveyStreak page
-            q_type = result.get('question_type', '')
-            q_text = result.get('question_text', '')
-            answers = result.get('answers', {})
-            q_key = result.get('question_key', '')
-            
-            log(f"  Screening: {q_text[:40]}")
-            
-            if q_type == 'single_punch' and answers:
-                # Pick best answer based on profile
-                best_key = list(answers.keys())[0]  # default first
-                for a_key, a_data in answers.items():
-                    a_text = a_data.get('text', '').lower()
-                    if ('employment' in q_text.lower() or 'work' in q_text.lower()) and 'self' in a_text:
-                        best_key = a_key; break
-                    elif ('income' in q_text.lower() or 'earn' in q_text.lower()) and ('50' in a_text or '60' in a_text):
-                        best_key = a_key; break
-                    elif 'gender' in q_text.lower() and a_text == 'male':
-                        best_key = a_key; break
-                    elif 'age' in q_text.lower() and ('35' in a_text or '39' in a_text):
-                        best_key = a_key; break
-                    elif 'hispanic' in q_text.lower() and 'no' in a_text:
-                        best_key = a_key; break
-                    elif ('race' in q_text.lower() or 'ethnic' in q_text.lower()) and 'black' in a_text:
-                        best_key = a_key; break
-                    elif 'state' in q_text.lower() and ('texas' in a_text or 'tx' in a_text):
-                        best_key = a_key; break
-                    elif 'education' in q_text.lower() and 'bachelor' in a_text:
-                        best_key = a_key; break
-                
-                # Submit answer to API
-                submit_result = await se(page, f'''async () => {{
-                    const url = details_url + '&survey_id={sid}';
-                    const body = new FormData();
-                    body.append('question_key', '{q_key}');
-                    body.append('answer_key', '{best_key}');
-                    const resp = await fetch(url, {{method: 'POST', body: body}});
-                    return await resp.json();
-                }}''')
-                
-                if submit_result and submit_result.get('type') == 'okay' and submit_result.get('href'):
-                    log(f"  Screening passed! CPX URL")
-                    np = await ctx.new_page()
-                    try:
-                        await np.goto(submit_result['href'], wait_until='domcontentloaded', timeout=30000)
-                        await np.wait_for_timeout(8000)
-                        return np
-                    except:
-                        try: await np.close()
-                        except: pass
-                elif submit_result and submit_result.get('type') == 'question':
-                    log(f"  More screening needed")
-                    # Recurse or handle next question
-                else:
-                    log(f"  Screening failed: {submit_result.get('type', '?') if submit_result else 'no response'}")
+        await asyncio.sleep(2)
     
     return None
 
+async def answer_survey(page):
+    """Answer a question on the survey page."""
+    try: await page.wait_for_load_state('domcontentloaded', timeout=8000)
+    except: pass
+    await asyncio.sleep(2)
+    
+    text = await se(page, 'document.body?.innerText?.substring(0,1500)||""')
+    tl = (text or "").lower()
+    url = page.url
+    
+    if "you have earned" in tl or "congratulations" in tl or "successfully completed" in tl:
+        return "completed"
+    if "not a match" in tl or "disqualified" in tl or "did not qualify" in tl or "terminated" in tl:
+        return "disq"
+    if "survey full" in tl or "survey has ended" in tl:
+        return "disq"
+    if 'researchnow' in url or 'surveymyopinion' in url:
+        return "stuck"
+    
+    content = await se(page, 'document.documentElement?.outerHTML?.substring(0,5000)||""')
+    
+    # CAPTCHA
+    if "ps captcha" in (content or "").lower():
+        b64 = base64.b64encode(await page.screenshot()).decode()
+        reads = []
+        for _ in range(3):
+            try:
+                r = subprocess.run(["curl","-s","-X","POST",CEREBRAS_ENDPOINT,
+                    "-H","Authorization: Bearer " + CEREBRAS_API_KEY,"-H","Content-Type: application/json",
+                    "-d",json.dumps({"model":"gemma-4-31b","messages":[{"role":"user","content":[
+                        {"type":"text","text":"Read the distorted text. Reply only characters."},
+                        {"type":"image_url","image_url":{"url":"data:image/png;base64,"+b64}}]}],
+                        "max_tokens":30,"temperature":0.1})],
+                    capture_output=True,text=True,timeout=30)
+                reads.append(re.sub(r'[^A-Za-z0-9]','',json.loads(r.stdout)["choices"][0]["message"]["content"].strip()))
+            except: pass
+        if reads:
+            ml = max(len(r) for r in reads)
+            code = ''.join(Counter(r[i] for r in reads if i<len(r)).most_common(1)[0][0] for i in range(ml))
+            log("    CAPTCHA: " + str(reads) + " -> " + code)
+            await se(page, '(c)=>{const i=document.querySelector(\'input[type="text"]:not([tabindex="-1"]):not([disabled])\');if(i){i.value=c;i.dispatchEvent(new Event("input",{bubbles:true}))}}', code)
+            await se(page, '''()=>{const b=document.querySelectorAll('button');for(const x of b){if(x.textContent.toLowerCase().includes('next')){x.click();break}}}''')
+            await asyncio.sleep(3)
+            return "answered"
+        return "captcha_fail"
+    
+    # Consent page
+    if 'agree and continue' in tl or 'accept all' in tl or 'consent' in tl:
+        await se(page, '''()=>{const b=document.querySelectorAll('button,a,input[type="submit"]');for(const x of b){const t=x.textContent.trim().toLowerCase();if(t.includes('agree')||t.includes('accept')||t.includes('consent')||t.includes('continue')){x.click();return true}}return false}''')
+        log(f"    Consent accepted")
+        return "answered"
+    
+    # Radio via JS
+    rds_info = await se(page, r'''() => {
+        const r = document.querySelectorAll('input[type="radio"]');
+        if (r.length === 0) return null;
+        const h = document.querySelector('h1,h2,h3,h4,.question-text,[class*="question"]');
+        return {count: r.length, q: (h?.textContent?.trim()||'').substring(0,200),
+            opts: [...r].map((x,i) => ({index:i, text: (document.querySelector('label[for="'+x.id+'"]')?.textContent?.trim()||x.closest('div,li,label')?.textContent?.trim()?.replace(/\s+/g,' ')||'').substring(0,80)}))};
+    }''')
+    
+    if rds_info:
+        q_text = rds_info.get('q', '') + ' ' + tl
+        opts = rds_info.get('opts', [])
+        target = match_answer(q_text, opts)
+        await se(page, f'(i)=>{{const r=document.querySelectorAll("input[type=\\"radio\\"]");if(i<r.length)r[i].click()}}', target)
+        await se(page, '''()=>{const b=document.querySelectorAll('button,input[type="submit"],a');for(const x of b){const t=x.textContent.trim().toLowerCase();if(t.includes('next')||t.includes('continue')||t.includes('submit')){x.click();return true}}return false}''')
+        sel = opts[target]['text'][:25] if target < len(opts) else "?"
+        log(f"    Radio {rds_info['count']} -> {sel}")
+        return "answered"
+    
+    # Iframe radios
+    for frame in page.frames[1:]:
+        try:
+            frds_info = await asyncio.wait_for(frame.evaluate(r'''() => {
+                const r = document.querySelectorAll('input[type="radio"]');
+                if (r.length === 0) return null;
+                return {count: r.length, opts: [...r].map((x,i) => ({index:i, text: (x.closest('div,li,label')?.textContent?.trim()?.replace(/\s+/g,' ')||'').substring(0,80)}))};
+            }'''), timeout=3)
+            if frds_info:
+                target = match_answer(tl, frds_info.get('opts', []))
+                await frame.evaluate('(i)=>{const r=document.querySelectorAll("input[type=\\"radio\\"]");if(i<r.length)r[i].click()}', target)
+                await se(page, '''()=>{const b=document.querySelectorAll('button,input[type="submit"],a');for(const x of b){const t=x.textContent.trim().toLowerCase();if(t.includes('next')||t.includes('continue')){x.click();return true}}return false}''')
+                log(f"    iframe radio answered")
+                return "answered"
+        except: pass
+    
+    # Textarea
+    ta_ok = await se(page, r'''()=>{const t=document.querySelectorAll('textarea');for(const x of t){const r=x.getBoundingClientRect();if(r.width>10&&r.height>10&&!x.disabled&&!x.name.includes('recaptcha')&&!x.className.includes('recaptcha')&&!x.className.includes('poll-reason')){x.value="I carefully weigh the pros and cons, consult with family, and consider goals.";x.dispatchEvent(new Event('input',{bubbles:true}));return true}}return false}''')
+    if ta_ok:
+        await se(page, '''()=>{const b=document.querySelectorAll('button,input[type="submit"],a');for(const x of b){const t=x.textContent.trim().toLowerCase();if(t.includes('next')||t.includes('continue')){x.click();return true}}return false}''')
+        log(f"    Text answered")
+        return "answered"
+    
+    # Select
+    sel_ok = await se(page, r'''()=>{const s=document.querySelectorAll('select');if(s.length===0)return false;for(const x of s){if(x.options.length>1){x.selectedIndex=1;x.dispatchEvent(new Event('change',{bubbles:true}))}}return true}''')
+    if sel_ok:
+        await se(page, '''()=>{const b=document.querySelectorAll('button,input[type="submit"],a');for(const x of b){const t=x.textContent.trim().toLowerCase();if(t.includes('next')||t.includes('continue')){x.click();return true}}return false}''')
+        log(f"    Select answered")
+        return "answered"
+    
+    # Checkbox — select ALL unchecked
+    cb_ok = await se(page, r'''()=>{const c=document.querySelectorAll('input[type="checkbox"]');if(c.length===0)return false;let n=0;for(const x of c){if(!x.checked){x.click();n++}}return n>0}''')
+    if cb_ok:
+        await se(page, '''()=>{const b=document.querySelectorAll('button,input[type="submit"],a');for(const x of b){const t=x.textContent.trim().toLowerCase();if(t.includes('next')||t.includes('continue')||t.includes('submit')){x.click();return true}}return false}''')
+        log(f"    Checkbox answered")
+        return "answered"
+    
+    # Drag-and-drop
+    if 'cdk-drag' in (content or ""):
+        m = re.search(r'number (\d+)', text or "")
+        n = m.group(1) if m else "62"
+        coords = await se(page, '(n)=>{const i=document.querySelector(\'img[alt="\'+n+\'"]\');const d=i?.closest(".cdk-drag");const t=document.querySelectorAll(".cdk-drop-list");const tgt=t.length>1?t[1]:t[0];if(!d||!tgt)return null;const s=d.getBoundingClientRect(),r=tgt.getBoundingClientRect();return{sx:s.x+s.width/2,sy:s.y+s.height/2,tx:r.x+r.width/2,ty:r.y+r.height/2}}', n)
+        if coords:
+            sx,sy,tx,ty = coords['sx'],coords['sy'],coords['tx'],coords['ty']
+            await page.mouse.move(sx,sy); await page.wait_for_timeout(100)
+            await page.mouse.down(); await page.wait_for_timeout(300)
+            for i in range(1,31): await page.mouse.move(sx+(tx-sx)*i/30,sy+(ty-sy)*i/30); await page.wait_for_timeout(20)
+            await page.wait_for_timeout(300); await page.mouse.up(); await page.wait_for_timeout(2000)
+            await se(page, '''()=>{const b=document.querySelectorAll('button');for(const x of b){if(x.textContent.includes('Next')){x.click();break}}}''')
+            log(f"    Drag #{n}")
+            return "answered"
+    
+    # Next fallback
+    clicked = await se(page, '''()=>{const b=document.querySelectorAll('button,input[type="submit"],a');for(const x of b){const t=x.textContent.trim().toLowerCase();if(t.includes('next')||t.includes('continue')||t.includes('submit')){x.click();return true}}return false}''')
+    if clicked:
+        log(f"    Next clicked")
+        return "answered"
+    
+    return "stuck"
+
 async def main():
     from playwright.async_api import async_playwright
-    log("="*60); log("SURVEY LOOP v10 — JS clicks + SurveyStreak screening"); log("="*60)
+    log("="*60); log("SURVEY LOOP v12"); log("="*60)
     
     for retry in range(10):
         try:
             async with async_playwright() as p:
                 browser = await p.chromium.connect_over_cdp(CDP_URL)
                 ctx = browser.contexts[0]
-                log(f"Connected (retry {retry})")
-                
-                # Close extra tabs
-                while len(ctx.pages) > 4:
-                    try: await ctx.pages[-1].close()
-                    except: break
+                log("Connected (retry " + str(retry) + ")")
                 
                 for poll in range(60):
                     log("--- Poll " + str(poll+1) + " ---")
@@ -421,19 +371,37 @@ async def main():
                         await asyncio.sleep(30)
                         continue
                     
-                    survey_page = await get_survey_from_streak(ctx, ss_page)
+                    survey_page = await get_survey(ctx, ss_page)
                     if not survey_page:
                         log("No survey, wait 60s...")
                         await asyncio.sleep(60)
                         continue
                     
-                    log(f"  Survey: {survey_page.url[:60]}")
+                    log("  Running: " + survey_page.url[:60])
                     
                     completed = False
+                    next_only_count = 0
                     for q in range(200):
-                        result = await answer_page(survey_page)
+                        result = await answer_survey(survey_page)
+                        if result == "answered":
+                            # Check if it was a real answer or just Next
+                            last_log = ""
+                            try:
+                                with open(LOG) as f:
+                                    lines = f.readlines()
+                                    last_log = lines[-1] if lines else ""
+                            except: pass
+                            if "Next clicked" in last_log:
+                                next_only_count += 1
+                                if next_only_count >= 5:
+                                    log("  Too many Next-only clicks, ending survey")
+                                    try: await survey_page.close()
+                                    except: pass
+                                    result = "stuck"
+                            else:
+                                next_only_count = 0
                         prog = await se(survey_page, 'document.body?.innerText?.match(/(\\d+)%/)?.[1]||"?"')
-                        log(f"  Q{q+1} ({prog}%): {result}")
+                        log("  Q" + str(q+1) + " (" + str(prog) + "%): " + result)
                         
                         if result == "completed":
                             log("*** SURVEY COMPLETED! ***")
@@ -442,13 +410,13 @@ async def main():
                             except: pass
                             break
                         elif result in ("disq","full","captcha_fail","stuck"):
-                            log(f"  Ended: {result}")
+                            log("  Ended: " + result)
                             try: await survey_page.close()
                             except: pass
                             break
                     
                     if completed:
-                        log("\nDONE!")
+                        log("DONE!")
                         return
                     
                     try: await ss_page.bring_to_front()
@@ -458,8 +426,8 @@ async def main():
                     await asyncio.sleep(30)
         
         except Exception as e:
-            log(f"Error: {e}")
-        log(f"Reconnect in 15s ({retry+1}/10)...")
+            log("Error: " + str(e))
+        log("Reconnect in 15s (" + str(retry+1) + "/10)...")
         await asyncio.sleep(15)
     
     log("Max retries.")
