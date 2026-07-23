@@ -362,7 +362,17 @@ async def answer_survey(page):
             ml = max(len(r) for r in reads)
             code = ''.join(Counter(r[i] for r in reads if i<len(r)).most_common(1)[0][0] for i in range(ml))
             log("    PS CAPTCHA: " + str(reads) + " -> " + code)
-            await se(page, '(c)=>{const i=document.querySelector("input.alpha-numeric-input");if(i){i.value=c;i.dispatchEvent(new Event("input",{bubbles:true}))}}', code)
+            # Use Playwright type() — character-by-character for Angular
+            try:
+                inp = page.locator('input.alpha-numeric-input')
+                await inp.click(force=True)
+                await inp.fill('')  # clear first
+                await inp.type(code, delay=100)  # type char by char
+            except:
+                try:
+                    await page.locator('input.alpha-numeric-input').fill(code)
+                except:
+                    await se(page, '(c)=>{const i=document.querySelector("input.alpha-numeric-input");if(i){i.focus();i.value=c;i.dispatchEvent(new Event("input",{bubbles:true}));i.dispatchEvent(new Event("change",{bubbles:true}));i.blur()}}', code)
             await asyncio.sleep(1)
             await se(page, '''()=>{const b=document.querySelectorAll('button');for(const x of b){if(x.textContent.trim().toLowerCase()==='next'){x.click();break}}}''')
             await asyncio.sleep(3)
