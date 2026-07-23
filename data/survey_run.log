@@ -28818,3 +28818,268 @@ Trying #73646096 ($0.94, 13min)
 [09:27:45]   Ended: stuck
 [09:27:50] 
 Trying #72799964 ($0.63, 11min)
+[09:29:45] ============================================================
+[09:29:45] SURVEY AGENT v13 — CUA + Playwright hybrid
+[09:29:45] ============================================================
+[09:29:49] Connected (retry 0)
+[09:29:57] Surveys: 34
+[09:29:57] 
+Trying #73805878 ($1.58, 27min)
+[09:30:14]   Not qualified (screening)
+[09:30:17] 
+Trying #72799964 ($0.63, 11min)
+[09:30:34]   Qualified!
+[09:30:54]   Survey: https://enter.ipsosinteractive.com/question/?p=T%2BRP8CT5pnR
+[09:31:29] Error: Locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("button:has-text(\"Next\"), button:has-text(\"Continue\")")
+
+[09:31:29] Reconnect in 15s (1/10)...
+[09:31:46] Connected (retry 1)
+[09:31:54] Surveys: 33
+[09:31:54] 
+Trying #73805878 ($1.58, 27min)
+[09:32:11]   Not qualified (screening)
+[09:32:14] 
+Trying #73874521 ($0.54, 12min)
+[09:32:31]   Qualified!
+[09:32:52]   Survey: https://sentry.cloudresearch.com/entry/019f8502-48d7-794b-a8
+[09:32:55]     reCAPTCHA detected — can't solve
+[09:32:55]   Q1 (?%): recaptcha
+[09:32:55]   Ended: recaptcha
+[09:32:57] 
+Trying #73877781 ($0.54, 12min)
+[09:33:02]   clickSurvey error
+[09:33:02] 
+Trying #73881138 ($0.53, 12min)
+[09:33:19]   Qualified!
+[09:33:38]   Survey: https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+[09:34:15]   Q1 (?%): stuck
+[09:34:15]   Ended: stuck
+[09:34:19] 
+Trying #73879512 ($0.53, 10min)
+[09:34:36]   Qualified!
+[09:34:56]   Survey: https://www.surveystreak.com/?page=dashboard
+[09:34:58]   Q1 (?%): disq
+[09:34:58]   Ended: disq
+[09:35:01] Reconnect in 15s (2/10)...
+[09:35:17] Connected (retry 2)
+[09:35:25] Surveys: 31
+[09:35:25] 
+Trying #73789676 ($1.58, 10min)
+[09:35:31]   clickSurvey error
+[09:35:31] 
+Trying #73805878 ($1.58, 27min)
+[09:35:48]   Not qualified (screening)
+[09:35:50] 
+Trying #73073771 ($1.18, 4min)
+[09:36:07]   Qualified!
+[09:36:35] ============================================================
+[09:36:35] SURVEY AGENT v13 — CUA + Playwright hybrid
+[09:36:35] ============================================================
+[09:36:36] Connected (retry 0)
+[09:36:45] Surveys: 28
+[09:36:45] 
+Trying #73805878 ($1.58, 27min)
+[09:37:02]   Not qualified (screening)
+[09:37:04] 
+Trying #73875256 ($0.53, 6min)
+[09:37:21]   Qualified!
+[09:37:40]   Survey: https://webs.norstatsurveys.com/a/3a227224b3dfb973a64bc03710
+[09:37:44]     Next clicked
+[09:37:44]   Q1 (?%): answered
+[09:37:47]     Radio 6 -> Sofa
+[09:38:22] Error: Locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("button:has-text(\"Next\"), button:has-text(\"Continue\"), button:has-text(\"Submit\")")
+
+[09:38:22] Reconnect in 15s (1/10)...
+[09:38:38] Connected (retry 1)
+[09:38:47] Surveys: 27
+[09:38:47] 
+Trying #73805878 ($1.58, 27min)
+[09:39:04]   Not qualified (screening)
+[09:39:07] 
+Trying #73852458 ($0.53, 6min)
+[09:39:24]   Qualified!
+[09:39:44]   Survey: https://surveys.lifepointspanel.com/survey/selfserve/1ab8/26
+[09:39:46]     Radio 7 -> Tuesday
+[09:40:20] Error: Locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("button:has-text(\"Next\"), button:has-text(\"Continue\"), button:has-text(\"Submit\")")
+
+[09:40:20] Reconnect in 15s (2/10)...
+[09:40:37] Connected (retry 2)
+[09:40:46] Surveys: 27
+[09:40:46] 
+Trying #73883649 ($1.58, 13min)
+[09:40:52]   clickSurvey error
+[09:40:52] 
+Trying #73805878 ($1.58, 27min)
+[09:41:08]   Not qualified (screening)
+[09:42:23] ============================================================
+[09:42:23] SURVEY AGENT v13 — CUA + Playwright hybrid
+[09:42:23] ============================================================
+[09:42:24] Connected (retry 0)
+[09:42:33] Surveys: 27
+[09:42:33] 
+Trying #73883836 ($1.58, 24min)
+[09:42:49]     Screen: 365 checkboxes
+[09:42:52]   Not qualified (screening)
+[09:42:56] 
+Trying #73805878 ($1.58, 27min)
+[09:43:13]   Not qualified (screening)
+[09:43:17] 
+Trying #73881963 ($0.49, 4min)
+[09:43:34]     Screen: 41 checkboxes
+[09:43:37]   Qualified!
+[09:43:56]   Survey: https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+[09:44:08]   Consent accepted
+[09:44:14]   Q1 (?%): stuck
+[09:44:14]   Ended: stuck
+[09:44:17] 
+Trying #73877741 ($0.47, 9min)
+[09:44:34]   Qualified!
+[09:45:27] ============================================================
+[09:45:27] SURVEY AGENT v13 — CUA + Playwright hybrid
+[09:45:27] ============================================================
+[09:45:28] Connected (retry 0)
+[09:45:37] Surveys: 25
+[09:45:37] 
+Trying #73884076 ($1.58, 24min)
+[09:45:53]     Screen Q: radio I have been diagnosed wit
+[09:45:56]   Qualified!
+[09:46:16]   Survey: https://surveymyopinion.researchnow.com/screening?id=5c7d3e8
+[09:46:29]   Consent accepted
+[09:46:33]   Q1 (?%): stuck
+[09:46:33]   Ended: stuck
+[09:46:36] 
+Trying #73805878 ($1.58, 27min)
+[09:46:53]   Not qualified (screening)
+[09:46:55] 
+Trying #73883971 ($0.53, 10min)
+[09:47:12]   Qualified!
+[09:47:31]   Survey: https://sa.ktrmr.com/mrIWeb/mrIWeb.srf
+[09:47:33]     Radio 2 -> Spanish/Español
+[09:47:45]   Q1 (?%): answered
+[09:47:48]     Radio 2 -> Spanish/Español
+[09:48:00]   Q2 (?%): answered
+[09:48:02]     Radio 2 -> Spanish/Español
+[09:48:13]   Q3 (?%): answered
+[09:48:14]     Radio 2 -> Spanish/Español
+[09:48:26]   Q4 (?%): answered
+[09:48:29]     Radio 2 -> Spanish/Español
+[09:48:41]   Q5 (?%): answered
+[09:48:43]     Radio 2 -> Spanish/Español
+[09:48:55]   Q6 (?%): answered
+[09:48:57]     Radio 2 -> Spanish/Español
+[09:49:09]   Q7 (?%): answered
+[09:49:11]     Radio 2 -> Spanish/Español
+[09:49:23]   Q8 (?%): answered
+[09:49:25]     Radio 2 -> Spanish/Español
+[09:49:36]   Q9 (?%): answered
+[09:49:37]     Radio 2 -> Spanish/Español
+[09:49:50]   Q10 (?%): answered
+[09:49:52]     Radio 2 -> Spanish/Español
+[09:50:03]   Q11 (?%): answered
+[09:50:05]     Radio 2 -> Spanish/Español
+[09:50:17]   Q12 (?%): answered
+[09:50:18]     Radio 2 -> Spanish/Español
+[09:50:30]   Q13 (?%): answered
+[09:50:32]     Radio 2 -> Spanish/Español
+[09:50:44]   Q14 (?%): answered
+[09:50:46]     Radio 2 -> Spanish/Español
+[09:50:59]   Q15 (?%): answered
+[09:51:00]     Radio 2 -> Spanish/Español
+[09:51:13]   Q16 (?%): answered
+[09:51:15]     Radio 2 -> Spanish/Español
+[09:51:26]   Q17 (?%): answered
+[09:51:29]     Radio 2 -> Spanish/Español
+[09:51:41]   Q18 (?%): answered
+[09:51:42]     Radio 2 -> Spanish/Español
+[09:51:54]   Q19 (?%): answered
+[09:51:56]     Radio 2 -> Spanish/Español
+[09:52:08]   Q20 (?%): answered
+[09:52:10]     Radio 2 -> Spanish/Español
+[09:52:22]   Q21 (?%): answered
+[09:52:24]     Radio 2 -> Spanish/Español
+[09:52:36]   Q22 (?%): answered
+[09:52:39]     Radio 2 -> Spanish/Español
+[09:52:51]   Q23 (?%): answered
+[09:52:52]     Radio 2 -> Spanish/Español
+[09:53:36] ============================================================
+[09:53:36] SURVEY AGENT v13 — CUA + Playwright hybrid
+[09:53:36] ============================================================
+[09:53:37] Connected (retry 0)
+[09:53:46] Surveys: 28
+[09:53:46] 
+Trying #73885242 ($1.58, 13min)
+[09:53:52]   clickSurvey error
+[09:53:52] 
+Trying #73805878 ($1.58, 27min)
+[09:54:08]   Not qualified (screening)
+[09:54:11] 
+Trying #73885339 ($1.58, 9min)
+[09:54:18]   clickSurvey error
+[09:54:18] 
+Trying #72927920 ($0.86, 7min)
+[09:54:23]   clickSurvey error
+[09:54:23] 
+Trying #73521630 ($0.77, 7min)
+[09:54:40]   Qualified!
+[09:54:59]   Survey: https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+[09:55:11]   Consent accepted
+[09:55:16]   Q1 (?%): stuck
+[09:55:16]   Ended: stuck
+[09:55:19] Reconnect in 15s (1/10)...
+[09:55:35] Connected (retry 1)
+[09:55:44] Surveys: 24
+[09:55:44] 
+Trying #73805878 ($1.58, 27min)
+[09:56:01]   Not qualified (screening)
+[09:56:03] 
+Trying #73851451 ($0.53, 11min)
+[09:56:20]     Screen Q0: waiting...
+[09:56:23]   Not qualified (screening)
+[09:56:26] 
+Trying #73561850 ($0.46, 5min)
+[09:56:43]   Qualified!
+[09:57:00] 
+Trying #73223478 ($0.44, 1min)
+[09:57:30] ============================================================
+[09:57:30] SURVEY AGENT v13 — CUA + Playwright hybrid
+[09:57:30] ============================================================
+[09:57:32] Connected (retry 0)
+[09:57:41] Surveys: 23
+[09:57:41] 
+Trying #73805878 ($1.58, 27min)
+[09:57:58]   Not qualified (screening)
+[09:58:01] 
+Trying #73851451 ($0.53, 11min)
+[09:58:18]   Qualified!
+[09:58:36]   Survey: https://nfieldam-interviewing-kap-webapp.nfieldmr.com/Interv
+[09:58:38]   Q1 (?%): stuck
+[09:58:38]   Ended: stuck
+[09:58:43] 
+Trying #73223478 ($0.44, 1min)
+[09:59:00]   Qualified!
+[09:59:19]   Survey: https://dig.ps-di.com/entrylink?1=39&2=3&svid=fe4b6efe-9e49-
+[09:59:22]     reCAPTCHA detected — can't solve
+[09:59:22]   Q1 (?%): recaptcha
+[09:59:22]   Ended: recaptcha
+[09:59:26] 
+Trying #73866439 ($0.39, 6min)
+[09:59:43]   Qualified!
+[10:00:03]   Survey: https://sentry.cloudresearch.com/entry/019efb0f-8378-7e22-a2
+[10:00:05]     reCAPTCHA detected — can't solve
+[10:00:05]   Q1 (?%): recaptcha
+[10:00:05]   Ended: recaptcha
+[10:00:10] 
+Trying #73867181 ($0.31, 7min)
+[10:00:16]   clickSurvey error
+[10:00:16] Reconnect in 15s (1/10)...
+[10:00:33] Connected (retry 1)
+[10:00:42] Surveys: 18
+[10:00:42] 
+Trying #73805878 ($1.58, 27min)
+[10:00:59]   Not qualified (screening)

@@ -80,7 +80,7 @@ def match_answer(q, opts):
 
 async def cua_click(page, selector_or_coords, delay=True):
     """Click element using CUA (realistic mouse movement) or Playwright force click.
-    Falls back to Playwright if CUA unavailable."""
+    Falls back to Playwright if CUA unavailable. 5s timeout."""
     if isinstance(selector_or_coords, tuple):
         # Coordinates — use Playwright mouse with human-like movement
         x, y = selector_or_coords
@@ -92,9 +92,9 @@ async def cua_click(page, selector_or_coords, delay=True):
         if delay: await asyncio.sleep(human_delay(0.1, 0.3))
         await page.mouse.click(x, y)
     else:
-        # Selector — get coordinates and click
+        # Selector — get coordinates and click with 5s timeout
         try:
-            box = await page.locator(selector_or_coords).bounding_box(timeout=3000)
+            box = await page.locator(selector_or_coords).bounding_box(timeout=5000)
             if box:
                 cx = box['x'] + box['width'] / 2 + random.randint(-3, 3)
                 cy = box['y'] + box['height'] / 2 + random.randint(-3, 3)
@@ -104,9 +104,10 @@ async def cua_click(page, selector_or_coords, delay=True):
                 if delay: await asyncio.sleep(human_delay(0.1, 0.3))
                 await page.mouse.click(cx, cy)
             else:
-                await page.locator(selector_or_coords).click(force=True)
+                await page.locator(selector_or_coords).click(force=True, timeout=5000)
         except:
-            await page.locator(selector_or_coords).click(force=True)
+            try: await page.locator(selector_or_coords).click(force=True, timeout=5000)
+            except: pass
     
     if delay: await asyncio.sleep(human_delay(0.5, 1.5))
 
@@ -145,6 +146,14 @@ async def answer_survey(page):
             log("    reCAPTCHA detected — can't solve")
             return "recaptcha"
 
+    # Landing page — "BEGIN SURVEY" link, "Start Survey", etc.
+    if ('begin survey' in tl or 'start survey' in tl or 'survey length' in tl) and 'agree' not in tl:
+        clicked = await se(page, r'''()=>{const a=document.querySelector('#takesurveybtn,a[href*="pstart"]');if(a){a.click();return true}const els=document.querySelectorAll('a,button');for(const el of els){const t=el.textContent?.trim()?.toLowerCase()||"";if(t.includes('begin survey')||t==='start'){el.click();return true}}return false}''')
+        if clicked:
+            log("    Landing page clicked")
+            await asyncio.sleep(human_delay(2.0, 4.0))
+            return "answered"
+    
     # Consent page
     if 'agree' in tl or 'consent' in tl or 'accept' in tl:
         # Select checkboxes first
@@ -290,10 +299,9 @@ async def answer_survey(page):
         log("    Checkbox answered")
         return "answered"
 
-    # Next fallback — use cua_click for realistic mouse movement
-    btn = page.locator('button:has-text("Next"), button:has-text("Continue"), button:has-text("Submit")')
-    if await btn.count() > 0:
-        await cua_click(page, 'button:has-text("Next"), button:has-text("Continue"), button:has-text("Submit")')
+    # Next fallback — JS click first (fast), then cua_click as backup
+    clicked = await se(page, r'''()=>{const btns=document.querySelectorAll('button,input[type="submit"],a,input[type="button"]');for(const b of btns){const t=b.textContent?.trim()?.toLowerCase()||b.value?.trim()?.toLowerCase()||"";if(t.includes('next')||t.includes('continue')||t.includes('submit')||t.includes('>>')||t.includes('→')){b.scrollIntoView({block:'center'});b.click();return true}}return false}''')
+    if clicked:
         log("    Next clicked")
         return "answered"
 
@@ -538,18 +546,20 @@ async def main():
                                     else:
                                         next_only_count = 0
                                     
-                                    # Same answer detection
-                                    if "Radio" in last_log_line:
-                                        if last_log_line == last_answer_text:
+                                    # Same answer detection — extract answer text without timestamp
+                                    import re as _re
+                                    answer_text = _re.sub(r'^\[.*?\]\s*', '', last_log_line).strip()
+                                    if "Radio" in answer_text:
+                                        if answer_text == last_answer_text:
                                             same_answer_count += 1
-                                            if same_answer_count >= 8:
-                                                log("  Bot trap: same answer 8x, ending")
+                                            if same_answer_count >= 5:
+                                                log("  Bot trap: same answer 5x, ending")
                                                 try: await sp.close()
                                                 except: pass
                                                 result = "stuck"
                                         else:
                                             same_answer_count = 0
-                                        last_answer_text = last_log_line
+                                        last_answer_text = answer_text
 
                                 if result == "completed":
                                     log("*** SURVEY COMPLETED! ***")
