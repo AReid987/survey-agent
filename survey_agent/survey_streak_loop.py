@@ -142,6 +142,48 @@ async def answer_screening(page, max_q=20):
             log(f"    Screen Q{sq+1}: {cb_count} checkboxes")
             continue
         
+        # Number/text input in modal
+        input_filled = await se(page, r'''() => {
+            const m = document.querySelector('#survey-modal');
+            if (!m || getComputedStyle(m).display === 'none') return false;
+            const nums = m.querySelectorAll('input[type="number"]');
+            for (const n of nums) {
+                // Income question — fill with 55000
+                n.value = 55000;
+                n.dispatchEvent(new Event('input', {bubbles: true}));
+                n.dispatchEvent(new Event('change', {bubbles: true}));
+                return true;
+            }
+            const texts = m.querySelectorAll('input[type="text"]:not([type="hidden"])');
+            for (const t of texts) {
+                if (t.type === 'hidden') continue;
+                t.value = '55000';
+                t.dispatchEvent(new Event('input', {bubbles: true}));
+                t.dispatchEvent(new Event('change', {bubbles: true}));
+                return true;
+            }
+            // Also try selects in modal
+            const sels = m.querySelectorAll('select');
+            for (const s of sels) {
+                if (s.options.length > 1) { s.selectedIndex = 1; s.dispatchEvent(new Event('change', {bubbles: true})); }
+                return true;
+            }
+            return false;
+        }''')
+        
+        if input_filled:
+            # Click Next
+            await se(page, '''() => {
+                const b = document.querySelector('#submit-button-cpx');
+                if (b && getComputedStyle(b).display !== 'none') {
+                    b.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
+                    return true;
+                }
+                return false;
+            }''')
+            log(f"    Screen Q{sq+1}: number/text input filled")
+            continue
+        
         # No question found
         log(f"    Screen Q{sq+1}: waiting...")
     
