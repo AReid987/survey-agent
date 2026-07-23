@@ -505,6 +505,9 @@ async def main():
                     
                     completed = False
                     next_only_count = 0
+                    same_answer_count = 0
+                    last_answer = ""
+                    zero_pct_count = 0
                     for q in range(200):
                         result = await answer_survey(survey_page)
                         if result == "answered":
@@ -524,7 +527,27 @@ async def main():
                                     result = "stuck"
                             else:
                                 next_only_count = 0
+                            # Bot trap detection: same answer 10+ times or 0% for 15+ questions
+                            if "Radio" in last_log and last_log == last_answer:
+                                same_answer_count += 1
+                                if same_answer_count >= 10:
+                                    log("  Bot trap: same answer 10x, ending survey")
+                                    try: await survey_page.close()
+                                    except: pass
+                                    result = "stuck"
+                            else:
+                                same_answer_count = 0
+                            last_answer = last_log
                         prog = await se(survey_page, 'document.body?.innerText?.match(/(\\d+)%/)?.[1]||"?"')
+                        if prog == "0" or prog == "0%":
+                            zero_pct_count += 1
+                            if zero_pct_count >= 15:
+                                log("  Bot trap: 0% for 15 questions, ending survey")
+                                try: await survey_page.close()
+                                except: pass
+                                result = "stuck"
+                        else:
+                            zero_pct_count = 0
                         log("  Q" + str(q+1) + " (" + str(prog) + "%): " + result)
                         
                         if result == "completed":

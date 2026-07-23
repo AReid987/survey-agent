@@ -16888,3 +16888,164 @@ Call log:
 [04:24:51]   Q108 (?%): answered
 [04:24:53]     Radio 3 -> Male
 [04:24:53]   Q109 (?%): answered
+[04:24:55]     Radio 3 -> Male
+[04:24:55]   Q110 (?%): answered
+[04:24:57]     Radio 3 -> Male
+[04:24:57]   Q111 (?%): answered
+[04:24:59]     Radio 3 -> Male
+[04:24:59]   Q112 (?%): answered
+[04:25:01]     Radio 3 -> Male
+[04:25:01]   Q113 (?%): answered
+[04:25:03]     Radio 3 -> Male
+[04:25:03]   Q114 (?%): answered
+[04:25:05]     Radio 3 -> Male
+[04:25:05]   Q115 (?%): answered
+[04:25:07]     Radio 3 -> Male
+[04:25:07]   Q116 (?%): answered
+[04:25:09]     Radio 3 -> Male
+[04:25:09]   Q117 (?%): answered
+[04:25:11]     Radio 3 -> Male
+[04:25:11]   Q118 (?%): answered
+[04:25:14]     Radio 3 -> Male
+[04:25:14]   Q119 (?%): answered
+[04:25:15] --- Poll 46 ---
+[04:25:16]     Radio 3 -> Male
+[04:25:16]   Q120 (?%): answered
+[04:25:18]     Radio 3 -> Male
+[04:25:18]   Q121 (?%): answered
+[04:25:18]   Trying #73855101 ($1.25, 8min)
+[04:25:20]     Radio 3 -> Male
+[04:25:20]   Q122 (?%): answered
+[04:25:22]     Radio 3 -> Male
+[04:25:22]   Q123 (?%): answered
+[04:25:24]     Radio 3 -> Male
+[04:25:24]   Q124 (?%): answered
+[04:25:29]   Not qualified
+[04:25:31]   Trying #73855276 ($0.92, 13min)
+[04:25:31]   clickSurvey error
+[04:25:31]   Trying #73853978 ($0.59, 3min)
+[04:25:31]   clickSurvey error
+[04:25:31]   Trying #72934982 ($0.50, 17min)
+[04:25:42]   Qualified!
+[04:25:55]   Survey: https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+[04:25:55]   Running: https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+[04:25:58]     Consent accepted
+[04:25:58]   Q1 (?%): answered
+[04:26:00]     Consent accepted
+[04:26:00]   Q2 (?%): answered
+[04:26:02]     Consent accepted
+[04:26:02]   Q3 (?%): answered
+[04:26:04]     Consent accepted
+[04:26:04]   Q4 (?%): answered
+[04:26:06]     Consent accepted
+[04:26:06]   Q5 (?%): answered
+[04:26:08]     Consent accepted
+[04:26:08]   Q6 (?%): answered
+[04:26:10]     Consent accepted
+[04:26:10]   Q7 (?%): answered
+[04:26:12]     Consent accepted
+[04:26:12]   Q8 (?%): answered
+[04:26:14]     Consent accepted
+[04:26:14]   Q9 (?%): answered
+[04:26:16]     Consent accepted
+[04:26:17]   Q10 (?%): answered
+[04:26:19]     Consent accepted
+[04:26:19]   Q11 (?%): answered
+[04:26:21]     Consent accepted
+[04:26:21]   Q12 (?%): answered
+[04:26:23]     Consent accepted
+[04:26:23]   Q13 (?%): answered
+[04:26:25]     Consent accepted
+[04:26:25]   Q14 (?%): answered
+[04:26:27]     Consent accepted
+[04:26:27]   Q15 (?%): answered
+[04:26:29]     Consent accepted
+[04:26:29]   Q16 (?%): answered
+[04:26:31]     Consent accepted
+[04:26:31]   Q17 (?%): answered
+[04:26:34]     Consent accepted
+[04:26:34]   Q18 (?%): answered
+[04:26:36]     Consent accepted
+[04:26:36]   Q19 (?%): answered
+[04:26:38]     Consent accepted
+[04:26:38]   Q20 (?%): answered
+[04:26:40]     Consent accepted
+[04:26:40]   Q21 (?%): answered
+[04:26:43]     Consent accepted
+[04:26:43]   Q22 (?%): answered
+[04:26:45]     Consent accepted
+[04:26:45]   Q23 (?%): answered
+[04:26:47]     Consent accepted
+[04:26:47]   Q24 (?%): answered
+[04:26:50]     Consent accepted
+[04:26:50]   Q25 (?%): answered
+[04:26:52]     Consent accepted
+[04:26:52]   Q26 (?%): answered
+[04:26:54]     Consent accepted
+[04:26:54]   Q27 (?%): answered
+[04:26:57]     Consent accepted
+[04:26:57]   Q28 (?%): answered
+[04:26:59]     Consent accepted
+[04:26:59]   Q29 (?%): answered
+[04:27:01]     Consent accepted
+[04:27:01]   Q30 (?%): answered
+[04:27:04]     Consent accepted
+[04:27:04]   Q31 (?%): answered
+[04:27:06]     Consent accepted
+[04:27:07]   Q32 (?%): answered
+[04:27:09]     Consent accepted
+[04:27:09]   Q33 (?%): answered
+[04:27:11]     Consent accepted
+[04:27:11]   Q34 (?%): answered
+[04:27:13]     Consent accepted
+[04:27:13]   Q35 (?%): answered
+[04:27:15]     Consent accepted
+[04:27:15]   Q36 (?%): answered
+[04:27:17]     Consent accepted
+[04:27:17]   Q37 (?%): answered
+[04:27:19]     Consent accepted
+[04:27:19]   Q38 (?%): answered
+[04:27:21]     Consent accepted
+[04:27:22]   Q39 (?%): answered
+[04:27:24]     Consent accepted
+[04:27:24]   Q40 (?%): answered
+[04:27:26]   Q41 (%): stuck
+[04:27:26]   Ended: stuck
+[04:27:31] Waiting 30s...
+[04:27:37] ============================================================
+[04:27:37] SURVEY LOOP v12
+[04:27:37] ============================================================
+[04:27:39] Connected (retry 0)
+[04:27:39] --- Poll 1 ---
+[04:27:42]   Trying #73324618 ($1.03, 10min)
+[04:27:53]   Qualified!
+[04:28:01] --- Poll 47 ---
+[04:28:04]   Trying #73324618 ($1.03, 10min)
+[04:28:06]   Survey: https://screener.purespectrum.com/?survey_id=51156313&suppli
+[04:28:06]   Running: https://screener.purespectrum.com/?survey_id=51156313&suppli
+[04:28:08]     Text answered
+[04:28:08]   Q1 (33%): answered
+[04:28:11]     PS CAPTCHA: ['jdFPuk', 'jdFPuk', 'jdFPuk'] -> jdFPuk
+[04:28:15]   Not qualified
+[04:28:16]   Q2 (66%): answered
+[04:28:17]   Trying #72934982 ($0.50, 17min)
+[04:28:17]   clickSurvey error
+[04:28:17]   Trying #73793900 ($0.42, 1min)
+[04:28:17]   clickSurvey error
+[04:28:17]   Trying #73850795 ($0.42, 8min)
+[04:28:17]   clickSurvey error
+[04:28:17]   Trying #73855307 ($0.38, 8min)
+[04:28:17]   clickSurvey error
+[04:28:17]   Trying #72704970 ($0.37, 23min)
+[04:28:17]   clickSurvey error
+[04:28:17]   Trying #73844209 ($0.35, 15min)
+[04:28:17]   clickSurvey error
+[04:28:17]   Trying #73046251 ($0.35, 28min)
+[04:28:17]   clickSurvey error
+[04:28:17] No survey, wait 60s...
+[04:28:18]     Drag #67 (506,198)->(506,371)
+[04:28:22]     Drag #67 done
+[04:28:22]   Q3 (100%): answered
+[04:28:24]   Q4 (?%): stuck
+[04:28:24]   Ended: stuck
+[04:28:29] Waiting 30s...
