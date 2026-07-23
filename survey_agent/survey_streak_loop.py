@@ -52,12 +52,13 @@ async def answer_screening(page, max_q=20):
     for sq in range(max_q):
         await asyncio.sleep(3)
         
-        # Check if Start Survey is visible (qualified)
-        start_vis = await se(page, '''() => {
-            const b = document.querySelector('#start-survey-button');
-            return b && getComputedStyle(b).display !== 'none' && getComputedStyle(b).visibility !== 'hidden';
-        }''')
+        # Check if Start Survey is visible (qualified) — multiple methods
+        start_vis = await page.evaluate('document.querySelector("#start-survey-button")?.offsetParent !== null || (document.querySelector("#start-survey-button") && getComputedStyle(document.querySelector("#start-survey-button")).display !== "none")')
         if start_vis:
+            return True
+        # Also check modal text for "qualified"  
+        modal_text = await page.evaluate('document.querySelector("#survey-modal")?.innerText?.toLowerCase() || ""')
+        if modal_text and ('qualified' in modal_text or 'begin the survey' in modal_text):
             return True
         
         # Check for not-qualified
@@ -140,6 +141,39 @@ async def answer_screening(page, max_q=20):
                 return false;
             }''')
             log(f"    Screen Q{sq+1}: {cb_count} checkboxes")
+            continue
+        
+        # Textarea in modal
+        ta_filled = await page.evaluate(r'''() => {
+            const m = document.querySelector('#survey-modal');
+            if (!m || getComputedStyle(m).display === 'none') return false;
+            const tas = m.querySelectorAll('textarea');
+            for (const ta of tas) {
+                if (ta.disabled) continue;
+                // Postal code
+                const q = m.innerText?.toLowerCase() || '';
+                if (q.includes('postal') || q.includes('zip')) {
+                    ta.value = '78701';
+                } else if (q.includes('name')) {
+                    ta.value = 'Antonio';
+                } else {
+                    ta.value = 'I carefully weigh the pros and cons, consult with family, and consider long-term goals.';
+                }
+                ta.dispatchEvent(new Event('input', {bubbles: true}));
+                ta.dispatchEvent(new Event('change', {bubbles: true}));
+                return true;
+            }
+            return false;
+        }''')
+        
+        if ta_filled:
+            await page.evaluate('''() => {
+                const b = document.querySelector('#submit-button-cpx');
+                if (b && getComputedStyle(b).display !== 'none') {
+                    b.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
+                }
+            }''')
+            log(f"    Screen Q{sq+1}: textarea filled")
             continue
         
         # Number/text input in modal
@@ -302,6 +336,37 @@ async def answer_survey(page):
             await asyncio.sleep(3)
             return "answered"
         return "captcha_fail"
+    
+    # PureSpectrum CAPTCHA (alpha-numeric-input)
+    captcha_input = await se(page, r'''() => {
+        const inp = document.querySelector('input.alpha-numeric-input, input[type="text"][class*="alpha"]');
+        if (!inp || getComputedStyle(inp).display === 'none') return false;
+        const body = document.body?.innerText?.toLowerCase() || '';
+        return body.includes('type the following code') || body.includes('please type');
+    }''')
+    if captcha_input:
+        b64 = base64.b64encode(await page.screenshot()).decode()
+        reads = []
+        for _ in range(3):
+            try:
+                r = subprocess.run(["curl","-s","-X","POST",CEREBRAS_ENDPOINT,
+                    "-H","Authorization: Bearer " + CEREBRAS_API_KEY,"-H","Content-Type: application/json",
+                    "-d",json.dumps({"model":"gemma-4-31b","messages":[{"role":"user","content":[
+                        {"type":"text","text":"Read the distorted text in this image. Reply only the characters, nothing else."},
+                        {"type":"image_url","image_url":{"url":"data:image/png;base64,"+b64}}]}],
+                        "max_tokens":30,"temperature":0.1})],
+                    capture_output=True,text=True,timeout=30)
+                reads.append(re.sub(r'[^A-Za-z0-9]','',json.loads(r.stdout)["choices"][0]["message"]["content"].strip()))
+            except: pass
+        if reads:
+            ml = max(len(r) for r in reads)
+            code = ''.join(Counter(r[i] for r in reads if i<len(r)).most_common(1)[0][0] for i in range(ml))
+            log("    PS CAPTCHA: " + str(reads) + " -> " + code)
+            await se(page, '(c)=>{const i=document.querySelector("input.alpha-numeric-input");if(i){i.value=c;i.dispatchEvent(new Event("input",{bubbles:true}))}}', code)
+            await asyncio.sleep(1)
+            await se(page, '''()=>{const b=document.querySelectorAll('button');for(const x of b){if(x.textContent.trim().toLowerCase()==='next'){x.click();break}}}''')
+            await asyncio.sleep(3)
+            return "answered"
     
     # Consent page
     if 'agree and continue' in tl or 'accept all' in tl or 'consent' in tl:
