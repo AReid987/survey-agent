@@ -321,7 +321,7 @@ async def answer_survey(page):
                 r = subprocess.run(["curl","-s","-X","POST",CEREBRAS_ENDPOINT,
                     "-H","Authorization: Bearer " + CEREBRAS_API_KEY,"-H","Content-Type: application/json",
                     "-d",json.dumps({"model":"gemma-4-31b","messages":[{"role":"user","content":[
-                        {"type":"text","text":"Read the distorted text. Reply only characters."},
+                        {"type":"text","text":"This image contains a CAPTCHA code with 5-7 characters (letters and numbers). Read EVERY character carefully, including any that might be hard to see. Reply ONLY with the characters, nothing else. If unsure about a character, make your best guess."},
                         {"type":"image_url","image_url":{"url":"data:image/png;base64,"+b64}}]}],
                         "max_tokens":30,"temperature":0.1})],
                     capture_output=True,text=True,timeout=30)
@@ -352,7 +352,7 @@ async def answer_survey(page):
                 r = subprocess.run(["curl","-s","-X","POST",CEREBRAS_ENDPOINT,
                     "-H","Authorization: Bearer " + CEREBRAS_API_KEY,"-H","Content-Type: application/json",
                     "-d",json.dumps({"model":"gemma-4-31b","messages":[{"role":"user","content":[
-                        {"type":"text","text":"Read the distorted text in this image. Reply only the characters, nothing else."},
+                        {"type":"text","text":"This image contains a CAPTCHA code with 5-7 characters (letters and numbers). Read EVERY character carefully, including any that might be hard to see. Reply ONLY with the characters, nothing else. If unsure about a character, make your best guess."},
                         {"type":"image_url","image_url":{"url":"data:image/png;base64,"+b64}}]}],
                         "max_tokens":30,"temperature":0.1})],
                     capture_output=True,text=True,timeout=30)
@@ -508,6 +508,10 @@ async def main():
                     same_answer_count = 0
                     last_answer = ""
                     zero_pct_count = 0
+                    captcha_fail_count = 0
+                    last_captcha_code = ""
+                    last_prog = ""
+                    last_log = ""
                     for q in range(200):
                         result = await answer_survey(survey_page)
                         if result == "answered":
@@ -539,6 +543,20 @@ async def main():
                                 same_answer_count = 0
                             last_answer = last_log
                         prog = await se(survey_page, 'document.body?.innerText?.match(/(\\d+)%/)?.[1]||"?"')
+                        # CAPTCHA rejection detection: same code, same progress
+                        if "PS CAPTCHA" in (last_log if 'last_log' in dir() else ""):
+                            captcha_code = last_log.split("-> ")[-1].strip() if "-> " in (last_log if 'last_log' in dir() else "") else ""
+                            if captcha_code and captcha_code == last_captcha_code and prog == last_prog:
+                                captcha_fail_count += 1
+                                if captcha_fail_count >= 3:
+                                    log("  CAPTCHA rejected 3x (same code+progress), ending survey")
+                                    try: await survey_page.close()
+                                    except: pass
+                                    result = "stuck"
+                            else:
+                                captcha_fail_count = 0
+                            last_captcha_code = captcha_code
+                            last_prog = prog
                         if prog == "0" or prog == "0%":
                             zero_pct_count += 1
                             if zero_pct_count >= 15:
@@ -561,6 +579,12 @@ async def main():
                             try: await survey_page.close()
                             except: pass
                             break
+                    
+                    # Close all extra tabs (prevent tab leaking)
+                    for extra_pg in ctx.pages:
+                        if 'surveystreak' not in extra_pg.url and 'fivesurveys' not in extra_pg.url and 'topsurveys' not in extra_pg.url:
+                            try: await extra_pg.close()
+                            except: pass
                     
                     if completed:
                         log("DONE!")
