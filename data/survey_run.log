@@ -17800,3 +17800,131 @@ Call log:
 [04:46:08]     Select answered
 [04:46:08]   Q200 (?%): answered
 [04:46:13] Waiting 30s...
+[04:46:30] --- Poll 2 ---
+[04:46:33]   Trying #73827947 ($1.58, 3min)
+[04:46:43] --- Poll 54 ---
+[04:46:45]     Screen Q1: radio -> Account Executive / Senio
+[04:46:46]   Trying #73827947 ($1.58, 3min)
+[04:46:48]     Screen Q2: 10 checkboxes
+[04:46:51]   Qualified!
+[04:46:57]     Screen Q1: waiting...
+[04:47:00]     Screen Q2: waiting...
+[04:47:03]     Screen Q3: waiting...
+[04:47:04]   Survey: https://screener.purespectrum.com/?survey_id=51251143&suppli
+[04:47:04]   Running: https://screener.purespectrum.com/?survey_id=51251143&suppli
+[04:47:06]     Text answered
+[04:47:06]   Q1 (25%): answered
+[04:47:06]     Screen Q4: waiting...
+[04:47:08]     Checkbox answered
+[04:47:08]   Q2 (50%): answered
+[04:47:09]     Screen Q5: waiting...
+[04:47:12]     Screen Q6: waiting...
+[04:47:13]     PS CAPTCHA: ['EMYIF', 'EMYIF', 'EMYIF'] -> EMYIF
+[04:47:15]     Screen Q7: waiting...
+[04:47:19]   Q3 (50%): answered
+[04:47:19]     Screen Q8: waiting...
+[04:47:22]     Screen Q9: waiting...
+[04:47:24]     PS CAPTCHA: ['EMYIF', 'EMYIF', 'EMYIF'] -> EMYIF
+[04:47:25]     Screen Q10: waiting...
+[04:47:28]     Screen Q11: waiting...
+[04:47:29]   Q4 (50%): answered
+[04:47:31]     Screen Q12: waiting...
+[04:47:31]     Next clicked
+[04:47:31]   Q5 (50%): answered
+[04:47:34]     Next clicked
+[04:47:34]   Q6 (50%): answered
+[04:47:34]     Screen Q13: waiting...
+[04:47:37]     PS CAPTCHA: ['EMYIF'] -> EMYIF
+[04:47:37]     Screen Q14: waiting...
+[04:47:40]     Screen Q15: waiting...
+[04:47:41]   Q7 (50%): answered
+[04:47:43]     Screen Q16: waiting...
+[04:47:44]     Next clicked
+[04:47:44]   Q8 (50%): answered
+[04:47:46]     Screen Q17: waiting...
+[04:47:47]     Next clicked
+[04:47:47]   Q9 (50%): answered
+[04:47:49]     Screen Q18: waiting...
+[04:47:52]     Screen Q19: waiting...
+[04:47:55]     PS CAPTCHA: ['EMYIF'] -> EMYIF
+[04:47:55]     Screen Q20: waiting...
+[04:47:55]   Qualified!
+[04:48:00]   Q10 (50%): answered
+[04:48:04]     PS CAPTCHA: ['EMYIF'] -> EMYIF
+[04:48:09]   Survey: https://click.cpx-research.com/?k=ZmRWZU80d09mZUpDMkthTTBHS2
+[04:48:09]   Running: https://click.cpx-research.com/?k=ZmRWZU80d09mZUpDMkthTTBHS2
+[04:48:09]   Q11 (50%): answered
+[04:48:11]     Checkbox answered
+[04:48:11]   Q1 (?%): answered
+[04:48:12]     Next clicked
+[04:48:12]   Q12 (50%): answered
+[04:48:13]   Q2 (?%): stuck
+[04:48:13]   Ended: stuck
+[04:48:15]     Next clicked
+[04:48:15]   Q13 (50%): answered
+[04:48:17]     PS CAPTCHA: ['EMYIF'] -> EMYIF
+[04:48:18] Waiting 30s...
+[04:48:22]   Q14 (50%): answered
+[04:48:25]     Next clicked
+[04:48:25]   Q15 (50%): answered
+[04:48:27]     Next clicked
+[04:48:27]   Q16 (50%): answered
+[04:48:30]     PS CAPTCHA: ['EMYIF'] -> EMYIF
+[04:48:35]   Q17 (50%): answered
+[04:48:38]     Next clicked
+[04:48:38]   Q18 (50%): answered
+[04:48:41]     Next clicked
+[04:48:41]   Q19 (50%): answered
+[04:48:46]     PS CAPTCHA: ['EMYIF'] -> EMYIF
+[04:48:48] --- Poll 55 ---
+[04:48:51]   Q20 (50%): answered
+[04:48:51]   Trying #73810505 ($0.53, 8min)
+[04:48:53]     Next clicked
+[04:48:53]   Q21 (50%): answered
+[04:48:56]     PS CAPTCHA: ['EMYIF'] -> EMYIF
+[04:49:01]   Q22 (50%): answered
+[04:49:02]     Screen Q1: 17 checkboxes
+[04:49:03]     Next clicked
+[04:49:03]   Q23 (50%): answered
+[04:49:05]   Qualified!
+[04:49:06]     Next clicked
+[04:49:06]   Q24 (50%): answered
+[04:49:09]     PS CAPTCHA: ['EMYIF'] -> EMYIF
+[04:49:14]   Q25 (50%): answered
+[04:49:16]     Next clicked
+[04:49:17]   Q26 (50%): answered
+[04:49:18]   Survey: https://screener.purespectrum.com/?survey_id=51053902&suppli
+[04:49:18]   Running: https://screener.purespectrum.com/?survey_id=51053902&suppli
+[04:49:20]     Text answered
+[04:49:20]   Q1 (33%): answered
+[04:49:21]     PS CAPTCHA: ['EMYIF'] -> EMYIF
+[04:49:23]     Next clicked
+[04:49:23]   Q2 (33%): answered
+[04:49:25]     Next clicked
+[04:49:25]   Q3 (33%): answered
+[04:49:26]   Q27 (50%): answered
+[04:49:27]     Next clicked
+[04:49:27]   Q4 (33%): answered
+[04:49:29]     Next clicked
+[04:49:29]   Q28 (50%): answered
+[04:49:29]     Next clicked
+[04:49:29]   Q5 (33%): answered
+[04:49:31]     Next clicked
+[04:49:31]   Too many Next-only clicks, ending survey
+[04:49:31]   Q6 (%): stuck
+[04:49:31]   Ended: stuck
+[04:49:32]     PS CAPTCHA: ['EMYIF'] -> EMYIF
+[04:49:36] Waiting 30s...
+[04:49:37]   Q29 (50%): answered
+[04:49:39]     Next clicked
+[04:49:39]   Q30 (50%): answered
+[04:49:42]     Next clicked
+[04:49:42]   Q31 (50%): answered
+[04:49:45]     PS CAPTCHA: ['EMYIF'] -> EMYIF
+[04:49:50]   Q32 (50%): answered
+[04:49:52]     Next clicked
+[04:49:52]   Q33 (50%): answered
+[04:49:55]     Next clicked
+[04:49:55]   Q34 (50%): answered
+[04:49:58]     PS CAPTCHA: ['EMYIF'] -> EMYIF
+[04:50:03]   Q35 (50%): answered
