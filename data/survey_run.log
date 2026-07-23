@@ -17049,3 +17049,274 @@ Call log:
 [04:28:24]   Q4 (?%): stuck
 [04:28:24]   Ended: stuck
 [04:28:29] Waiting 30s...
+[04:28:59] --- Poll 2 ---
+[04:29:02]   Trying #72911278 ($1.58, 13min)
+[04:29:13]     Screen Q1: radio -> Less than $10,000 $10,000
+[04:29:17]     Screen Q2: 7 checkboxes
+[04:29:17] --- Poll 48 ---
+[04:29:20]     Screen Q3: radio -> Yes No I cant / dont want
+[04:29:20]   Trying #72911278 ($1.58, 13min)
+[04:29:23]   Qualified!
+[04:29:31]     Screen Q1: waiting...
+[04:29:34]     Screen Q2: waiting...
+[04:29:36]   Survey: https://surveys.insights-today.com/v1/survey/entry?bid_id=f8
+[04:29:36]   Running: https://surveys.insights-today.com/v1/survey/entry?bid_id=f8
+[04:29:37]     Screen Q3: waiting...
+[04:29:38]   Q1 (?%): stuck
+[04:29:38]   Ended: stuck
+[04:29:40]     Screen Q4: waiting...
+[04:29:43] Waiting 30s...
+[04:29:44]     Screen Q5: waiting...
+[04:29:47]     Screen Q6: waiting...
+[04:29:50]     Screen Q7: waiting...
+[04:29:53]     Screen Q8: waiting...
+[04:29:56]     Screen Q9: waiting...
+[04:29:59]     Screen Q10: waiting...
+[04:30:02]     Screen Q11: waiting...
+[04:30:05]     Screen Q12: waiting...
+[04:30:08]     Screen Q13: waiting...
+[04:30:11]     Screen Q14: waiting...
+[04:30:13] --- Poll 3 ---
+[04:30:14]     Screen Q15: waiting...
+[04:30:16]   Trying #72911278 ($1.58, 13min)
+[04:30:17]   Qualified!
+[04:30:27]   Qualified!
+[04:30:31]   Survey: https://www.prsrvy.com/surveys/prescreener-v2?callback=https
+[04:30:31]   Running: https://www.prsrvy.com/surveys/prescreener-v2?callback=https
+[04:30:34]     Checkbox answered
+[04:30:34]   Q1 (?%): answered
+[04:30:36]   Q2 (?%): disq
+[04:30:36]   Ended: disq
+[04:30:41]   Survey: https://click.cpx-research.com/?k=ZmRWZU80d09mZUpDMkthTTBHS2
+[04:30:41]   Running: https://click.cpx-research.com/?k=ZmRWZU80d09mZUpDMkthTTBHS2
+[04:30:41] Waiting 30s...
+[04:30:44]     Checkbox answered
+[04:30:44]   Q1 (?%): answered
+[04:30:46]   Q2 (?%): stuck
+[04:30:46]   Ended: stuck
+[04:30:51] Waiting 30s...
+[04:31:11] --- Poll 49 ---
+[04:31:15]   Trying #72911278 ($1.58, 13min)
+[04:31:21] --- Poll 4 ---
+[04:31:25]   Trying #72911278 ($1.58, 13min)
+[04:31:26]     Screen Q1: waiting...
+[04:31:29]   Qualified!
+[04:31:37]   Qualified!
+[04:31:43]   Survey: https://click.cpx-research.com/?k=ZmRWZU80d09mZUpDMkthTTBHS2
+[04:31:43]   Running: https://click.cpx-research.com/?k=ZmRWZU80d09mZUpDMkthTTBHS2
+[04:31:45]     Checkbox answered
+[04:31:45]   Q1 (?%): answered
+[04:31:47]   Q2 (?%): stuck
+[04:31:47]   Ended: stuck
+[04:31:50]   Survey: https://screener.purespectrum.com/?survey_id=51229026&suppli
+[04:31:50]   Running: https://screener.purespectrum.com/?survey_id=51229026&suppli
+[04:31:52] Waiting 30s...
+[04:31:52]     Text answered
+[04:31:52]   Q1 (25%): answered
+[04:31:54]     Checkbox answered
+[04:31:54]   Q2 (50%): answered
+[04:31:59]     PS CAPTCHA: ['NC4LY', 'NC4LY', 'NC4LY'] -> NC4LY
+[04:32:04]   Q3 (50%): answered
+[04:32:09]     PS CAPTCHA: ['NC4LY', 'NC4LY'] -> NC4LY
+[04:32:14]   Q4 (50%): answered
+[04:32:17]     PS CAPTCHA: ['NC4LY'] -> NC4LY
+[04:32:22]   Q5 (50%): answered
+[04:32:22] --- Poll 50 ---
+[04:32:25]     Next clicked
+[04:32:25]   Q6 (50%): answered
+[04:32:25]   Trying #73286070 ($1.14, 5min)
+[04:32:28]     Next clicked
+[04:32:28]   Q7 (50%): answered
+[04:32:31]     PS CAPTCHA: ['NC4LY'] -> NC4LY
+[04:32:36]   Q8 (50%): answered
+[04:32:37]   Qualified!
+[04:32:41]     Next clicked
+[04:32:41]   Q9 (50%): answered
+[04:32:45]     PS CAPTCHA: ['NC4LY'] -> NC4LY
+[04:32:50]   Q10 (50%): answered
+[04:32:52]   Survey: https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+[04:32:52]   Running: https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+[04:32:54]     Next clicked
+[04:32:54]   Q11 (50%): answered
+[04:32:55]     Consent accepted
+[04:32:56]   Q1 (?%): answered
+[04:32:58]     PS CAPTCHA: ['NC4LY'] -> NC4LY
+[04:32:59]     Consent accepted
+[04:33:01]   Q2 (?%): answered
+[04:33:05]   Q12 (50%): answered
+[04:33:05]     Consent accepted
+[04:33:05]   Q3 (?%): answered
+[04:33:07]     Consent accepted
+[04:33:07]   Q4 (?%): answered
+[04:33:10]     Consent accepted
+[04:33:10]   Q5 (?%): answered
+[04:33:10]     Next clicked
+[04:33:10]   Q13 (50%): answered
+[04:33:12]     Consent accepted
+[04:33:12]   Q6 (?%): answered
+[04:33:15]     PS CAPTCHA: ['NC4LY'] -> NC4LY
+[04:33:15]     Consent accepted
+[04:33:16]   Q7 (?%): answered
+[04:33:18]     Consent accepted
+[04:33:18]   Q8 (?%): answered
+[04:33:20]     Consent accepted
+[04:33:20]   Q9 (?%): answered
+[04:33:21]   Q14 (50%): answered
+[04:33:23]     Consent accepted
+[04:33:23]   Q10 (?%): answered
+[04:33:25]     Consent accepted
+[04:33:25]   Q11 (?%): answered
+[04:33:27]     Next clicked
+[04:33:27]   Q15 (50%): answered
+[04:33:27]     Consent accepted
+[04:33:27]   Q12 (?%): answered
+[04:33:30]     Consent accepted
+[04:33:31]     PS CAPTCHA: ['NC4LY'] -> NC4LY
+[04:33:32]   Q13 (?%): answered
+[04:33:34]     Consent accepted
+[04:33:34]   Q14 (?%): answered
+[04:33:36]     Consent accepted
+[04:33:37]   Q15 (?%): answered
+[04:33:37]   Q16 (50%): answered
+[04:33:40]     Consent accepted
+[04:33:40]   Q16 (?%): answered
+[04:33:41]     Next clicked
+[04:33:41]   Q17 (50%): answered
+[04:33:42]     Consent accepted
+[04:33:43]   Q17 (?%): answered
+[04:33:45]     PS CAPTCHA: ['NC4LY'] -> NC4LY
+[04:33:46]     Consent accepted
+[04:33:46]   Q18 (?%): answered
+[04:33:48]     Consent accepted
+[04:33:48]   Q19 (?%): answered
+[04:33:50]   Q18 (50%): answered
+[04:33:51]     Consent accepted
+[04:33:51]   Q20 (?%): answered
+[04:33:53]     Consent accepted
+[04:33:53]   Q21 (?%): answered
+[04:33:54]     Next clicked
+[04:33:54]   Q19 (50%): answered
+[04:33:55]     Consent accepted
+[04:33:55]   Q22 (?%): answered
+[04:33:57]     PS CAPTCHA: ['NC4LY'] -> NC4LY
+[04:33:57]     Consent accepted
+[04:33:58]   Q23 (?%): answered
+[04:34:00]     Consent accepted
+[04:34:00]   Q24 (?%): answered
+[04:34:02]     Consent accepted
+[04:34:02]   Q25 (?%): answered
+[04:34:04]   Q20 (50%): answered
+[04:34:05]     Consent accepted
+[04:34:05]   Q26 (?%): answered
+[04:34:07]     Next clicked
+[04:34:07]   Q21 (50%): answered
+[04:34:08]     Consent accepted
+[04:34:08]   Q27 (?%): answered
+[04:34:10]     PS CAPTCHA: ['NC4LY'] -> NC4LY
+[04:34:10]     Consent accepted
+[04:34:10]   Q28 (?%): answered
+[04:34:12]     Consent accepted
+[04:34:12]   Q29 (?%): answered
+[04:34:15]     Consent accepted
+[04:34:15]   Q30 (?%): answered
+[04:34:16]   Q22 (50%): answered
+[04:34:17]     Consent accepted
+[04:34:17]   Q31 (?%): answered
+[04:34:19]     Next clicked
+[04:34:19]   Q23 (50%): answered
+[04:34:19]     Consent accepted
+[04:34:20]   Q32 (?%): answered
+[04:34:22]     PS CAPTCHA: ['NC4LY'] -> NC4LY
+[04:34:22]     Consent accepted
+[04:34:23]   Q33 (?%): answered
+[04:34:25]     Consent accepted
+[04:34:25]   Q34 (?%): answered
+[04:34:28]     Consent accepted
+[04:34:28]   Q35 (?%): answered
+[04:34:28]   Q24 (50%): answered
+[04:34:30]     Consent accepted
+[04:34:30]   Q36 (?%): answered
+[04:34:32]     Next clicked
+[04:34:32]   Q25 (50%): answered
+[04:34:32]     Consent accepted
+[04:34:32]   Q37 (?%): answered
+[04:34:35]     Consent accepted
+[04:34:35]   Q38 (?%): answered
+[04:34:35]     PS CAPTCHA: ['NC4LY'] -> NC4LY
+[04:34:37]     Consent accepted
+[04:34:37]   Q39 (?%): answered
+[04:34:40]     Consent accepted
+[04:34:40]   Q40 (?%): answered
+[04:34:41]   Q26 (50%): answered
+[04:34:42]     Consent accepted
+[04:34:43]   Q41 (?%): answered
+[04:34:44]     Next clicked
+[04:34:44]   Q27 (50%): answered
+[04:34:46]     Consent accepted
+[04:34:46]   Q42 (?%): answered
+[04:34:48]     PS CAPTCHA: ['NC4LY'] -> NC4LY
+[04:34:48]     Consent accepted
+[04:34:48]   Q43 (?%): answered
+[04:34:51]     Consent accepted
+[04:34:51]   Q44 (?%): answered
+[04:34:53]     Consent accepted
+[04:34:53]   Q45 (?%): answered
+[04:34:54]   Q28 (50%): answered
+[04:34:55]     Consent accepted
+[04:35:01]   Q46 (?%): answered
+[04:35:03]     PS CAPTCHA: ['NC4LY'] -> NC4LY
+[04:35:03]   Q47 (%): stuck
+[04:35:03]   Ended: stuck
+[04:35:08]   Q29 (50%): answered
+[04:35:09] Waiting 30s...
+[04:35:11]     Next clicked
+[04:35:11]   Q30 (50%): answered
+[04:35:13]     Next clicked
+[04:35:13]   Q31 (50%): answered
+[04:35:15]   Q32 (%): stuck
+[04:35:15]   Ended: stuck
+[04:35:20] Waiting 30s...
+[04:35:39] --- Poll 51 ---
+[04:35:42]   Trying #73671944 ($1.56, 18min)
+[04:35:50] --- Poll 5 ---
+[04:35:53]   Qualified!
+[04:35:54]   Trying #73671944 ($1.56, 18min)
+[04:36:05]   Qualified!
+[04:36:06]   Survey: https://mb.pollpioneers.online/survey-start?pid=924&gid=924&
+[04:36:06]   Running: https://mb.pollpioneers.online/survey-start?pid=924&gid=924&
+[04:36:08]   Q1 (?%): stuck
+[04:36:08]   Ended: stuck
+[04:36:13] Waiting 30s...
+[04:36:17]   Trying #73854338 ($1.31, 9min)
+[04:36:28]   Qualified!
+[04:36:41]   Survey: https://screener.purespectrum.com/?survey_id=51261414&suppli
+[04:36:41]   Running: https://screener.purespectrum.com/?survey_id=51261414&suppli
+[04:36:43] --- Poll 52 ---
+[04:36:43]     Text answered
+[04:36:43]   Q1 (33%): answered
+[04:36:46]   Trying #72692939 ($1.58, 14min)
+[04:36:46]     PS CAPTCHA: ['hcE7re', 'hcE7re', 'hcE7re'] -> hcE7re
+[04:36:51]   Q2 (66%): answered
+[04:36:53]     Drag #23 (202,198)->(506,371)
+[04:36:57]   Qualified!
+[04:36:57]     Drag #23 done
+[04:36:57]   Q3 (100%): answered
+[04:36:59]     Select answered
+[04:37:00]   Q4 (?%): answered
+[04:37:02]   Q5 (?%): disq
+[04:37:02]   Ended: disq
+[04:37:07] Waiting 30s...
+[04:37:09]   Trying #72679661 ($0.53, 10min)
+[04:37:21]   Qualified!
+[04:37:34]   Survey: https://screener.purespectrum.com/?survey_id=50910574&suppli
+[04:37:34]   Running: https://screener.purespectrum.com/?survey_id=50910574&suppli
+[04:37:36]     Text answered
+[04:37:36]   Q1 (33%): answered
+[04:37:37] --- Poll 6 ---
+[04:37:38]     Next clicked
+[04:37:38]   Q2 (33%): answered
+[04:37:40]     Next clicked
+[04:37:40]   Q3 (33%): answered
+[04:37:41]   Trying #73814109 ($1.47, 16min)
+[04:37:42]     Next clicked
+[04:37:42]   Q4 (33%): answered
