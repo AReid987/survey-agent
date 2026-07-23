@@ -362,17 +362,22 @@ async def answer_survey(page):
             ml = max(len(r) for r in reads)
             code = ''.join(Counter(r[i] for r in reads if i<len(r)).most_common(1)[0][0] for i in range(ml))
             log("    PS CAPTCHA: " + str(reads) + " -> " + code)
-            # Use Playwright type() — character-by-character for Angular
+            # Use keyboard.press() — OS-level events that Angular recognizes
             try:
                 inp = page.locator('input.alpha-numeric-input')
                 await inp.click(force=True)
-                await inp.fill('')  # clear first
-                await inp.type(code, delay=100)  # type char by char
+                await asyncio.sleep(0.3)
+                await page.keyboard.press('Meta+a')
+                await page.keyboard.press('Backspace')
+                await asyncio.sleep(0.2)
+                for ch in code:
+                    await page.keyboard.press(ch)
+                    await asyncio.sleep(0.05)
             except:
                 try:
                     await page.locator('input.alpha-numeric-input').fill(code)
                 except:
-                    await se(page, '(c)=>{const i=document.querySelector("input.alpha-numeric-input");if(i){i.focus();i.value=c;i.dispatchEvent(new Event("input",{bubbles:true}));i.dispatchEvent(new Event("change",{bubbles:true}));i.blur()}}', code)
+                    await se(page, '(c)=>{const i=document.querySelector("input.alpha-numeric-input");if(i){i.focus();i.value=c;i.dispatchEvent(new Event("input",{bubbles:true}))}}', code)
             await asyncio.sleep(1)
             await se(page, '''()=>{const b=document.querySelectorAll('button');for(const x of b){if(x.textContent.trim().toLowerCase()==='next'){x.click();break}}}''')
             await asyncio.sleep(3)
@@ -433,27 +438,29 @@ async def answer_survey(page):
         log(f"    Select answered")
         return "answered"
     
-    # Checkbox — select ALL unchecked
-    cb_ok = await se(page, r'''()=>{const c=document.querySelectorAll('input[type="checkbox"]');if(c.length===0)return false;let n=0;for(const x of c){if(!x.checked){x.click();n++}}return n>0}''')
-    if cb_ok:
-        await se(page, '''()=>{const b=document.querySelectorAll('button,input[type="submit"],a');for(const x of b){const t=x.textContent.trim().toLowerCase();if(t.includes('next')||t.includes('continue')||t.includes('submit')){x.click();return true}}return false}''')
-        log(f"    Checkbox answered")
-        return "answered"
-    
-    # Drag-and-drop
-    if 'cdk-drag' in (content or ""):
-        m = re.search(r'number (\d+)', text or "")
+    # Drag-and-drop — check BEFORE checkboxes (cookie consent interferes)
+    if 'cdk-drag' in (content or "") or 'drag and drop' in tl or 'draggable' in (content or ""):
+        m = re.search(r'(?:number|drag)\s+(\d+)', text or "")
         n = m.group(1) if m else "62"
-        coords = await se(page, '(n)=>{const i=document.querySelector(\'img[alt="\'+n+\'"]\');const d=i?.closest(".cdk-drag");const t=document.querySelectorAll(".cdk-drop-list");const tgt=t.length>1?t[1]:t[0];if(!d||!tgt)return null;const s=d.getBoundingClientRect(),r=tgt.getBoundingClientRect();return{sx:s.x+s.width/2,sy:s.y+s.height/2,tx:r.x+r.width/2,ty:r.y+r.height/2}}', n)
+        # Try finding image with matching alt text
+        coords = await se(page, '(n)=>{const i=document.querySelector(\'img[alt="\'+n+\'"]\');const d=i?.closest(".cdk-drag")||i;const t=document.querySelectorAll(".cdk-drop-list,[cdkdroplist]");const tgt=t.length>1?t[1]:t[0];if(!d||!tgt)return null;const s=d.getBoundingClientRect(),r=tgt.getBoundingClientRect();return{sx:s.x+s.width/2,sy:s.y+s.height/2,tx:r.x+r.width/2,ty:r.y+r.height/2}}', n)
         if coords:
             sx,sy,tx,ty = coords['sx'],coords['sy'],coords['tx'],coords['ty']
+            log(f"    Drag #{n} ({sx:.0f},{sy:.0f})->({tx:.0f},{ty:.0f})")
             await page.mouse.move(sx,sy); await page.wait_for_timeout(100)
             await page.mouse.down(); await page.wait_for_timeout(300)
             for i in range(1,31): await page.mouse.move(sx+(tx-sx)*i/30,sy+(ty-sy)*i/30); await page.wait_for_timeout(20)
             await page.wait_for_timeout(300); await page.mouse.up(); await page.wait_for_timeout(2000)
             await se(page, '''()=>{const b=document.querySelectorAll('button');for(const x of b){if(x.textContent.includes('Next')){x.click();break}}}''')
-            log(f"    Drag #{n}")
+            log(f"    Drag #{n} done")
             return "answered"
+    
+    # Checkbox — select ALL unchecked (skip cookie consent)
+    cb_ok = await se(page, r'''()=>{const c=document.querySelectorAll('input[type="checkbox"]');if(c.length===0)return false;let n=0;for(const x of c){if(!x.checked&&!x.closest('.cky-consent-container,.cookie-consent')){x.click();n++}}return n>0}''')
+    if cb_ok:
+        await se(page, '''()=>{const b=document.querySelectorAll('button,input[type="submit"],a');for(const x of b){const t=x.textContent.trim().toLowerCase();if(t.includes('next')||t.includes('continue')||t.includes('submit')){x.click();return true}}return false}''')
+        log(f"    Checkbox answered")
+        return "answered"
     
     # Next fallback
     clicked = await se(page, '''()=>{const b=document.querySelectorAll('button,input[type="submit"],a');for(const x of b){const t=x.textContent.trim().toLowerCase();if(t.includes('next')||t.includes('continue')||t.includes('submit')){x.click();return true}}return false}''')
