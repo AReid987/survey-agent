@@ -16464,3 +16464,427 @@ Call log:
 [04:17:24]   Q174 (?%): answered
 [04:17:26]     Text answered
 [04:17:26]   Q175 (?%): answered
+[04:17:29]     Text answered
+[04:17:29]   Q176 (?%): answered
+[04:17:31]     Text answered
+[04:17:31]   Q177 (?%): answered
+[04:17:33]     Text answered
+[04:17:33]   Q178 (?%): answered
+[04:17:33]   Survey: https://screener.purespectrum.com/?survey_id=51253697&suppli
+[04:17:33]   Running: https://screener.purespectrum.com/?survey_id=51253697&suppli
+[04:17:35]     Text answered
+[04:17:35]   Q179 (?%): answered
+[04:17:36]     Text answered
+[04:17:36]   Q1 (33%): answered
+[04:17:38]     Text answered
+[04:17:38]   Q180 (?%): answered
+[04:17:40]     PS CAPTCHA: ['WHTD', 'WHTD', 'WHTD'] -> WHTD
+[04:17:40]     Text answered
+[04:17:40]   Q181 (?%): answered
+[04:17:43]     Text answered
+[04:17:43]   Q182 (?%): answered
+[04:17:45]     Text answered
+[04:17:45]   Q183 (?%): answered
+[04:17:45]   Q2 (33%): answered
+[04:17:47]     Text answered
+[04:17:47]   Q184 (?%): answered
+[04:17:51]     PS CAPTCHA: ['WHTD', 'WHTD', 'WHTD'] -> WHTD
+[04:17:52]     Text answered
+[04:17:52]   Q185 (?%): answered
+[04:17:54]     Text answered
+[04:17:54]   Q186 (?%): answered
+[04:17:56]     Text answered
+[04:17:56]   Q187 (?%): answered
+[04:17:56]   Q3 (33%): answered
+[04:17:58]     Text answered
+[04:17:58]   Q188 (?%): answered
+[04:17:59]     Next clicked
+[04:17:59]   Q4 (33%): answered
+[04:18:00]     Text answered
+[04:18:00]   Q189 (?%): answered
+[04:18:02]     PS CAPTCHA: ['WHTD'] -> WHTD
+[04:18:02]     Text answered
+[04:18:02]   Q190 (?%): answered
+[04:18:04]     Text answered
+[04:18:04]   Q191 (?%): answered
+[04:18:06]     Text answered
+[04:18:06]   Q192 (?%): answered
+[04:18:07]   Q5 (33%): answered
+[04:18:08]     Text answered
+[04:18:08]   Q193 (?%): answered
+[04:18:09]     Next clicked
+[04:18:09]   Q6 (33%): answered
+[04:18:10]     Text answered
+[04:18:10]   Q194 (?%): answered
+[04:18:12]     Text answered
+[04:18:12]   Q195 (?%): answered
+[04:18:13]     Next clicked
+[04:18:13]   Q7 (33%): answered
+[04:18:15]     Text answered
+[04:18:15]   Q196 (?%): answered
+[04:18:16]     PS CAPTCHA: ['WHTD'] -> WHTD
+[04:18:17]     Text answered
+[04:18:17]   Q197 (?%): answered
+[04:18:19]     Text answered
+[04:18:19]   Q198 (?%): answered
+[04:18:21]   Q8 (33%): answered
+[04:18:21]     Text answered
+[04:18:21]   Q199 (?%): answered
+[04:18:23]     Text answered
+[04:18:23]   Q200 (?%): answered
+[04:18:24]     Next clicked
+[04:18:24]   Q9 (33%): answered
+[04:18:28] Waiting 30s...
+[04:18:28]     PS CAPTCHA: ['WHTD'] -> WHTD
+[04:18:33]   Q10 (33%): answered
+[04:18:36]     Next clicked
+[04:18:36]   Q11 (33%): answered
+[04:18:40]     PS CAPTCHA: ['WHTD'] -> WHTD
+[04:18:46]   Q12 (33%): answered
+[04:18:50]     Next clicked
+[04:18:50]   Q13 (33%): answered
+[04:18:54]     PS CAPTCHA: ['WHTD'] -> WHTD
+[04:18:58] --- Poll 42 ---
+[04:18:59]   Q14 (33%): answered
+[04:19:01]   Trying #73854184 ($1.58, 9min)
+[04:19:02]     Next clicked
+[04:19:02]   Q15 (33%): answered
+[04:19:05]     Next clicked
+[04:19:05]   Q16 (33%): answered
+[04:19:08]     Next clicked
+[04:19:08]   Q17 (33%): answered
+[04:19:12]     Next clicked
+[04:19:12]   Q18 (33%): answered
+[04:19:12]   Qualified!
+[04:19:15]     Next clicked
+[04:19:15]   Too many Next-only clicks, ending survey
+[04:19:15]   Q19 (%): stuck
+[04:19:15]   Ended: stuck
+[04:19:20] Waiting 30s...
+[04:19:25]   Trying #73854157 ($1.58, 9min)
+[04:19:36]   Qualified!
+[04:19:49]   Survey: https://screener.purespectrum.com/?survey_id=51252027&suppli
+[04:19:49]   Running: https://screener.purespectrum.com/?survey_id=51252027&suppli
+[04:19:50] --- Poll 6 ---
+[04:19:51]     Text answered
+[04:19:51]   Q1 (33%): answered
+[04:19:54]     Next clicked
+[04:19:54]   Q2 (33%): answered
+[04:19:54]   Trying #73854184 ($1.58, 9min)
+[04:19:56]     Next clicked
+[04:19:56]   Q3 (33%): answered
+[04:19:58]     Next clicked
+[04:19:58]   Q4 (33%): answered
+[04:20:00]     Next clicked
+[04:20:00]   Q5 (33%): answered
+[04:20:02]     Next clicked
+[04:20:02]   Too many Next-only clicks, ending survey
+[04:20:03]   Q6 (%): stuck
+[04:20:03]   Ended: stuck
+[04:20:05]   Qualified!
+[04:20:08] Waiting 30s...
+[04:20:17]   Trying #73854157 ($1.58, 9min)
+[04:20:18]   clickSurvey error
+[04:20:18]   Trying #73854339 ($1.31, 9min)
+[04:20:18]   clickSurvey error
+[04:20:18]   Trying #73854338 ($1.31, 9min)
+[04:20:18]   clickSurvey error
+[04:20:18]   Trying #73854167 ($1.31, 9min)
+[04:20:18]   clickSurvey error
+[04:20:18]   Trying #73854343 ($0.77, 12min)
+[04:20:29]     Screen Q1: 49 checkboxes
+[04:20:32]   Qualified!
+[04:20:38] --- Poll 43 ---
+[04:20:41]   Trying #73656158 ($1.07, 2min)
+[04:20:45]   Survey: https://user.trayistats.com/?supplierCode=9e0c4595-0080-4d2d
+[04:20:45]   Running: https://user.trayistats.com/?supplierCode=9e0c4595-0080-4d2d
+[04:20:47]     Radio 3 -> Male
+[04:20:47]   Q1 (?%): answered
+[04:20:49]     Radio 3 -> Male
+[04:20:49]   Q2 (?%): answered
+[04:20:51]     Radio 3 -> Male
+[04:20:51]   Q3 (?%): answered
+[04:20:52]   Not qualified
+[04:20:53]     Radio 3 -> Male
+[04:20:53]   Q4 (?%): answered
+[04:20:54]   Trying #73854343 ($0.77, 12min)
+[04:20:54]   clickSurvey error
+[04:20:54]   Trying #73855070 ($0.59, 10min)
+[04:20:55]     Radio 3 -> Male
+[04:20:55]   Q5 (?%): answered
+[04:20:57]     Radio 3 -> Male
+[04:20:57]   Q6 (?%): answered
+[04:21:00]     Radio 3 -> Male
+[04:21:00]   Q7 (?%): answered
+[04:21:02]     Radio 3 -> Male
+[04:21:02]   Q8 (?%): answered
+[04:21:04]     Radio 3 -> Male
+[04:21:04]   Q9 (?%): answered
+[04:21:05]   Qualified!
+[04:21:11]     Radio 3 -> Male
+[04:21:11]   Q10 (?%): answered
+[04:21:14]     Radio 3 -> Male
+[04:21:14]   Q11 (?%): answered
+[04:21:20]     Radio 3 -> Male
+[04:21:20]   Q12 (?%): answered
+[04:21:21]   Survey: https://screener.purespectrum.com/?survey_id=51261654&suppli
+[04:21:21]   Running: https://screener.purespectrum.com/?survey_id=51261654&suppli
+[04:21:23]     Radio 3 -> Male
+[04:21:23]   Q13 (?%): answered
+[04:21:23]     Text answered
+[04:21:23]   Q1 (33%): answered
+[04:21:25]     Radio 3 -> Male
+[04:21:25]   Q14 (?%): answered
+[04:21:26]     Next clicked
+[04:21:26]   Q2 (33%): answered
+[04:21:28]     Radio 3 -> Male
+[04:21:28]   Q15 (?%): answered
+[04:21:28]     Next clicked
+[04:21:28]   Q3 (33%): answered
+[04:21:30]     Radio 3 -> Male
+[04:21:30]   Q16 (?%): answered
+[04:21:30]     Next clicked
+[04:21:30]   Q4 (33%): answered
+[04:21:33]     Radio 3 -> Male
+[04:21:33]   Q17 (?%): answered
+[04:21:33]     Next clicked
+[04:21:33]   Q5 (33%): answered
+[04:21:35]     Next clicked
+[04:21:35]   Too many Next-only clicks, ending survey
+[04:21:36]   Q6 (%): stuck
+[04:21:36]   Ended: stuck
+[04:21:37]     Radio 3 -> Male
+[04:21:37]   Q18 (?%): answered
+[04:21:39]     Radio 3 -> Male
+[04:21:39]   Q19 (?%): answered
+[04:21:41] Waiting 30s...
+[04:21:41]     Radio 3 -> Male
+[04:21:41]   Q20 (?%): answered
+[04:21:43]     Radio 3 -> Male
+[04:21:43]   Q21 (?%): answered
+[04:21:46]     Radio 3 -> Male
+[04:21:46]   Q22 (?%): answered
+[04:21:48]     Radio 3 -> Male
+[04:21:48]   Q23 (?%): answered
+[04:21:50]     Radio 3 -> Male
+[04:21:50]   Q24 (?%): answered
+[04:21:53]     Radio 3 -> Male
+[04:21:53]   Q25 (?%): answered
+[04:21:55]     Radio 3 -> Male
+[04:21:55]   Q26 (?%): answered
+[04:21:57]     Radio 3 -> Male
+[04:21:57]   Q27 (?%): answered
+[04:21:59]     Radio 3 -> Male
+[04:21:59]   Q28 (?%): answered
+[04:22:01]     Radio 3 -> Male
+[04:22:01]   Q29 (?%): answered
+[04:22:03]     Radio 3 -> Male
+[04:22:03]   Q30 (?%): answered
+[04:22:06]     Radio 3 -> Male
+[04:22:06]   Q31 (?%): answered
+[04:22:08]     Radio 3 -> Male
+[04:22:08]   Q32 (?%): answered
+[04:22:10]     Radio 3 -> Male
+[04:22:10]   Q33 (?%): answered
+[04:22:11] --- Poll 44 ---
+[04:22:12]     Radio 3 -> Male
+[04:22:12]   Q34 (?%): answered
+[04:22:14]   Trying #73201428 ($1.58, 28min)
+[04:22:14]     Radio 3 -> Male
+[04:22:14]   Q35 (?%): answered
+[04:22:16]     Radio 3 -> Male
+[04:22:16]   Q36 (?%): answered
+[04:22:18]     Radio 3 -> Male
+[04:22:18]   Q37 (?%): answered
+[04:22:20]     Radio 3 -> Male
+[04:22:20]   Q38 (?%): answered
+[04:22:22]     Radio 3 -> Male
+[04:22:22]   Q39 (?%): answered
+[04:22:25]     Radio 3 -> Male
+[04:22:25]   Q40 (?%): answered
+[04:22:25]     Screen Q1: 37 checkboxes
+[04:22:27]     Radio 3 -> Male
+[04:22:27]   Q41 (?%): answered
+[04:22:28]     Screen Q2: radio -> 2009 2008 2007 2006 2005 
+[04:22:29]     Radio 3 -> Male
+[04:22:29]   Q42 (?%): answered
+[04:22:31]     Radio 3 -> Male
+[04:22:31]   Q43 (?%): answered
+[04:22:31]     Screen Q3: 17 checkboxes
+[04:22:33]     Radio 3 -> Male
+[04:22:33]   Q44 (?%): answered
+[04:22:34]   Not qualified
+[04:22:35]     Radio 3 -> Male
+[04:22:35]   Q45 (?%): answered
+[04:22:36]   Trying #73855070 ($0.59, 10min)
+[04:22:36]   clickSurvey error
+[04:22:36]   Trying #73853978 ($0.59, 3min)
+[04:22:37]     Radio 3 -> Male
+[04:22:37]   Q46 (?%): answered
+[04:22:39]     Radio 3 -> Male
+[04:22:39]   Q47 (?%): answered
+[04:22:41]     Radio 3 -> Male
+[04:22:41]   Q48 (?%): answered
+[04:22:43]     Radio 3 -> Male
+[04:22:43]   Q49 (?%): answered
+[04:22:45]     Radio 3 -> Male
+[04:22:45]   Q50 (?%): answered
+[04:22:47]   Qualified!
+[04:22:48]     Radio 3 -> Male
+[04:22:48]   Q51 (?%): answered
+[04:22:50]     Radio 3 -> Male
+[04:22:50]   Q52 (?%): answered
+[04:22:52]     Radio 3 -> Male
+[04:22:52]   Q53 (?%): answered
+[04:22:54]     Radio 3 -> Male
+[04:22:54]   Q54 (?%): answered
+[04:22:57]     Radio 3 -> Male
+[04:22:57]   Q55 (?%): answered
+[04:22:59]     Radio 3 -> Male
+[04:22:59]   Q56 (?%): answered
+[04:23:01]   Survey: https://screener.purespectrum.com/?survey_id=51261381&suppli
+[04:23:01]   Running: https://screener.purespectrum.com/?survey_id=51261381&suppli
+[04:23:01]     Radio 3 -> Male
+[04:23:01]   Q57 (?%): answered
+[04:23:03]     Text answered
+[04:23:03]   Q1 (33%): answered
+[04:23:04]     Radio 3 -> Male
+[04:23:04]   Q58 (?%): answered
+[04:23:06]     Next clicked
+[04:23:06]   Q2 (33%): answered
+[04:23:06]     Radio 3 -> Male
+[04:23:06]   Q59 (?%): answered
+[04:23:08]     Next clicked
+[04:23:08]   Q3 (33%): answered
+[04:23:08]     Radio 3 -> Male
+[04:23:08]   Q60 (?%): answered
+[04:23:10]     Next clicked
+[04:23:10]   Q4 (33%): answered
+[04:23:10]     Radio 3 -> Male
+[04:23:10]   Q61 (?%): answered
+[04:23:12]     Next clicked
+[04:23:12]   Q5 (33%): answered
+[04:23:12]     Radio 3 -> Male
+[04:23:12]   Q62 (?%): answered
+[04:23:14]     Next clicked
+[04:23:14]   Too many Next-only clicks, ending survey
+[04:23:15]   Q6 (%): stuck
+[04:23:15]   Ended: stuck
+[04:23:15]     Radio 3 -> Male
+[04:23:15]   Q63 (?%): answered
+[04:23:17]     Radio 3 -> Male
+[04:23:17]   Q64 (?%): answered
+[04:23:19]     Radio 3 -> Male
+[04:23:19]   Q65 (?%): answered
+[04:23:20] Waiting 30s...
+[04:23:21]     Radio 3 -> Male
+[04:23:21]   Q66 (?%): answered
+[04:23:23]     Radio 3 -> Male
+[04:23:23]   Q67 (?%): answered
+[04:23:26]     Radio 3 -> Male
+[04:23:26]   Q68 (?%): answered
+[04:23:28]     Radio 3 -> Male
+[04:23:28]   Q69 (?%): answered
+[04:23:30]     Radio 3 -> Male
+[04:23:30]   Q70 (?%): answered
+[04:23:32]     Radio 3 -> Male
+[04:23:32]   Q71 (?%): answered
+[04:23:34]     Radio 3 -> Male
+[04:23:34]   Q72 (?%): answered
+[04:23:36]     Radio 3 -> Male
+[04:23:36]   Q73 (?%): answered
+[04:23:38]     Radio 3 -> Male
+[04:23:38]   Q74 (?%): answered
+[04:23:40]     Radio 3 -> Male
+[04:23:40]   Q75 (?%): answered
+[04:23:42]     Radio 3 -> Male
+[04:23:42]   Q76 (?%): answered
+[04:23:44]     Radio 3 -> Male
+[04:23:44]   Q77 (?%): answered
+[04:23:46]     Radio 3 -> Male
+[04:23:46]   Q78 (?%): answered
+[04:23:48]     Radio 3 -> Male
+[04:23:48]   Q79 (?%): answered
+[04:23:50] --- Poll 45 ---
+[04:23:50]     Radio 3 -> Male
+[04:23:50]   Q80 (?%): answered
+[04:23:52]     Radio 3 -> Male
+[04:23:52]   Q81 (?%): answered
+[04:23:53]   Trying #73855101 ($1.25, 8min)
+[04:23:55]     Radio 3 -> Male
+[04:23:55]   Q82 (?%): answered
+[04:23:57]     Radio 3 -> Male
+[04:23:57]   Q83 (?%): answered
+[04:23:59]     Radio 3 -> Male
+[04:23:59]   Q84 (?%): answered
+[04:24:01]     Radio 3 -> Male
+[04:24:01]   Q85 (?%): answered
+[04:24:03]     Radio 3 -> Male
+[04:24:03]   Q86 (?%): answered
+[04:24:04]     Screen Q1: radio -> Don't know Other Diesel e
+[04:24:05]     Radio 3 -> Male
+[04:24:05]   Q87 (?%): answered
+[04:24:07]     Radio 3 -> Male
+[04:24:07]   Q88 (?%): answered
+[04:24:07]     Screen Q2: 31 checkboxes
+[04:24:09]     Radio 3 -> Male
+[04:24:09]   Q89 (?%): answered
+[04:24:10]     Screen Q3: 7 checkboxes
+[04:24:11]     Radio 3 -> Male
+[04:24:11]   Q90 (?%): answered
+[04:24:13]     Radio 3 -> Male
+[04:24:13]   Q91 (?%): answered
+[04:24:13]   Qualified!
+[04:24:15]     Radio 3 -> Male
+[04:24:15]   Q92 (?%): answered
+[04:24:17]     Radio 3 -> Male
+[04:24:17]   Q93 (?%): answered
+[04:24:19]     Radio 3 -> Male
+[04:24:19]   Q94 (?%): answered
+[04:24:21]     Radio 3 -> Male
+[04:24:21]   Q95 (?%): answered
+[04:24:23]     Radio 3 -> Male
+[04:24:23]   Q96 (?%): answered
+[04:24:26]     Radio 3 -> Male
+[04:24:26]   Q97 (?%): answered
+[04:24:26]   Survey: https://screener.purespectrum.com/?survey_id=51043973&suppli
+[04:24:26]   Running: https://screener.purespectrum.com/?survey_id=51043973&suppli
+[04:24:28]     Radio 3 -> Male
+[04:24:28]   Q98 (?%): answered
+[04:24:29]     Text answered
+[04:24:29]   Q1 (33%): answered
+[04:24:30]     Radio 3 -> Male
+[04:24:30]   Q99 (?%): answered
+[04:24:31]     Next clicked
+[04:24:31]   Q2 (33%): answered
+[04:24:33]     Radio 3 -> Male
+[04:24:33]   Q100 (?%): answered
+[04:24:33]     Next clicked
+[04:24:33]   Q3 (33%): answered
+[04:24:35]     Radio 3 -> Male
+[04:24:35]   Q101 (?%): answered
+[04:24:36]     Next clicked
+[04:24:36]   Q4 (33%): answered
+[04:24:37]     Radio 3 -> Male
+[04:24:37]   Q102 (?%): answered
+[04:24:38]     Next clicked
+[04:24:38]   Q5 (33%): answered
+[04:24:39]     Radio 3 -> Male
+[04:24:39]   Q103 (?%): answered
+[04:24:40]     Next clicked
+[04:24:40]   Too many Next-only clicks, ending survey
+[04:24:40]   Q6 (%): stuck
+[04:24:40]   Ended: stuck
+[04:24:41]     Radio 3 -> Male
+[04:24:41]   Q104 (?%): answered
+[04:24:44]     Radio 3 -> Male
+[04:24:44]   Q105 (?%): answered
+[04:24:45] Waiting 30s...
+[04:24:46]     Radio 3 -> Male
+[04:24:46]   Q106 (?%): answered
+[04:24:48]     Radio 3 -> Male
+[04:24:48]   Q107 (?%): answered
+[04:24:51]     Radio 3 -> Male
+[04:24:51]   Q108 (?%): answered
+[04:24:53]     Radio 3 -> Male
+[04:24:53]   Q109 (?%): answered
