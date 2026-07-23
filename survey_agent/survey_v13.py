@@ -122,11 +122,20 @@ async def answer_survey(page):
     """Answer one question on the survey page with human-like behavior."""
     try: await page.wait_for_load_state('domcontentloaded', timeout=8000)
     except: pass
-    await asyncio.sleep(human_delay(1.0, 2.5))  # Human pause before reading
+    await asyncio.sleep(human_delay(1.5, 3.0))  # Longer wait for JS-rendered content
 
     text = await se(page, 'document.body?.innerText?.substring(0,1500)||""')
     tl = (text or "").lower()
     url = page.url
+
+    # Also scan ALL frames for text and interactive elements
+    all_text = tl
+    for frame in page.frames[1:]:
+        try:
+            ftext = await asyncio.wait_for(frame.evaluate('document.body?.innerText?.substring(0,500)||""'), timeout=3)
+            if ftext and ftext.strip():
+                all_text += " " + ftext.lower()
+        except: pass
 
     # Completion/disqualification checks
     if "you have earned" in tl or "congratulations" in tl or "successfully completed" in tl:
@@ -147,7 +156,7 @@ async def answer_survey(page):
             return "recaptcha"
 
     # Landing page — "BEGIN SURVEY" link, "Start Survey", etc.
-    if ('begin survey' in tl or 'start survey' in tl or 'survey length' in tl) and 'agree' not in tl:
+    if ('begin survey' in tl or 'survey length' in tl) and 'agree and' not in tl and 'i agree' not in tl:
         clicked = await se(page, r'''()=>{const a=document.querySelector('#takesurveybtn,a[href*="pstart"]');if(a){a.click();return true}const els=document.querySelectorAll('a,button');for(const el of els){const t=el.textContent?.trim()?.toLowerCase()||"";if(t.includes('begin survey')||t==='start'){el.click();return true}}return false}''')
         if clicked:
             log("    Landing page clicked")
@@ -259,8 +268,33 @@ async def answer_survey(page):
         log("    Text answered")
         return "answered"
 
-    # Select
-    sel_ok = await se(page, r'''()=>{const s=document.querySelectorAll('select');if(s.length===0)return false;for(const x of s){if(x.options.length>1){x.selectedIndex=1;x.dispatchEvent(new Event('change',{bubbles:true}))}}return true}''')
+    # Select — use match_answer for profile-based selection
+    sel_ok = await se(page, r'''(q)=>{
+        const s=document.querySelectorAll('select');
+        if(s.length===0)return false;
+        for(const x of s){
+            if(x.options.length>1){
+                // Get option texts for matching
+                const opts=[...x.options].map((o,i)=>({index:i,text:o.text.trim()}));
+                // Try to match based on question context
+                const body=document.body?.innerText?.toLowerCase()||"";
+                let target=1; // default second option
+                for(const o of opts){
+                    const ot=o.text.toLowerCase();
+                    if(body.includes('income')&&(ot.includes('50')||ot.includes('60')||ot.includes('75'))){target=o.index;break}
+                    if(body.includes('age')&&(ot.includes('35')||ot.includes('39'))){target=o.index;break}
+                    if(body.includes('gender')&&ot.includes('male')){target=o.index;break}
+                    if(body.includes('education')&&(ot.includes('bachelor')||ot.includes('college'))){target=o.index;break}
+                    if(body.includes('employment')&&(ot.includes('self')||ot.includes('full'))){target=o.index;break}
+                    if(body.includes('state')&&ot.includes('texas')){target=o.index;break}
+                    if(body.includes('how often')&&!ot.includes('never')&&!ot.includes('daily')){target=o.index;break}
+                }
+                x.selectedIndex=Math.min(target,x.options.length-1);
+                x.dispatchEvent(new Event('change',{bubbles:true}));
+            }
+        }
+        return true;
+    }''')
     if sel_ok:
         await asyncio.sleep(human_delay(0.5, 1.0))
         await cua_click(page, 'button:has-text("Next"), button:has-text("Continue")')
@@ -298,6 +332,45 @@ async def answer_survey(page):
         await cua_click(page, 'button:has-text("Next"), button:has-text("Continue"), button:has-text("Submit")')
         log("    Checkbox answered")
         return "answered"
+
+    # Scan iframes for interactive elements (survey platforms often use iframes)
+    for frame in page.frames[1:]:
+        try:
+            frame_result = await asyncio.wait_for(frame.evaluate(r'''() => {
+                const rbs = document.querySelectorAll('input[type="radio"]');
+                const cbs = document.querySelectorAll('input[type="checkbox"]');
+                const tas = document.querySelectorAll('textarea:not([disabled])');
+                const sels = document.querySelectorAll('select');
+                const inps = document.querySelectorAll('input[type="text"]:not([type="hidden"]):not([disabled])');
+                return {r: rbs.length, cb: cbs.length, ta: tas.length, sel: sels.length, inp: inps.length};
+            }'''), timeout=3)
+            
+            if frame_result and (frame_result.get('r',0) > 0 or frame_result.get('cb',0) > 0 or frame_result.get('ta',0) > 0):
+                # Found elements in iframe — answer there
+                q_text = await asyncio.wait_for(frame.evaluate('document.body?.innerText?.substring(0,300)||""'), timeout=3)
+                
+                if frame_result.get('r',0) > 0:
+                    target = match_answer(q_text.lower(), [])
+                    await asyncio.wait_for(frame.evaluate('(i)=>{const r=document.querySelectorAll("input[type=\\"radio\\"]");if(i<r.length)r[i].click()}', target), timeout=3)
+                    log("    iframe radio answered")
+                    await asyncio.sleep(human_delay(0.5, 1.0))
+                    # Click Next in frame or parent
+                    await frame.evaluate(r'''()=>{const btns=document.querySelectorAll('button,input[type="submit"],a');for(const b of btns){const t=b.textContent?.trim()?.toLowerCase()||"";if(t.includes('next')||t.includes('continue')||t.includes('submit')){b.click();return true}}return false}''')
+                    return "answered"
+                
+                if frame_result.get('cb',0) > 0:
+                    await asyncio.wait_for(frame.evaluate(r'''()=>{const c=document.querySelectorAll('input[type="checkbox"]');for(const cb of c){if(!cb.checked)cb.click()}return c.length}'''), timeout=3)
+                    log("    iframe checkbox answered")
+                    await asyncio.sleep(human_delay(0.5, 1.0))
+                    await frame.evaluate(r'''()=>{const btns=document.querySelectorAll('button,input[type="submit"],a');for(const b of btns){const t=b.textContent?.trim()?.toLowerCase()||"";if(t.includes('next')||t.includes('continue')||t.includes('submit')){b.click();return true}}return false}''')
+                    return "answered"
+                
+                if frame_result.get('ta',0) > 0:
+                    await asyncio.wait_for(frame.evaluate(r'''()=>{const ta=document.querySelector('textarea:not([disabled])');if(ta){ta.value="I carefully consider my options.";ta.dispatchEvent(new Event('input',{bubbles:true}))}return !!ta}'''), timeout=3)
+                    log("    iframe textarea answered")
+                    await asyncio.sleep(human_delay(0.5, 1.0))
+                    return "answered"
+        except: pass
 
     # Next fallback — JS click first (fast), then cua_click as backup
     clicked = await se(page, r'''()=>{const btns=document.querySelectorAll('button,input[type="submit"],a,input[type="button"]');for(const b of btns){const t=b.textContent?.trim()?.toLowerCase()||b.value?.trim()?.toLowerCase()||"";if(t.includes('next')||t.includes('continue')||t.includes('submit')||t.includes('>>')||t.includes('→')){b.scrollIntoView({block:'center'});b.click();return true}}return false}''')

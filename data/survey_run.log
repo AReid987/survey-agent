@@ -29083,3 +29083,175 @@ Trying #73867181 ($0.31, 7min)
 [10:00:42] 
 Trying #73805878 ($1.58, 27min)
 [10:00:59]   Not qualified (screening)
+[10:01:03] 
+Trying #73875743 ($0.29, 6min)
+[10:01:20]     Screen: 9 checkboxes
+[10:01:23]     Screen: 7 checkboxes
+[10:01:26]   Qualified!
+[10:01:45]   Survey: https://dkr1.ssisurveys.com/projects/rex?access_key=A9C31374
+[10:01:58]   Consent accepted
+[10:02:02]   Q1 (?%): stuck
+[10:02:02]   Ended: stuck
+[10:02:04] 
+Trying #73737964 ($0.29, 5min)
+[10:02:10]   clickSurvey error
+[10:02:10] 
+Trying #73866442 ($0.25, 7min)
+[10:02:16]   clickSurvey error
+[10:02:16] 
+Trying #73866305 ($0.23, 7min)
+[10:03:00] ============================================================
+[10:03:00] SURVEY AGENT v13 — CUA + Playwright hybrid
+[10:03:00] ============================================================
+[10:03:02] Connected (retry 0)
+[10:03:11] Surveys: 14
+[10:03:11] 
+Trying #73805878 ($1.58, 27min)
+[10:03:28]   Not qualified (screening)
+[10:03:32] 
+Trying #73886046 ($0.31, 7min)
+[10:03:49]   Qualified!
+[10:04:08]   Survey: https://sentry.cloudresearch.com/entry/019f8ade-6b3d-7665-8d
+[10:04:11]     reCAPTCHA detected — can't solve
+[10:04:11]   Q1 (?%): recaptcha
+[10:04:11]   Ended: recaptcha
+[10:04:13] 
+Trying #73866305 ($0.23, 7min)
+[10:04:30]   Qualified!
+[10:04:49]   Survey: https://welcome.walr.com/sentry?WID=21a4e7c1-33bf-4a7c-b245-
+[10:05:05]   Q1 (?%): stuck
+[10:05:05]   Ended: stuck
+[10:05:10] 
+Trying #73689802 ($0.21, 8min)
+[10:05:27]   Qualified!
+[10:05:46]   Survey: https://www.surveymeasure.com/surveys/42c10156187dd7acd1cc80
+[10:05:48]   Q1 (?%): stuck
+[10:05:48]   Ended: stuck
+[10:05:53] 
+Trying #73690352 ($0.19, 6min)
+[10:05:59]   clickSurvey error
+[10:05:59] Reconnect in 15s (1/10)...
+[10:06:15] Connected (retry 1)
+[10:06:24] Surveys: 9
+[10:06:24] 
+Trying #73805878 ($1.58, 27min)
+[10:07:37] ============================================================
+[10:07:37] SURVEY AGENT v13 — CUA + Playwright hybrid
+[10:07:37] ============================================================
+[10:07:38] Connected (retry 0)
+[10:07:47] Surveys: 12
+[10:07:47] 
+Trying #73805878 ($1.58, 27min)
+[10:08:04]   Not qualified (screening)
+[10:08:08] 
+Trying #73887104 ($1.06, 6min)
+[10:08:24]   Qualified!
+[10:08:44]   Survey: https://enter.ipsosinteractive.com/question/?p=T%2BRP8CT5pnR
+[10:08:58]     Select answered
+[10:08:58]   Q1 (?%): answered
+[10:09:12]     Select answered
+[10:09:12]   Q2 (?%): answered
+[10:09:25]     Select answered
+[10:09:26]   Q3 (?%): answered
+[10:09:40]     Select answered
+[10:09:40]   Q4 (?%): answered
+[10:09:54]     Select answered
+[10:09:54]   Q5 (?%): answered
+[10:10:08]     Select answered
+[10:10:08]   Q6 (?%): answered
+[10:10:21]     Select answered
+[10:10:21]   Q7 (?%): answered
+[10:10:35]     Select answered
+[10:10:35]   Q8 (?%): answered
+[10:10:49]     Select answered
+[10:10:49]   Q9 (?%): answered
+[10:11:02]     Select answered
+[10:11:02]   Q10 (?%): answered
+[10:11:16]     Select answered
+[10:11:16]   Q11 (?%): answered
+[10:11:31]     Select answered
+[10:11:31]   Q12 (?%): answered
+[10:11:45]     Select answered
+[10:11:45]   Q13 (?%): answered
+[10:11:59]     Select answered
+[10:11:59]   Q14 (?%): answered
+[10:12:14]     Select answered
+[10:12:14]   Q15 (?%): answered
+[10:12:28]     Select answered
+[10:12:28]   Q16 (?%): answered
+[10:12:43]     Select answered
+[10:12:44]   Q17 (?%): answered
+[10:12:58]     Select answered
+[10:12:58]   Q18 (?%): answered
+[10:13:12]     Select answered
+[10:13:12]   Q19 (?%): answered
+[10:13:26]     Select answered
+[10:13:26]   Q20 (?%): answered
+[10:13:41]     Select answered
+[10:13:41]   Q21 (?%): answered
+[10:13:54]     Select answered
+[10:13:54]   Q22 (?%): answered
+[10:14:09]     Select answered
+[10:14:09]   Q23 (?%): answered
+[10:14:24]     Select answered
+[10:14:24]   Q24 (?%): answered
+[10:14:39]     Select answered
+[10:14:39]   Q25 (?%): answered
+[10:14:54]     Select answered
+[10:14:54]   Q26 (?%): answered
+[10:15:07]     Select answered
+[10:15:07]   Q27 (?%): answered
+[10:15:21]     Select answered
+[10:15:21]   Q28 (?%): answered
+[10:15:36]     Select answered
+[10:15:36]   Q29 (?%): answered
+[10:16:53] ============================================================
+[10:16:53] SURVEY AGENT v13 — CUA + Playwright hybrid
+[10:16:53] ============================================================
+[10:16:54] Connected (retry 0)
+[10:17:03] Surveys: 11
+[10:17:03] 
+Trying #73805878 ($1.58, 27min)
+[10:17:19]   Not qualified (screening)
+[10:17:23] 
+Trying #73886949 ($0.53, 6min)
+[10:17:41]   Qualified!
+[10:18:00]   Survey: https://surveys.lifepointspanel.com/survey/selfserve/1ab8/26
+[10:18:02]     Radio 5 -> Neither good nor bad
+[10:18:14]   Q1 (0%): answered
+[10:18:17]     Radio 5 -> Neither good nor bad
+[10:18:29]   Q2 (0%): answered
+[10:18:31]     Radio 5 -> Neither good nor bad
+[10:18:44]   Q3 (0%): answered
+[10:18:45]     Radio 5 -> Neither good nor bad
+[10:18:57]   Q4 (0%): answered
+[10:18:59]     Radio 5 -> Neither good nor bad
+[10:19:11]   Q5 (0%): answered
+[10:19:13]     Radio 5 -> Neither good nor bad
+[10:19:26]   Q6 (0%): answered
+[10:19:26]   Bot trap: same answer 5x, ending
+[10:19:26]   Ended: stuck
+[10:19:29] 
+Trying #73879214 ($0.29, 4min)
+[10:19:35]   clickSurvey error
+[10:19:35] 
+Trying #73306067 ($0.16, 7min)
+[10:19:52]   Qualified!
+[10:20:12]   Survey: https://s.us.walr.com/?rse=0nUdR5g1ufGwmMFwt-uEFgutdlm2xM3Oh
+[10:20:15]     Radio 2 -> I don't want to proceed w
+[10:20:18]   Q1 (?%): answered
+[10:20:23]     Select answered
+[10:20:23]   Q2 (?%): answered
+[10:20:26]   Q3 (?%): disq
+[10:20:26]   Ended: disq
+[10:20:29] 
+Trying #73800808 ($0.13, 5min)
+[10:20:47]   Qualified!
+[10:21:07]   Survey: https://s.us.walr.com/?rse=vOkqkGofglhSc9kEyHnUu2klJ6mHX_LYb
+[10:21:11]     Radio 2 -> I don't want to proceed w
+[10:21:14]   Q1 (?%): answered
+[10:21:19]     Select answered
+[10:21:19]   Q2 (?%): answered
+[10:21:22]   Q3 (?%): disq
+[10:21:22]   Ended: disq
+[10:21:26] Reconnect in 15s (1/10)...
