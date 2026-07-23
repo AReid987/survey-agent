@@ -75,8 +75,19 @@ def match_answer(q, opts):
             if 'never' not in ot and 'daily' not in ot:
                 return opt['index']
     
-    # Default: pick second option (moderate)
-    return valid[min(1, len(valid)-1)]['index']
+    # Blacklist — never pick these options
+    blacklist_opts = ['don\'t want', 'do not want', 'prefer not', 'none of the above',
+                      'none of these', 'i don\'t', 'i do not', 'not interested',
+                      'rather not', 'decline', 'refuse', 'skip']
+    for opt in valid:
+        ot = opt.get('text', '').lower().strip()
+        if any(k in ot for k in blacklist_opts):
+            continue
+        # Pick first non-blacklisted option
+        return opt['index']
+    # Fallback: random valid option
+    import random
+    return random.choice(valid)['index'] if valid else 0
 
 async def cua_click(page, selector_or_coords, delay=True):
     """Click element using CUA (realistic mouse movement) or Playwright force click.
@@ -601,7 +612,7 @@ async def main():
 
                                 # Bot trap detection
                                 if result == "answered":
-                                    # Check last log line for "Next clicked"
+                                    # Check last log line
                                     last_log_line = ""
                                     try:
                                         with open(LOG) as f:
@@ -609,7 +620,12 @@ async def main():
                                             last_log_line = lines[-2] if len(lines) >= 2 else ""
                                     except: pass
                                     
-                                    if "Next clicked" in last_log_line:
+                                    # Extract answer text without timestamp
+                                    import re as _re
+                                    answer_text = _re.sub(r'^\[.*?\]\s*', '', last_log_line).strip()
+                                    
+                                    # Next-only detection
+                                    if "Next clicked" in answer_text:
                                         next_only_count += 1
                                         if next_only_count >= 5:
                                             log("  Bot trap: 5 Next-only clicks, ending")
@@ -619,20 +635,17 @@ async def main():
                                     else:
                                         next_only_count = 0
                                     
-                                    # Same answer detection — extract answer text without timestamp
-                                    import re as _re
-                                    answer_text = _re.sub(r'^\[.*?\]\s*', '', last_log_line).strip()
-                                    if "Radio" in answer_text:
-                                        if answer_text == last_answer_text:
-                                            same_answer_count += 1
-                                            if same_answer_count >= 5:
-                                                log("  Bot trap: same answer 5x, ending")
-                                                try: await sp.close()
-                                                except: pass
-                                                result = "stuck"
-                                        else:
-                                            same_answer_count = 0
-                                        last_answer_text = answer_text
+                                    # Same answer detection — works for Radio, Select, Next, etc.
+                                    if answer_text and answer_text == last_answer_text:
+                                        same_answer_count += 1
+                                        if same_answer_count >= 5:
+                                            log("  Bot trap: same answer 5x, ending")
+                                            try: await sp.close()
+                                            except: pass
+                                            result = "stuck"
+                                    else:
+                                        same_answer_count = 0
+                                    last_answer_text = answer_text
 
                                 if result == "completed":
                                     log("*** SURVEY COMPLETED! ***")

@@ -29255,3 +29255,104 @@ Trying #73800808 ($0.13, 5min)
 [10:21:22]   Q3 (?%): disq
 [10:21:22]   Ended: disq
 [10:21:26] Reconnect in 15s (1/10)...
+[10:21:42] Connected (retry 1)
+[10:21:51] Surveys: 6
+[10:21:51] 
+Trying #73805878 ($1.58, 27min)
+[10:22:08]   Not qualified (screening)
+[10:22:12] 
+Trying #73634846 ($0.12, 3min)
+[10:22:29]   Qualified!
+[10:22:48]   Survey: https://s.us.walr.com/?rse=v22ZX5Bo6-8RorPmPofakHBCklRXvKIVy
+[10:22:52]     Radio 2 -> I don't want to proceed w
+[10:22:56]   Q1 (?%): answered
+[10:22:59]   Q2 (?%): disq
+[10:22:59]   Ended: disq
+[10:23:02] 
+Trying #72656106 ($0.11, 6min)
+[10:23:21]   Qualified!
+[10:23:39]   Survey: https://www.surveymeasure.com/surveys/06f6aa67165d661705c5d2
+[10:23:41]   Q1 (?%): stuck
+[10:23:41]   Ended: stuck
+[10:23:46] 
+Trying #72656103 ($0.11, 6min)
+[10:24:03]   Qualified!
+[10:24:22]   Survey: https://www.surveymeasure.com/surveys/1806c54c3d4f630025d979
+[10:24:53] ============================================================
+[10:24:53] SURVEY AGENT v13 — CUA + Playwright hybrid
+[10:24:53] ============================================================
+[10:24:54] Connected (retry 0)
+[10:25:03] Surveys: 3
+[10:25:03] 
+Trying #73805878 ($1.58, 27min)
+[10:25:19]   Not qualified (screening)
+[10:25:23] 
+Trying #73838208 ($0.09, 3min)
+[10:25:39]   Qualified!
+[10:25:58]   Survey: https://afogroup.decipherinc.com/survey/selfserve/53b/g022/2
+[10:26:00]     reCAPTCHA detected — can't solve
+[10:26:00]   Q1 (?%): recaptcha
+[10:26:00]   Ended: recaptcha
+[10:26:05] 
+Trying #73838209 ($0.06, 3min)
+[10:26:11]   clickSurvey error
+[10:26:11] Reconnect in 15s (1/10)...
+[10:26:27] Connected (retry 1)
+[10:26:36] Surveys: 3
+[10:26:36] 
+Trying #73805878 ($1.58, 27min)
+[10:26:52]   Qualified!
+[10:27:11]   Survey: https://enter.ipsosinteractive.com/question/?p=T%2BRP8CT5pnR
+[10:27:25]     Select answered
+[10:27:25]   Q1 (?%): answered
+[10:27:39]     Select answered
+[10:27:39]   Q2 (?%): answered
+[10:27:53]     Select answered
+[10:27:53]   Q3 (?%): answered
+[10:28:06]     Select answered
+[10:28:06]   Q4 (?%): answered
+[10:28:20]     Select answered
+[10:28:20]   Q5 (?%): answered
+[10:28:35]     Select answered
+[10:28:35]   Q6 (?%): answered
+[10:28:49]     Select answered
+[10:28:49]   Q7 (?%): answered
+[10:29:04]     Select answered
+[10:29:04]   Q8 (?%): answered
+[10:29:17]     Select answered
+[10:29:17]   Q9 (?%): answered
+[10:29:32]     Select answered
+[10:29:32]   Q10 (?%): answered
+[10:29:46]     Select answered
+[10:29:46]   Q11 (?%): answered
+[10:32:17] ============================================================
+[10:32:17] SURVEY AGENT v13 — CUA + Playwright hybrid
+[10:32:17] ============================================================
+[10:32:19] Connected (retry 0)
+[10:32:28] Surveys: 2
+[10:32:28] 
+Trying #73805878 ($1.58, 27min)
+[10:32:45]   Not qualified (screening)
+[10:32:48] 
+Trying #73890720 ($1.01, 6min)
+[10:33:05]     Screen: 67 checkboxes
+[10:33:08]   Not qualified (screening)
+[10:33:12] Reconnect in 15s (1/10)...
+[10:33:31] Connected (retry 1)
+[10:33:40] Surveys: 1
+[10:33:40] 
+Trying #73805878 ($1.58, 27min)
+[10:33:57]   Not qualified (screening)
+[10:34:02] Reconnect in 15s (2/10)...
+[10:34:25] Connected (retry 2)
+[10:34:34] Surveys: 1
+[10:34:34] 
+Trying #73805878 ($1.58, 27min)
+[10:34:52]   Not qualified (screening)
+[10:34:56] Reconnect in 15s (3/10)...
+[10:35:19] Connected (retry 3)
+[10:35:31] Surveys: 2
+[10:35:31] 
+Trying #73805878 ($1.58, 27min)
+[10:35:48]   Qualified!
+[10:36:12]   Survey: https://enter.ipsosinteractive.com/question/?p=T%2BRP8CT5pnR
