@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Survey agent v8 — handles both /router/go and /surveys/pre/ URLs.
 Clicks TAKE SURVEY from dashboard, follows new tab, handles all page types."""
+import os
 import asyncio, base64, json, os, re, subprocess, time
 from collections import Counter
 from datetime import datetime
@@ -139,7 +140,7 @@ async def ensure_logged_in(page):
         log("  Logging in...")
         await page.fill('#UserEmail', 'read.musik@gmail.com')
         await page.wait_for_timeout(300)
-        await page.fill('#UserPassword', 'Th3wayto12!')
+        await page.fill('#UserPassword', os.environ["BRANDED_SURVEYS_PASSWORD"])
         await page.wait_for_timeout(300)
         await page.evaluate('document.querySelector("form").submit()')
         await page.wait_for_timeout(8000)
