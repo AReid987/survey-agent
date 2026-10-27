@@ -136,15 +136,43 @@ class PlaywrightEngine(BrowserEngine):
             ctx_kwargs = fingerprint.to_context_kwargs()
             ctx_kwargs.update(kwargs)
 
-            self._persistent_context = await self._playwright.chromium.launch_persistent_context(
-                user_data_dir=str(self._session_dir),
-                headless=headless,
-                args=[
-                    "--disable-blink-features=AutomationControlled",
-                    "--no-sandbox",
-                ],
-                **ctx_kwargs,
-            )
+            # If a previous Chromium version left incompatible pickles
+            # (e.g. FormFieldData pickle version 10), the launch will crash
+            # with TargetClosedError. Detect and auto-recover by clearing it.
+            try:
+                self._persistent_context = await self._playwright.chromium.launch_persistent_context(
+                    user_data_dir=str(self._session_dir),
+                    headless=headless,
+                    args=[
+                        "--disable-blink-features=AutomationControlled",
+                        "--no-sandbox",
+                    ],
+                    **ctx_kwargs,
+                )
+            except Exception as exc:
+                msg = str(exc).lower()
+                if "pickle version" in msg or "target page, context or browser has been closed" in msg:
+                    logger.warning(
+                        "Persistent session corrupted (%s) — clearing %s and retrying", exc, self._session_dir
+                    )
+                    import shutil  # noqa: PLC0415
+
+                    try:
+                        shutil.rmtree(str(self._session_dir))
+                    except Exception:
+                        pass
+                    self._session_dir.mkdir(parents=True, exist_ok=True)
+                    self._persistent_context = await self._playwright.chromium.launch_persistent_context(
+                        user_data_dir=str(self._session_dir),
+                        headless=headless,
+                        args=[
+                            "--disable-blink-features=AutomationControlled",
+                            "--no-sandbox",
+                        ],
+                        **ctx_kwargs,
+                    )
+                else:
+                    raise
 
             # Apply stealth to the persistent context
             stealth = Stealth()

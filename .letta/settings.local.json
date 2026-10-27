@@ -1,0 +1,13 @@
+{
+  "lastAgent": "agent-local-222b3361-169f-45f5-83af-041895586608",
+  "sessionsByServer": {
+    "local:/Users/antonioreid/.letta/lc-local-backend": {
+      "agentId": "agent-local-222b3361-169f-45f5-83af-041895586608",
+      "conversationId": "default"
+    }
+  },
+  "lastSession": {
+    "agentId": "agent-local-222b3361-169f-45f5-83af-041895586608",
+    "conversationId": "default"
+  }
+}

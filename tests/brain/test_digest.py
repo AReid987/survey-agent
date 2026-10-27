@@ -16,14 +16,16 @@ def _write_profile(data_dir, profile):
 
 def _bootstrap_promotions(store: FailureStore) -> None:
     for i in range(3):
-        store.append(EventRecord(
-            event_id=f"7f3a0000-0000-4000-8000-00000000000{i}",
-            site="branded_surveys",
-            event_type="captcha_failed",
-            context_hash="a" * 64,
-            session_id=f"sess-{i}",
-            created_at="2026-07-16T14:30:22+00:00",
-        ))
+        store.append(
+            EventRecord(
+                event_id=f"7f3a0000-0000-4000-8000-00000000000{i}",
+                site="branded_surveys",
+                event_type="captcha_failed",
+                context_hash="a" * 64,
+                session_id=f"sess-{i}",
+                created_at="2026-07-16T14:30:22+00:00",
+            )
+        )
     last = EventRecord(
         event_id="7f3a0000-0000-4000-8000-0000000000ff",
         site="branded_surveys",

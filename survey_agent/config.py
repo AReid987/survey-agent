@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 import yaml
@@ -11,6 +12,30 @@ DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 DATA_DIR.mkdir(exist_ok=True)
 
 CONFIG_PATH = DATA_DIR / "config.yaml"
+
+
+def _load_project_env() -> None:
+    """Load project-local secrets from data/.env into os.environ.
+
+    Precedence: existing os.environ > data/.env values. This makes
+    project-scoped API keys visible to code paths that use os.environ
+    directly, while still honoring explicitly-set env vars.
+    """
+    env_path = DATA_DIR / ".env"
+    if not env_path.exists():
+        return
+    for line in env_path.read_text().splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        key = key.strip()
+        value = value.strip()
+        if key and key not in os.environ and value:
+            os.environ[key] = value
+
+
+_load_project_env()
 
 
 class ScheduleConfig(BaseModel):
@@ -25,6 +50,12 @@ class ScheduleConfig(BaseModel):
     lunch_start: str = "12:00"
     lunch_duration_minutes: int = 30
     heartbeat_interval_seconds: int = 30
+
+    # Daemon cycle: random surveys per cycle and pause between cycles
+    min_surveys_per_cycle: int = 5
+    max_surveys_per_cycle: int = 10
+    min_pause_minutes: int = 15
+    max_pause_minutes: int = 45
 
 
 class AccountConfig(BaseModel):
@@ -49,6 +80,11 @@ class AppConfig(BaseModel):
     max_concurrent_sessions: int = 1
     schedule: ScheduleConfig = Field(default_factory=ScheduleConfig)
     account: AccountConfig = Field(default_factory=AccountConfig)
+
+    # Owner notification (docs/adr/0002): text at payout thresholds instead of
+    # withdrawing automatically. Empty list disables threshold texts.
+    payout_thresholds: list[float] = Field(default_factory=lambda: [1000.0, 2500.0, 5000.0])
+    notify_enabled: bool = True
 
     # LLM provider settings (default for all backends)
     llm_provider: str = "gemini"  # gemini, groq, mistral, openai, openai-compatible, cerebras

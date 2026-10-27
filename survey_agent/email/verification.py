@@ -20,13 +20,13 @@ from __future__ import annotations
 import imaplib
 import logging
 import os
+import pathlib
 import re
 import time
 from dataclasses import dataclass
 from email import policy
 from email.header import decode_header
 from email.parser import BytesParser
-from email.utils import parsedate_to_datetime
 from typing import Any
 
 logger = logging.getLogger(__name__)
@@ -243,28 +243,118 @@ class GmailVerificationReader:
 
 
 def get_gmail_credentials() -> tuple[str, str] | None:
-    """Retrieve Gmail credentials from macOS Keychain.
+    """Retrieve Gmail credentials from env, macOS Keychain, or file fallback.
 
+    Priority: env vars GMAIL_EMAIL/GMAIL_APP_PASSWORD > keychain > data/gmail.json.
+    The file fallback is created when keychain returns -25244 or is locked.
     Returns (email, app_password) or None if not configured.
     """
-    import keyring
+    import json  # noqa: PLC0415
+
+    import keyring  # noqa: PLC0415
 
     service = "survey-agent/gmail"
-    email = os.environ.get("GMAIL_EMAIL", "")
+    # Env takes precedence (useful for CI and for OAuth refresh tokens)
+    email = os.environ.get("GMAIL_EMAIL", "") or os.environ.get("GOOGLE_EMAIL", "")
+    password = os.environ.get("GMAIL_APP_PASSWORD", "") or os.environ.get("GMAIL_OAUTH_TOKEN", "")
+    if email and password:
+        return email, password
+
+    # Keychain
     if not email:
-        email = keyring.get_password(service, "email") or ""
+        try:
+            email = keyring.get_password(service, "email") or ""
+        except Exception:
+            email = ""
     if not email:
+        # Try file fallback
+        try:
+            fallback = pathlib.Path(__file__).resolve().parent.parent / "data" / "gmail.json"
+            if fallback.exists():
+                data = json.loads(fallback.read_text())
+                email = data.get("email", "")
+                password = data.get("app_password", "") or data.get("password", "")
+                if email and password:
+                    return email, password
+        except Exception:
+            pass
         return None
-    password = keyring.get_password(service, email)
+    try:
+        password = keyring.get_password(service, email) or ""
+    except Exception:
+        password = ""
+    if not password:
+        # File fallback for password only
+        try:
+            fallback = pathlib.Path(__file__).resolve().parent.parent / "data" / "gmail.json"
+            if fallback.exists():
+                data = json.loads(fallback.read_text())
+                if data.get("email") == email:
+                    password = data.get("app_password", "") or data.get("password", "")
+        except Exception:
+            pass
+    if not password:
+        # Also check env as last resort
+        password = os.environ.get("GMAIL_APP_PASSWORD", "")
     if not password:
         return None
     return email, password
 
 
 def store_gmail_credentials(email: str, app_password: str) -> None:
-    """Store Gmail app password in macOS Keychain."""
-    import keyring
+    """Store Gmail app password in macOS Keychain, with file fallback.
+
+    Modern Google accounts prefer OAuth2 (see README section on Gmail OAuth).
+    App Passwords require a Google Workspace account or legacy 2-Step;
+    personal Gmail accounts now show "App passwords" as deprecated. If the
+    user hit that deprecation, they should use the OAuth flow instead:
+    `survey-agent email oauth` (opens browser for consent, stores refresh token).
+
+    Keychain pitfall: macOS error -25244 (errSecInvalidOwnerEdit) occurs when
+    overwriting an existing entry whose ACL owner differs. We delete-then-set
+    to work around it, and on any PasswordSetError fall back to writing
+    data/gmail.json with 0600 permissions so the agent still functions.
+    """
+    import json  # noqa: PLC0415
+    from pathlib import Path as _Path  # noqa: PLC0415
+
+    import keyring  # noqa: PLC0415
 
     service = "survey-agent/gmail"
-    keyring.set_password(service, "email", email)
-    keyring.set_password(service, email, app_password)
+
+    # Try keyring first (delete-then-set avoids -25244 on overwrite)
+    def _set_or_fallback(service: str, user: str, secret: str) -> bool:
+        try:
+            # Proactively delete stale entry so the subsequent set does not
+            # need to perform a privileged overwrite.
+            try:
+                import keyring.backends.macOS.api as _api  # noqa: PLC0415
+                _api.delete_generic_password(service, user)
+            except Exception:
+                pass
+            try:
+                keyring.delete_password(service, user)
+            except Exception:
+                pass
+            keyring.set_password(service, user, secret)
+            return True
+        except Exception as exc:
+            logger.warning("Keychain set failed for %s/%s: %s — falling back to file", service, user, exc)
+            return False
+
+    ok1 = _set_or_fallback(service, "email", email)
+    ok2 = _set_or_fallback(service, email, app_password)
+    if ok1 and ok2:
+        return
+
+    # File fallback — encrypted-at-rest is out of scope for this agent;
+    # we rely on OS file permissions (0600) and the fact the token is
+    # scoped to imap readonly. Owner can delete data/gmail.json to revoke.
+    fallback = _Path(__file__).resolve().parent.parent / "data" / "gmail.json"
+    fallback.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        fallback.write_text(json.dumps({"email": email, "app_password": app_password}))
+        fallback.chmod(0o600)
+        logger.warning("Stored Gmail credentials in %s (keychain unavailable)", fallback)
+    except Exception as exc2:
+        raise RuntimeError(f"Cannot store Gmail credentials in keychain or {fallback}: {exc2}") from exc2

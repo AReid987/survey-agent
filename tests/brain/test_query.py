@@ -28,11 +28,7 @@ def test_record_never_raises_even_on_bad_input(caplog):
     # The implementation wraps the whole body in `try/except Exception: log`,
     # so we expect a log record from the `brain` logger with `record` in the
     # message text AND no exception bubbles up to the test runner.
-    matching = [
-        r
-        for r in caplog.records
-        if r.name == "survey_agent.brain" and "record" in r.message.lower()
-    ]
+    matching = [r for r in caplog.records if r.name == "survey_agent.brain" and "record" in r.message.lower()]
     assert matching, f"expected a swallowed-log record, got: {caplog.records!r}"
 
 

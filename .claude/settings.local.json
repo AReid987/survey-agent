@@ -1,0 +1,48 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/Users/antonioreid/Library/pnpm/store/v11/links/@/agenttrail/0.1.0/2efb134c715df7e9cedef281d4aec91fcbaf45ceb7918548fda9e591b4fcde93/node_modules/agenttrail/bin/agenttrail.mjs\" hook"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/Users/antonioreid/Library/pnpm/store/v11/links/@/agenttrail/0.1.0/2efb134c715df7e9cedef281d4aec91fcbaf45ceb7918548fda9e591b4fcde93/node_modules/agenttrail/bin/agenttrail.mjs\" hook"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/Users/antonioreid/Library/pnpm/store/v11/links/@/agenttrail/0.1.0/2efb134c715df7e9cedef281d4aec91fcbaf45ceb7918548fda9e591b4fcde93/node_modules/agenttrail/bin/agenttrail.mjs\" hook"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"/Users/antonioreid/Library/pnpm/store/v11/links/@/agenttrail/0.1.0/2efb134c715df7e9cedef281d4aec91fcbaf45ceb7918548fda9e591b4fcde93/node_modules/agenttrail/bin/agenttrail.mjs\" hook"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -5,6 +5,7 @@ from __future__ import annotations
 import contextlib
 import logging
 from pathlib import Path
+from typing import Any
 
 from browser_use import Agent, Browser, Controller
 
@@ -41,6 +42,8 @@ class BrowserAgent:
         self._browser: Browser | None = None
         self._controller: Controller | None = None
         self._llm = None
+        self._llm_chain: list[dict[str, str | None]] = []
+        self._llm_index: int = 0
 
     async def start(self) -> None:
         """Start the browser."""
@@ -55,13 +58,24 @@ class BrowserAgent:
         )
         self._controller = Controller()
 
-        # Create LLM instance
+        # If no explicit API key was provided, resolve from project-local env
+        if not self._api_key:
+            try:
+                from ..browser.harness_backend import _read_zshrc_api_keys  # noqa: PLC0415
+
+                env_keys = _read_zshrc_api_keys()
+                self._api_key = env_keys.get(f"{self._provider.upper()}_API_KEY")
+            except Exception:
+                pass
+
+        # Create primary LLM instance and build fallback chain
         self._llm = get_llm(
             provider=self._provider,
             model=self._model,
             api_key=self._api_key,
             base_url=self._base_url,
         )
+        self._llm_chain = self._build_fallback_chain()
         logger.info(f"Browser agent started (provider={self._provider}, headless={self._headless})")
 
     async def stop(self) -> None:
@@ -69,6 +83,70 @@ class BrowserAgent:
         if self._browser:
             await self._browser.close()
             self._browser = None
+
+    def _build_fallback_chain(self) -> list[dict[str, str | None]]:
+        """Build a list of LLM configs to try on failure."""
+        chain: list[dict[str, str | None]] = []
+        seen_providers: set[str] = set()
+
+        def _add(provider: str, model: str | None, api_key: str | None = None, base_url: str | None = None) -> None:
+            if provider and provider not in seen_providers:
+                chain.append({"provider": provider, "model": model, "api_key": api_key, "base_url": base_url})
+                seen_providers.add(provider)
+
+        # Primary
+        _add(self._provider, self._model, self._api_key, self._base_url)
+
+        # Config fallback
+        try:
+            from ..config import load_config  # noqa: PLC0415
+
+            cfg = load_config()
+            if cfg.llm_provider and cfg.llm_provider != self._provider:
+                _add(cfg.llm_provider, cfg.llm_model or None, cfg.llm_api_key or None, cfg.llm_base_url or None)
+        except Exception:
+            pass
+
+        # Project-local keys + zsh_secrets + zshrc
+        try:
+            from ..browser.harness_backend import _read_zshrc_api_keys  # noqa: PLC0415
+
+            keys = _read_zshrc_api_keys()
+            for provider, model in [
+                ("openrouter", "minimax/minimax-m3:free"),
+                ("opencode-go", "qwen3.8-flash"),
+                ("opencode", "hy3-free"),
+                ("kilocode", "kilo-auto/free"),
+                ("mistral", "mistral-large-latest"),
+                ("cerebras", "gpt-oss-120b"),
+                ("groq", "qwen/qwen3.6-27b"),
+            ]:
+                key = keys.get(f"{provider.upper()}_API_KEY", "")
+                if key:
+                    _add(provider, model, key)
+        except Exception:
+            pass
+
+        # Local LM Studio fallback: no API key required from secret stores
+        _add("lmstudio", "prism-ml/bonsai-27b", None)
+
+        return chain
+
+    def _next_llm(self) -> Any:
+        """Return the next LLM to try from the fallback chain, skipping the primary."""
+        if not self._llm_chain or len(self._llm_chain) <= 1:
+            return self._llm
+        # Skip index 0, which is the primary LLM already in use.
+        idx = (self._llm_index + 1) % len(self._llm_chain)
+        self._llm_index += 1
+        cfg = self._llm_chain[idx]
+        logger.warning("Rotating fallback LLM to %s/%s", cfg["provider"], cfg.get("model"))
+        return get_llm(
+            provider=cfg["provider"],
+            model=cfg.get("model"),
+            api_key=cfg.get("api_key"),
+            base_url=cfg.get("base_url"),
+        )
 
     async def execute(
         self,
@@ -99,9 +177,11 @@ class BrowserAgent:
             agent = Agent(
                 task=task,
                 llm=self._llm,
+                fallback_llm=self._next_llm() if len(self._llm_chain) > 1 else None,
                 browser=self._browser,
                 controller=self._controller,
                 max_actions_per_step=5,
+                use_vision=False,
                 vision_detail_level="low",
             )
 
@@ -119,7 +199,7 @@ class BrowserAgent:
             )
         except Exception as e:
             logger.error(f"Agent error: {e}", exc_info=True)
-            # Force browser reconnection on next attempt
+            # Let execute_with_retry handle LLM rotation; just reset browser state
             self._browser = None
             return AgentResult(success=False, error=str(e))
 
@@ -129,13 +209,15 @@ class BrowserAgent:
         max_steps: int = 50,
         max_retries: int = 3,
     ) -> AgentResult:
-        """Execute with automatic retry on failure."""
+        """Execute with automatic retry on failure, rotating LLM each time."""
         result = await self.execute(task, max_steps=max_steps)
         if result.success:
             return result
 
         for attempt in range(1, max_retries):
             logger.info(f"Retry {attempt}/{max_retries}...")
+            # Rotate to a fresh LLM so retries don't keep hitting the same rate limit
+            self._llm = self._next_llm()
             retry_task = (
                 f"{task}\n\n"
                 f"IMPORTANT: Previous attempt failed: {result.error or 'unknown error'}\n"
@@ -323,7 +405,7 @@ After completing surveys (or running out), report:
 
 Be resilient. If something unexpected happens, look at the page and adapt.
 """
-        return await self._browser_agent.execute(task, max_steps=200)
+        return await self._browser_agent.execute_with_retry(task, max_steps=200, max_retries=4)
 
     async def withdraw(self, redeem_url: str, method: str = "paypal") -> AgentResult:
         """Withdraw earnings."""

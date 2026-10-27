@@ -148,9 +148,7 @@ class FixProposal(BaseModel):
     solution: str  # Proposed fix description
     implementation_steps: list[ImplementationStep] = Field(default_factory=list)
     confidence: float = Field(ge=0.0, le=1.0)
-    status: Literal[
-        "proposed", "researching", "implementing", "verified", "applied", "failed"
-    ] = "proposed"
+    status: Literal["proposed", "researching", "implementing", "verified", "applied", "failed"] = "proposed"
     created_at: str
     applied_at: str | None = None
     trace: list[TraceEntry] = Field(default_factory=list)
@@ -168,3 +166,38 @@ class Learning(BaseModel):
     outcome: Literal["success", "partial", "failed"]
     evidence: str  # What proved it worked or didn't
     created_at: str
+
+
+# ── Owner Escalation / Ask-Once Protocol ───────────────────────────────
+
+
+class BrainResponse(BaseModel):
+    """An owner-supplied answer to a question the profile could not cover.
+
+    This is the durable record behind the ask-once rule (docs/adr/0002): the
+    agent texts the owner exactly once per distinct question, stores the reply
+    here, and every later encounter of the same question resolves locally
+    instead of texting again.
+
+    ``question_hash`` is the identity of the question — a sha256 over the
+    normalized question text (plus options when present), so cosmetic
+    differences in whitespace or casing do not create a second ask.
+    """
+
+    response_id: str = Field(pattern=r"^[0-9a-fA-F-]{36}$")
+    question_hash: str = Field(pattern=r"^[0-9a-fA-F]{64}$")
+    question_text: str = Field(min_length=1)
+    options: list[str] = Field(default_factory=list)
+    answer: str = Field(min_length=1)
+    site: str = Field(min_length=1, max_length=64)
+    source: Literal["owner_text", "owner_cli", "profile_backfill"] = "owner_text"
+    created_at: str
+    # Bookkeeping so we can see which questions keep coming back.
+    hit_count: int = Field(default=0, ge=0)
+    last_used_at: str | None = None
+
+    @field_validator("created_at")
+    @classmethod
+    def _validate_iso8601(cls, v: str) -> str:
+        datetime.fromisoformat(v.replace("Z", "+00:00"))
+        return v

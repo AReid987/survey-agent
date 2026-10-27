@@ -17,7 +17,7 @@ import logging
 import sqlite3
 from pathlib import Path
 
-from survey_agent.brain.schemas import EventRecord, Promotion
+from survey_agent.brain.schemas import BrainResponse, EventRecord, Promotion
 
 logger = logging.getLogger(__name__)
 
@@ -84,6 +84,23 @@ class FailureStore:
                 last_seen_at TEXT NOT NULL,
                 PRIMARY KEY (site, event_type, context_hash, status)
             );
+
+            -- Owner-answered escalations (ask-once rule, docs/adr/0002).
+            -- question_hash is the PRIMARY KEY: one stored answer per distinct
+            -- question, globally. A question answered on one site resolves on
+            -- every other site too, which is what makes texts trend to zero.
+            CREATE TABLE IF NOT EXISTS responses (
+                question_hash TEXT PRIMARY KEY,
+                response_id TEXT NOT NULL,
+                question_text TEXT NOT NULL,
+                answer TEXT NOT NULL,
+                site TEXT NOT NULL,
+                source TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                hit_count INTEGER NOT NULL DEFAULT 0,
+                last_used_at TEXT,
+                payload_json TEXT NOT NULL
+            );
             """
         )
         self._conn.commit()
@@ -98,9 +115,7 @@ class FailureStore:
         encoded = (payload + "\n").encode("utf-8")
 
         if len(encoded) > PIPE_BUF_BYTES:
-            raise SerializationTooLargeError(
-                f"event serialized to {len(encoded)} bytes; PIPE_BUF={PIPE_BUF_BYTES}"
-            )
+            raise SerializationTooLargeError(f"event serialized to {len(encoded)} bytes; PIPE_BUF={PIPE_BUF_BYTES}")
 
         # 1) JSONL append — one OS write call, atomic with O_APPEND.
         try:
@@ -245,3 +260,112 @@ class FailureStore:
             )
             for r in rows
         ]
+
+    # ── Owner escalation responses (ask-once rule) ──────────────────────
+
+    def save_response(self, response: BrainResponse) -> bool:
+        """Persist an owner answer. Returns True if this was a NEW question.
+
+        Re-answering an existing question overwrites the stored answer (the
+        owner corrected themselves) but preserves the accumulated hit_count,
+        because the question's history of recurrence is still true.
+
+        Unlike ``append``, this writes SQLite first and treats it as the system
+        of record: a stored answer we cannot read back is worse than useless,
+        since it would silently re-text the owner. The JSONL write is an audit
+        trail and is not size-capped the way ``events.jsonl`` is.
+        """
+        payload = response.model_dump_json()
+        cur = self._conn.cursor()
+        cur.execute("SELECT hit_count FROM responses WHERE question_hash = ?", (response.question_hash,))
+        row = cur.fetchone()
+        is_new = row is None
+        preserved_hits = response.hit_count if is_new else max(response.hit_count, row["hit_count"])
+
+        cur.execute(
+            """
+            INSERT INTO responses
+                (question_hash, response_id, question_text, answer, site, source,
+                 created_at, hit_count, last_used_at, payload_json)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT (question_hash) DO UPDATE SET
+                response_id = excluded.response_id,
+                question_text = excluded.question_text,
+                answer = excluded.answer,
+                site = excluded.site,
+                source = excluded.source,
+                created_at = excluded.created_at,
+                hit_count = excluded.hit_count,
+                payload_json = excluded.payload_json
+            """,
+            (
+                response.question_hash,
+                response.response_id,
+                response.question_text,
+                response.answer,
+                response.site,
+                response.source,
+                response.created_at,
+                preserved_hits,
+                response.last_used_at,
+                payload,
+            ),
+        )
+        self._conn.commit()
+
+        try:
+            with open(self._data_dir / "responses.jsonl", "ab") as f:
+                f.write((payload + "\n").encode("utf-8"))
+        except OSError:
+            logger.exception("brain: failed to append responses.jsonl (SQLite row is authoritative)")
+
+        return is_new
+
+    def find_response(self, question_hash: str) -> BrainResponse | None:
+        """Look up a stored owner answer by question identity."""
+        cur = self._conn.cursor()
+        cur.execute(
+            "SELECT payload_json, hit_count, last_used_at FROM responses WHERE question_hash = ?",
+            (question_hash,),
+        )
+        row = cur.fetchone()
+        if row is None:
+            return None
+        try:
+            found = BrainResponse.model_validate_json(row["payload_json"])
+        except Exception:
+            logger.exception("brain: bad row in responses table for hash %s", question_hash[:12])
+            return None
+        # The columns are authoritative for the mutable usage fields; the frozen
+        # payload_json captures the answer as it was written.
+        return found.model_copy(update={"hit_count": row["hit_count"], "last_used_at": row["last_used_at"]})
+
+    def mark_response_used(self, question_hash: str, used_at: str) -> None:
+        """Record that a stored answer resolved a question without asking."""
+        cur = self._conn.cursor()
+        cur.execute(
+            """
+            UPDATE responses
+            SET hit_count = hit_count + 1, last_used_at = ?
+            WHERE question_hash = ?
+            """,
+            (used_at, question_hash),
+        )
+        self._conn.commit()
+
+    def all_responses(self, limit: int = 200) -> list[BrainResponse]:
+        """All stored owner answers, most recently created first."""
+        cur = self._conn.cursor()
+        cur.execute(
+            "SELECT payload_json, hit_count, last_used_at FROM responses ORDER BY created_at DESC LIMIT ?",
+            (limit,),
+        )
+        out: list[BrainResponse] = []
+        for r in cur.fetchall():
+            try:
+                parsed = BrainResponse.model_validate_json(r["payload_json"])
+            except Exception:
+                logger.exception("brain: skipping malformed response row")
+                continue
+            out.append(parsed.model_copy(update={"hit_count": r["hit_count"], "last_used_at": r["last_used_at"]}))
+        return out

@@ -62,13 +62,17 @@ jobs:
       - name: MyPy type check
         run: pdm run mypy survey_agent/
 
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
 
       - name: Install JS deps
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Prettier check
         run: npx prettier --check "**/*.{json,md,yaml,yml}"

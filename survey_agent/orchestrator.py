@@ -8,6 +8,8 @@ import logging
 from .browser import SurveyAgentBackend, create_backend
 from .config import DATA_DIR, AppConfig, load_config
 from .credentials import CredentialStore
+from .notify import notify_threshold, threshold_crossed
+from .outcome import SurveyOutcome, classify_outcome
 from .profile.store import ProfileStore
 
 try:
@@ -82,10 +84,18 @@ class SurveySession:
         self._config = config
         self._session_id = session_id
         self._stats = {"surveys_completed": 0, "questions_answered": 0, "captchas_solved": 0, "errors": 0}
+        self._outcomes: dict[str, int] = {}
+        self._last_threshold_notified = 0.0
 
     async def run(self, max_surveys: int = 10) -> dict:  # noqa: PLR0915
-        """Run the survey session with full resilience."""
-        logger.info(f"[Session {self._session_id}] Starting on {self._site['name']}")
+        # Ingest any owner replies to pending escalations before running.
+        try:
+            from . import escalation as _esc  # noqa: PLC0415
+            from .config import DATA_DIR as _DATA_DIR  # noqa: PLC0415
+
+            _esc.ingest_owner_replies(_DATA_DIR)
+        except Exception:
+            logger.exception("escalation ingest failed (non-blocking)")
 
         try:
             # Check if backend supports run_full_session (browser-use)
@@ -150,17 +160,42 @@ class SurveySession:
                     pts_earned = 0
                     if post_pts and initial_pts and post_pts != initial_pts:
                         pts_earned = post_pts - initial_pts
+
+                    # Classify the ending rather than trusting result.success.
+                    # A backend reporting success can still have been screened
+                    # out or stuck; only the classifier decides (#loop-classify).
+                    verdict = classify_outcome(
+                        page_text=result.output or "",
+                        pages_seen=self._pages_from_output(result.output or ""),
+                        points_delta=pts_earned if (post_pts and initial_pts) else None,
+                    )
+                    self._outcomes[verdict.outcome.value] = self._outcomes.get(verdict.outcome.value, 0) + 1
+
+                    if verdict.outcome is SurveyOutcome.COMPLETED:
                         self._stats["surveys_completed"] += 1
-                        self._stats["points_earned"] = self._stats.get("points_earned", 0) + pts_earned
-                        initial_pts = post_pts  # Update for next survey
+                        if pts_earned:
+                            self._stats["points_earned"] = self._stats.get("points_earned", 0) + pts_earned
+                            initial_pts = post_pts  # Update for next survey
                         logger.info(
-                            f"[Session {self._session_id}] Survey {i + 1} COMPLETED — earned {pts_earned} points (total: {post_pts})"
+                            f"[Session {self._session_id}] Survey {i + 1} COMPLETED "
+                            f"(+{pts_earned} points, confidence {verdict.confidence:.2f}): "
+                            f"{'; '.join(verdict.reasons)}"
+                        )
+                        await self._maybe_notify_threshold(post_pts or initial_pts)
+                    elif verdict.outcome is SurveyOutcome.SCREENED_OUT:
+                        self._stats["screened_out"] = self._stats.get("screened_out", 0) + 1
+                        logger.info(
+                            f"[Session {self._session_id}] Survey {i + 1} screened out "
+                            f"(legitimate ending): {'; '.join(verdict.reasons)}"
                         )
                     else:
-                        self._stats["surveys_completed"] += 1
-                        logger.info(
-                            f"[Session {self._session_id}] Survey {i + 1} completed (no balance change detected)"
+                        # BROKEN / STUCK / UNKNOWN are not completions.
+                        self._stats["errors"] += 1
+                        logger.warning(
+                            f"[Session {self._session_id}] Survey {i + 1} ended as "
+                            f"{verdict.outcome.value}: {'; '.join(verdict.reasons)}"
                         )
+
                     if brain:
                         try:
                             brain.record(
@@ -220,9 +255,9 @@ class SurveySession:
 
         except Exception as e:
             logger.error(f"[Session {self._session_id}] Error: {e}", exc_info=True)
-            return {"error": str(e), "stats": self._stats}
+            return {"error": str(e), "stats": self._stats, "outcomes": dict(self._outcomes)}
 
-        return {"stats": self._stats}
+        return {"stats": self._stats, "outcomes": dict(self._outcomes)}
 
     @staticmethod
     def _extract_points(balance_output: str) -> int | None:
@@ -238,6 +273,69 @@ class SurveySession:
         if match:
             return int(match.group(1))
         return None
+
+    @staticmethod
+    def _pages_from_output(output: str) -> int:
+        """Best-effort page count from a backend's result text.
+
+        Backends report progress inconsistently ("Survey completed after 12
+        questions", "Page 8:"), so this parses what it can and returns 0 when
+        there is no signal. 0 is deliberately conservative: the classifier
+        treats a low page count as a screener ending rather than a completion,
+        so an unparsed result can never be upgraded into a false success.
+        """
+        import re as _re  # noqa: PLC0415
+
+        for pattern in (
+            r"after\s+(\d+)\s+(?:questions|pages)",
+            r"(?:page|question)\s+(\d+)",
+            r"(\d+)\s+(?:questions|pages)\s+answered",
+        ):
+            if match := _re.search(pattern, output, _re.IGNORECASE):
+                return int(match.group(1))
+        return 0
+
+    async def _maybe_notify_threshold(self, balance: int | None) -> None:
+        """Text the owner if this balance crossed a payout threshold.
+
+        Best-effort by design: a notification failure must never interrupt a
+        run that is earning points (docs/adr/0002).
+        """
+        if balance is None or not getattr(self._config, "notify_enabled", True):
+            return
+        thresholds = list(getattr(self._config, "payout_thresholds", []) or [])
+        if not thresholds:
+            return
+        try:
+            crossed = threshold_crossed(float(balance), thresholds, self._last_threshold_notified)
+            if crossed is None:
+                return
+            result = notify_threshold(
+                site=self._site.get("name", self._site_slug),
+                balance=float(balance),
+                threshold=crossed,
+                data_dir=DATA_DIR,
+            )
+            # Advance the watermark on a suppressed duplicate too, otherwise the
+            # same threshold is re-evaluated on every later survey this session.
+            if result.sent or result.suppressed:
+                self._last_threshold_notified = crossed
+            if result.sent:
+                logger.info(
+                    "[Session %s] Texted owner: %s crossed threshold %g",
+                    self._session_id,
+                    self._site_slug,
+                    crossed,
+                )
+            elif not result.suppressed:
+                logger.warning(
+                    "[Session %s] Threshold %g reached but notification failed: %s",
+                    self._session_id,
+                    crossed,
+                    result.detail,
+                )
+        except Exception:
+            logger.exception("Threshold notification failed (non-blocking)")
 
 
 class SessionOrchestrator:
@@ -335,11 +433,11 @@ class SessionOrchestrator:
     async def run_daemon(
         self,
         sites: list[str] | None = None,
-        max_surveys: int = 10,
-        cycle_min: int = 8,
-        cycle_max: int = 12,
-        pause_min_minutes: int = 15,
-        pause_max_minutes: int = 45,
+        max_surveys: int | None = None,
+        cycle_min: int | None = None,
+        cycle_max: int | None = None,
+        pause_min_minutes: int | None = None,
+        pause_max_minutes: int | None = None,
     ) -> None:
         """Run survey sessions indefinitely with human-like pauses between cycles.
 
@@ -354,6 +452,19 @@ class SessionOrchestrator:
         import random  # noqa: PLC0415
         import signal  # noqa: PLC0415
         import subprocess  # noqa: PLC0415
+
+        # Resolve ranges from config when not explicitly passed
+        cfg_sched = self._config.schedule
+        if cycle_min is None:
+            cycle_min = cfg_sched.min_surveys_per_cycle
+        if cycle_max is None:
+            cycle_max = cfg_sched.max_surveys_per_cycle
+        if pause_min_minutes is None:
+            pause_min_minutes = cfg_sched.min_pause_minutes
+        if pause_max_minutes is None:
+            pause_max_minutes = cfg_sched.max_pause_minutes
+        if max_surveys is None:
+            max_surveys = cycle_max
 
         running = True
 

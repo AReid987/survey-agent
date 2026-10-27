@@ -2,24 +2,47 @@
   "name": "survey-agent",
   "version": "0.1.0",
   "private": true,
-  "description": "Agent-driven survey automation system — CI/CD tooling dependencies",
+  "description": "Agent-driven survey automation system \u2014 use pnpm (never npm) \u2014 CI/CD tooling dependencies",
   "scripts": {
-    "prepare": "lefthook install",
+    "prepare": "lefthook install --force",
     "commit": "czg",
     "format": "prettier --write '**/*.{json,md,yaml,yml}'",
     "lint:js": "biome check .",
     "lint:js-fix": "biome check --write .",
-    "czg": "czg"
+    "czg": "czg",
+    "survey": "pdm run survey-agent --help",
+    "survey:login": "pdm run survey-agent login",
+    "survey:login:harness": "pdm run survey-agent login --backend browser-harness",
+    "survey:run": "pdm run survey-agent run",
+    "survey:run:harness": "pdm run survey-agent run --backend browser-harness",
+    "survey:run:camoufox": "pdm run survey-agent run --backend camoufox",
+    "survey:run:cloak": "pdm run survey-agent run --backend cloakbrowser",
+    "survey:daemon": "pdm run survey-agent run --daemon",
+    "survey:daemon:harness": "pdm run survey-agent daemon --backend browser-harness",
+    "survey:email": "pdm run survey-agent email --help",
+    "survey:email:setup": "pdm run survey-agent email setup",
+    "survey:email:oauth": "pdm run survey-agent email oauth",
+    "survey:email:test": "pdm run survey-agent email test",
+    "survey:profile": "pdm run survey-agent profile --help",
+    "survey:providers": "pdm run survey-agent providers",
+    "survey:cua": "pdm run survey-agent run --backend cua",
+    "survey:agent-browser": "pdm run survey-agent run --backend agent-browser",
+    "survey:cdp": "BROWSER_CDP_URL=http://127.0.0.1:9222 pdm run survey-agent run --backend browser-harness",
+    "survey:probe": "pdm run python scripts/probe_vision.py",
+    "survey:vision:test": "pdm run python -m survey_agent.vision"
+  },
+  "dependencies": {
+    "ws": "^8.21.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.0",
-    "@commitlint/cli": "^19.5.0",
-    "@commitlint/config-conventional": "^19.5.0",
-    "commitizen": "^4.3.1",
-    "czg": "^1.9.4",
-    "lefthook": "^1.8.0",
-    "lint-staged": "^15.2.10",
-    "prettier": "^3.4.0"
+    "@biomejs/biome": "^2.5.10",
+    "@commitlint/cli": "^21.2.2",
+    "@commitlint/config-conventional": "^21.2.2",
+    "commitizen": "^4.3.2",
+    "czg": "^1.14.0",
+    "lefthook": "^2.1.10",
+    "lint-staged": "^17.3.0",
+    "prettier": "^3.9.6"
   },
   "config": {
     "commitizen": {
@@ -37,5 +60,20 @@
     "*.{js,ts,jsx,tsx}": [
       "biome check --write"
     ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antonioreid/survey-agent.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/antonioreid/survey-agent/issues"
+  },
+  "homepage": "https://github.com/antonioreid/survey-agent#readme",
+  "packageManager": "pnpm@11.23.0+sha512.f00082e5b283a199b74e079da28d155c008fe232f44c8a06ea7ddfa014ecf719fc362f790ecc67b28106ddac2afb24c49a9a079159da560b2ce7d1e98efd11af",
+  "engines": {
+    "pnpm": ">=8"
   }
 }

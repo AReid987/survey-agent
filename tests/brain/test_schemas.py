@@ -64,6 +64,7 @@ def test_denylist_matches_prefixes():
 
 def test_event_record_rejects_bad_event_id():
     from pydantic import ValidationError
+
     with pytest.raises(ValidationError):
         EventRecord(
             event_id="not-a-uuid",

@@ -56,8 +56,16 @@ megalinter-reports/
 data/browser_session/
 data/camoufox_session/
 
+# Chrome runtime symlinks in agent profile dirs (regenerated on launch)
+data/chrome_agent_*/Singleton*
+data/chrome_agent_*/RunningChromeVersion
+
 # ── Environment ──────────────────────────────────────────────────
 .env
 .env.local
 .env.production
 .vercel
+.agenttrail/
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/

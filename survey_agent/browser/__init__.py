@@ -20,6 +20,8 @@ BACKENDS = {
     "cloakbrowser",
     "ego-lite",
     "playwright",
+    "cua",
+    "agent-browser",
 }
 
 
@@ -30,7 +32,7 @@ def create_backend(
     """Create a browser backend by name.
 
     Args:
-        backend: One of "browser-use", "browser-harness", "camoufox", or "cloakbrowser".
+        backend: One of "browser-use", "browser-harness", "camoufox", "cloakbrowser", "cua", "agent-browser".
         **kwargs: Passed to the backend constructor (llm_provider, headless, etc.)
 
     Returns:
@@ -70,6 +72,16 @@ def create_backend(
         from .playwright_backend import PlaywrightBackend  # noqa: PLC0415
 
         return PlaywrightBackend(**kwargs)
+
+    if backend in ("cua", "cua-driver"):
+        from .cua_backend import CuaBackend  # noqa: PLC0415
+
+        return CuaBackend(**kwargs)
+
+    if backend == "agent-browser":
+        from .agent_browser_backend import AgentBrowserBackend  # noqa: PLC0415
+
+        return AgentBrowserBackend(**kwargs)
 
     raise ValueError(f"Unknown browser backend: {backend!r}. Available: {BACKENDS}")
 

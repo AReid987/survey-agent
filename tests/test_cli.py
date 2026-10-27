@@ -1,7 +1,7 @@
 """Tests for cli.py — auto-generated skeleton.
 
 Current coverage: 0.0%
-Uncovered lines: 156
+Uncovered lines: 436
 """
 
 from __future__ import annotations

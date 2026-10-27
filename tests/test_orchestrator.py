@@ -1,7 +1,7 @@
 """Tests for orchestrator.py — auto-generated skeleton.
 
 Current coverage: 0.0%
-Uncovered lines: 71
+Uncovered lines: 207
 """
 
 from __future__ import annotations

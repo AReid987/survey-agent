@@ -13,6 +13,7 @@ import asyncio
 import json
 import logging
 import os
+import pathlib
 import re
 import socket
 import subprocess
@@ -21,7 +22,9 @@ import time
 from pathlib import Path
 
 from ..answering import llm_answers as llm_ans
-from ..checkpoint import save as cp_save, load as cp_load, clear as cp_clear, increment_retry as cp_retry
+from ..checkpoint import clear as cp_clear
+from ..checkpoint import load as cp_load
+from ..checkpoint import save as cp_save
 from ..cookie_sync import sync_google_cookies
 from .backend import AgentResult, SurveyAgentBackend
 
@@ -34,7 +37,9 @@ CHROME_BINARIES = [
     "chromium",
 ]
 
-AGENT_CHROME_PROFILE = Path(os.environ.get("CHROME_PROFILE", str(Path(__file__).resolve().parent.parent.parent / "data" / "chrome_agent")))
+AGENT_CHROME_PROFILE = Path(
+    os.environ.get("CHROME_PROFILE", str(Path(__file__).resolve().parent.parent.parent / "data" / "chrome_agent"))
+)
 CDP_PORT = int(os.environ.get("CDP_PORT", "19333"))  # Override via env for parallel instances
 
 # JS code for reading interactive elements from a page — reused by page reader
@@ -119,22 +124,86 @@ def _wrap_with_safety_net(code: str) -> str:
 
 
 def _read_zshrc_api_keys() -> dict[str, str]:
-    """Read API keys from .zshrc (env vars aren't always exported to Python)."""
+    """Read API keys from project-local .env, .zsh_secrets, then .zshrc.
+
+    Precedence: data/.env > ~/.zsh_secrets > ~/.zshrc
+    This keeps survey-agent keys project-scoped instead of polluting the shell.
+    """
     keys: dict[str, str] = {}
+
+    # 1. Project-local .env first
+    env_path = Path(__file__).resolve().parent.parent / "data" / ".env"
+    if env_path.exists():
+        try:
+            text = env_path.read_text()
+            for var_name in [
+                "GROQ_API_KEY",
+                "OPENCODE_API_KEY",
+                "CEREBRAS_API_KEY",
+                "MISTRAL_API_KEY",
+                "OPENAI_API_KEY",
+                "FREEMODEL_API_KEY",
+                "OPENCODE_GO_API_KEY",
+                "KILOCODE_API_KEY",
+                "OPENROUTER_API_KEY",
+            ]:
+                for line in text.splitlines():
+                    if line.startswith(var_name + "="):
+                        val = line.split("=", 1)[1].strip().strip('"').strip("'")
+                        if val:
+                            keys[var_name] = val
+                        break
+        except OSError:
+            pass
+
+    # 2. Also check ~/.zsh_secrets for any keys not already found
+    zsh_secrets = Path(os.path.expanduser("~/.zsh_secrets"))
+    if zsh_secrets.exists():
+        try:
+            text = zsh_secrets.read_text()
+            for var_name in [
+                "GROQ_API_KEY",
+                "OPENCODE_API_KEY",
+                "CEREBRAS_API_KEY",
+                "MISTRAL_API_KEY",
+                "OPENAI_API_KEY",
+                "FREEMODEL_API_KEY",
+                "OPENCODE_GO_API_KEY",
+                "KILOCODE_API_KEY",
+                "OPENROUTER_API_KEY",
+            ]:
+                if var_name not in keys:
+                    for line in text.splitlines():
+                        if var_name in line and "=" in line:
+                            val = line.split("=", 1)[1].strip().strip('"').strip("'")
+                            if val:
+                                keys[var_name] = val
+                            break
+        except OSError:
+            pass
+
+    # 3. Fall back to ~/.zshrc for backward compatibility
     zshrc = Path(os.path.expanduser("~/.zshrc"))
-    if not zshrc.exists():
-        return keys
-    try:
-        text = zshrc.read_text()
-        for var_name in ["OPENCODE_API_KEY", "FREEMODEL_API_KEY"]:
-            for line in text.splitlines():
-                if var_name in line and "=" in line:
-                    val = line.split("=", 1)[1].strip().strip('"').strip("'")
-                    if val:
-                        keys[var_name] = val
-                    break
-    except OSError:
-        pass
+    if zshrc.exists():
+        try:
+            text = zshrc.read_text()
+            for var_name in [
+                "OPENCODE_API_KEY",
+                "FREEMODEL_API_KEY",
+                "GROQ_API_KEY",
+                "CEREBRAS_API_KEY",
+                "MISTRAL_API_KEY",
+            ]:
+                if var_name not in keys:
+                    for line in text.splitlines():
+                        if var_name in line and "=" in line:
+                            val = line.split("=", 1)[1].strip().strip('"').strip("'")
+                            if val:
+                                keys[var_name] = val
+                            break
+        except OSError:
+            pass
+
     return keys
 
 
@@ -242,7 +311,7 @@ else:
 def _build_discover_script(dashboard_url: str) -> str:
     js_find_surveys = (
         "(() => { "
-        "var s=[],l=document.querySelectorAll('a.take-survey-redirect, a[href*=\"/surveys/pre/\"], a[href*=\"/surveys/take/\"]'); "
+        'var s=[],l=document.querySelectorAll(\'a.take-survey-redirect, a[href*="/surveys/pre/"], a[href*="/surveys/take/"]\'); '
         "for(var i=0;i<l.length;i++){ "
         "var a=l[i],c=a.closest('[class*=survey-card]')||a.parentElement; "
         "var d=parseInt((c?c.getAttribute('data-award'):'0')||'0'); "
@@ -258,19 +327,18 @@ def _build_discover_script(dashboard_url: str) -> str:
     )
 
     # Embed JS directly using JSON encoding to avoid escaping issues
-    import json as _json  # noqa: PLC0415
 
     lines = [
         "import time, json",
         "ensure_real_tab()",
         # Navigate to /members first (triggers SPA survey AJAX on redirect/load)
-        'goto_url(' + json.dumps(dashboard_url) + ')',
+        "goto_url(" + json.dumps(dashboard_url) + ")",
         "wait_for_load()",
         "time.sleep(12)",  # Wait for AJAX survey cards to load fully
         "info = page_info()",
         'print("PAGE_INFO:", str(info)[:500])',
         # Read JS from embedded JSON string, then run it
-        '_js_code = ' + json.dumps(js_find_surveys),
+        "_js_code = " + json.dumps(js_find_surveys),
         "surveys = js(_js_code)",
         'print("SURVEYS_RAW:", surveys)',
         'print("RESULT: discover_complete")',
@@ -557,12 +625,54 @@ class BrowserHarnessBackend(SurveyAgentBackend):
         self._cdp_url = f"http://127.0.0.1:{CDP_PORT}"
 
     async def start(self) -> None:
+        # ── Bitter-lesson harness path: if the user (or Hermes) already
+        #    provided a CDP endpoint, use it directly. This is the least-
+        #    flagged path — it drives the user's real Chrome/BrowserBox/
+        #    Cloudflare Computer with no extra --user-data-dir or
+        #    --enable-automation. See https://browser-use.com/posts/bitter-lesson-agent-harnesses
+        #    and https://docs.browser-use.com/open-source/browser-use-cli
+        external_cdp = pathlib.Path(__file__).resolve().parent.parent.parent / "data" / "cdp_url"
+        env_cdp = (
+            __import__("os").environ.get("BROWSER_CDP_URL") or __import__("os").environ.get("BROWSER_USE_CDP_URL") or ""
+        ).strip()
+        # Also support `data/cdp_url` file written by `agent-browser --cdp 9222` or `BROWSER_CDP_URL` export
+        file_cdp = ""
+        try:
+            if external_cdp.exists():
+                file_cdp = external_cdp.read_text().strip()
+        except Exception:
+            pass
+        chosen_cdp = env_cdp or file_cdp
+        if chosen_cdp:
+            # Normalize ws:// -> http:// for our http polling, keep ws:// for CDP supervisor paths
+            self._cdp_url = chosen_cdp
+            # If it's a ws:// URL, derive http discovery URL for _is_port_open checks
+            logger.info(
+                "Using external CDP endpoint %s (from %s) — skipping chrome_agent launch",
+                chosen_cdp,
+                "env" if env_cdp else "data/cdp_url",
+            )
+            # Still try cookie sync for completeness (harmless if already on real profile)
+            try:
+                n = sync_google_cookies()
+                if n:
+                    logger.info("Cookie sync: %d cookies refreshed (external CDP mode)", n)
+            except Exception as e:
+                logger.warning("Cookie sync failed (non-fatal): %s", e)
+            result, rc = await _run_harness(
+                "ensure_real_tab()\nprint('Browser ready via external CDP')",
+                cdp_url=self._cdp_url,
+            )
+            return
+
         chrome_bin = os.environ.get("CHROME_BIN") or _find_chrome()
         AGENT_CHROME_PROFILE.mkdir(parents=True, exist_ok=True)
 
         # If Chrome is already running with CDP on our port, reuse it
         if _is_port_open(CDP_PORT):
-            logger.info("Chrome already running on port %d — reusing existing instance (preserves survey session)", CDP_PORT)
+            logger.info(
+                "Chrome already running on port %d — reusing existing instance (preserves survey session)", CDP_PORT
+            )
             # Still sync cookies to keep session fresh
             try:
                 n = sync_google_cookies()
@@ -582,6 +692,7 @@ class BrowserHarnessBackend(SurveyAgentBackend):
         # Kill any stale Chrome processes using our profile (gracefully)
         try:
             import psutil as _ps  # noqa: PLC0415
+
             for proc in _ps.process_iter(["pid", "name", "cmdline"]):
                 try:
                     cmdline = " ".join(str(s) for s in (proc.info.get("cmdline") or []))
@@ -646,7 +757,7 @@ class BrowserHarnessBackend(SurveyAgentBackend):
         try:
             await _run_harness(
                 # Run on the blank tab we just opened
-                'js("Object.defineProperty(navigator, \'webdriver\', {get: () => undefined})")',
+                "js(\"Object.defineProperty(navigator, 'webdriver', {get: () => undefined})\")",
                 cdp_url=self._cdp_url,
             )
         except Exception:
@@ -707,11 +818,11 @@ print("IS_LOGIN_PAGE:", "yes" if is_login_page else "no")
             return AgentResult(success=True, output="already_logged_in")
 
         # Determine login method: Google OAuth vs email/password
-        # Sites like Prime Opinion use "Sign in with Google" — needs google_email only
-        use_google_oauth = (
-            bool(self._google_email)
-            and not self._login_password
-        )
+        # Branded Surveys, Prime Opinion etc. all use Google OAuth.
+        # Prefer OAuth whenever google_email is configured — the presence of a
+        # password does not mean the site uses it (branded-surveys stores a
+        # password but the site still shows "Continue with Google").
+        use_google_oauth = bool(self._google_email)
         # Also check if login page contains "Continue with Google" / "Sign in with Google"
         oauth_check = await _run_harness(
             f"""goto_url("{site_url}")
@@ -758,15 +869,22 @@ print("HAS_DASHBOARD:", "yes" if has_dashboard else "no")""",
             # Fall through to Google OAuth button click flow
             return await self._login_google_oauth(site_url, site_name)
 
-        # Fall through to email/password login
-        if not self._login_email or not self._login_password:
-            return AgentResult(success=False, error="No login credentials. Run: survey-agent credentials")
+        # Email/password login (for sites that use native login)
+        if self._login_email and self._login_password:
+            logger.info("Attempting email/password login for %s", site_name)
+            return await self._login_email_password(site_url, site_name)
 
-        # Fallback: return error if no login method matched
+        if not self._login_email or not self._login_password:
+            return AgentResult(
+                success=False,
+                error="No login credentials. Run: survey-agent credentials or ensure google_email is set for Google OAuth",
+            )
+
+        # Fallback: no login method matched
         return AgentResult(
             success=False,
             error=f"No working login method for {site_name}. "
-                  f"Use: survey-agent credentials or survey-agent login -s {site_name.split()[0].lower()}"
+            f"Use: survey-agent credentials or survey-agent login -s {site_name.split(maxsplit=1)[0].lower()}",
         )
 
     async def _handle_region_selector(self, site_url: str, site_name: str) -> bool:
@@ -847,6 +965,7 @@ time.sleep(3)""",
 
         # Extract selector and text
         import re as _re
+
         sel_text = region_output[0] if isinstance(region_output, tuple) else str(region_output)
         sel_match = _re.search(r"'selector':\s*'([^']+)'", sel_text)
         text_match = _re.search(r"'text':\s*'([^']+)'", sel_text)
@@ -889,8 +1008,10 @@ time.sleep(3)""",
         """
         try:
             from ..email.verification import (  # noqa: PLC0415
-                GmailVerificationReader, get_gmail_credentials,
+                GmailVerificationReader,
+                get_gmail_credentials,
             )
+
             creds = get_gmail_credentials()
             if not creds:
                 logger.warning("No Gmail credentials configured — cannot fetch verification code")
@@ -953,6 +1074,7 @@ time.sleep(3)""",
         url_str = url_result[0] if isinstance(url_result, tuple) else str(url_result)
         # Extract domain for sender filter
         import re as _re
+
         m = _re.search(r"https?://(?:www\.)?([^/]+)", url_str.split("URL:")[-1] if "URL:" in url_str else "")
         domain = m.group(1) if m else None
 
@@ -1291,7 +1413,7 @@ else:
                 "url = current_tab()['url']\n"
                 "is_survey_page = '/surveys/' in url and '/dashboard' not in url\n"
                 "# First: try common consent button selectors (SSI, OneTrust, CookieYes, etc.)\n"
-                "js(\"\"\"\n"
+                'js("""\n'
                 "var consentSelectors = [\n"
                 "  '#_evh-button',  // SSI Surveys\n"
                 "  '.cky-btn-accept',  // CookieYes\n"
@@ -1313,7 +1435,7 @@ else:
                 "    break;\n"
                 "  }\n"
                 "}\n"
-                "\"\"\")\n"
+                '""")\n'
                 "time.sleep(3)\n"
                 "# Refresh text and url after consent click\n"
                 "text = js(\"document.body ? document.body.innerText.substring(0, 1500) : ''\")\n"
@@ -1548,12 +1670,31 @@ else:
 
             logger.info("Page %d: %d chars text, url=%s", page_num + 1, len(page_text), current_url[:80])
 
-            # Skip sparse-page surveys (likely iframe-based, unreadable)
+            # Sparse pages often mean iframe-only content — try vision before skipping
             if (
                 page_num >= 1
                 and len(page_text.strip()) < 200
-                and any(s in current_url for s in ["purespectrum", "ssisurveys", "escalent"])
+                and any(
+                    s in current_url
+                    for s in ["purespectrum", "ssisurveys", "escalent", "samplicio", "dynata", "toluna"]
+                )
             ):
+                # Try vision escalation: screenshot + describe_screen before giving up
+                if elements_raw:
+                    try:
+                        els = json.loads(elements_raw) if elements_raw else []
+                        if len(els) < 5:
+                            logger.info(
+                                "Sparse page (%d chars, %d elements) — attempting vision escalation",
+                                len(page_text),
+                                len(els),
+                            )
+                            should_escalate = await self._try_vision_escalation(page_text, current_url)
+                            if should_escalate:
+                                logger.info("Vision escalation handled sparse page, continuing")
+                                continue
+                    except Exception:
+                        pass
                 logger.info("Sparse page (%d chars) on %s — skipping survey", len(page_text), current_url[:50])
                 return AgentResult(success=False, error="Sparse iframe survey, skipping")
 
@@ -1582,8 +1723,10 @@ else:
                 return AgentResult(success=True, output="RESULT: survey_complete")
 
             # Screenout check (redirected to non-survey URL after 1-4 pages)
-            if page_num >= 1 and page_num < 5 and not any(
-                s in current_url for s in ["gobranded", "survey", "screener", "qualify", "screening"]
+            if (
+                page_num >= 1
+                and page_num < 5
+                and not any(s in current_url for s in ["gobranded", "survey", "screener", "qualify", "screening"])
             ):
                 logger.info("Redirected to non-survey URL after only %d pages — screenout", page_num + 1)
                 return AgentResult(success=False, error=f"Screenout after {page_num + 1} pages")
@@ -1614,8 +1757,11 @@ else:
             # (e.g., "this survey is for the blind" assistive tech pages after submission)
             if no_elements and page_num >= 1 and last_page_text and len(last_page_text.strip()) > 200:
                 # Previous page had content — this page is empty of inputs = survey done
-                logger.info("No input elements on page %d (previous had %d chars) — survey complete",
-                            page_num + 1, len(last_page_text))
+                logger.info(
+                    "No input elements on page %d (previous had %d chars) — survey complete",
+                    page_num + 1,
+                    len(last_page_text),
+                )
                 return AgentResult(success=True, output="RESULT: survey_complete")
 
             # CAPTCHA check — try to solve, not just skip
@@ -1654,23 +1800,33 @@ else:
             # Click Next/Continue/Submit
             # First: check for unanswered required questions and fill them
             pre_submit_js = """(() => {
-  let filled = 0;
-  // Find unanswered radio groups
   const radios = document.querySelectorAll('input[type=radio]');
-  const groups = {};
-  radios.forEach(r => { if (r.name) { if (!groups[r.name]) groups[r.name] = []; groups[r.name].push(r); }});
-  for (const [name, rs] of Object.entries(groups)) {
-    if (!rs.some(r => r.checked)) { rs[0].click(); filled++; }
+  const byName = {};
+  radios.forEach(r => { if (r.name) { if (!byName[r.name]) byName[r.name] = []; byName[r.name].push(r); }});
+  const groups = [];
+  for (const [name, rs] of Object.entries(byName)) {
+    if (rs.some(r => r.checked)) continue;
+    const opts = rs.map(r => (r.labels && r.labels[0] ? r.labels[0].textContent : (r.value || '')).trim());
+    let q = '';
+    const fieldset = rs[0].closest('fieldset');
+    if (fieldset) { const leg = fieldset.querySelector('legend'); if (leg) q = leg.textContent.trim(); }
+    if (!q) {
+      let el = rs[0].parentElement;
+      for (let i = 0; i < 6 && el; i++, el = el.parentElement) {
+        const t = (el.textContent || '').trim();
+        if (t && t.length < 400 && t.length > (opts.join(' ').length + 5)) { q = t.split('\\n')[0].trim(); break; }
+      }
+    }
+    groups.push({name, question: q || name, options: opts});
   }
-  // Find empty required text inputs
+  let filled = 0;
   document.querySelectorAll('input[type=text][required], textarea[required]').forEach(el => {
     if (!el.value.trim()) { el.value = 'N/A'; el.dispatchEvent(new Event('input', {bubbles:true})); filled++; }
   });
-  // Find empty required selects
   document.querySelectorAll('select[required]').forEach(el => {
     if (!el.value) { el.selectedIndex = 1; el.dispatchEvent(new Event('change', {bubbles:true})); filled++; }
   });
-  return 'prefilled:' + filled;
+  return JSON.stringify({groups, filled});
 })()"""
             with tempfile.NamedTemporaryFile(mode="w", suffix=".js", delete=False, prefix="bh_presub_") as sf:
                 sf.write(pre_submit_js)
@@ -1682,10 +1838,84 @@ else:
                 cdp_url=self._cdp_url,
             )
             Path(presub_path).unlink(missing_ok=True)
-            if "prefilled:" in presub_out:
-                logger.info(
-                    "Pre-submit: %s", presub_out.split("prefilled:", maxsplit=1)[1].split("\n", maxsplit=1)[0].strip()
-                )
+            # Parse structured unanswered groups and decide per policy:
+            # bot traps declined (never selected); stored brain answers reused;
+            # unknowns escalated once by text instead of guessing.
+            try:
+                import json as _json  # noqa: PLC0415
+
+                from survey_agent import escalation as _esc  # noqa: PLC0415
+                from survey_agent.config import DATA_DIR as _DATA_DIR  # noqa: PLC0415
+
+                _raw = ""
+                if "PRE_SUBMIT:" in presub_out:
+                    _raw = presub_out.split("PRE_SUBMIT:", maxsplit=1)[1].split("\n", maxsplit=1)[0].strip()
+                _data = _json.loads(_raw) if _raw else {}
+                _groups = _data.get("groups", []) if isinstance(_data, dict) else []
+                _filled = _data.get("filled", 0) if isinstance(_data, dict) else 0
+                logger.info("Pre-submit: filled=%s, unanswered_groups=%d", _filled, len(_groups))
+
+                from urllib.parse import urlparse as _urlparse  # noqa: PLC0415
+
+                _site = _urlparse(current_url).netloc or "unknown"
+                _clicks: list[tuple[str, int]] = []
+                for g in _groups:
+                    q = str(g.get("question", "")).strip()
+                    opts = [str(o) for o in (g.get("options") or [])]
+                    name = str(g.get("name", ""))
+                    if not opts:
+                        continue
+                    # Decline bot traps: never select.
+                    if any(_esc.is_bot_trap_option(o) for o in opts):
+                        logger.info("Declining bot-trap group: %s", q[:80])
+                        continue
+                    ans, escalated = _esc.ask_or_remember(q, opts, _site, _DATA_DIR)
+                    if ans is None:
+                        if escalated:
+                            logger.info("Escalated unanswered question: %s", q[:80])
+                        continue
+                    idx = None
+                    for i, o in enumerate(opts):
+                        if o.strip().lower() == str(ans).strip().lower():
+                            idx = i
+                            break
+                    if idx is None:
+                        for i, o in enumerate(opts):
+                            if str(ans).strip().lower() in o.strip().lower():
+                                idx = i
+                                break
+                    if idx is not None:
+                        _clicks.append((name, idx))
+
+                if _clicks:
+                    _js = (
+                        "(() => { let n=0; "
+                        + "".join(
+                            "try { const rs=document.querySelectorAll('input[type=radio][name="
+                            + _json.dumps(nm)
+                            + "]'); if(rs["
+                            + str(idx)
+                            + "]){rs["
+                            + str(idx)
+                            + "].click(); n++;} } catch(e){} "
+                            for nm, idx in _clicks
+                        )
+                        + "return 'clicked:'+n; })()"
+                    )
+                    with tempfile.NamedTemporaryFile(mode="w", suffix=".js", delete=False, prefix="bh_esc_") as _sf:
+                        _sf.write(_js)
+                        _sf.flush()
+                        _ep = _sf.name
+                    _out, _ = await _run_harness(
+                        "with open('"
+                        + _ep
+                        + "') as f:\n    _j=f.read()\nresult=js(_j)\nprint('ESC_CLICK:', result)\nprint('RESULT: done')",
+                        timeout=10,
+                        cdp_url=self._cdp_url,
+                    )
+                    Path(_ep).unlink(missing_ok=True)
+            except Exception:
+                logger.exception("Pre-submit escalation handling failed")
 
             pre_url = current_url
             advanced = await self._click_next()
@@ -1760,13 +1990,7 @@ else:
                     "        groups[r.name].push(r);\n"
                     "    });\n"
                     "    let clicked = 0;\n"
-                    "    for (const [name, rs] of Object.entries(groups)) {\n"
-                    "        const anySelected = rs.some(r => r.checked);\n"
-                    "        if (!anySelected && rs.length > 0) {\n"
-                    "            rs[rs.length - 1].click();\n"
-                    "            clicked++;\n"
-                    "        }\n"
-                    "    }\n"
+                    "    // No blind guessing: bot-trap policy (CONTEXT.md) forbids it.\n"
                     "    return 'clicked:' + clicked;\n"
                     "})()"
                 )
@@ -1876,34 +2100,69 @@ else:
         Stage 2: LLM answers questions (not code), then resolve to element selectors.
         Stage 3: Deterministic fallback for any unanswered questions.
         """
+
         # Build the LLM call wrapper using the existing fallback chain
         async def _llm_call_wrapper(prompt: str) -> str | None:
-            from browser_use.llm.messages import SystemMessage, UserMessage  # noqa: PLC0415
+            from browser_use.llm.messages import UserMessage  # noqa: PLC0415
+
             from ..llm_provider import get_llm  # noqa: PLC0415
 
             # Build fallback chain: primary → config fallback → OpenCode → FreeModel
             providers_to_try = [
-                {"provider": self._llm_provider, "model": self._llm_model,
-                 "api_key": self._llm_api_key, "base_url": self._llm_base_url},
+                {
+                    "provider": self._llm_provider,
+                    "model": self._llm_model,
+                    "api_key": self._llm_api_key,
+                    "base_url": self._llm_base_url,
+                },
             ]
             from ..config import load_config  # noqa: PLC0415
+
             cfg = load_config()
             if cfg.llm_api_key and cfg.llm_provider != self._llm_provider:
-                providers_to_try.append({"provider": cfg.llm_provider, "model": cfg.llm_model,
-                                          "api_key": cfg.llm_api_key, "base_url": cfg.llm_base_url})
+                providers_to_try.append(
+                    {
+                        "provider": cfg.llm_provider,
+                        "model": cfg.llm_model,
+                        "api_key": cfg.llm_api_key,
+                        "base_url": cfg.llm_base_url,
+                    }
+                )
 
-            # Try reading API keys from .zshrc (env vars aren't always exported to Python)
+            # Try reading API keys from data/.env, ~/.zsh_secrets, then ~/.zshrc
             _zshrc_keys = _read_zshrc_api_keys()
 
-            opencode_key = self._llm_api_key if self._llm_provider == "opencode" else _zshrc_keys.get("OPENCODE_API_KEY", "")
+            opencode_key = (
+                self._llm_api_key if self._llm_provider == "opencode" else _zshrc_keys.get("OPENCODE_API_KEY", "")
+            )
             if opencode_key and not any(p.get("provider") == "opencode" for p in providers_to_try):
-                providers_to_try.append({"provider": "opencode", "model": "deepseek-v4-flash-free",
-                                          "api_key": opencode_key})
+                providers_to_try.append(
+                    {"provider": "opencode", "model": "deepseek-v4-flash-free", "api_key": opencode_key}
+                )
 
             freemodel_key = _zshrc_keys.get("FREEMODEL_API_KEY", "")
             if freemodel_key and not any(p.get("provider") == "freemodel" for p in providers_to_try):
-                providers_to_try.append({"provider": "freemodel", "model": "claude-haiku-4-5-20251001",
-                                          "api_key": freemodel_key})
+                providers_to_try.append(
+                    {"provider": "freemodel", "model": "claude-haiku-4-5-20251001", "api_key": freemodel_key}
+                )
+
+            groq_key = self._llm_api_key if self._llm_provider == "groq" else _zshrc_keys.get("GROQ_API_KEY", "")
+            if groq_key and not any(p.get("provider") == "groq" for p in providers_to_try):
+                providers_to_try.append({"provider": "groq", "model": "qwen/qwen3.6-27b", "api_key": groq_key})
+
+            cerebras_key = (
+                self._llm_api_key if self._llm_provider == "cerebras" else _zshrc_keys.get("CEREBRAS_API_KEY", "")
+            )
+            if cerebras_key and not any(p.get("provider") == "cerebras" for p in providers_to_try):
+                providers_to_try.append({"provider": "cerebras", "model": "gpt-oss-120b", "api_key": cerebras_key})
+
+            mistral_key = (
+                self._llm_api_key if self._llm_provider == "mistral" else _zshrc_keys.get("MISTRAL_API_KEY", "")
+            )
+            if mistral_key and not any(p.get("provider") == "mistral" for p in providers_to_try):
+                providers_to_try.append(
+                    {"provider": "mistral", "model": "mistral-large-latest", "api_key": mistral_key}
+                )
 
             last_error = None
             for prov in providers_to_try:
@@ -1941,7 +2200,7 @@ else:
 
         from ..llm_provider import get_llm  # noqa: PLC0415
 
-        # Build fallback chain: primary → config fallback → OpenCode → FreeModel
+        # Build fallback chain: primary → config fallback → OpenCode → FreeModel → Groq → Cerebras → Mistral
         providers_to_try = [
             {
                 "provider": self._llm_provider,
@@ -1963,20 +2222,36 @@ else:
                     "base_url": cfg.llm_base_url,
                 }
             )
-        # Add OpenCode free tier as fallback
-        import os  # noqa: PLC0415
+        # Read keys from project-local .env, ~/.zsh_secrets, then ~/.zshrc
+        _zshrc_keys = _read_zshrc_api_keys()
 
-        opencode_key = os.environ.get("OPENCODE_API_KEY", "")
-        if opencode_key:
+        opencode_key = (
+            self._llm_api_key if self._llm_provider == "opencode" else _zshrc_keys.get("OPENCODE_API_KEY", "")
+        )
+        if opencode_key and not any(p.get("provider") == "opencode" for p in providers_to_try):
             providers_to_try.append(
                 {"provider": "opencode", "model": "deepseek-v4-flash-free", "api_key": opencode_key}
             )
         # Add FreeModel as fallback
-        freemodel_key = os.environ.get("FREEMODEL_API_KEY", "")
-        if freemodel_key:
+        freemodel_key = _zshrc_keys.get("FREEMODEL_API_KEY", "")
+        if freemodel_key and not any(p.get("provider") == "freemodel" for p in providers_to_try):
             providers_to_try.append(
                 {"provider": "freemodel", "model": "claude-haiku-4-5-20251001", "api_key": freemodel_key}
             )
+
+        groq_key = self._llm_api_key if self._llm_provider == "groq" else _zshrc_keys.get("GROQ_API_KEY", "")
+        if groq_key and not any(p.get("provider") == "groq" for p in providers_to_try):
+            providers_to_try.append({"provider": "groq", "model": "qwen/qwen3.6-27b", "api_key": groq_key})
+
+        cerebras_key = (
+            self._llm_api_key if self._llm_provider == "cerebras" else _zshrc_keys.get("CEREBRAS_API_KEY", "")
+        )
+        if cerebras_key and not any(p.get("provider") == "cerebras" for p in providers_to_try):
+            providers_to_try.append({"provider": "cerebras", "model": "gpt-oss-120b", "api_key": cerebras_key})
+
+        mistral_key = self._llm_api_key if self._llm_provider == "mistral" else _zshrc_keys.get("MISTRAL_API_KEY", "")
+        if mistral_key and not any(p.get("provider") == "mistral" for p in providers_to_try):
+            providers_to_try.append({"provider": "mistral", "model": "mistral-large-latest", "api_key": mistral_key})
 
         system = (
             "You are a REAL HUMAN taking a survey. Given a page's text and interactive elements, "
@@ -2274,11 +2549,11 @@ else:
             "})()\n"
             '""")\n'
             "if result and result != 'none':\n"
-            "    print(\"CLICKED:\", result)\n"
+            '    print("CLICKED:", result)\n'
             "    time.sleep(1)\n"
-            "    print(\"RESULT: next_clicked\")\n"
+            '    print("RESULT: next_clicked")\n'
             "else:\n"
-            "    print(\"RESULT: no_next_button\")\n"
+            '    print("RESULT: no_next_button")\n'
         )
         output, rc = await _run_harness(script, timeout=15, cdp_url=self._cdp_url)
         logger.info("Click next (rc=%d): %s", rc, output[:200])
@@ -2330,13 +2605,144 @@ else:
 
         return None
 
+    async def _try_vision_escalation(self, page_text: str, current_url: str) -> bool:
+        """Attempt to handle a sparse/iframe page via local vision model.
+
+        Takes a screenshot, asks the VLM what is on screen, and tries to
+        click a target if the model can locate one. Returns True if the
+        escalation made progress (caller should continue the loop).
+        """
+        try:
+            from ..vision import describe_screen, locate_target, vision_ready  # noqa: PLC0415
+
+            if not vision_ready():
+                return False
+
+            screenshot_path = "/tmp/vision_escalation.png"
+            if not await self._take_screenshot(screenshot_path):
+                return False
+
+            question = (
+                "What interactive elements are visible? Are there radio buttons, checkboxes, or text inputs to answer?"
+            )
+            description = describe_screen(screenshot_path, question)
+            if description:
+                logger.info("Vision describe_screen: %s", description[:300])
+
+            # Try to locate a Next/Continue button
+            for target in ["Next button", "Continue button", "Submit button", "radio button"]:
+                coords = locate_target(screenshot_path, target)
+                if coords:
+                    x, y = coords
+                    logger.info("Vision located %r at (%d,%d) — clicking", target, x, y)
+                    await self._click_at(x, y)
+                    return True
+
+            # If vision saw something but couldn't locate a target, don't skip yet
+            if description and len(description) > 20:
+                logger.info("Vision saw content on sparse page, not skipping")
+                return False  # Don't claim progress, but caller should not skip blindly
+
+            return False
+        except Exception as e:
+            logger.debug("Vision escalation failed: %s", e)
+            return False
+
+    async def _take_screenshot(self, path: str) -> bool:
+        """Take a screenshot via browser-harness capture_screenshot() or cua-driver."""
+        try:
+            import base64 as _b64  # noqa: PLC0415
+
+            # Try browser-harness native capture first
+            try:
+                script = (
+                    "b64 = capture_screenshot()\n"
+                    "open('__PATH__', 'wb').write(__import__('base64').b64decode(b64)) if b64 else None\n"
+                    "print('SCREENSHOT:' + ('ok' if b64 else 'empty'))\n"
+                    "print('RESULT: screenshot_done')\n"
+                ).replace("__PATH__", path)
+                output, rc = await _run_harness(script, timeout=10, cdp_url=self._cdp_url)
+                if "SCREENSHOT:ok" in output and pathlib.Path(path).exists():
+                    return True
+            except Exception:
+                pass
+
+            # Fallback to cua-driver
+            import json as _json  # noqa: PLC0415
+            import subprocess as _sp  # noqa: PLC0415
+
+            r = _sp.run(
+                ["cua-driver", "call", "list_windows", "--json"],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                check=False,
+            )
+            windows = _json.loads(r.stdout.strip()).get("windows", []) if r.stdout else []
+            chrome_pid = self._chrome_proc.pid if self._chrome_proc else None
+            wid = None
+            for w in windows:
+                if w.get("app_name") == "Google Chrome":
+                    if chrome_pid is None or w.get("pid") == chrome_pid:
+                        b = w.get("bounds", {})
+                        if b.get("height", 0) > 100:
+                            wid = w["window_id"]
+                            chrome_pid = w["pid"]
+                            break
+            if wid and chrome_pid:
+                r = _sp.run(
+                    [
+                        "cua-driver",
+                        "call",
+                        "get_window_state",
+                        _json.dumps({"pid": chrome_pid, "window_id": wid, "max_elements": 50}),
+                    ],
+                    capture_output=True,
+                    text=True,
+                    timeout=15,
+                    check=False,
+                )
+                data = _json.loads(r.stdout.strip()) if r.stdout else {}
+                b64 = data.get("screenshot_png_b64", "")
+                if b64:
+                    pathlib.Path(path).write_bytes(_b64.b64decode(b64))
+                    return True
+            return False
+        except Exception as e:
+            logger.debug("Screenshot failed: %s", e)
+            return False
+
+    async def _click_at(self, x: int, y: int) -> bool:
+        """Click at screen coordinates via JS elementFromPoint."""
+        try:
+            script = (
+                f"js('var el=document.elementFromPoint({x},{y}); if(el) el.click()')\n"
+                "import time; time.sleep(0.5)\n"
+                "print('RESULT: clicked')\n"
+            )
+            output, _ = await _run_harness(script, timeout=10, cdp_url=self._cdp_url)
+            return "clicked" in output
+        except Exception as e:
+            logger.debug("Click at failed: %s", e)
+            return False
+
     def _read_captcha_with_vision(self, image_path: str) -> str:
-        """Read CAPTCHA text using FreeModel Claude Haiku vision model."""
+        """Read CAPTCHA text using local LFM2.5-VL vision model via LM Studio."""
+        try:
+            from ..vision import read_captcha as local_read_captcha  # noqa: PLC0415
+
+            result = local_read_captcha(image_path)
+            if result:
+                return result
+            logger.info("Local vision CAPTCHA returned None/empty, trying fallback OCR")
+        except Exception as e:
+            logger.debug("Local vision CAPTCHA failed: %s", e)
+
+        # Fallback to network vision only if local fails and key available
         try:
             import base64  # noqa: PLC0415
             import subprocess as sp  # noqa: PLC0415
 
-            # Read API key from zshrc
             key = ""
             try:
                 with open(Path.home() / ".zshrc") as f:
@@ -2398,12 +2804,11 @@ else:
             if r.stdout:
                 resp = json.loads(r.stdout)
                 content = resp.get("choices", [{}])[0].get("message", {}).get("content", "").strip()
-                # Clean up: remove non-alphanumeric chars
                 content = re.sub(r"[^A-Za-z0-9]", "", content)
                 if content and 2 <= len(content) <= 20:
                     return content
         except Exception as e:
-            logger.debug("Vision CAPTCHA failed: %s", e)
+            logger.debug("Fallback network vision CAPTCHA failed: %s", e)
         return ""
 
     async def _try_solve_text_captcha(self) -> bool:  # noqa: PLR0915

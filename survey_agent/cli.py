@@ -181,7 +181,8 @@ def run_surveys(
     raw_key = pc.get("env_var", "")
     env_key = raw_key if isinstance(raw_key, str) else ""
     api_key = config.llm_api_key or os.environ.get(env_key, "")
-    if not api_key:
+    if not api_key and env_key:
+        # Only enforce API key presence when the provider actually declares one.
         console.print(f"[red]No API key for {config.llm_provider}[/red]")
         console.print(f"Set with: survey-agent account --provider {config.llm_provider} --api-key YOUR_KEY")
         console.print(f"Or export: export {env_key}=your_key")
@@ -232,6 +233,27 @@ def run_surveys(
                     f"{stats.get('questions_answered', 0)} questions, "
                     f"{stats.get('errors', 0)} errors[/green]"
                 )
+
+
+@app.command("daemon")
+def daemon_alias(
+    sites: list[str] = typer.Option([], "--site", "-s", help="Site slugs"),  # noqa: B008
+    max_surveys: int = typer.Option(5, "--max", "-n", help="Max surveys per cycle"),
+    headless: bool = typer.Option(False, "--headless/--no-headless"),
+    backend: str = typer.Option(None, "--backend", "-b", help="Browser backend"),
+    verbose: bool = typer.Option(False, "--verbose", "-v"),
+):
+    """Alias for `survey-agent run --daemon` — run indefinitely with pauses.
+
+    The correct invocation is:
+      pdm run survey-agent run --daemon
+    or
+      pdm run survey-agent run -d
+    NOT `pdm run survey-agent --daemon` and NOT `pdm run survey agent`.
+    """
+    console.print("[yellow]Tip: daemon is a flag of the `run` command.[/yellow]")
+    console.print("[dim]Running: survey-agent run --daemon[/dim]\n")
+    run_surveys(sites=sites, max_surveys=max_surveys, headless=headless, backend=backend, verbose=verbose, daemon=True)
 
 
 @app.command("credentials")
@@ -286,11 +308,92 @@ def login_site(
         await engine.close()
         console.print("\n[green]Done! You can now run: survey-agent run[/green]")
 
-    asyncio.run(_login())
+    try:
+        asyncio.run(_login())
+    except RuntimeError as exc:
+        # Inside IPython/Jupyter an event loop is already running — fall back
+        # to running the coroutine on that loop instead of nesting asyncio.run.
+        if "cannot be called from a running event loop" in str(exc).lower():
+            import nest_asyncio  # noqa: PLC0415
+
+            try:
+                nest_asyncio.apply()  # type: ignore[import-untyped]
+            except Exception:
+                pass
+            # Re-use the running loop if we can
+            try:
+                loop = asyncio.get_event_loop()
+                if loop.is_running():
+                    # Schedule and wait synchronously — safe for CLI use
+                    import concurrent.futures  # noqa: PLC0415
+
+                    with concurrent.futures.ThreadPoolExecutor() as pool:
+                        pool.submit(asyncio.run, _login()).result()
+                else:
+                    loop.run_until_complete(_login())
+            except Exception:
+                raise exc
+        else:
+            raise
 
 
 email_app = typer.Typer(help="Email integration (Gmail IMAP for 2FA codes)")
 app.add_typer(email_app, name="email")
+
+
+@email_app.command("oauth")
+def email_oauth(
+    open_browser: bool = typer.Option(True, "--open/--no-open", help="Open browser for Google consent"),
+):
+    """Modern alternative to App Passwords: Gmail OAuth2 (recommended).
+
+    Google now discourages App Passwords for personal accounts
+    (https://support.google.com/accounts/answer/185833 shows a deprecation
+    notice). Use this instead:
+
+    1. Create a GCP project + OAuth consent screen + Desktop credentials
+       (https://console.cloud.google.com/apis/credentials)
+    2. Download the JSON as data/gmail_oauth_client.json
+    3. Run: survey-agent email oauth   (opens browser, stores refresh token in Keychain/file)
+    4. Test: survey-agent email test
+
+    If you already have an App Password from a Workspace account, you can keep
+    using `survey-agent email setup` — the agent now falls back to data/gmail.json
+    if Keychain returns -25244.
+    """
+    console.print("[bold]Gmail OAuth2 setup (modern replacement for App Passwords)[/bold]")
+    console.print()
+    console.print("Google's docs now show App Passwords as legacy for personal accounts.")
+    console.print("For auto-reading 2FA codes, prefer OAuth2 with scope https://www.googleapis.com/auth/gmail.readonly")
+    console.print()
+    client_path = pathlib.Path("data/gmail_oauth_client.json")
+    token_path = pathlib.Path("data/gmail_oauth_token.json")
+    if not client_path.exists():
+        console.print(f"[yellow]Missing {client_path}[/yellow]")
+        console.print(
+            "Create it: GCP Console > APIs & Services > Credentials > Create Credentials > OAuth client ID > Desktop app"
+        )
+        console.print("Download JSON and save as data/gmail_oauth_client.json")
+        console.print()
+        console.print("[dim]Workaround: if you have a Workspace account you can still use:[/dim]")
+        console.print("[dim]  survey-agent email setup --email you@gmail.com --password <16-char-app-password>[/dim]")
+        console.print(
+            f"[dim]If Keychain gives -25244, it will auto-fallback to {pathlib.Path('data/gmail.json')}[/dim]"
+        )
+        raise typer.Exit(1)
+    console.print(f"[dim]Found {client_path} — launching consent flow...[/dim]")
+    # Defer to a helper that does the actual OAuth dance (optional dep).
+    try:
+        from survey_agent.email.oauth import run_oauth_flow  # type: ignore
+
+        creds = run_oauth_flow(str(client_path), str(token_path), open_browser=open_browser)
+        console.print(f"[green]OAuth token stored at {token_path}[/green]")
+        console.print("[dim]Test with: survey-agent email test[/dim]")
+    except ImportError:
+        console.print("[red]Gmail OAuth helper not installed.[/red]")
+        console.print("Install: pdm add google-auth-oauthlib google-api-python-client")
+        console.print("Then re-run this command.")
+        raise typer.Exit(1)
 
 
 @email_app.command("setup")
@@ -400,9 +503,10 @@ def list_providers():
     table.add_column("Status")
 
     for key, p in PROVIDERS.items():
-        env_val = os.environ.get(p["env_var"], "")
-        status = "[green]configured[/green]" if env_val else "[dim]not set[/dim]"
-        table.add_row(key, p["name"], p["default_model"], p["env_var"], status)
+        env_key = p.get("env_var", "")
+        env_val = os.environ.get(env_key, "") if env_key else ""
+        status = "[green]configured[/green]" if env_val else "[dim]not set[/dim]" if env_key else "[dim]local[/dim]"
+        table.add_row(key, p["name"], p["default_model"], env_key or "-", status)
 
     console.print(table)
 
@@ -549,7 +653,6 @@ def brain_fix(
     dry_run: bool = typer.Option(False, "--dry-run", "-n", help="Show what would be done without making changes"),
 ):
     """Execute a fix proposal."""
-    import os  # noqa: PLC0415
     from pathlib import Path  # noqa: PLC0415
 
     from .brain.fixer import execute_fix, load_proposal, record_learning  # noqa: PLC0415
@@ -580,7 +683,7 @@ def brain_fix(
         console.print("[yellow]DRY RUN — no changes will be made[/yellow]\n")
 
     for i, step in enumerate(proposal.implementation_steps):
-        console.print(f"  Step {i+1}: [{step.step_type}] {step.description}")
+        console.print(f"  Step {i + 1}: [{step.step_type}] {step.description}")
         if step.target_file:
             console.print(f"    Target: {step.target_file}")
         if step.command:
@@ -622,7 +725,9 @@ def brain_learnings():
         try:
             l = _json.loads(line)
             outcome_color = "green" if l.get("outcome") == "success" else "red"
-            console.print(f"  [{outcome_color}]{l.get('outcome', '?').upper()}[/{outcome_color}] {l.get('failure_pattern', '?')}")
+            console.print(
+                f"  [{outcome_color}]{l.get('outcome', '?').upper()}[/{outcome_color}] {l.get('failure_pattern', '?')}"
+            )
             console.print(f"    Fix: {l.get('fix_description', '?')[:100]}")
             console.print(f"    Evidence: {l.get('evidence', '?')[:100]}")
             console.print()
