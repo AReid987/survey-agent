@@ -450,16 +450,7 @@ function setupAuth() {
   
   const url = ab('get url');
   if (url.includes('app-login')) {
-    log('On login page — injecting cookies...');
-    ab(`eval 'document.cookie = "auth-token=10943745%7CX1ARRCAR8zbFIhHt9VBAIKibSzFgqoWwRgAXUy4O44235d09; path=/; SameSite=Lax"; "1"'`);
-    ab(`eval 'document.cookie = "auth-provider=google; path=/; SameSite=Lax"; "2"'`);
-    ab(`eval 'document.cookie = "ps-uuid=a0763cb5-72e3-4099-a97c-84de8bccc4d4; path=/; SameSite=Lax"; "3"'`);
-    ab(`eval 'document.cookie = "ps-shash=8b3c00397ae31b0993cfb58df347b235; path=/; SameSite=Lax"; "4"'`);
-    ab(`eval 'document.cookie = "ps-uhash=9a48cc12-6a2d-4583-9c70-6dcfabae7576; path=/; SameSite=Lax"; "5"'`);
-    ab(`eval 'document.cookie = "ps-app=Y8wsEPawxK; path=/; SameSite=Lax"; "6"'`);
-    ab(`eval 'document.cookie = "ps-di=397479eaf414ce0cb93d9ca747c05dc21853596066d6c01a390ec3dfa22e11a370052548f; path=/; SameSite=Lax"; "7"'`);
-    ab('open https://app.topsurveys.app/surveys');
-    execSync('sleep 5');
+    throw new Error('TopSurveys sign-in required. Complete normal sign-in in the browser; do not embed session cookies.');
   }
   log('Auth complete');
 }
