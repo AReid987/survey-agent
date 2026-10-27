@@ -65,7 +65,7 @@ async def login_branded(page):
     # Fill password
     pwd_input = page.locator('#UserPassword, input[name="password"], input[type="password"]')
     await pwd_input.fill("")
-    await pwd_input.type("Th3wayto12!", delay=30)
+    await pwd_input.type(os.environ["BRANDED_SURVEYS_PASSWORD"], delay=30)
     
     # Click sign in
     submit_btn = page.locator('#_evh-ric-c, button:has-text("Sign in"), button[type="submit"]')
