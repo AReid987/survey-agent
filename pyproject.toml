@@ -30,7 +30,7 @@ dependencies = [
 survey-agent = "survey_agent.cli:app"
 
 [project.optional-dependencies]
-dev = ["pytest>=8.0.0", "pytest-asyncio>=0.24.0", "pytest-cov>=5.0.0", "ruff>=0.6.0", "pylint>=3.2.0", "mypy>=1.11.0", "bandit>=1.7.9", "vulture>=2.11"]
+dev = ["pytest>=8.0.0", "pytest-asyncio>=0.24.0", "pytest-cov>=5.0.0", "ruff>=0.6.0", "pylint>=4.0.9", "mypy>=1.11.0", "bandit>=1.7.9", "vulture>=2.11"]
 
 [build-system]
 requires = ["pdm-backend"]
